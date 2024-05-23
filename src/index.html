@@ -1,0 +1,15 @@
+<html lang="en">
+    <head>
+        <title>Test app</title>
+    </head>
+    <body>
+        <h1> Hello World </h1>
+        <script>
+            console.log('Hello frontend')
+
+            fetch('/api/workshops')
+                .then(response => response.json())
+                .then(workshops => console.log(workshops))
+        </script>
+    </body>
+</html>
