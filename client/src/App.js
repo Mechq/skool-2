@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBar from "./NavBar";
+import Navbar from "./navbar";
 import About from "./pages/About";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
@@ -9,7 +9,7 @@ import { Route, Routes } from 'react-router-dom'
 function App() {
     return (
         <>
-            <NavBar />
+            <Navbar />
             <div className='container'>
                 <Routes>
                     <Route path='/' element={<Home />} />
