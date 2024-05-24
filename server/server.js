@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+const logger = require('./src/util/logger')
+
 
 const app = express();
 const PORT = 5000;
