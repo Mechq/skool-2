@@ -1,29 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import NavBar from "./NavBar";
+import About from "./pages/About";
+import Home from "./pages/Home";
+import Contact from "./pages/Contact";
+import { Route, Routes } from 'react-router-dom'
+
 
 function App() {
-    const [data, setData] = useState({ workshops: [] });
-
-    useEffect(() => {
-        fetch('/api')
-            .then(res => res.json())
-            .then(data => setData(data))
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
-
     return (
-        <div>
-
-            {(typeof data.workshops === 'undefined') ? (
-                <p>Loading...</p>
-            ) : (
-                data.workshops.map((workshop, index) => (
-                    <div key={index}>
-                        <h2>{workshop.name}</h2>
-                        <p>{workshop.description}</p>
-                    </div>
-                ))
-            )}
-        </div>
+        <>
+            <NavBar />
+            <div className='container'>
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/about' element={<About />} />
+                    <Route path='/contact' element={<Contact />} />
+                </Routes>
+            </div>
+        </>
     );
 }
 
