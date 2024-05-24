@@ -1,9 +1,7 @@
-// form voor het maken van een workshop
-
-import "./App.css";
 import { React, useState } from "react";
+import "../styles/create.workshop.css";
 
-function App() {
+function CreateWorkshop() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -63,7 +61,7 @@ function App() {
 
     return (
         // inhoud van de form (alle tekstvelden die nodig moeten zijn voor het maken van een workshop)
-        <div className="App">
+        <div className="createWorkshop">
             <h1>Form in React</h1>
             <fieldset>
                 <form action="#" method="get">
@@ -274,4 +272,4 @@ function App() {
     );
 }
 
-export default App;
+export default CreateWorkshop;
