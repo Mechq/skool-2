@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 
 function SidePanel() {
 
@@ -32,57 +32,64 @@ function SidePanel() {
         }));
     };
 
+    useEffect(() => {
+        const sidePanel = document.querySelector('.side-panel');
+        if (showSidePanel) {
+            sidePanel.style.marginLeft = '70vw';
+        } else {
+            sidePanel.style.marginLeft = '100vw';
+        }
+    }, [showSidePanel]);
+
     return (
         <>
             <button onClick={() => setShowSidePanel(true)}>nieuwe workshop aanmaken</button>
-            {showSidePanel && (
-                <div className="side-panel">
-                    <h1 className='side-panel-title'>Create Workshop</h1>
+            <div className="side-panel">
+                <h1 className='side-panel-title'>Create Workshop</h1>
 
-                    <div className='side-panel-content'>
-                        <form action="#" method="get" className="form-container">
-                            <div className="row">
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    placeholder="Enter workshop name"
-                                />
-                                <select
-                                    id="category"
-                                    name="category"
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
-                                >
-                                    <option value="">Select a category</option>
-                                    <option value="ghettoDrums">Ghetto Drums</option>
-                                    <option value="Looping">Looping</option>
-                                    <option value="CSGO">CSGO</option>
-                                </select>
-                            </div>
-                            <textarea
-                                id="details"
-                                name="details"
-                                value={details}
-                                onChange={(e) => setDetails(e.target.value)}
-                                placeholder="Enter workshop details"
-                            ></textarea>
+                <div className='side-panel-content'>
+                    <form action="#" method="get" className="form-container">
+                        <div className="row">
                             <input
                                 type="text"
-                                id="materials"
-                                name="materials"
-                                value={materials}
-                                onChange={(e) => setMaterials(e.target.value)}
-                                placeholder="Enter materials"
+                                id="name"
+                                name="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Enter workshop name"
                             />
-                            <button onClick={handleSubmit}>Submit</button>
-                            <button onClick={() => setShowSidePanel(false)}>Close</button> {/* Reworked Reset button */}
-                        </form>
-                    </div>
+                            <select
+                                id="category"
+                                name="category"
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                            >
+                                <option value="">Select a category</option>
+                                <option value="ghettoDrums">Ghetto Drums</option>
+                                <option value="Looping">Looping</option>
+                                <option value="CSGO">CSGO</option>
+                            </select>
+                        </div>
+                        <textarea
+                            id="details"
+                            name="details"
+                            value={details}
+                            onChange={(e) => setDetails(e.target.value)}
+                            placeholder="Enter workshop details"
+                        ></textarea>
+                        <input
+                            type="text"
+                            id="materials"
+                            name="materials"
+                            value={materials}
+                            onChange={(e) => setMaterials(e.target.value)}
+                            placeholder="Enter materials"
+                        />
+                        <button onClick={handleSubmit}>Submit</button>
+                        <button onClick={() => setShowSidePanel(false)}>Close</button> {/* Reworked Reset button */}
+                    </form>
                 </div>
-            )}
+            </div>
         </>
     )
 }
