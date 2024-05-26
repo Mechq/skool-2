@@ -1,6 +1,6 @@
 import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 
-function Navbar() {
+function NavBar() {
     const path = window.location.pathname;
     return <nav className='nav'>
         <Link to='/' className='navTitle'>Skool Workshop</Link>
@@ -23,4 +23,4 @@ function CustomLink({ to, children,...props }) {
     )
 }
 
-export default Navbar;
+export default NavBar;
