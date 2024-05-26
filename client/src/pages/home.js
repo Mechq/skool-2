@@ -15,19 +15,6 @@ function Home() {
     return (
         <>
             <h1>Welcome to Skool Workshop</h1>
-
-            <div>
-                {(typeof data.workshops === 'undefined') ? (
-                    <p>Loading...</p>
-                ) : (
-                    data.workshops.map((workshop, index) => (
-                        <div key={index}>
-                            <h2>{workshop.name}</h2>
-                            <p>{workshop.description}</p>
-                        </div>
-                    ))
-                )}
-            </div>
         </>
 
 

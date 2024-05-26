@@ -1,8 +1,8 @@
 import React from 'react';
-import NavBar from "./NavBar";
-import About from "./pages/About";
-import Home from "./pages/Home";
-import CreateWorkshop from "./pages/create.workshop";
+import NavBar from "./components/NavBar";
+import About from "./pages/about";
+import Home from "./pages/home";
+import Workshops from "./pages/workshops";
 import { Route, Routes } from 'react-router-dom'
 
 
@@ -14,7 +14,7 @@ function App() {
                 <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='/about' element={<About />} />
-                    <Route path='/create-workshop' element={<CreateWorkshop />} />
+                    <Route path='/workshops' element={<Workshops />} />
                 </Routes>
             </div>
         </>
