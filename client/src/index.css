@@ -86,13 +86,6 @@ body {
   height: 100%;
 }
 
-/*.side-panel input {*/
-/*  font-size: 1.1rem;*/
-/*}*/
-
-/*.side-panel-content #name {*/
-/*  width: 3rem;*/
-/*}*/
 
 .form-container {
   display: flex;
@@ -112,4 +105,34 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
+.fab {
+  width: 56px;
+  height: 56px;
+  background-color: #F49700;
+
+  font-size: 24px;
+  color: white;
+  text-align: center;
+  line-height: 56px;
+
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+
+  cursor: pointer;
+  z-index: 1000;
+
+
+  border: none; /* remove default border */
+  outline: none; /* remove focus outline */
+  -webkit-appearance: none; /* remove default button styles in WebKit browsers */
+  -moz-appearance: none; /* remove default button styles in Firefox */
+  appearance: none; /* remove default button styles in modern browsers */
+}
+
+/*.fab:hover {*/
+/*  box-shadow: 0 6px 14px 0 #666;*/
+/*  transform: scale(1.05);*/
+/*}*/
 

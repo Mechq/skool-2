@@ -42,10 +42,10 @@ function SidePanel() {
     }, [showSidePanel]);
 
     return (
-        <>
-            <button onClick={() => setShowSidePanel(true)}>nieuwe workshop aanmaken</button>
+        <div id='side-panel-root'>
+            <button className="fab" onClick={() => setShowSidePanel(!showSidePanel)}>+</button> {/* Added '+' symbol and toggle functionality */}
             <div className="side-panel">
-                <h1 className='side-panel-title'>Create Workshop</h1>
+            <h1 className='side-panel-title'>Create Workshop</h1>
 
                 <div className='side-panel-content'>
                     <form action="#" method="get" className="form-container">
@@ -90,7 +90,7 @@ function SidePanel() {
                     </form>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
