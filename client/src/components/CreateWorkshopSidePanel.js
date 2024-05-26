@@ -1,15 +1,19 @@
 import {React, useState, useEffect} from "react";
+import "../styles/CreateWorkshopSidePanel.css";
 
-function SidePanel() {
+
+function CreateWorkshopSidePanel() {
 
     const [name, setName] = useState("");
     const [category, setCategory] = useState( {
-        ghettoDrums: true,
+        ghettoDrums: false,
         Looping: false,
         CSGO: false,
     });
     const [details, setDetails] = useState("");
     const [materials, setMaterials] = useState("");
+
+
     const [showSidePanel, setShowSidePanel] = useState(false); // New state
 
     const handleSubmit = (e) => {
@@ -58,7 +62,7 @@ function SidePanel() {
                                 name="name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="Enter workshop name"
+                                placeholder="Naam workshop"
                             />
                             <select
                                 id="category"
@@ -66,7 +70,7 @@ function SidePanel() {
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
                             >
-                                <option value="">Select a category</option>
+                                <option value="">Selecteer een categorie</option>
                                 <option value="ghettoDrums">Ghetto Drums</option>
                                 <option value="Looping">Looping</option>
                                 <option value="CSGO">CSGO</option>
@@ -77,7 +81,7 @@ function SidePanel() {
                             name="details"
                             value={details}
                             onChange={(e) => setDetails(e.target.value)}
-                            placeholder="Enter workshop details"
+                            placeholder="Details workshop"
                         ></textarea>
                         <input
                             type="text"
@@ -85,9 +89,9 @@ function SidePanel() {
                             name="materials"
                             value={materials}
                             onChange={(e) => setMaterials(e.target.value)}
-                            placeholder="Enter materials"
+                            placeholder="benodigdheden en speciale eisen"
                         />
-                        <button className="submit-fab fab-common" onClick={handleSubmit}>Submit</button>
+                        <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
                     </form>
                 </div>
             </div>
@@ -95,4 +99,4 @@ function SidePanel() {
     )
 }
 
-export default SidePanel;
+export default CreateWorkshopSidePanel;
