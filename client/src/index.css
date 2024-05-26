@@ -69,7 +69,7 @@ body {
   height: 100vh;
   width: 30vw;
   margin-left: 70vw;
-  background-color: #4caf50;
+  background-color: #f2f2f2; /* Change this line */
   text-align: center;
   transition: margin-left 0.2s ease-in-out; /* Add this line */
 }
@@ -101,9 +101,26 @@ body {
 .form-container button:last-child {
   align-self: flex-end; /* Aligns the last button to the right */
 }
+
 .row {
   display: flex;
   justify-content: space-between;
+}
+
+.row input, .row select {
+  flex-basis: 50%;
+  box-sizing: border-box;
+}
+
+/* Add this media query */
+@media (max-width: 1100px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .row input, .row select {
+    flex-basis: 100%;
+  }
 }
 
 .fab {
