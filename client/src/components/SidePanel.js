@@ -43,9 +43,11 @@ function SidePanel() {
 
     return (
         <div id='side-panel-root'>
-            <button className="fab" onClick={() => setShowSidePanel(!showSidePanel)}>+</button> {/* Added '+' symbol and toggle functionality */}
+            <button className="fab fab-common" onClick={() => setShowSidePanel(!showSidePanel)}>
+                <span className={showSidePanel ? "rotate" : ""}>{'+'}</span>
+            </button>
             <div className="side-panel">
-            <h1 className='side-panel-title'>Create Workshop</h1>
+                <h1 className='side-panel-title'>Create Workshop</h1>
 
                 <div className='side-panel-content'>
                     <form action="#" method="get" className="form-container">
@@ -85,8 +87,7 @@ function SidePanel() {
                             onChange={(e) => setMaterials(e.target.value)}
                             placeholder="Enter materials"
                         />
-                        <button onClick={handleSubmit}>Submit</button>
-                        <button onClick={() => setShowSidePanel(false)}>Close</button> {/* Reworked Reset button */}
+                        <button className="submit-fab fab-common" onClick={handleSubmit}>Submit</button>
                     </form>
                 </div>
             </div>

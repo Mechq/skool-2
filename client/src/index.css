@@ -1,10 +1,12 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh; /* Add this line */
+  overflow: hidden; /* Add this line */
 }
 
 code {
@@ -22,8 +24,8 @@ body {
 
 }
 .container {
-  /*margin: 1rem;*/
   text-align: center;
+  height: 100vh; /* Add this line */
 }
 
 .nav {
@@ -64,14 +66,20 @@ body {
 
 
 /* -------- SIDE PANEL --------*/
+.side-panel-root {
+  max-height: calc(100vh - 60px); /* Adjust 60px to the height of your navbar */
+  overflow: hidden;
+}
 
 .side-panel {
-  height: 100vh;
+  height: calc(100vh - 60px); /* Adjust 60px to the height of your navbar */
   width: 30vw;
   margin-left: 70vw;
-  background-color: #f2f2f2; /* Change this line */
+  background-color: #f2f2f2;
   text-align: center;
-  transition: margin-left 0.2s ease-in-out; /* Add this line */
+  transition: margin-left 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden ;
 }
 
 .side-panel-title {
@@ -123,30 +131,44 @@ body {
   }
 }
 
-.fab {
-  width: 56px;
+.fab-common {
   height: 56px;
   background-color: #F49700;
-
   font-size: 24px;
   color: white;
   text-align: center;
   line-height: 56px;
-
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-
+  position: absolute;
   cursor: pointer;
   z-index: 1000;
+  border: none;
+  outline: none;
 
-
-  border: none; /* remove default border */
-  outline: none; /* remove focus outline */
-  -webkit-appearance: none; /* remove default button styles in WebKit browsers */
-  -moz-appearance: none; /* remove default button styles in Firefox */
-  appearance: none; /* remove default button styles in modern browsers */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
+
+.fab {
+  width: 56px;
+  right: 16px;
+  bottom: 16px;
+}
+
+.fab span {
+  display: inline-block;
+  transition: transform 0.3s ease-in-out;
+}
+
+.fab span.rotate {
+  transform: rotate(45deg);
+}
+
+.submit-fab {
+  left: 16px;
+  bottom: 16px;
+}
+
 
 /*.fab:hover {*/
 /*  box-shadow: 0 6px 14px 0 #666;*/
