@@ -7,6 +7,7 @@ function NavBar() {
         <ul>
             <CustomLink to='/about'>About</CustomLink>
             <CustomLink to='/contact'>Contact</CustomLink>
+            <CustomLink to='/customer'>Customer</CustomLink>
         </ul>
 
     </nav>
