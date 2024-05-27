@@ -77,9 +77,9 @@
     border: none;
     border-radius: 10%;
     outline: none;
-    display: flex; /* Add this line */
-    justify-content: center; /* Add this line */
-    align-items: center; /* Add this line */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -87,7 +87,7 @@
 }
 
 .fab {
-    width: 56px;
+    width: 48px;
     right: 16px;
     bottom: 16px;
 }
