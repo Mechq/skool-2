@@ -65,8 +65,27 @@ const workshopService = {
                 }
             });
 
-        }
+        },
+    getWorkshopById: (id, callback) => {
+        logger.info('getting workshop by id', id);
 
+        let sql = 'SELECT * FROM workshop WHERE id = ?';
+
+        database.query(sql, [id], (error, results, fields) => {
+            if (error) {
+                logger.error('Error getting workshop', error);
+                callback(error, null);
+                return;
+            } else {
+                logger.info('Workshop fetched successfully', results);
+                callback(null, {
+                    status: 200,
+                    message: 'Workshop fetched successfully',
+                    data: results,
+                });
+            }
+        });
+    }
 
 
 };

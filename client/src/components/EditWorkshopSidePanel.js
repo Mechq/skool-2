@@ -8,16 +8,17 @@ function EditWorkshopSidePanel() {
     const [materials, setMaterials] = useState("");
     const [id, setId] = useState("");
     const [showSidePanel, setShowSidePanel] = useState(false);
-
+// TODO Make it display the information for a specific workshop currently hardcoded to 1
     useEffect(() => {
-        fetch('/api/workshop')
+        fetch('/api/workshop/1')
             .then(res => res.json())
             .then(data => {
-                setName(data.name);
-                setCategory(data.category || ""); // Ensure category is a string
-                setDescription(data.description);
-                setMaterials(data.materials);
-                setId(data.id);
+                // Update state with fetched data
+                setName(data.name || "");
+                setCategory(data.category || "");
+                setDescription(data.description || "");
+                setMaterials(data.materials || "");
+                setId(data.id || "");
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
@@ -30,7 +31,7 @@ function EditWorkshopSidePanel() {
             category,
             description,
             materials,
-            id: 1, // Assuming this is the ID of the workshop being updated
+            id, // Use the fetched ID for updating // TODO You can hardcode it to 1 for testing
         };
 
         fetch('/api/workshop', {
@@ -48,12 +49,12 @@ function EditWorkshopSidePanel() {
                 console.error('Error:', error);
             });
 
-        setShowSidePanel(false);
-        // Clear form fields if needed
+        // Reset form fields and hide side panel
         setName("");
         setCategory("");
         setDescription("");
         setMaterials("");
+        setShowSidePanel(false);
     };
 
     useEffect(() => {
