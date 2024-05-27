@@ -50,6 +50,16 @@ function CreateWorkshopSidePanel() {
     });
 
     setShowSidePanel(false); // Close the side panel
+
+    setName('')
+    setCategory( {
+        ghettoDrums: false,
+        Looping: false,
+        CSGO: false,
+    })
+    setDetails('')
+    setMaterials('')
+
 };
 
     const handleCategoryChange = (sub) => {
@@ -78,6 +88,7 @@ function CreateWorkshopSidePanel() {
 
                 <div className='side-panel-content'>
                     <form action="#" method="get" className="form-container">
+                        <div className="form-group">
                         <div className="row">
                             <input
                                 type="text"
@@ -106,14 +117,23 @@ function CreateWorkshopSidePanel() {
                             onChange={(e) => setDetails(e.target.value)}
                             placeholder="Details workshop"
                         ></textarea>
-                        <input
+                         <textarea
+                            id="materials"
+                            name="materials"
+                            value={materials}
+                            onChange={(e) => setMaterials(e.target.value)}
+                            placeholder="benodigdheden en speciale eisen"
+                        ></textarea>
+                        
+                        {/* <input
                             type="text"
                             id="materials"
                             name="materials"
                             value={materials}
                             onChange={(e) => setMaterials(e.target.value)}
                             placeholder="benodigdheden en speciale eisen"
-                        />
+                        /> */}
+                        </div>
                         <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
                     </form>
                 </div>

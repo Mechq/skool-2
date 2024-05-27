@@ -27,4 +27,6 @@ function validateWorkshop(req, res, next) {
 
 router.post("/api/workshop", validateWorkshop, workshopController.createWorkshop);
 
+router.post("/api/workshop", workshopController.createWorkshop);
+router.get("/api/workshop", workshopController.getAllWorkshops);
 module.exports = router;

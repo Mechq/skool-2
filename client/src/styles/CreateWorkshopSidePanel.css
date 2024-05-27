@@ -11,7 +11,7 @@
     text-align: center;
     transition: margin-left 0.2s ease-in-out;
     position: relative;
-    overflow: hidden ;
+    overflow: hidden;
 }
 
 .side-panel-title {
@@ -26,12 +26,36 @@
     height: 100%;
 }
 
+.form-group {
+    margin-bottom: 20px;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+}
+
+textarea#details, #materials {
+    width: 100%; /* Ensure textarea is also full width */
+    resize: none;
+    height: 8em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+
 
 .form-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /*height: 100%;*/
 }
 
 .form-container button {
@@ -40,16 +64,6 @@
 
 .form-container button:last-child {
     align-self: flex-end; /* Aligns the last button to the right */
-}
-
-.row {
-    display: flex;
-    justify-content: space-between;
-}
-
-.row input, .row select {
-    flex-basis: 50%;
-    box-sizing: border-box;
 }
 
 /* Add this media query */
@@ -75,7 +89,7 @@
     cursor: pointer;
     z-index: 1000;
     border: none;
-    border-radius: 10%;
+    /* border-radius: 10%; */
     outline: none;
     display: flex;
     justify-content: center;
@@ -107,9 +121,4 @@
     left: 16px;
     bottom: 16px;
     height: 48px;
-}
-
-textarea#details {
-    resize: none;
-    height: 8em;
 }
