@@ -17,17 +17,40 @@ function CreateWorkshopSidePanel() {
     const [showSidePanel, setShowSidePanel] = useState(false); // New state
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(
-            name,
-            category,
-            details,
-            materials
-        );
+    e.preventDefault();
+    console.log(
+        name,
+        category,
+        details,
+        materials
+    );
 
-        // TODO Submission logic
-        setShowSidePanel(false); // Close the side panel
+    // Create a new workshop object
+    const workshop = {
+        name,
+        category,
+        details,
+        materials
     };
+
+    // Send a POST request to the backend
+    fetch('/api/workshop', { // replace '/api/workshops' with your actual endpoint
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(workshop),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+
+    setShowSidePanel(false); // Close the side panel
+};
 
     const handleCategoryChange = (sub) => {
         setCategory((prev) => ({

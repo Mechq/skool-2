@@ -8,7 +8,6 @@ function NavBar() {
             <CustomLink to='/about'>About</CustomLink>
             <CustomLink to='/workshops'>Workshops</CustomLink>
         </ul>
-
     </nav>
 }
 
