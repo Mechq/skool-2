@@ -3,8 +3,9 @@ import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 function NavBar() {
     const path = window.location.pathname;
     return <nav className='nav'>
-        <Link to='/' className='navTitle'><span className='skool'>Skool</span> <span className='workshop'>Workshop</span></Link>
-        <ul>
+        <Link to='/' className='navTitleImage'>
+            <img src="https://skoolworkshop.nl/wp-content/uploads/2019/11/Skool_Workshop_Logo_White.png" alt="Skool Workshop"/>
+        </Link>        <ul>
             <CustomLink to='/about'>About</CustomLink>
             <CustomLink to='/workshops'>Workshops</CustomLink>
         </ul>
