@@ -1,0 +1,115 @@
+.side-panel-root {
+    max-height: calc(100vh - 90px); /* Adjust 60px to the height of your navbar */
+    overflow: hidden;
+}
+
+.side-panel {
+    height: calc(100vh - 90px); /* Adjust 60px to the height of your navbar */
+    width: 30vw;
+    margin-left: 70vw;
+    background-color: #f2f2f2;
+    text-align: center;
+    transition: margin-left 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden ;
+}
+
+.side-panel-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-top: 2rem;
+    margin-top: 0;
+}
+
+.side-panel-content {
+    padding: 1rem;
+    height: 100%;
+}
+
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /*height: 100%;*/
+}
+
+.form-container button {
+    align-self: flex-start; /* Aligns the first button to the left */
+}
+
+.form-container button:last-child {
+    align-self: flex-end; /* Aligns the last button to the right */
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.row input, .row select {
+    flex-basis: 50%;
+    box-sizing: border-box;
+}
+
+/* Add this media query */
+@media (max-width: 1100px) {
+    .row {
+        flex-direction: column;
+    }
+
+    .row input, .row select {
+        flex-basis: 100%;
+    }
+}
+
+.fab-common {
+    padding: 0 16px;
+    height: 48px;
+    background-color: #F49700;
+    font-size: 24px;
+    color: white;
+    text-align: center;
+    line-height: 56px;
+    position: absolute;
+    cursor: pointer;
+    z-index: 1000;
+    border: none;
+    border-radius: 10%;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.fab {
+    width: 48px;
+    right: 16px;
+    bottom: 16px;
+}
+
+.fab span {
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+}
+
+.fab span.rotate {
+    transform: rotate(45deg);
+}
+
+.submit-fab {
+    font-size: 1.2rem;
+    font-weight: bold;
+    left: 16px;
+    bottom: 16px;
+    height: 48px;
+}
+
+textarea#details {
+    resize: none;
+    height: 8em;
+}

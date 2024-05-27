@@ -1,7 +1,7 @@
 import {React} from "react";
 import CreateMailTemplateSidePanel from "../components/CreateMailTemplateSidePanel";
 
-function mailTemplates() {
+function MailTemplates() {
     return (
         <>
             <CreateMailTemplateSidePanel />
@@ -10,4 +10,4 @@ function mailTemplates() {
     );
 }
 
-export default mailTemplates;
+export default MailTemplates;

@@ -1,9 +1,9 @@
 import {React, useState, useEffect} from "react";
-import "../styles/CreateWorkshopSidePanel.css";
+import "../styles/CreateMailTemplateSidePanel.css";
 
 
 function CreateMailTemplateSidePanel() {
-
+    console.log('CreateMailTemplateSidePanel');
     const [name, setName] = useState("");
     const [category, setCategory] = useState( {
         ghettoDrums: false,
@@ -25,7 +25,7 @@ function CreateMailTemplateSidePanel() {
         materials
     );
 
-    // Create a new workshop object
+    // Create a new mailTemplate object
     const mailTemplate = {
         name,
         category,
@@ -85,7 +85,7 @@ function CreateMailTemplateSidePanel() {
                                 name="name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="Naam workshop"
+                                placeholder="Naam Mail Template"
                             />
                             <select
                                 id="category"
@@ -104,7 +104,7 @@ function CreateMailTemplateSidePanel() {
                             name="details"
                             value={details}
                             onChange={(e) => setDetails(e.target.value)}
-                            placeholder="Details workshop"
+                            placeholder="Details Mail Templates"
                         ></textarea>
                         <input
                             type="text"
