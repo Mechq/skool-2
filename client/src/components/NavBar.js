@@ -6,7 +6,7 @@ function NavBar() {
         <Link to='/' className='navTitle'>Skool Workshop</Link>
         <ul>
             <CustomLink to='/about'>About</CustomLink>
-            <CustomLink to='/contact'>Contact</CustomLink>
+            <CustomLink to='/workshops'>Workshops</CustomLink>
         </ul>
 
     </nav>
