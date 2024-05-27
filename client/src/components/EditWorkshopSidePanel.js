@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../styles/CreateWorkshopSidePanel.css";
+import "../styles/EditWorkshopSidePanel.css";
 
 function EditWorkshopSidePanel() {
     const [name, setName] = useState("");
@@ -67,7 +67,7 @@ function EditWorkshopSidePanel() {
     return (
         <div id='side-panel-root'>
             <button className="fab fab-common" onClick={() => setShowSidePanel(!showSidePanel)}>
-                <span className={showSidePanel ? "rotate" : ""}>{'Edit'}</span>
+                <span>{'Edit'}</span>
             </button>
             <div className="side-panel">
                 <h1 className='side-panel-title'>Edit Workshop</h1>
@@ -86,7 +86,7 @@ function EditWorkshopSidePanel() {
                                 id="category"
                                 name="category"
                                 value={Object.keys(category).find(key => category[key])}
-                                onChange={(e) => setCategory({ ...category, [e.target.value]: true })}
+                                onChange={(e) => setCategory({...category, [e.target.value]: true})}
                             >
                                 <option value="">Select a category</option>
                                 <option value="ghettoDrums">Ghetto Drums</option>
@@ -111,6 +111,7 @@ function EditWorkshopSidePanel() {
                         />
                         <button className="submit-fab fab-common" onClick={handleSubmit}>Update</button>
                     </form>
+                    <button className="close-button" onClick={() => setShowSidePanel(false)}>✖</button>
                 </div>
             </div>
         </div>
