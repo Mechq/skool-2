@@ -13,50 +13,50 @@ function CreateWorkshopSidePanel({ showSidePanel, setShowSidePanel }) { // Use p
     const [materials, setMaterials] = useState("");
 
     const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(
-        name,
-        category,
-        details,
-        materials
-    );
+        e.preventDefault();
+        console.log(
+            name,
+            category,
+            details,
+            materials
+        );
 
-    // Create a new workshop object
-    const workshop = {
-        name,
-        category,
-        details,
-        materials
+        // Create a new workshop object
+        const workshop = {
+            name,
+            category,
+            details,
+            materials
+        };
+
+        // Send a POST request to the backend
+        fetch('/api/workshop', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(workshop),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+        setShowSidePanel(false); // Close the side panel
+
+        setName('')
+        setCategory( {
+            ghettoDrums: false,
+            Looping: false,
+            CSGO: false,
+        })
+        setDetails('')
+        setMaterials('')
+
     };
-
-    // Send a POST request to the backend
-    fetch('/api/workshop', { 
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(workshop),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-
-    setShowSidePanel(false); // Close the side panel
-
-    setName('')
-    setCategory( {
-        ghettoDrums: false,
-        Looping: false,
-        CSGO: false,
-    })
-    setDetails('')
-    setMaterials('')
-
-};
 
     const handleCategoryChange = (sub) => {
         setCategory((prev) => ({
