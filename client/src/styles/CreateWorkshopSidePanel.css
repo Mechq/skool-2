@@ -1,10 +1,10 @@
 .side-panel-root {
-    max-height: calc(100vh - 60px); /* Adjust 60px to the height of your navbar */
+    max-height: calc(100vh - 90px); /* Adjust 60px to the height of your navbar */
     overflow: hidden;
 }
 
 .side-panel {
-    height: calc(100vh - 60px); /* Adjust 60px to the height of your navbar */
+    height: calc(100vh - 90px); /* Adjust 60px to the height of your navbar */
     width: 30vw;
     margin-left: 70vw;
     background-color: #f2f2f2;
