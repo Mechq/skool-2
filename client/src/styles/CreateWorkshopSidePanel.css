@@ -89,7 +89,7 @@ textarea#details, #materials {
     cursor: pointer;
     z-index: 1000;
     border: none;
-    border-radius: 10%;
+    /* border-radius: 10%; */
     outline: none;
     display: flex;
     justify-content: center;
