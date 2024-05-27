@@ -34,7 +34,7 @@ function CreateWorkshopSidePanel() {
     };
 
     // Send a POST request to the backend
-    fetch('/api/workshops', { // replace '/api/workshops' with your actual endpoint
+    fetch('/api/workshop', { // replace '/api/workshops' with your actual endpoint
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
