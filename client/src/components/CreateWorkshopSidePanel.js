@@ -1,8 +1,7 @@
 import {React, useState, useEffect} from "react";
 import "../styles/CreateWorkshopSidePanel.css";
 
-
-function CreateWorkshopSidePanel() {
+function CreateWorkshopSidePanel({ showSidePanel, setShowSidePanel }) { // Use props here
 
     const [name, setName] = useState("");
     const [category, setCategory] = useState( {
@@ -12,9 +11,6 @@ function CreateWorkshopSidePanel() {
     });
     const [details, setDetails] = useState("");
     const [materials, setMaterials] = useState("");
-
-
-    const [showSidePanel, setShowSidePanel] = useState(false); // New state
 
     const handleSubmit = (e) => {
     e.preventDefault();
@@ -72,17 +68,14 @@ function CreateWorkshopSidePanel() {
     useEffect(() => {
         const sidePanel = document.querySelector('.side-panel');
         if (showSidePanel) {
-            sidePanel.style.marginLeft = '70vw';
+            sidePanel.style.right = '0'; // Slide in
         } else {
-            sidePanel.style.marginLeft = '100vw';
+            sidePanel.style.right = '-30%'; // Slide out
         }
     }, [showSidePanel]);
 
     return (
         <div id='side-panel-root'>
-            <button className="fab fab-common" onClick={() => setShowSidePanel(!showSidePanel)}>
-                <span className={showSidePanel ? "rotate" : ""}>{'+'}</span>
-            </button>
             <div className="side-panel">
                 <h1 className='side-panel-title'>Create Workshop</h1>
 
@@ -124,15 +117,6 @@ function CreateWorkshopSidePanel() {
                             onChange={(e) => setMaterials(e.target.value)}
                             placeholder="benodigdheden en speciale eisen"
                         ></textarea>
-                        
-                        {/* <input
-                            type="text"
-                            id="materials"
-                            name="materials"
-                            value={materials}
-                            onChange={(e) => setMaterials(e.target.value)}
-                            placeholder="benodigdheden en speciale eisen"
-                        /> */}
                         </div>
                         <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
                     </form>
