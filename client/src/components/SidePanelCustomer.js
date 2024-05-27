@@ -27,7 +27,34 @@ function SidePanelCustomer() {
 
         );
 
-        // TODO Submission logic
+        // Create a new workshop object
+        const customer = {
+            name,
+            nameLocation,
+            streetAndHouseNumber,
+            postalCode,
+            city,
+            nameContact,
+            emailContact,
+            phoneNumberContact
+        };
+
+        // Send a POST request to the backend
+        fetch('/api/customer', { // replace '/api/workshops' with your actual endpoint
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(customer),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
         setShowSidePanel(false); // Close the side panel
     };
     useEffect(() => {
