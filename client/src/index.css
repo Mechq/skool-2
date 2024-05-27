@@ -63,3 +63,19 @@ body {
   color: #F49700;
   box-shadow: inset 0 -1px 0 #F49700;
 }
+
+.navTitle .skool {
+  color: white;
+}
+
+.navTitle .workshop {
+  color: #F49700; 
+}
+
+.navTitle:hover .skool {
+  color: #F49700; 
+}
+
+.navTitle:hover .workshop {
+  color: white;
+}
