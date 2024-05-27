@@ -15,13 +15,14 @@ const workshopService = {
       const {
         name,
         category,
-        description
+        description,
+        picture
       } = workshop;
 
-      const values = [name, category, description];
+      const values = [name, category, description, picture];
 
       // TODO: Implement the query to insert correct data
-      const query = 'INSERT INTO Workshop (name, category , description) VALUES (?, ?, ?)';
+      const query = 'INSERT INTO Workshop (name, category, description, picture) VALUES (?, ?, ?, ?)';
 
       logger.debug('query', query);
 
