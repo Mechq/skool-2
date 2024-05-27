@@ -3,14 +3,10 @@ import "../styles/EditWorkshopSidePanel.css";
 
 function EditWorkshopSidePanel() {
     const [name, setName] = useState("");
-    const [category, setCategory] = useState({
-        ghettoDrums: false,
-        Looping: false,
-        CSGO: false,
-    });
-    const [details, setDetails] = useState("");
+    const [category, setCategory] = useState("");
+    const [description, setDescription] = useState("");
     const [materials, setMaterials] = useState("");
-
+    const [id, setId] = useState("");
     const [showSidePanel, setShowSidePanel] = useState(false);
 
     useEffect(() => {
@@ -18,14 +14,13 @@ function EditWorkshopSidePanel() {
             .then(res => res.json())
             .then(data => {
                 setName(data.name);
-                setCategory(data.category);
-                setDetails(data.details);
+                setCategory(data.category || ""); // Ensure category is a string
+                setDescription(data.description);
                 setMaterials(data.materials);
+                setId(data.id);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
-
-    console.log({ name, category, details, materials })
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -33,8 +28,9 @@ function EditWorkshopSidePanel() {
         const workshop = {
             name,
             category,
-            details,
+            description,
             materials,
+            id: 1, // Assuming this is the ID of the workshop being updated
         };
 
         fetch('/api/workshop', {
@@ -53,6 +49,11 @@ function EditWorkshopSidePanel() {
             });
 
         setShowSidePanel(false);
+        // Clear form fields if needed
+        setName("");
+        setCategory("");
+        setDescription("");
+        setMaterials("");
     };
 
     useEffect(() => {
@@ -85,8 +86,8 @@ function EditWorkshopSidePanel() {
                             <select
                                 id="category"
                                 name="category"
-                                value={Object.keys(category).find(key => category[key])}
-                                onChange={(e) => setCategory({...category, [e.target.value]: true})}
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
                             >
                                 <option value="">Select a category</option>
                                 <option value="ghettoDrums">Ghetto Drums</option>
@@ -95,11 +96,11 @@ function EditWorkshopSidePanel() {
                             </select>
                         </div>
                         <textarea
-                            id="details"
-                            name="details"
-                            value={details}
-                            onChange={(e) => setDetails(e.target.value)}
-                            placeholder="Workshop Details"
+                            id="description"
+                            name="description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Workshop Description"
                         ></textarea>
                         <input
                             type="text"
