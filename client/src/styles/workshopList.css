@@ -1,0 +1,19 @@
+.list {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.list li {
+    margin: 10px 0; /* Only add vertical margin */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: auto; /* Adjust width to auto */
+    max-width: 300px; /* Set a maximum width for the list items */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    text-align: center; /* Center text within the list items */
+}

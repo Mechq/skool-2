@@ -4,5 +4,5 @@ const logger = require("../util/logger");
 const workshopController = require("../controller/workshop.controller");
 
 router.post("/api/workshop", workshopController.createWorkshop);
-
+router.get("/api/workshop", workshopController.getAllWorkshops);
 module.exports = router;
