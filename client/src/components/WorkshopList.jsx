@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import "../styles/workshopList.css";
+import "../styles/WorkshopList.css";
 
 export default function WorkshopList({setShowSidePanel, setSidePanelContent, setWorkshopId}) {
     const [workshops, setWorkshops] = useState([]);
