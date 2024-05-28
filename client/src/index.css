@@ -21,7 +21,7 @@ code {
 
 body {
   margin: 0;
-  overflow-x: hidden; /* Add this line */
+  /*overflow-x: hidden; !* Add this line *!*/
 
 }
 .container {

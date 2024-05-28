@@ -23,7 +23,7 @@ const workshopService = {
       const values = [name, category, description, picture, materials];
 
       // TODO: Implement the query to insert correct data
-      const query = 'INSERT INTO Workshop (name, category, description, picture, materials) VALUES (?, ?, ?, ?, ?)';
+      const query = 'INSERT INTO workshop (name, category, description, picture, materials) VALUES (?, ?, ?, ?, ?)';
 
       logger.debug('query', query);
 
@@ -58,7 +58,43 @@ const workshopService = {
     });
   },
 
-  
+
+    getAll: (callback) => {
+        logger.info('get all workshops');
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error getting workshops', err);
+                callback(err, null);
+                return;
+            }
+
+
+            connection.query(
+                'SELECT id,name FROM workshop',
+                function(error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+
+                        // TODO: Implement correct logging for possible error cases
+                        logger.error('Error getting workshops', error);
+                        callback(error, null);
+                        return;
+                    }
+
+                    else {
+                        callback(null, {
+                            status: 200,
+                            message: `${results.length} workshops retrieved`,
+                            data: results,
+                        });
+                    }
+                }
+            )
+        });
+    }
+
 };
 
 module.exports = workshopService;
