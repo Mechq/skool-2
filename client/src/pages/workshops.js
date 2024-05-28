@@ -79,14 +79,6 @@ function Workshops() {
         setMaterials('')
 
     };
-
-    const handleCategoryChange = (sub) => {
-        setCategory((prev) => ({
-            ...prev,
-            [sub]: !prev[sub],
-        }));
-    };
-
     useEffect(() => {
         const sidePanel = document.querySelector('.side-panel');
         if (showSidePanel) {
