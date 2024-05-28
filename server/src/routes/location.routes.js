@@ -29,6 +29,7 @@ function validateLocation(req, res, next) {
     next();
 }
 
-router.post("/api/location", validateLocation, locationController.createLocation);
+router.post('/api/location', validateLocation, locationController.createLocation);
+router.get('/api/location', locationController.getAllLocations);
 
 module.exports = router;
