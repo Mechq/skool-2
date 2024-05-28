@@ -42,6 +42,10 @@ function CreateMailTemplateSidePanel() {
         console.error('Error:', error);
     });
 
+
+    setSubject(""); // Clear the subject field
+    setCc(""); // Clear the cc field
+    setDetails(""); // Clear the details field
     setShowSidePanel(false); // Close the side panel
 };
 
