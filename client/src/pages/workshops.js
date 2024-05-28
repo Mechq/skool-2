@@ -103,12 +103,23 @@ function Workshops() {
 
     return (
         <div className='workshopsContent'>
-            <button className="fab fab-common" onClick={() => setShowSidePanel(!showSidePanel)}>
+            <button className="fab fab-common" onClick={() => {
+                setShowSidePanel(!showSidePanel)
+                setName('')
+                setCategory( {
+                    ghettoDrums: false,
+                    Looping: false,
+                    CSGO: false,
+                })
+                setDescription('')
+                setMaterials('')
+                }}>
                 <span className={showSidePanel ? "rotate" : ""}>{'+'}</span>
             </button>
             <WorkshopList/>
             <SidePanel showSidePanel={showSidePanel} setShowSidePanel={setShowSidePanel}>
                 <div className='side-panel-content'>
+                <h1 className='side-panel-title'>Create Workshop</h1>
                     <form action="#" method="get" className="form-container">
                         <div className="form-group">
                             <div className="row">
