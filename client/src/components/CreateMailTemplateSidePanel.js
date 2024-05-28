@@ -4,9 +4,9 @@ import "../styles/CreateMailTemplateSidePanel.css";
 
 function CreateMailTemplateSidePanel() {
     console.log('CreateMailTemplateSidePanel');
-    const [name, setName] = useState("");
-    const [message, setMessage] = useState("");
-    const [materials, setMaterials] = useState("");
+    const [subject, setSubject] = useState("");
+    const [cc, setCc] = useState("");
+    const [details, setDetails] = useState("");
 
 
     const [showSidePanel, setShowSidePanel] = useState(false); // New state
@@ -14,16 +14,16 @@ function CreateMailTemplateSidePanel() {
     const handleSubmit = (e) => {
     e.preventDefault();
     console.log(
-        name,
-        message,
-        materials
+        subject,
+        cc,
+        details
     );
 
     // Create a new mailTemplate object
     const mailTemplate = {
-        name,
-        message,
-        materials
+        subject,
+        cc,
+        details
     };
 
     // Send a POST request to the backend
@@ -66,25 +66,25 @@ function CreateMailTemplateSidePanel() {
                     <form action="#" method="get" className="form-container">
                         <input
                             type="text"
-                            id="name"
-                            name="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            id="subject"
+                            name="subject"
+                            value={subject}
+                            onChange={(e) => setSubject(e.target.value)}
                             placeholder="Mail onderwerp"
                         />
                         <input
                             type="text"
-                            id="materials"
-                            name="materials"
-                            value={materials}
-                            onChange={(e) => setMaterials(e.target.value)}
+                            id="cc"
+                            name="cc"
+                            value={cc}
+                            onChange={(e) => setCc(e.target.value)}
                             placeholder="standaard CC"
                         />
                         <textarea
-                            id="message"
-                            name="message"
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
+                            id="details"
+                            name="details"
+                            value={details}
+                            onChange={(e) => setDetails(e.target.value)}
                             placeholder="Mail bericht"
                         />
                         <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
