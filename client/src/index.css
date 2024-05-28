@@ -1,10 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
+
+
 body {
+  font-family: 'Oswald', sans-serif;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh; /* Add this line */
+  overflow: hidden; /* Add this line */
 }
 
 code {
@@ -18,13 +21,16 @@ code {
 
 body {
   margin: 0;
+  /*overflow-x: hidden; !* Add this line *!*/
+
 }
 .container {
-  margin: 1rem;
   text-align: center;
+  height: 100vh; /* Add this line */
 }
 
 .nav {
+  font-size: 1.3rem;
   background-color: #151515;
   color: white;
   display: flex;
@@ -42,8 +48,9 @@ body {
   gap: 1rem;
 }
 
-.navTitle {
-  font-weight: bold;
+.navTitleImage img {
+  height: 50px;
+  width: auto;
 }
 
 .nav a {
@@ -59,8 +66,3 @@ body {
   color: #F49700;
   box-shadow: inset 0 -1px 0 #F49700;
 }
-
-/*.nav li.active {*/
-/*  color: #F49700;*/
-/*  box-shadow: inset 0 -1px 0 #F49700;*/
-/*}*/
