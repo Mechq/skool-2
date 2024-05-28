@@ -31,5 +31,6 @@ router.post('/api/workshop', workshopController.createWorkshop);
 router.get('/api/workshop', workshopController.getAllWorkshops);
 router.post()
 // router.post("/api/workshop", workshopController.createWorkshop);
-
+router.put("/api/workshop", workshopController.update);
+router.get("/api/workshop/:id", workshopController.getWorkshopById);
 module.exports = router;

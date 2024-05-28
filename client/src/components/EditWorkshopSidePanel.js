@@ -3,29 +3,25 @@ import "../styles/EditWorkshopSidePanel.css";
 
 function EditWorkshopSidePanel() {
     const [name, setName] = useState("");
-    const [category, setCategory] = useState({
-        ghettoDrums: false,
-        Looping: false,
-        CSGO: false,
-    });
-    const [details, setDetails] = useState("");
+    const [category, setCategory] = useState("");
+    const [description, setDescription] = useState("");
     const [materials, setMaterials] = useState("");
-
+    const [id, setId] = useState("");
     const [showSidePanel, setShowSidePanel] = useState(false);
-
+// TODO Make it display the information for a specific workshop currently hardcoded to 1
     useEffect(() => {
-        fetch('/api/workshop')
+        fetch('/api/workshop/1')
             .then(res => res.json())
             .then(data => {
-                setName(data.name);
-                setCategory(data.category);
-                setDetails(data.details);
-                setMaterials(data.materials);
+                // Update state with fetched data
+                setName(data.name || "");
+                setCategory(data.category || "");
+                setDescription(data.description || "");
+                setMaterials(data.materials || "");
+                setId(data.id || "");
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
-
-    console.log({ name, category, details, materials })
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -33,8 +29,9 @@ function EditWorkshopSidePanel() {
         const workshop = {
             name,
             category,
-            details,
+            description,
             materials,
+            id, // Use the fetched ID for updating // TODO You can hardcode it to 1 for testing
         };
 
         fetch('/api/workshop', {
@@ -52,6 +49,11 @@ function EditWorkshopSidePanel() {
                 console.error('Error:', error);
             });
 
+        // Reset form fields and hide side panel
+        setName("");
+        setCategory("");
+        setDescription("");
+        setMaterials("");
         setShowSidePanel(false);
     };
 
@@ -85,8 +87,8 @@ function EditWorkshopSidePanel() {
                             <select
                                 id="category"
                                 name="category"
-                                value={Object.keys(category).find(key => category[key])}
-                                onChange={(e) => setCategory({...category, [e.target.value]: true})}
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
                             >
                                 <option value="">Select a category</option>
                                 <option value="ghettoDrums">Ghetto Drums</option>
@@ -95,11 +97,11 @@ function EditWorkshopSidePanel() {
                             </select>
                         </div>
                         <textarea
-                            id="details"
-                            name="details"
-                            value={details}
-                            onChange={(e) => setDetails(e.target.value)}
-                            placeholder="Workshop Details"
+                            id="description"
+                            name="description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Workshop Description"
                         ></textarea>
                         <input
                             type="text"
