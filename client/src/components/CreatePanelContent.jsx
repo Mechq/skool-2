@@ -6,7 +6,7 @@ export default function CreatePanelContent() {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
     const [description, setDescription] = useState("");
-    const [materials, setMaterials] = useState("");
+    const [materials, setMaterials] = useState("• \n• \n• \n• \n• \n• ");
 
     useEffect(() => {
         fetch('/api/category')
@@ -36,7 +36,9 @@ export default function CreatePanelContent() {
         if (!name) setNameValid(false);
         if (!selectedCategory) setCategoryValid(false);
         if (!description) setDescriptionValid(false);
-        if (!materials) setMaterialsValid(false);
+        if (materials === '• \n• \n• \n• \n• \n• ') {
+            setMaterialsValid(false);
+        }
 
         if (!name || !selectedCategory || !description || !materials) return;
 

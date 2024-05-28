@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import '../styles/EditPanelContent.css'
 
 function EditPanelContent({workshopId, setShowSidePanel}) {
     const [name, setName] = useState("");
@@ -24,6 +25,11 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
             });
     }, []);
 
+    const [nameValid, setNameValid] = useState(true);
+    const [categoryValid, setCategoryValid] = useState(true);
+    const [descriptionValid, setDescriptionValid] = useState(true);
+    const [materialsValid, setMaterialsValid] = useState(true);
+
     useEffect(() => {
         if (workshopId) {
             fetch(`/api/workshop/${workshopId}`)
@@ -41,6 +47,13 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!name) setNameValid(false);
+        if (!selectedCategory) setCategoryValid(false);
+        if (!description) setDescriptionValid(false);
+        if (!materials) setMaterialsValid(false);
+
+        if (!name || !selectedCategory || !description || !materials) return;
 
         const workshop = {
             name,
@@ -72,17 +85,25 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
                     <div className="row">
                         <input
                             type="text"
-                            id="name"
+                            id="edit-name"
                             name="name"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => {
+                                setName(e.target.value);
+                                setNameValid(true);
+                            }}
+                            className={nameValid ? "" : "invalid"}
                             placeholder="Workshop Name"
                         />
                         <select
-                            id="category"
+                            id="edit-category"
                             name="category"
                             value={selectedCategory}
-                            onChange={(e) => setSelectedCategory(e.target.value)}
+                            onChange={(e) => {
+                                setSelectedCategory(e.target.value);
+                                setCategoryValid(true);
+                            }}
+                            className={categoryValid ? "" : "invalid"}
                         >
                             <option value="">Selecteer een categorie</option>
                             {categories.map((category, index) => (
@@ -91,18 +112,26 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
                         </select>
                     </div>
                     <textarea
-                        id="description"
+                        id="edit-description"
                         name="description"
                         value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        onChange={(e) => {
+                            setDescription(e.target.value);
+                            setDescriptionValid(true);
+                        }}
+                        className={descriptionValid ? "" : "invalid"}
                         placeholder="Workshop Description"
-                    ></textarea>
+                    />
                     <input
                         type="text"
-                        id="materials"
+                        id="edit-materials"
                         name="materials"
                         value={materials}
-                        onChange={(e) => setMaterials(e.target.value)}
+                        onChange={(e) => {
+                            setMaterials(e.target.value);
+                            setMaterialsValid(true);
+                        }}
+                        className={materialsValid ? "" : "invalid"}
                         placeholder="Materials"
                     />
                     <button className="submit-fab fab-common" type="submit">Update</button>
