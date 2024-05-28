@@ -14,7 +14,7 @@ function EditWorkshopSidePanel() {
 
 
     const onWorkshopEdit = (id) => {
-        setShowSidePanel(!showSidePanel)
+        setShowSidePanel(true)
         fetch(`/api/workshop/${id}`)
             .then(res => res.json())
             .then(response => {
