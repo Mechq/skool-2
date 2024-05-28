@@ -12,7 +12,7 @@ function Workshops() {
         Looping: false,
         CSGO: false,
     });
-    const [details, setDetails] = useState("");
+    const [description, setDescription] = useState("");
     const [materials, setMaterials] = useState("");
 
     const handleSubmit = (e) => {
@@ -20,7 +20,7 @@ function Workshops() {
         console.log(
             name,
             category,
-            details,
+            description,
             materials
         );
 
@@ -28,7 +28,7 @@ function Workshops() {
         const workshop = {
             name,
             category,
-            details,
+            description,
             materials
         };
 
@@ -56,7 +56,7 @@ function Workshops() {
             Looping: false,
             CSGO: false,
         })
-        setDetails('')
+        setDescription('')
         setMaterials('')
 
     };
@@ -100,11 +100,11 @@ function Workshops() {
                                 </select>
                             </div>
                             <textarea
-                                id="details"
-                                name="details"
-                                value={details}
-                                onChange={(e) => setDetails(e.target.value)}
-                                placeholder="Details workshop"
+                                id="description"
+                                name="description"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                placeholder="description workshop"
                             ></textarea>
                             <textarea
                                 id="materials"
