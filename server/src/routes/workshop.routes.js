@@ -22,12 +22,10 @@ function validateWorkshop(req, res, next) {
         return res.status(400).json({ error: "Category is required and must be a string." });
     }
 
-
-
     next();
 }
 
-
+router.post("/api/workshop", validateWorkshop, workshopController.createWorkshop);
 router.get("/api/workshop", workshopController.getAllWorkshops);
 router.put("/api/workshop/:id", workshopController.update);
 router.get("/api/workshop/:id", workshopController.getWorkshopById);
