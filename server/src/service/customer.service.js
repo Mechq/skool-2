@@ -75,7 +75,7 @@ const customerService = {
         return;
       }
 
-      connection.query('SELECT id, name FROM customer', function(error, results, fields) {
+      connection.query('SELECT id, name, contactName FROM customer', function(error, results, fields) {
         connection.release();
 
         if (error) {
