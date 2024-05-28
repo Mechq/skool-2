@@ -14,13 +14,17 @@ function validateWorkshop(req, res, next) {
         return res.status(400).json({ error: "Description is required and must be a string." });
     }
 
-    if (!date || typeof date !== 'string') {
-        return res.status(400).json({ error: "Date is required and must be a string." });
+    if (!materials || typeof materials !== 'string') {
+        return res.status(400).json({ error: "Materials is required and must be a string." });
     }
 
-    if (!location || typeof location !== 'string') {
-        return res.status(400).json({ error: "Location is required and must be a string." });
+    if (!category || typeof category !== 'string') {
+        return res.status(400).json({ error: "Category is required and must be a string." });
     }
+
+    
+
+    
 
     next();
 }
