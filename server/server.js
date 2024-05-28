@@ -33,7 +33,7 @@ app.use((error, req, res, next) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`Express server running at http://localhost:${PORT}/`);
+    console.log(`Express server running at http://localhost:${PORT}/`);
 });
 
 // Export the app object for test cases
