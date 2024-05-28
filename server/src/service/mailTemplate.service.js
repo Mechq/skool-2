@@ -21,7 +21,7 @@ const mailTemplateService = {
       const values = [subject, cc, details];
 
       // TODO: Implement the query to insert correct data
-      const query = 'INSERT INTO mailTemplate (subject, cc, details) VALUES (?, ?, ?, ?, ?)';
+      const query = 'INSERT INTO mailTemplate (subject, cc, details) VALUES (?, ?, ?)';
 
       logger.debug('query', query);
 
