@@ -5,7 +5,6 @@ let workshopController = {
   createWorkshop: (req, res, next) => {
     const workshop = req.body;
 
-    // Need to improve the logging here. No need to log the entire workshop object.
     logger.info('creating workshop', workshop);
 
     workshopService.create(workshop, (error, success) => {

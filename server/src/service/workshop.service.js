@@ -22,7 +22,6 @@ const workshopService = {
 
       const values = [name, category, description, picture, materials];
 
-      // TODO: Implement the query to insert correct data
       const query = 'INSERT INTO workshop (name, category, description, picture, materials) VALUES (?, ?, ?, ?, ?)';
 
       logger.debug('query', query);
