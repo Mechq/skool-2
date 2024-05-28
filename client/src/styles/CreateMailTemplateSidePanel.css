@@ -45,6 +45,7 @@
 .row input, .row select {
     flex-basis: 50%;
     box-sizing: border-box;
+
 }
 
 /* Add this media query */
@@ -104,7 +105,17 @@
     height: 48px;
 }
 
+.invalid {
+    border-color: red !important;
+}
+
+input{
+    margin: 2px;
+
+}
+
 textarea#details {
+    margin: 2px;
     resize: none;
     height: 8em;
 }
