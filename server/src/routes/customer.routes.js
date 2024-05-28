@@ -4,6 +4,6 @@ const logger = require("../util/logger");
 const customerController = require("../controller/customer.controller");
 
 // router.get("/api/customer", customerController.getAllCustomers);
-// router.post("/api/customer", customerController.createCustomer);
+router.post("/api/customer", customerController.createCustomer);
 
 module.exports = router;

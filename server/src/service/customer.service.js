@@ -14,87 +14,84 @@ const customerService = {
 
       const {
         name,
-        category,
-        description,
-        picture,
-        materials
+        contactName,
+        email,
+        phone,
+        locationName,
+        street,
+        houseNumber,
+        city,
+        postalCode
       } = customer;
 
-      const values = [name, category, description, picture, materials];
+      const valuesLocation = [locationName, street, houseNumber, city, postalCode];
 
-      // TODO: Implement the query to insert correct data
-      const query = 'INSERT INTO workshop (name, category, description, picture, materials) VALUES (?, ?, ?, ?, ?)';
+      const addressQuery = 'INSERT INTO location (name, street, houseNumber, city, postalCode) VALUES (?, ?, ?, ?, ?)';
 
-      logger.debug('query', query);
+      logger.debug('AddressQuery', addressQuery);
 
-      connection.query(
-        query,
-        values,
-        function(error, results, fields) {
-            connection.release();
-
-            if (error) {
-
-                // TODO: Implement correct logging for possible error cases
-                logger.error('Error creating customer', error);
-                callback(error, null);
-                return;
-            }
-
-            else {
-                // Get the last inserted id for logging
-                const customerId = results.insertId;
-                logger.trace('customer created', customerId);
-
-                const customerDataWithId = { ...customer, Id: customerId };
-                callback(null, {
-                    status: 200,
-                    message: 'customer created',
-                    data: customerDataWithId,
-                });
-            }
+      connection.query(addressQuery, valuesLocation, function(error, results, fields) {
+        if (error) {
+          connection.release();
+          logger.error('Error creating location', error);
+          callback(error, null);
+          return;
         }
-      )
+
+        const locationId = results.insertId;  // get the inserted location ID
+        const customerValues = [name, contactName, email, phone, locationId];
+        const customerQuery = 'INSERT INTO customer (name, contactName, email, phone, locationId) VALUES (?, ?, ?, ?, ?)';
+
+        connection.query(customerQuery, customerValues, function(error, results, fields) {
+          connection.release();
+
+          if (error) {
+            logger.error('Error creating customer', error);
+            callback(error, null);
+            return;
+          }
+
+          const customerId = results.insertId;
+          logger.trace('customer created', customerId);
+
+          const customerDataWithId = { ...customer, id: customerId };
+          callback(null, {
+            status: 200,
+            message: 'customer created',
+            data: customerDataWithId,
+          });
+        });
+      });
     });
   },
 
+  getAll: (callback) => {
+    logger.info('get all customers');
 
-    getAll: (callback) => {
-        logger.info('get all customers');
+    database.getConnection(function (err, connection) {
+      if (err) {
+        logger.error('Error getting customers', err);
+        callback(err, null);
+        return;
+      }
 
-        database.getConnection(function (err, connection) {
-            if (err) {
-                logger.error('Error getting customers', err);
-                callback(err, null);
-                return;
-            }
+      connection.query('SELECT id, name FROM customer', function(error, results, fields) {
+        connection.release();
 
+        if (error) {
+          logger.error('Error getting customer', error);
+          callback(error, null);
+          return;
+        }
 
-            connection.query(
-                'SELECT id,name FROM workshop',
-                function(error, results, fields) {
-                    connection.release();
-
-                    if (error) {
-
-                        // TODO: Implement correct logging for possible error cases
-                        logger.error('Error getting customer', error);
-                        callback(error, null);
-                        return;
-                    }
-
-                    else {
-                        callback(null, {
-                            status: 200,
-                            message: `${results.length} customer retrieved`,
-                            data: results,
-                        });
-                    }
-                }
-            )
+        callback(null, {
+          status: 200,
+          message: `${results.length} customer retrieved`,
+          data: results,
         });
-    }
-
+      });
+    });
+  }
 };
 
 module.exports = customerService;

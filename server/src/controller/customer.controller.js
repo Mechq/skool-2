@@ -4,8 +4,8 @@ const logger = require("../util/logger");
 let customerController = {
   createCustomer: (req, res, next) => {
     const customer = req.body;
+    logger.debug('customer', customer);
 
-    // Need to improve the logging here. No need to log the entire workshop object.
     logger.info('creating customer', customer);
 
     customerService.create(customer, (error, success) => {
