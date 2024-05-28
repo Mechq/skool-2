@@ -8,12 +8,15 @@ function EditWorkshopSidePanel() {
     const [materials, setMaterials] = useState("");
     const [id, setId] = useState("");
     const [showSidePanel, setShowSidePanel] = useState(false);
-// TODO Make it display the information for a specific workshop currently hardcoded to 1
+    
+    // TODO Make it display the information for a specific workshop currently hardcoded to 1
     useEffect(() => {
-        fetch('/api/workshop/1')
+        fetch('/api/workshop/2')
             .then(res => res.json())
-            .then(data => {
-                // Update state with fetched data
+            
+            .then(response => {
+                const data = response.data; // Access the data property
+                console.log(data);
                 setName(data.name || "");
                 setCategory(data.category || "");
                 setDescription(data.description || "");
@@ -94,6 +97,7 @@ function EditWorkshopSidePanel() {
                                 <option value="ghettoDrums">Ghetto Drums</option>
                                 <option value="Looping">Looping</option>
                                 <option value="CSGO">CSGO</option>
+                                <option value="Dans">Dans</option>
                             </select>
                         </div>
                         <textarea
