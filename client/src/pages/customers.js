@@ -6,45 +6,54 @@ import '../styles/customers.css';
 function Customers() {
     const [showSidePanel, setShowSidePanel] = useState(false);
 
-    const [organizationName, setOrganizationName] = useState("");
-    const [contactPerson, setContactPerson] = useState("");
-    const [locationName, setLocationName] = useState("");
-    const [address, setAddress] = useState("");  // Address state
+    const [name, setName] = useState(""); // Name state
+    const [locationName, setLocationName] = useState(""); // Location state
+    const [contactName, setContactName] = useState("");  // Contact name state
+    const [street, setStreet] = useState("");  // Street state
+    const [houseNumber, setHouseNumber] = useState("");  // House number state
+    const [postalCode, setPostalCode] = useState("");  // Postal code state
+    const [city, setCity] = useState("");  // City state
     const [email, setEmail] = useState("");  // Email state
-    const [postcode, setPostcode] = useState("");  // Postcode state
     const [phoneNumber, setPhoneNumber] = useState("");  // Phone number state
 
-    const [organizationNameValid, setOrganizationNameValid] = useState(true);
-    const [contactPersonValid, setContactPersonValid] = useState(true);
-    const [locationNameValid, setLocationNameValid] = useState(true);
-    const [addressValid, setAddressValid] = useState(true);  // Address validation state
+    const [nameValid, setNameValid] = useState(true); // Name validation state
+    const [locationNameValid, setLocationNameValid] = useState(true); // Location validation state
+    const [contactNameValid, setContactNameValid] = useState(true);  // Contact name validation state
+    const [streetValid, setStreetValid] = useState(true);  // Street validation state
+    const [houseNumberValid, setHouseNumberValid] = useState(true);  // House number validation state
+    const [postalCodeValid, setPostalCodeValid] = useState(true);  // Postal code validation state
+    const [cityValid, setCityValid] = useState(true);  // City validation state
     const [emailValid, setEmailValid] = useState(true);  // Email validation state
-    const [postcodeValid, setPostcodeValid] = useState(true);  // Postcode validation state
-    const [phoneNumberValid, setPhoneNumberValid] = useState(true);  // Phone number validation state
+    const [phoneNumberValid, setPhoneNumberValid] = useState(true); // Phone number validation state
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         // Validation
-        if (!organizationName) setOrganizationNameValid(false);
-        if (!contactPerson) setContactPersonValid(false);
+        if (!name) setNameValid(false);
         if (!locationName) setLocationNameValid(false);
-        if (!address) setAddressValid(false);
+        if (!contactName) setContactNameValid(false);
+        if (!street) setStreetValid(false);
+        if (!houseNumber) setHouseNumberValid(false);
+        if (!postalCode) setPostalCodeValid(false);
+        if (!city) setCityValid(false);
         if (!email) setEmailValid(false);
-        if (!postcode) setPostcodeValid(false);
         if (!phoneNumber) setPhoneNumberValid(false);
 
         // If any field is invalid, stop the form submission
-        if (!organizationName || !contactPerson || !locationName || !address || !email || !postcode || !phoneNumber) return;
+        if (!name || !locationName || !contactName || street || houseNumber || postalCode || city || email || phoneNumber) return;
 
         // Create a new customer object
         const customer = {
-            organizationName,
-            contactPerson,
+            name,
             locationName,
-            address,
+            contactName,
+            street,
+            houseNumber,
+            postalCode,
+            city,
             email,
-            postcode,
             phoneNumber
         };
 
@@ -66,12 +75,14 @@ function Customers() {
 
         setShowSidePanel(false); // Close the side panel
 
-        setOrganizationName('');
-        setContactPerson('');
+        setName('');
         setLocationName('');
-        setAddress('');
+        setContactName('');
+        setStreet('');
+        setHouseNumber('');
+        setPostalCode('');
+        setCity('');
         setEmail('');
-        setPostcode('');
         setPhoneNumber('');
     };
 
@@ -82,12 +93,14 @@ function Customers() {
         } else {
             sidePanel.style.right = '-30%'; // Slide out
             // Reset validation states
-            setOrganizationNameValid(true);
-            setContactPersonValid(true);
+            setNameValid(true);
             setLocationNameValid(true);
-            setAddressValid(true);
+            setContactNameValid(true);
+            setStreetValid(true);
+            setHouseNumberValid(true);
+            setPostalCodeValid(true);
+            setCityValid(true);
             setEmailValid(true);
-            setPostcodeValid(true);
             setPhoneNumberValid(true);
         }
     }, [showSidePanel]);
@@ -104,32 +117,18 @@ function Customers() {
                 <div className='side-panel-content'>
                     <form action="#" method="get" className="form-container">
                         <div className="form-group">
-                            <div className="row">
-                                <input
-                                    type="text"
-                                    id="organizationName"
-                                    name="organizationName"
-                                    value={organizationName}
-                                    onChange={(e) => {
-                                        setOrganizationName(e.target.value);
-                                        setOrganizationNameValid(true);  // Reset validation state
-                                    }}
-                                    className={organizationNameValid ? "" : "invalid"}  // Apply CSS class
-                                    placeholder="Naam organisatie"
-                                />
-                                <input
-                                    type="text"
-                                    id="contactPerson"
-                                    name="contactPerson"
-                                    value={contactPerson}
-                                    onChange={(e) => {
-                                        setContactPerson(e.target.value);
-                                        setContactPersonValid(true);  // Reset validation state
-                                    }}
-                                    className={contactPersonValid ? "" : "invalid"}  // Apply CSS class
-                                    placeholder="Contactpersoon"
-                                />
-                            </div>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={name}
+                                onChange={(e) => {
+                                    setName(e.target.value);
+                                    setNameValid(true); // Reset validation state
+                                }}
+                                className={nameValid ? "" : "invalid"}  // Apply CSS class
+                                placeholder="Naam organisatie"
+                            />
                             <input
                                 type="text"
                                 id="locationName"
@@ -137,25 +136,77 @@ function Customers() {
                                 value={locationName}
                                 onChange={(e) => {
                                     setLocationName(e.target.value);
-                                    setLocationNameValid(true);  // Reset validation state
+                                    setLocationNameValid(true); // Reset validation state
                                 }}
                                 className={locationNameValid ? "" : "invalid"}  // Apply CSS class
-                                placeholder="Naam locatie"
+                                placeholder="Locatienaam"
                             />
                             <input
                                 type="text"
-                                id="address"
-                                name="address"
-                                value={address}
+                                id="contactName"
+                                name="contactName"
+                                value={contactName}
                                 onChange={(e) => {
-                                    setAddress(e.target.value);
-                                    setAddressValid(true);  // Reset validation state
+                                    setContactName(e.target.value);
+                                    setContactNameValid(true); // Reset validation state
                                 }}
-                                className={addressValid ? "" : "invalid"}  // Apply CSS class
-                                placeholder="Adresgegevens"
+                                className={contactNameValid ? "" : "invalid"}  // Apply CSS class
+                                placeholder="Contactpersoon"
                             />
+                            <div className="row">
+                                <input
+                                    type="text"
+                                    id="street"
+                                    name="street"
+                                    value={street}
+                                    onChange={(e) => {
+                                        setStreet(e.target.value);
+                                        setStreet(true);  // Reset validation state
+                                    }}
+                                    className={streetValid ? "" : "invalid"}  // Apply CSS class
+                                    placeholder="Straatnaam"
+                                />
+                                <input
+                                    type="text"
+                                    id="houseNumber"
+                                    name="houseNumber"
+                                    value={houseNumber}
+                                    onChange={(e) => {
+                                        setHouseNumber(e.target.value);
+                                        setHouseNumberValid(true);  // Reset validation state
+                                    }}
+                                    className={houseNumberValid ? "" : "invalid"}  // Apply CSS class
+                                    placeholder="Huisnummer"
+                                />
+                            </div>
+                            <div className="row">
                             <input
-                                type="email"
+                                type="text"
+                                id="postalCode"
+                                name="postalCode"
+                                value={postalCode}
+                                onChange={(e) => {
+                                    setPostalCode(e.target.value);
+                                    setPostalCodeValid(true);  // Reset validation state
+                                }}
+                                className={postalCodeValid ? "" : "invalid"}  // Apply CSS class
+                                placeholder="Postcode"
+                                />
+                            <input
+                                type="text"
+                                id="city"
+                                name="city"
+                                value={city}
+                                onChange={(e) => {
+                                    setCity(e.target.value);
+                                    setCityValid(true);  // Reset validation state
+                                }}
+                                className={cityValid ? "" : "invalid"}  // Apply CSS class
+                                placeholder="Plaatsnaam"
+                            />
+                            </div>
+                            <input
+                                type="text"
                                 id="email"
                                 name="email"
                                 value={email}
@@ -168,19 +219,7 @@ function Customers() {
                             />
                             <input
                                 type="text"
-                                id="postcode"
-                                name="postcode"
-                                value={postcode}
-                                onChange={(e) => {
-                                    setPostcode(e.target.value);
-                                    setPostcodeValid(true);  // Reset validation state
-                                }}
-                                className={postcodeValid ? "" : "invalid"}  // Apply CSS class
-                                placeholder="Postcodeadres"
-                            />
-                            <input
-                                type="text"
-                                id="phoneNumber"
+                                id="phoneNumber"	
                                 name="phoneNumber"
                                 value={phoneNumber}
                                 onChange={(e) => {
@@ -188,7 +227,7 @@ function Customers() {
                                     setPhoneNumberValid(true);  // Reset validation state
                                 }}
                                 className={phoneNumberValid ? "" : "invalid"}  // Apply CSS class
-                                placeholder="Telefoonnummer contactpersoon"
+                                placeholder="Telefoonnummer"
                             />
                         </div>
                         <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
