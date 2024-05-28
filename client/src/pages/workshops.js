@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import SidePanel from "../components/SidePanel";
 import WorkshopList from "../components/workshopList";
 import '../styles/workshops.css';
@@ -15,8 +15,27 @@ function Workshops() {
     const [description, setDescription] = useState("");
     const [materials, setMaterials] = useState("");
 
+    const [nameValid, setNameValid] = useState(true);
+    const [categoryValid, setCategoryValid] = useState(true);
+    const [descriptionValid, setDescriptionValid] = useState(true);
+    const [materialsValid, setMaterialsValid] = useState(true);
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Validation
+        if (!name) setNameValid(false);
+        console.log('CATEGORIEEE' + category)
+        if (!Object.values(category).some(value => value)) {
+            setCategoryValid(false);
+        }
+        if (!description) setDescriptionValid(false);
+        if (!materials) setMaterialsValid(false);
+
+        // If any field is invalid, stop the form submission
+        if (!name || !category || !description || !materials) return;
+
         console.log(
             name,
             category,
@@ -68,6 +87,20 @@ function Workshops() {
         }));
     };
 
+    useEffect(() => {
+        const sidePanel = document.querySelector('.side-panel');
+        if (showSidePanel) {
+            sidePanel.style.right = '0'; // Slide in
+        } else {
+            sidePanel.style.right = '-30%'; // Slide out
+            // Reset validation states
+            setNameValid(true);
+            setCategoryValid(true);
+            setDescriptionValid(true);
+            setMaterialsValid(true);
+        }
+    }, [showSidePanel]);
+
     return (
         <div className='workshopsContent'>
             <button className="fab fab-common" onClick={() => setShowSidePanel(!showSidePanel)}>
@@ -84,14 +117,22 @@ function Workshops() {
                                     id="name"
                                     name="name"
                                     value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    onChange={(e) => {
+                                        setName(e.target.value);
+                                        setNameValid(true);  // Reset validation state
+                                    }}
+                                    className={nameValid ? "" : "invalid"}  // Apply CSS class
                                     placeholder="Naam workshop"
                                 />
                                 <select
                                     id="category"
                                     name="category"
                                     value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
+                                    onChange={(e) => {
+                                        setCategory(e.target.value);
+                                        setCategoryValid(true);  // Reset validation state
+                                    }}
+                                    className={categoryValid ? "" : "invalid"}  // Apply CSS class
                                 >
                                     <option value="">Selecteer een categorie</option>
                                     <option value="ghettoDrums">Ghetto Drums</option>
@@ -103,14 +144,22 @@ function Workshops() {
                                 id="description"
                                 name="description"
                                 value={description}
-                                onChange={(e) => setDescription(e.target.value)}
+                                onChange={(e) => {
+                                    setDescription(e.target.value);
+                                    setDescriptionValid(true);  // Reset validation state
+                                }}
+                                className={descriptionValid ? "" : "invalid"}  // Apply CSS class
                                 placeholder="description workshop"
                             ></textarea>
                             <textarea
                                 id="materials"
                                 name="materials"
                                 value={materials}
-                                onChange={(e) => setMaterials(e.target.value)}
+                                onChange={(e) => {
+                                    setMaterials(e.target.value);
+                                    setMaterialsValid(true);  // Reset validation state
+                                }}
+                                className={materialsValid ? "" : "invalid"}  // Apply CSS class
                                 placeholder="benodigdheden en speciale eisen"
                             ></textarea>
                         </div>
