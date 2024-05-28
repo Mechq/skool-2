@@ -31,5 +31,6 @@ function validateLocation(req, res, next) {
 
 router.post('/api/location', validateLocation, locationController.createLocation);
 router.get('/api/location', locationController.getAllLocations);
+router.get('/api/location/:id', locationController.getLocationById);
 
 module.exports = router;
