@@ -1,8 +1,3 @@
-.workshopsContent {
-    display: flex;
-    height: 100%;
-}
-
 .fab {
     position: fixed;
     right: 16px;
