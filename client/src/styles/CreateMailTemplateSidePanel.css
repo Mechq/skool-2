@@ -42,11 +42,6 @@
     align-self: flex-end; /* Aligns the last button to the right */
 }
 
-.row {
-    display: flex;
-    justify-content: space-between;
-}
-
 .row input, .row select {
     flex-basis: 50%;
     box-sizing: border-box;

@@ -64,16 +64,14 @@ function CreateMailTemplateSidePanel() {
 
                 <div className='side-panel-content'>
                     <form action="#" method="get" className="form-container">
-                        {/* <div className="row"> */}
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                placeholder="Mail onderwerp"
-                            />
-                        {/* </div> */}
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Mail onderwerp"
+                        />
                         <input
                             type="text"
                             id="materials"

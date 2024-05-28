@@ -13,15 +13,15 @@ const mailTemplateService = {
       }
 
       const {
-        cc,
         subject,
+        cc,
         details
       } = mailTemplate;
 
-      const values = [cc, subject, details];
+      const values = [subject, cc, details];
 
       // TODO: Implement the query to insert correct data
-      const query = 'INSERT INTO mailTemplate (cc, subject, details) VALUES (?, ?, ?, ?, ?)';
+      const query = 'INSERT INTO mailTemplate (subject, cc, details) VALUES (?, ?, ?, ?, ?)';
 
       logger.debug('query', query);
 
@@ -56,7 +56,43 @@ const mailTemplateService = {
     });
   },
 
-  
+
+    getAll: (callback) => {
+        logger.info('get all mail templates');
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error getting mail templates', err);
+                callback(err, null);
+                return;
+            }
+
+
+            connection.query(
+                'SELECT subject,cc,details FROM mailTemplate',
+                function(error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+
+                        // TODO: Implement correct logging for possible error cases
+                        logger.error('Error getting mail template', error);
+                        callback(error, null);
+                        return;
+                    }
+
+                    else {
+                        callback(null, {
+                            status: 200,
+                            message: `${results.length} mail templates retrieved`,
+                            data: results,
+                        });
+                    }
+                }
+            )
+        });
+    }
+
 };
 
 module.exports = mailTemplateService;
