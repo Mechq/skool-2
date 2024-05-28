@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/EditWorkshopSidePanel.css";
+import "../styles/workshopList.css";
 
 function EditWorkshopSidePanel() {
     const [name, setName] = useState("");
@@ -10,10 +11,12 @@ function EditWorkshopSidePanel() {
     const [showSidePanel, setShowSidePanel] = useState(false);
     
     // TODO Make it display the information for a specific workshop currently hardcoded to 1
-    useEffect(() => {
-        fetch('/api/workshop/2')
+
+
+    const onWorkshopEdit = (id) => {
+        setShowSidePanel(!showSidePanel)
+        fetch(`/api/workshop/${id}`)
             .then(res => res.json())
-            
             .then(response => {
                 const data = response.data; // Access the data property
                 console.log(data);
@@ -22,6 +25,17 @@ function EditWorkshopSidePanel() {
                 setDescription(data.description || "");
                 setMaterials(data.materials || "");
                 setId(data.id || "");
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    const [workshop, setWorkshop] = useState([]);
+    const workshopNames = workshop.map(workshop => workshop.name);
+    useEffect(() => {
+        fetch('/api/workshop')
+            .then(res => res.json())
+            .then(data => {
+                setWorkshop(data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
@@ -34,10 +48,10 @@ function EditWorkshopSidePanel() {
             category,
             description,
             materials,
-            id, // Use the fetched ID for updating // TODO You can hardcode it to 1 for testing
+            id,
         };
 
-        fetch('/api/workshop', {
+        fetch(`/api/workshop/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,9 +84,21 @@ function EditWorkshopSidePanel() {
     }, [showSidePanel]);
 
     return (
-        <div id='side-panel-root'>
-            <button className="fab fab-common" onClick={() => setShowSidePanel(!showSidePanel)}>
-                <span>{'Edit'}</span>
+
+        <>
+            <div>
+                <h1>Workshops</h1>
+                <ul className={"list"}>
+                    {workshop.map((workshop, index) => (
+                        <li key={index} onClick={() => onWorkshopEdit(workshop.id)}>{workshop.name}</li>
+                    ))}
+                </ul>
+            </div>
+
+
+            <div id='side-panel-root'>
+                <button className="fab fab-common" onClick={() => setShowSidePanel(!showSidePanel)}>
+                    <span>{'Edit'}</span>
             </button>
             <div className="side-panel">
                 <h1 className='side-panel-title'>Edit Workshop</h1>
@@ -121,6 +147,7 @@ function EditWorkshopSidePanel() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

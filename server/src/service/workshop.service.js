@@ -16,7 +16,7 @@ const workshopService = {
 //   },
 
     update:
-        (workshop, callback) => {
+        (workshop, workshopId, callback) => {
             logger.info('updating workshop', workshop);
 
             let sql = 'UPDATE workshop SET ';
@@ -94,7 +94,42 @@ const workshopService = {
             }
         }
     });
-}
+},
+    getAll: (callback) => {
+        logger.info('get all workshops');
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error getting workshops', err);
+                callback(err, null);
+                return;
+            }
+
+
+            connection.query(
+                'SELECT * FROM workshop',
+                function(error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+
+                        // TODO: Implement correct logging for possible error cases
+                        logger.error('Error getting workshops', error);
+                        callback(error, null);
+                        return;
+                    }
+
+                    else {
+                        callback(null, {
+                            status: 200,
+                            message: `${results.length} workshops retrieved`,
+                            data: results,
+                        });
+                    }
+                }
+            )
+        });
+    }
 
 
 };
