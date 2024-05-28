@@ -26,8 +26,8 @@ let mailTemplateController = {
       }
     });
   },
-
   
+
 };
 
 module.exports = mailTemplateController;
