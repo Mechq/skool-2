@@ -1,14 +1,14 @@
-const workshopService = require('../service/mailTemplate.service');
+const mailTemplateService = require('../service/mailTemplate.service');
 const logger = require('../util/logger');
 
-let workshopController = {
-  createWorkshop: (req, res, next) => {
-    const workshop = req.body;
+let mailTemplateController = {
+  createmailTemplate: (req, res, next) => {
+    const mailTemplate = req.body;
 
-    // Need to improve the logging here. No need to log the entire workshop object.
-    logger.info('creating workshop', workshop);
+    // Need to improve the logging here. No need to log the entire mailTemplate object.
+    logger.info('creating mail template', mailTemplate);
 
-    workshopService.create(workshop, (error, success) => {
+    mailTemplateService.create(mailTemplate, (error, success) => {
       if (error) {
         return next({
           status: error.status,
@@ -30,4 +30,4 @@ let workshopController = {
   
 };
 
-module.exports = workshopController;
+module.exports = mailTemplateController;

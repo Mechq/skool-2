@@ -13,17 +13,15 @@ const mailTemplateService = {
       }
 
       const {
-        name,
-        category,
-        description,
-        picture,
-        materials
+        cc,
+        subject,
+        details
       } = mailTemplate;
 
-      const values = [name, category, description, picture, materials];
+      const values = [cc, subject, details];
 
       // TODO: Implement the query to insert correct data
-      const query = 'INSERT INTO Workshop (name, category, description, picture, materials) VALUES (?, ?, ?, ?, ?)';
+      const query = 'INSERT INTO mailTemplate (cc, subject, details) VALUES (?, ?, ?, ?, ?)';
 
       logger.debug('query', query);
 
@@ -36,21 +34,21 @@ const mailTemplateService = {
             if (error) {
 
                 // TODO: Implement correct logging for possible error cases
-                logger.error('Error creating workshop', error);
+                logger.error('Error creating mail template', error);
                 callback(error, null);
                 return;
             }
 
             else {
                 // Get the last inserted id for logging
-                const workshopId = results.insertId;
-                logger.trace('workshop created', workshopId);
+                const mailTemplateId = results.insertId;
+                logger.trace('mail template created', mailTemplateId);
 
-                const workshopDataWithId = { ...workshop, Id: workshopId };
+                const mailTemplateDataWithId = { ...mailTemplate, Id: mailTemplateId };
                 callback(null, {
                     status: 200,
-                    message: 'workshop created',
-                    data: workshopDataWithId,
+                    message: 'mail template created',
+                    data: mailTemplateDataWithId,
                 });
             }
         }
@@ -61,4 +59,4 @@ const mailTemplateService = {
   
 };
 
-module.exports = workshopService;
+module.exports = mailTemplateService;

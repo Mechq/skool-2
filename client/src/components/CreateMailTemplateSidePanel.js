@@ -5,12 +5,7 @@ import "../styles/CreateMailTemplateSidePanel.css";
 function CreateMailTemplateSidePanel() {
     console.log('CreateMailTemplateSidePanel');
     const [name, setName] = useState("");
-    const [category, setCategory] = useState( {
-        ghettoDrums: false,
-        Looping: false,
-        CSGO: false,
-    });
-    const [details, setDetails] = useState("");
+    const [message, setMessage] = useState("");
     const [materials, setMaterials] = useState("");
 
 
@@ -20,16 +15,14 @@ function CreateMailTemplateSidePanel() {
     e.preventDefault();
     console.log(
         name,
-        category,
-        details,
+        message,
         materials
     );
 
     // Create a new mailTemplate object
     const mailTemplate = {
         name,
-        category,
-        details,
+        message,
         materials
     };
 
@@ -52,13 +45,6 @@ function CreateMailTemplateSidePanel() {
     setShowSidePanel(false); // Close the side panel
 };
 
-    const handleCategoryChange = (sub) => {
-        setCategory((prev) => ({
-            ...prev,
-            [sub]: !prev[sub],
-        }));
-    };
-
     useEffect(() => {
         const sidePanel = document.querySelector('.side-panel');
         if (showSidePanel) {
@@ -78,41 +64,30 @@ function CreateMailTemplateSidePanel() {
 
                 <div className='side-panel-content'>
                     <form action="#" method="get" className="form-container">
-                        <div className="row">
+                        {/* <div className="row"> */}
                             <input
                                 type="text"
                                 id="name"
                                 name="name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="Naam Mail Template"
+                                placeholder="Mail onderwerp"
                             />
-                            <select
-                                id="category"
-                                name="category"
-                                value={category}
-                                onChange={(e) => setCategory(e.target.value)}
-                            >
-                                <option value="">Selecteer een categorie</option>
-                                <option value="ghettoDrums">Ghetto Drums</option>
-                                <option value="Looping">Looping</option>
-                                <option value="CSGO">CSGO</option>
-                            </select>
-                        </div>
-                        <textarea
-                            id="details"
-                            name="details"
-                            value={details}
-                            onChange={(e) => setDetails(e.target.value)}
-                            placeholder="Details Mail Templates"
-                        ></textarea>
+                        {/* </div> */}
                         <input
                             type="text"
                             id="materials"
                             name="materials"
                             value={materials}
                             onChange={(e) => setMaterials(e.target.value)}
-                            placeholder="benodigdheden en speciale eisen"
+                            placeholder="standaard CC"
+                        />
+                        <textarea
+                            id="message"
+                            name="message"
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            placeholder="Mail bericht"
                         />
                         <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
                     </form>
