@@ -4,7 +4,7 @@ const logger = require("../util/logger");
 const workshopController = require("../controller/workshop.controller");
 
 function validateWorkshop(req, res, next) {
-    const { name, description, date, location } = req.body;
+    const { name, description, materials, category } = req.body;
 
     if (!name || typeof name !== 'string') {
         return res.status(400).json({ error: "Name is required and must be a string." });
