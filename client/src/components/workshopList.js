@@ -12,7 +12,7 @@ function WorkshopList() {
 
     return (
         <div>
-            <h1>WorkshopsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</h1>
+            <h1>Workshops</h1>
             <ul className={"list"}>
                 {workshopNames.map(workshopName => (
                     <li key={workshopName.id}>{workshopName.name}</li>
