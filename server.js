@@ -4,7 +4,7 @@ const workshopRoutes = require("./src/routes/workshop.routes");
 const categoryRoutes = require("./src/routes/category.routes");
 const mailTemplateRoutes = require("./src/routes/mailTemplate.routes");
 const commissionRoutes = require("./src/routes/commission.routes");
-
+const locationRoutes = require("./src/routes/location.routes");
 const indexRoutes = require("./src/routes/index.routes");
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,6 +13,7 @@ app.use(express.json());
 
 // All routes
 app.use(workshopRoutes);
+app.use(locationRoutes)
 app.use(mailTemplateRoutes)
 app.use(categoryRoutes);
 app.use(commissionRoutes);
