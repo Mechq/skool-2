@@ -26,6 +26,10 @@
     transform: rotate(45deg);
 }
 
+.fab, .submit-fab:hover {
+    cursor: pointer;
+}
+
 /* Side panel content*/
 
 .side-panel-content {
