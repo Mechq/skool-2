@@ -18,7 +18,7 @@ export default function CommissionList() {
             <ul className="list">
                 {commissions.map(commission => (
                     <li key={commission.id}>
-                        {commission.name}
+                        {commission.details}
                     </li>
                 ))}
             </ul>
