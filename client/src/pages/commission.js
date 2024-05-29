@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from "react";
 import CommissionList from "../components/lists/CommissionList";
-import CreateWorkshopButton from "../components/CreateWorkshopButton";
-import MailTemplateList from "../components/lists/MailTemplateList";
 import SidePanel from "../components/SidePanel";
-import MailTemplateContent from "../components/panel-contents/MailTemplateContent";
 import CommissionPanelContent from "../components/panel-contents/CommissionPanelContent";
+import CreateButton from "../components/CreateButton";
 
 
 export default function Commission() {
@@ -15,7 +13,7 @@ export default function Commission() {
             <h1>Opdracht</h1>
             <CommissionList />
 
-            <CreateWorkshopButton
+            <CreateButton
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}
