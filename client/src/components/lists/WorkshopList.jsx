@@ -1,18 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import "../../styles/components/WorkshopList.css";
 
-export default function WorkshopList({setShowSidePanel, setSidePanelContent, setWorkshopId}) {
-    const [workshops, setWorkshops] = useState([]);
-
-    useEffect(() => {
-        fetch('/api/workshop')
-            .then(res => res.json())
-            .then(data => {
-                setWorkshops(data.data);
-                console.log("Fetched workshops: ", data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+export default function WorkshopList({setShowSidePanel, setSidePanelContent, setWorkshopId, workshops}) {
 
     const editWorkshop = (id) => {
         setWorkshopId(id);

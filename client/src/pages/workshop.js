@@ -9,9 +9,16 @@ export default function Workshop() {
     const [showSidePanel, setShowSidePanel] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [workshopId, setWorkshopId] = useState(null);
+    const [workshops, setWorkshops] = useState([]);
 
     useEffect(() => {
-        console.log("Side panel state: ", showSidePanel);
+        fetch('/api/workshop')
+            .then(res => res.json())
+            .then(data => {
+                setWorkshops(data.data);
+                console.log("Fetched workshops: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
     }, [showSidePanel]);
 
     return (
@@ -22,7 +29,7 @@ export default function Workshop() {
                 setSidePanelContent={setSidePanelContent}
             />
             <SidePanel showSidePanel={showSidePanel}>
-                {sidePanelContent === "create" && <CreatePanelContent/>}
+                {sidePanelContent === "create" && <CreatePanelContent setWorkshops={setWorkshops}/>}
                 {sidePanelContent === "edit" &&
                     <EditPanelContent workshopId={workshopId} setShowSidePanel={setShowSidePanel}/>}
             </SidePanel>
@@ -30,7 +37,8 @@ export default function Workshop() {
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}
-                setWorkshopId={setWorkshopId}    // Ensure WorkshopList sets the workshopId
+                setWorkshopId={setWorkshopId}
+                workshops={workshops}
             />
         </div>
     );

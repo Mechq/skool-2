@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import '../../styles/components/CreatePanelContent.css'
 import '../../styles/components/saveButton.css'
 
-export default function CreatePanelContent() {
+export default function CreatePanelContent({setWorkshops}) {
     const [name, setName] = useState("");
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -62,6 +62,14 @@ export default function CreatePanelContent() {
                 setSelectedCategory('');
                 setDescription('');
                 setMaterials('');
+
+                fetch('/api/workshop')
+                    .then(res => res.json())
+                    .then(data => {
+                        setWorkshops(data.data);
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+
             })
             .catch(error => {
                 console.error('Error:', error);
