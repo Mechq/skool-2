@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import CreateWorkshopButton from "../components/CreateWorkshopButton";
-import WorkshopList from "../components/WorkshopList";
+import WorkshopList from "../components/lists/WorkshopList";
 import CreatePanelContent from "../components/panel-contents/CreatePanelContent";
 import SidePanel from "../components/SidePanel";
 import EditPanelContent from "../components/panel-contents/EditPanelContent";

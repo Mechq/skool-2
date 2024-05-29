@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import MailTemplateList from "../components/MailTemplateList";
+import MailTemplateList from "../components/lists/MailTemplateList";
 import CreateWorkshopButton from "../components/CreateWorkshopButton";
 import SidePanel from "../components/SidePanel";
 import MailTemplateContent from "../components/panel-contents/MailTemplateContent";
