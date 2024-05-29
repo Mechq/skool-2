@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal" created-in="WS-241.17011.90">
+    <data-source name="skool-workshop-2@db-mysql-ams3-46626-do-user-8155278-0.b.db.ondigitalocean.com" uuid="6aa6a2cc-fbf3-42d5-a683-170eaf23c0bb">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>skool-2</user-name>
+      <schema-mapping />
+    </data-source>
+  </component>
+</project>
