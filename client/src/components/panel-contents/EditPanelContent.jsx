@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import '../styles/components/EditPanelContent.css'
+import '../../styles/components/EditPanelContent.css'
 
 function EditPanelContent({workshopId, setShowSidePanel}) {
     const [name, setName] = useState("");

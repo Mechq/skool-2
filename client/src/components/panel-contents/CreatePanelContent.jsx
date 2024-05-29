@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import '../styles/components/CreatePanelContent.css'
+import '../../styles/components/CreatePanelContent.css'
 
 export default function CreatePanelContent() {
     const [name, setName] = useState("");
