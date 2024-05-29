@@ -11,7 +11,6 @@ export default function WorkshopList({setShowSidePanel, setSidePanelContent, set
 
     return (
         <div>
-            <h1>Workshops</h1>
             <ul className="list">
                 {workshops.map(workshop => (
                     <li key={workshop.id} onClick={() => editWorkshop(workshop.id)}>

@@ -7,7 +7,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh; /* Add this line */
-  overflow: hidden; /* Add this line */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 code {
@@ -19,11 +21,6 @@ code {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  /*overflow-x: hidden; !* Add this line *!*/
-
-}
 .container {
   text-align: center;
   height: 100vh; /* Add this line */
@@ -43,6 +40,11 @@ h1 {
   align-items: stretch;
   gap: 2rem;
   padding: 1rem;
+  top: 0;
+  margin-bottom: 10px;
+  position: fixed;
+  width: 100%; /* Add this line */
+  z-index: 100; /* Add this line */
 }
 
 .nav ul {
@@ -70,4 +72,11 @@ h1 {
 .nav li:hover, .nav li.active{
   color: #F49700;
   box-shadow: inset 0 -1px 0 #F49700;
+}
+
+
+.container {
+  text-align: center;
+  height: 100vh;
+  padding-top: 90px; /* Add this line */
 }

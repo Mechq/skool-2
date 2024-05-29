@@ -6,7 +6,6 @@ function NavBar() {
         <Link to='/' className='navTitleImage'>
             <img src="https://skoolworkshop.nl/wp-content/uploads/2019/11/Skool_Workshop_Logo_White.png" alt="Skool Workshop"/>
         </Link>        <ul>
-            <CustomLink to='/about'>About</CustomLink>
             <CustomLink to='/workshops'>Workshops</CustomLink>
             <CustomLink to='/mailTemplates'>Mail Templates</CustomLink>
             <CustomLink to='/opdracht'>Opdracht</CustomLink>

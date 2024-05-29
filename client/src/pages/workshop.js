@@ -23,6 +23,7 @@ export default function Workshop() {
 
     return (
         <div>
+            <h1 id={"header"}>Workshops</h1>
             <CreateButton
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
