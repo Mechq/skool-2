@@ -32,7 +32,12 @@ export default function CommissionPanelContent({setShowSidePanel, setCommissions
             },
             body: JSON.stringify(commission),
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw response
+                }
+                return response.json()
+            })
             .then(data => {
                 console.log('Success:', data);
                 setCustomerId('')
@@ -50,8 +55,8 @@ export default function CommissionPanelContent({setShowSidePanel, setCommissions
             })
             .catch((error) => {
                 console.error('Error:', error);
+                setCustomerIdValid(false); // Set customerId as invalid
             });
-
 
 
     };
