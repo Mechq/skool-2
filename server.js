@@ -5,9 +5,10 @@ const logger = require("./src/util/logger");
 const workshopRoutes = require("./src/routes/workshop.routes");
 const categoryRoutes = require("./src/routes/category.routes");
 const mailTemplateRoutes = require("./src/routes/mailTemplate.routes");
+const indexRoutes = require('./src/routes/index.routes')
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
@@ -17,6 +18,10 @@ const clientDirectory = path.join(__dirname, "../client");
 app.use(workshopRoutes);
 app.use(mailTemplateRoutes)
 app.use(categoryRoutes);
+
+
+app.use(express.static('./client/build'))
+app.use(indexRoutes)
 
 // Route error handler
 app.use((req, res, next) => {
