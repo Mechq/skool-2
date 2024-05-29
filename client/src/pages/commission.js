@@ -8,10 +8,24 @@ import CreateButton from "../components/CreateButton";
 export default function Commission() {
     const [showSidePanel, setShowSidePanel] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
+    const [commissions, setCommissions] = useState([]);
+
+
+    useEffect(() => {
+        fetch('/api/commission')
+            .then(res => res.json())
+            .then(data => {
+                setCommissions(data.data);
+                console.log("Fetched commissions: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, [showSidePanel]);
+
     return (
         <>
             <h1>Opdracht</h1>
-            <CommissionList />
+            <CommissionList commissions={commissions}/>
+
 
             <CreateButton
                 setShowSidePanel={setShowSidePanel}
@@ -19,7 +33,7 @@ export default function Commission() {
                 setSidePanelContent={setSidePanelContent}
                 />
             <SidePanel showSidePanel={showSidePanel}>
-                {sidePanelContent === "create" && <CommissionPanelContent/>}
+                {sidePanelContent === "create" && <CommissionPanelContent setCommissions={setCommissions} setShowSidePanel={setShowSidePanel}/>}
             </SidePanel>
         </>
     );
