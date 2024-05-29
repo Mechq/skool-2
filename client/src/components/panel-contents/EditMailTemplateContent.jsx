@@ -32,14 +32,14 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
         e.preventDefault();
 
         if (!subject) setSubject(false);
-        if (!cc) setCcValid(false);
+        // if (!cc) setCcValid(false);
         if (!details) setDetailsValid(false);
         if (!name) setNameValid(false);
-        if (!subject || !cc || !details) return;
+        if (!subject || !details) return;
 
         const mailTemplate = {
             subject,
-            cc,
+            cc: cc || null,
             details,
             name
         };
