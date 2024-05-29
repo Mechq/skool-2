@@ -15,13 +15,14 @@ const mailTemplateService = {
             const {
                 subject,
                 cc,
-                details
+                details,
+                name,
             } = mailTemplate;
 
-            const values = [subject, cc, details];
+            const values = [subject, cc, details, name];
 
             // TODO: Implement the query to insert correct data
-            const query = 'INSERT INTO mailTemplate (subject, cc, details) VALUES (?, ?, ?)';
+            const query = 'INSERT INTO mailTemplate (subject, cc, details, name) VALUES (?, ?, ?, ?)';
 
             logger.debug('query', query);
 
@@ -136,13 +137,19 @@ const mailTemplateService = {
                 sql += 'details = ?, ';
                 values.push(mailTemplate.details);
             }
+            if (mailTemplate.name) {
+                sql += 'name = ?, ';
+                values.push(mailTemplate.name);
+            }
+
 
             // Remove the trailing comma and space
             sql = sql.slice(0, -2);
 
             sql += ' WHERE id = ?';
             values.push(mailTemplate.id);
-
+            console.log(sql)
+            console.log(values)
             database.query(sql, values, (error, results, fields) => {
                 if (error) {
                     logger.error('Error updating mail template', error);

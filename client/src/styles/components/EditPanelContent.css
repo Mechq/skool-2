@@ -1,4 +1,3 @@
-
 #edit-name {
     font-weight: 600;
 }
@@ -16,4 +15,9 @@
 
 #edit-name:focus,#edit-materials:focus,#edit-description:focus, #edit-category:hover {
     background-color: #dcdcdc;
+}
+
+#edit-details{
+    resize: none;
+    overflow: hidden;
 }

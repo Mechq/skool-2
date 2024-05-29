@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from "react";
-import '../../styles/components/EditPanelContent.css'
-import '../../styles/components/saveButton.css'
+import React, { useState, useEffect } from "react";
+import '../../styles/components/EditPanelContent.css';
+import '../../styles/components/saveButton.css';
 
-
-function EditPanelContent({workshopId, setShowSidePanel}) {
+function EditPanelWorkshopContent({ workshopId, setShowSidePanel }) {
     const [name, setName] = useState("");
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -42,6 +41,7 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
                     setSelectedCategory(data.category || "");
                     setDescription(data.description || "");
                     setMaterials(data.materials || "");
+                    autoResize({ target: document.getElementById('edit-description') });
                 })
                 .catch(error => console.error('Error fetching workshop:', error));
         }
@@ -79,12 +79,16 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
             .catch(error => console.error('Error:', error));
     };
 
+    const autoResize = (e) => {
+        e.target.style.height = 'auto';
+        e.target.style.height = `${e.target.scrollHeight}px`;
+    };
 
     return (
         <div className='workshopEditContent'>
             <h1 className='side-panel-title'>Edit Workshop</h1>
             <div className='side-panel-content'>
-                <form className="form-container" >
+                <form className="form-container">
                     <div className="row">
                         <input
                             type="text"
@@ -121,9 +125,11 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
                         onChange={(e) => {
                             setDescription(e.target.value);
                             setDescriptionValid(true);
+                            autoResize(e);
                         }}
                         className={descriptionValid ? "" : "invalid"}
                         placeholder="Workshop Description"
+                        style={{ overflow: 'hidden', resize: 'none' }} // Disable manual resizing for better control
                     />
                     <input
                         type="text"
@@ -144,4 +150,4 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
     );
 }
 
-export default EditPanelContent;
+export default EditPanelWorkshopContent;

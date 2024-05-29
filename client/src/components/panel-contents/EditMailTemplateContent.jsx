@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-// import '../../styles/components/EditPanelContent.css'
+import '../../styles/components/EditPanelContent.css'
 
 function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
     const [subject, setSubject] = useState("");
@@ -22,6 +22,7 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
                     setCc(data.cc || "");
                     setDetails(data.details || "");
                     setName(data.name || "")
+                    autoResize({ target: document.getElementById('edit-details') });
                 })
                 .catch(error => console.error('Error fetching mail template:', error));
         }
@@ -33,13 +34,14 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
         if (!subject) setSubject(false);
         if (!cc) setCcValid(false);
         if (!details) setDetailsValid(false);
-
+        if (!name) setNameValid(false);
         if (!subject || !cc || !details) return;
 
         const mailTemplate = {
             subject,
             cc,
-            details
+            details,
+            name
         };
 
         fetch(`/api/mailTemplate/${mailTemplateId}`, {
@@ -56,13 +58,30 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
             })
             .catch(error => console.error('Error:', error));
     };
-
+    const autoResize = (e) => {
+        e.target.style.height = 'auto';
+        e.target.style.height = `${e.target.scrollHeight}px`;
+    };
 
     return (
         <div className='workshopEditContent'>
             <h1 className='side-panel-title'>Edit Mail Template</h1>
             <div className='side-panel-content'>
                 <form className="form-container" onSubmit={handleSubmit}>
+                    <div>
+                        <input
+                            type="text"
+                            id="edit-name"
+                            name="name"
+                            value={name}
+                            onChange={(e) => {
+                                setName(e.target.value);
+                                setNameValid(true);
+                            }}
+                            className={nameValid ? "" : "invalid"}
+                            placeholder="Name"
+                        />
+                    </div>
                     <div className="row">
                         <input
                             type="text"
@@ -96,6 +115,7 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
                         onChange={(e) => {
                             setDetails(e.target.value);
                             setDetailsValid(true);
+                            autoResize(e);
                         }}
                         className={detailsValid ? "" : "invalid"}
                         placeholder="Mail Template Message"

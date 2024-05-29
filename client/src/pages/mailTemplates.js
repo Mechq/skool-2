@@ -9,9 +9,16 @@ export default function MailTemplates() {
     const [showSidePanel, setShowSidePanel] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [mailTemplateId, setMailTemplateId] = useState(null);
+    const [mailTemplates, setMailTemplates] = useState([]);
 
     useEffect(() => {
-        console.log("Side panel state: ", showSidePanel);
+        fetch('/api/mailTemplate/')
+            .then(res => res.json())
+            .then(data => {
+                setMailTemplates(data.data);
+                console.log("Fetched mailTemplates: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
     }, [showSidePanel]);
 
     return (
@@ -32,6 +39,7 @@ export default function MailTemplates() {
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}
                 setMailTemplateId={setMailTemplateId}
+                mailTemplates={mailTemplates}
             />
         </>
     );

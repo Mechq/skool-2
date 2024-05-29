@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-export default function CommissionPanelContent() {
+export default function CommissionPanelContent({setShowSidePanel, setCommissions}) {
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
     const [customerId, setCustomerId] = useState("");
@@ -35,14 +35,24 @@ export default function CommissionPanelContent() {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                setCustomerId('')
+                setTargetAudience('')
+                setDetails('')
+
+                fetch('/api/commission')
+                    .then(res => res.json())
+                    .then(data => {
+                        setCommissions(data.data);
+                        setShowSidePanel(false);
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
 
-        setCustomerId('')
-        setTargetAudience('')
-        setDetails('')
+
 
     };
 
