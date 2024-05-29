@@ -5,7 +5,7 @@ import Workshop from "./pages/workshop";
 import MailTemplates from './pages/mailTemplates'
 import { Route, Routes } from 'react-router-dom'
 import Commission from "./pages/commission";
-import Werklocatie from "./pages/werklocatie";
+import Werklocatie from "./pages/worklocation";
 
 
 function App() {
