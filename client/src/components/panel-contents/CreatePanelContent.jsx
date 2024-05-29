@@ -6,7 +6,7 @@ export default function CreatePanelContent() {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
     const [description, setDescription] = useState("");
-    const [materials, setMaterials] = useState("• \n• \n• \n• \n• \n• ");
+    const [materials, setMaterials] = useState("");
 
     useEffect(() => {
         fetch('/api/category')
@@ -36,11 +36,9 @@ export default function CreatePanelContent() {
         if (!name) setNameValid(false);
         if (!selectedCategory) setCategoryValid(false);
         if (!description) setDescriptionValid(false);
-        if (materials === '• \n• \n• \n• \n• \n• ') {
-            setMaterialsValid(false);
-        }
+        if (!materials) setMaterialsValid(false);
 
-        if (!name || !selectedCategory || !description || materials === '• \n• \n• \n• \n• \n• ') return;
+        if (!name || !selectedCategory || !description || !materials) return;
 
         const workshop = {
             name,
@@ -62,7 +60,7 @@ export default function CreatePanelContent() {
                 setName('');
                 setSelectedCategory('');
                 setDescription('');
-                setMaterials('• \n• \n• \n• \n• \n• ');
+                setMaterials('');
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -113,7 +111,8 @@ export default function CreatePanelContent() {
                             className={descriptionValid ? "" : "invalid"}
                             placeholder="Beschrijving workshop"
                         />
-                        <textarea
+                        <input
+                            type='text'
                             id="materials"
                             name="materials"
                             value={materials}

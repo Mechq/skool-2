@@ -5,10 +5,9 @@ const logger = require("./src/util/logger");
 const workshopRoutes = require("./src/routes/workshop.routes");
 const categoryRoutes = require("./src/routes/category.routes");
 const mailTemplateRoutes = require("./src/routes/mailTemplate.routes");
-const commissionRoutes = require("./src/routes/commission.routes");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
@@ -19,6 +18,11 @@ app.use(workshopRoutes);
 app.use(mailTemplateRoutes)
 app.use(categoryRoutes);
 app.use(commissionRoutes);
+
+
+app.use(express.static('./client/build'))
+app.use(indexRoutes)
+
 // Route error handler
 app.use((req, res, next) => {
     next({
