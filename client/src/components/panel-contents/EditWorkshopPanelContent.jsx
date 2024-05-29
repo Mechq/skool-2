@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import '../../styles/components/EditPanelContent.css'
 
-function EditPanelContent({workshopId, setShowSidePanel}) {
+function EditWorkshopPanelContent({workshopId, setShowSidePanel}) {
     const [name, setName] = useState("");
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -142,4 +142,4 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
     );
 }
 
-export default EditPanelContent;
+export default EditWorkshopPanelContent;

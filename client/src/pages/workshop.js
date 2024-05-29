@@ -3,7 +3,7 @@ import CreateButton from "../components/CreateButton";
 import WorkshopList from "../components/WorkshopList";
 import CreatePanelContent from "../components/panel-contents/CreatePanelContent";
 import SidePanel from "../components/SidePanel";
-import EditPanelContent from "../components/panel-contents/EditPanelContent";
+import EditPanelContent from "../components/panel-contents/EditWorkshopPanelContent";
 
 export default function Workshop() {
     const [showSidePanel, setShowSidePanel] = useState(false);

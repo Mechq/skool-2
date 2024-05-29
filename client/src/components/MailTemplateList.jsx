@@ -1,25 +1,33 @@
 import {React, useState, useEffect} from "react";
 
-function MailTemplateList() {
-    const [mailTemplateSubjects, setMailTemplateSubjects] = useState([]);
+export default function MailTemplateList({setShowSidePanel, setSidePanelContent, setMailTemplateId}) {
+    const [mailTemplates, setMailTemplates] = useState([]);
     useEffect(() => {
         fetch('/api/mailTemplate')
             .then(res => res.json())
-            .then(data => setMailTemplateSubjects(data.data))
+            .then(data => {
+                setMailTemplates(data.data)
+                console.log("Fetched mail templates: ", data.data);
+            })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
-    console.log(mailTemplateSubjects);
+    const editMailTemplate = (id) => {
+        setMailTemplateId(id);
+        setSidePanelContent("edit");
+        setShowSidePanel(true);
+    };
+    console.log(mailTemplates);
 
     return (
         <div>
             <h1>Mail Templates</h1>
             <ul className={"list"}>
-                {mailTemplateSubjects.map(mailTemplateSubject => (
-                    <li key={mailTemplateSubject.id}>{mailTemplateSubject.subject}</li>
+                {mailTemplates.map(mailTemplate => (
+                    <li key={mailTemplate.id} onClick={() => editMailTemplate(mailTemplate.id)}>
+                    {mailTemplate.subject}
+                </li>
                 ))}
             </ul>
         </div>
     );
-}
-
-export default MailTemplateList;
+} 

@@ -54,6 +54,34 @@ const mailTemplateService = {
         });
     },
 
+    getMailTemplateById: (id, callback) => {
+        logger.info('getting mail template by id', id);
+
+        let sql = 'SELECT * FROM mailTemplate WHERE id = ?';
+
+        database.query(sql, [id], (error, results, fields) => {
+            if (error) {
+                logger.error('Error getting mail template', error);
+                callback(error, null);
+                return;
+            } else {
+                if (results.length > 0) {
+                    logger.info('Mail template fetched successfully', results[0]);
+                    callback(null, {
+                        status: 200,
+                        message: 'Mail template fetched successfully',
+                        data: results[0],
+                    });
+                } else {
+                    logger.warn('No mail template found with id', id);
+                    callback({
+                        status: 404,
+                        message: 'Mail template not found',
+                    }, null);
+                }
+            }
+        });
+    },
 
     getAll: (callback) => {
         logger.info('get all mail templates');
@@ -87,7 +115,51 @@ const mailTemplateService = {
                 }
             )
         });
-    }
+    },
+
+    update:
+        (mailTemplate, mailTemplateId, callback) => {
+            logger.info('updating mail template', mailTemplate);
+
+            let sql = 'UPDATE mailTemplate SET ';
+            const values = [];
+
+            if (mailTemplate.subject) {
+                sql += 'subject = ?, ';
+                values.push(mailTemplate.subject);
+            }
+            if (mailTemplate.cc) {
+                sql += 'cc = ?, ';
+                values.push(mailTemplate.cc);
+            }
+            if (mailTemplate.details) {
+                sql += 'details = ?, ';
+                values.push(mailTemplate.details);
+            }
+
+            // Remove the trailing comma and space
+            sql = sql.slice(0, -2);
+
+            sql += ' WHERE id = ?';
+            values.push(mailTemplate.id);
+
+            database.query(sql, values, (error, results, fields) => {
+                if (error) {
+                    logger.error('Error updating mail template', error);
+                    callback(error, null);
+                    return;
+                } else {
+                    if (results.affectedRows > 0) {
+                        logger.info('Mail template updated successfully');
+                        callback(null, 'Mail template updated successfully');
+                    } else {
+                        logger.info('No mail template found with the provided ID');
+                        callback(null, 'No mail template found with the provided ID');
+                    }
+                }
+            });
+
+        }
 
 };
 
