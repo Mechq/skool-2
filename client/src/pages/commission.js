@@ -4,6 +4,7 @@ import CreateWorkshopButton from "../components/CreateWorkshopButton";
 import MailTemplateList from "../components/lists/MailTemplateList";
 import SidePanel from "../components/SidePanel";
 import MailTemplateContent from "../components/panel-contents/MailTemplateContent";
+import CommissionPanelContent from "../components/panel-contents/CommissionPanelContent";
 
 
 export default function Commission() {
@@ -20,7 +21,7 @@ export default function Commission() {
                 setSidePanelContent={setSidePanelContent}
                 />
             <SidePanel showSidePanel={showSidePanel}>
-                {sidePanelContent === "create" && <MailTemplateContent/>}
+                {sidePanelContent === "create" && <CommissionPanelContent/>}
             </SidePanel>
         </>
     );
