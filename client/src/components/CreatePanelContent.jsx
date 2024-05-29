@@ -40,7 +40,7 @@ export default function CreatePanelContent() {
             setMaterialsValid(false);
         }
 
-        if (!name || !selectedCategory || !description || !materials) return;
+        if (!name || !selectedCategory || !description || materials === '• \n• \n• \n• \n• \n• ') return;
 
         const workshop = {
             name,
@@ -62,7 +62,7 @@ export default function CreatePanelContent() {
                 setName('');
                 setSelectedCategory('');
                 setDescription('');
-                setMaterials('');
+                setMaterials('• \n• \n• \n• \n• \n• ');
             })
             .catch(error => {
                 console.error('Error:', error);
