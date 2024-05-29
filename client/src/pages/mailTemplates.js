@@ -3,11 +3,16 @@ import MailTemplateList from "../components//lists/MailTemplateList";
 import SidePanel from "../components/SidePanel";
 import MailTemplateContent from "../components/panel-contents/MailTemplateContent";
 import CreateButton from "../components/CreateButton";
+import EditMailTemplateContent from "../components/panel-contents/EditMailTemplateContent";
 
 export default function MailTemplates() {
     const [showSidePanel, setShowSidePanel] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
-    const [workshopId, setWorkshopId] = useState(null);
+    const [mailTemplateId, setMailTemplateId] = useState(null);
+
+    useEffect(() => {
+        console.log("Side panel state: ", showSidePanel);
+    }, [showSidePanel]);
 
     return (
         <>
@@ -16,10 +21,18 @@ export default function MailTemplates() {
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}
             />
-            <MailTemplateList/>
+
             <SidePanel showSidePanel={showSidePanel}>
                 {sidePanelContent === "create" && <MailTemplateContent/>}
+                {sidePanelContent === "edit" &&
+                    <EditMailTemplateContent mailTemplateId={mailTemplateId} setShowSidePanel={setShowSidePanel}/>}
             </SidePanel>
+            <MailTemplateList
+                setShowSidePanel={setShowSidePanel}
+                showSidePanel={showSidePanel}
+                setSidePanelContent={setSidePanelContent}
+                setMailTemplateId={setMailTemplateId}
+            />
         </>
     );
 }
