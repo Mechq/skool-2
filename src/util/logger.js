@@ -1,9 +1,5 @@
-//
-// Application configuration
-//
 require('dotenv').config()
 
-// Set the logging level.
 const loglevel = process.env.LOGLEVEL
 
 const logger = require('tracer').colorConsole({

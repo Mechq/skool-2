@@ -11,7 +11,6 @@ const dbConfig = {
 
     connectionLimit: 10,
     waitForConnections: true,
-    connectionLimit: 10,
     queueLimit: 0,
     multipleStatements: true
 }

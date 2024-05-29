@@ -54,7 +54,7 @@ let mailTemplateController = {
         const id = req.params.id;
         logger.info('retrieving mail template', id);
 
-        mailTemplateService.getById(id,(error, success) => {
+        mailTemplateService.getById(id, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,

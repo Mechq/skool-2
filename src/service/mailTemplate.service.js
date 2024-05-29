@@ -97,7 +97,7 @@ const mailTemplateService = {
             if (error) {
                 logger.error('Error getting mailTemplate', error);
                 callback(error, null);
-                return;
+
             } else {
                 if (results.length > 0) {
                     logger.info('mailTemplate fetched successfully', results[0]);
@@ -147,7 +147,7 @@ const mailTemplateService = {
                 if (error) {
                     logger.error('Error updating mail template', error);
                     callback(error, null);
-                    return;
+
                 } else {
                     if (results.affectedRows > 0) {
                         logger.info('Mail template updated successfully');

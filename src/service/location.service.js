@@ -12,7 +12,7 @@ const locationService = {
                 return;
             }
 
-            const { name, street, housenumber, city, postalcode } = location;
+            const {name, street, housenumber, city, postalcode} = location;
 
             const values = [name, street, housenumber, city, postalcode];
 
@@ -27,13 +27,13 @@ const locationService = {
                 if (error) {
                     logger.error("Error creating location", error);
                     callback(error, null);
-                    return;
+
                 } else {
                     // Get the last inserted id for logging
                     const locationId = results.insertId;
                     logger.trace("location created", locationId);
 
-                    const locationDataWithId = { ...location, Id: locationId };
+                    const locationDataWithId = {...location, Id: locationId};
                     callback(null, {
                         status: 200,
                         message: "location created",
@@ -62,7 +62,7 @@ const locationService = {
                     if (error) {
                         logger.error("Error getting locations", error);
                         callback(error, null);
-                        return;
+
                     } else {
                         callback(null, {
                             status: 200,
@@ -84,7 +84,7 @@ const locationService = {
             if (error) {
                 logger.error("Error getting location", error);
                 callback(error, null);
-                return;
+
             } else {
                 if (results.length > 0) {
                     logger.info("location fetched successfully", results[0]);

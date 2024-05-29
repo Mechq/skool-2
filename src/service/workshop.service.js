@@ -2,61 +2,59 @@ const database = require('../database/database.connection');
 const logger = require('../util/logger');
 
 const workshopService = {
-  create: (workshop, callback) => {
-    logger.info('creating workshop', workshop);
+    create: (workshop, callback) => {
+        logger.info('creating workshop', workshop);
 
-    database.getConnection(function (err, connection) {
-      if (err) {
-        logger.error('Error creating workshop', err);
-        callback(err, null);
-        return;
-      }
-
-      const {
-        name,
-        category,
-        description,
-        picture,
-        materials
-      } = workshop;
-
-      const values = [name, category, description, picture, materials];
-
-      // TODO: Implement the query to insert correct data
-      const query = 'INSERT INTO workshop (name, category, description, picture, materials) VALUES (?, ?, ?, ?, ?)';
-
-      logger.debug('query', query);
-
-      connection.query(
-        query,
-        values,
-        function(error, results, fields) {
-            connection.release();
-
-            if (error) {
-
-                // TODO: Implement correct logging for possible error cases
-                logger.error('Error creating workshop', error);
-                callback(error, null);
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error creating workshop', err);
+                callback(err, null);
                 return;
             }
 
-            else {
-                // Get the last inserted id for logging
-                const workshopId = results.insertId;
-                logger.trace('workshop created', workshopId);
+            const {
+                name,
+                category,
+                description,
+                picture,
+                materials
+            } = workshop;
 
-                const workshopDataWithId = { ...workshop, Id: workshopId };
-                callback(null, {
-                    status: 200,
-                    message: 'workshop created',
-                    data: workshopDataWithId,
-                });
-            }
-        }
-      )
-    });
-  },
+            const values = [name, category, description, picture, materials];
+
+            // TODO: Implement the query to insert correct data
+            const query = 'INSERT INTO workshop (name, category, description, picture, materials) VALUES (?, ?, ?, ?, ?)';
+
+            logger.debug('query', query);
+
+            connection.query(
+                query,
+                values,
+                function (error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+
+                        // TODO: Implement correct logging for possible error cases
+                        logger.error('Error creating workshop', error);
+                        callback(error, null);
+
+                    } else {
+                        // Get the last inserted id for logging
+                        const workshopId = results.insertId;
+                        logger.trace('workshop created', workshopId);
+
+                        const workshopDataWithId = {...workshop, Id: workshopId};
+                        callback(null, {
+                            status: 200,
+                            message: 'workshop created',
+                            data: workshopDataWithId,
+                        });
+                    }
+                }
+            )
+        });
+    },
 
     getWorkshopById: (id, callback) => {
         logger.info('getting workshop by id', id);
@@ -67,7 +65,7 @@ const workshopService = {
             if (error) {
                 logger.error('Error getting workshop', error);
                 callback(error, null);
-                return;
+
             } else {
                 if (results.length > 0) {
                     logger.info('Workshop fetched successfully', results[0]);
@@ -99,7 +97,7 @@ const workshopService = {
 
             connection.query(
                 'SELECT * FROM workshop',
-                function(error, results, fields) {
+                function (error, results, fields) {
                     connection.release();
 
                     if (error) {
@@ -107,10 +105,8 @@ const workshopService = {
                         // TODO: Implement correct logging for possible error cases
                         logger.error('Error getting workshops', error);
                         callback(error, null);
-                        return;
-                    }
 
-                    else {
+                    } else {
                         callback(null, {
                             status: 200,
                             message: `${results.length} workshops retrieved`,
@@ -159,7 +155,7 @@ const workshopService = {
                 if (error) {
                     logger.error('Error updating workshop', error);
                     callback(error, null);
-                    return;
+
                 } else {
                     if (results.affectedRows > 0) {
                         logger.info('Workshop updated successfully');

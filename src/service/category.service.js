@@ -13,20 +13,17 @@ const categoryService = {
                 return;
             }
 
-
             connection.query(
                 'SELECT id,name FROM category',
-                function(error, results, fields) {
+                function (error, results, fields) {
                     connection.release();
 
                     if (error) {
 
                         logger.error('Error getting categories', error);
                         callback(error, null);
-                        return;
-                    }
 
-                    else {
+                    } else {
                         callback(null, {
                             status: 200,
                             message: `${results.length} categories retrieved`,

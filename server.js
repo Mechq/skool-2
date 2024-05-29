@@ -1,6 +1,4 @@
 const express = require("express");
-const path = require("path");
-const logger = require("./src/util/logger");
 
 const workshopRoutes = require("./src/routes/workshop.routes");
 const categoryRoutes = require("./src/routes/category.routes");
@@ -12,8 +10,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
-
-const clientDirectory = path.join(__dirname, "../client");
 
 // All routes
 app.use(workshopRoutes);
@@ -35,7 +31,7 @@ app.use((req, res, next) => {
 })
 
 // Express error handler
-app.use((error, req, res, next) => {
+app.use((error, req, res) => {
     res.status(error.status || 500).json({
         status: error.status || 500,
         message: error.message || 'Internal Server Error',
