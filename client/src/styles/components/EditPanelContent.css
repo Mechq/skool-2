@@ -1,0 +1,15 @@
+#edit-name,#edit-materials,#edit-description {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 1em;
+    color: inherit;
+}
+
+#edit-name:hover,#edit-materials:hover,#edit-description:hover {
+    background-color: #f9f9f9;
+}
+
+#edit-name:focus,#edit-materials:focus,#edit-description:focus {
+    background-color: #f9f9f9;
+}

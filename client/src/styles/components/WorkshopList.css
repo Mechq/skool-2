@@ -20,4 +20,9 @@
     max-width: 300px;
     box-sizing: border-box;
     text-align: center;
+
+}
+.list li:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
 }

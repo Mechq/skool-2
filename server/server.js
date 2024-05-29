@@ -3,6 +3,7 @@ const path = require("path");
 const logger = require("./src/util/logger");
 
 const workshopRoutes = require("./src/routes/workshop.routes");
+const categoryRoutes = require("./src/routes/category.routes");
 const mailTemplateRoutes = require("./src/routes/mailTemplate.routes");
 
 const app = express();
@@ -15,6 +16,8 @@ const clientDirectory = path.join(__dirname, "../client");
 // All routes
 app.use(workshopRoutes);
 app.use(mailTemplateRoutes)
+app.use(categoryRoutes);
+
 // Route error handler
 app.use((req, res, next) => {
     next({
@@ -34,7 +37,7 @@ app.use((error, req, res, next) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`Express server running at http://localhost:${PORT}/`);
+    console.log(`Express server running at http://localhost:${PORT}/`);
 });
 
 // Export the app object for test cases

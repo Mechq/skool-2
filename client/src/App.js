@@ -1,10 +1,8 @@
 import React from 'react';
 import NavBar from "./components/NavBar";
-import About from "./pages/about";
 import Home from "./pages/home";
-import Workshops from "./pages/workshops";
-import MailTemplates from "./pages/mailTemplates";
-import Footer from "./components/Footer";
+import Workshop from "./pages/workshop";
+import MailTemplates from './pages/mailTemplates'
 import { Route, Routes } from 'react-router-dom'
 
 
@@ -15,12 +13,10 @@ function App() {
             <div className='container'>
                 <Routes>
                     <Route path='/' element={<Home />} />
-                    <Route path='/about' element={<About />} />
-                    <Route path='/workshops' element={<Workshops />} />
-                    <Route path='/mail-templates' element={<MailTemplates />} />
+                    <Route path='/workshops' element={<Workshop />} />
+                    <Route path='/mailTemplates' element={<MailTemplates/>}/>
                 </Routes>
             </div>
-            <Footer />
         </>
     );
 }
