@@ -4,6 +4,6 @@ const logger = require("../util/logger");
 const commissionController = require("../controller/commission.controller");
 
 router.get("/api/commission",commissionController.getAllCommissions);
-// router.post("/api/mailTemplate", mailTemplateController.createMailTemplate);
+router.post("/api/commission", commissionController.createCommission);
 
 module.exports = router;
