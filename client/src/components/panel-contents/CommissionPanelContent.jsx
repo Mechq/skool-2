@@ -85,8 +85,8 @@ export default function CommissionPanelContent() {
                     className={targetAudienceValid ? "" : "invalid"}  // Apply CSS class
                     placeholder="Doelgroep"
                 />
-                <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
             </form>
+            <button className="submit-fab fab-common saveButton" onClick={handleSubmit}>Aanmaken</button>
         </div>
     );
 }

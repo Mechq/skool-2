@@ -35,6 +35,13 @@ textarea#description {
     align-self: flex-start;
 }
 
+.form-container button:hover {
+    align-self: flex-start;
+    /*cursor: pointer;*/
+    /*background-color: #e18d00;*/
+
+}
+
 .form-container button:last-child {
     align-self: flex-end;
 }

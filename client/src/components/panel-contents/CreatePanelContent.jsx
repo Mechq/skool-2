@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../../styles/components/CreatePanelContent.css'
+import '../../styles/components/saveButton.css'
 
 export default function CreatePanelContent() {
     const [name, setName] = useState("");
@@ -124,8 +125,9 @@ export default function CreatePanelContent() {
                             placeholder="Benodigdheden en speciale eisen"
                         />
                     </div>
-                    <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
                 </form>
+                <button className="submit-fab fab-common saveButton" onClick={handleSubmit}>Aanmaken</button>
+
             </div>
         </>
     );

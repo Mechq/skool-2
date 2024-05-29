@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
 import '../../styles/components/EditPanelContent.css'
+import '../../styles/components/saveButton.css'
+
 
 function EditPanelContent({workshopId, setShowSidePanel}) {
     const [name, setName] = useState("");
@@ -135,8 +137,8 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
                         className={materialsValid ? "" : "invalid"}
                         placeholder="Materials"
                     />
-                    <button className="submit-fab fab-common" type="submit">Update</button>
                 </form>
+                <button className="submit-fab fab-common saveButton" type="submit">Update</button>
             </div>
         </div>
     );

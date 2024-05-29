@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react";
+import '../../styles/components/saveButton.css'
+
 
 export default function MailTemplateContent() {
     const [subject, setSubject] = useState("");
@@ -85,8 +87,8 @@ export default function MailTemplateContent() {
                     className={detailsValid ? "" : "invalid"}  // Apply CSS class
                     placeholder="Mail bericht"
                 />
-                <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
             </form>
+            <button className="submit-fab fab-common saveButton" onClick={handleSubmit}>Aanmaken</button>
         </div>
     );
 }
