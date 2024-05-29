@@ -30,7 +30,7 @@ export default function Workshop() {
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}
-                setWorkshopId={setWorkshopId} // Ensure WorkshopList sets the workshopId
+                setWorkshopId={setWorkshopId}    // Ensure WorkshopList sets the workshopId
             />
         </div>
     );

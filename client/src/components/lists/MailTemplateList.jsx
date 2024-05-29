@@ -1,7 +1,8 @@
 import {React, useState, useEffect} from "react";
 
-function MailTemplateList() {
+function MailTemplateList({setShowSidePanel, setSidePanelContent, setMailTemplateId}) {
     const [mailTemplates, setMailTemplates] = useState([]);
+
     useEffect(() => {
         fetch('/api/mailTemplate')
             .then(res => res.json())
@@ -10,12 +11,21 @@ function MailTemplateList() {
     }, []);
     console.log(mailTemplates);
 
+
+    const editMailTemplate = (id) => {
+        setMailTemplateId(id);
+        setSidePanelContent("edit");
+        setShowSidePanel(true);
+    };
+
+
     return (
         <div>
             <h1>Mail Templates</h1>
             <ul className={"list"}>
                 {mailTemplates.map(mailTemplate => (
-                    <li key={mailTemplate.id}>{mailTemplate.name}</li>
+                    <li key={mailTemplate.id} onClick={() => editMailTemplate(mailTemplate.id)}>
+                        {mailTemplate.name}</li>
                 ))}
             </ul>
         </div>

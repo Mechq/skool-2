@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SidePanel from "../components/SidePanel";
 // import LocationList from "../components/LocationList"; // Assuming you have a LocationList component
-import '../styles/werklocatie.css';
+// import '../styles/werklocatie.css';
 
 function Werklocatie() {
     const [showSidePanel, setShowSidePanel] = useState(false);
