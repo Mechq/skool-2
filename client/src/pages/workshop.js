@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import CreateWorkshopButton from "../components/CreateWorkshopButton";
+import CreateButton from "../components/CreateButton";
 import WorkshopList from "../components/WorkshopList";
 import CreatePanelContent from "../components/panel-contents/CreatePanelContent";
 import SidePanel from "../components/SidePanel";
@@ -16,7 +16,7 @@ export default function Workshop() {
 
     return (
         <div>
-            <CreateWorkshopButton
+            <CreateButton
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}

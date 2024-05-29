@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import MailTemplateList from "../components/MailTemplateList";
-import CreateWorkshopButton from "../components/CreateWorkshopButton";
+import CreateButton from "../components/CreateButton";
 import SidePanel from "../components/SidePanel";
 import MailTemplateContent from "../components/panel-contents/MailTemplateContent";
 
@@ -11,7 +11,7 @@ export default function MailTemplates() {
 
     return (
         <>
-            <CreateWorkshopButton
+            <CreateButton
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}

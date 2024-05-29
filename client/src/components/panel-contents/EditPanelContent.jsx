@@ -77,6 +77,7 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
             .catch(error => console.error('Error:', error));
     };
 
+
     return (
         <div className='workshopEditContent'>
             <h1 className='side-panel-title'>Edit Workshop</h1>
