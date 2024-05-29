@@ -25,8 +25,6 @@ export default function Commission() {
         <>
             <h1>Opdracht</h1>
             <CommissionList commissions={commissions}/>
-
-
             <CreateButton
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}

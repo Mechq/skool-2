@@ -31,7 +31,7 @@ export default function CreateWorkLocationContent() {
         const location = {
             name,
             street,
-            houseNumber,
+            houseNumber: parseInt(houseNumber),
             city,
             postalCode
         };

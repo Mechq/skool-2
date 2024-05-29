@@ -12,12 +12,12 @@ const locationService = {
                 return;
             }
 
-            const {name, street, housenumber, city, postalcode} = location;
+            const {name, street, houseNumber, city, postalCode} = location;
 
-            const values = [name, street, housenumber, city, postalcode];
+            const values = [name, street, houseNumber, city, postalCode];
             console.log(values);
             const query =
-                "INSERT INTO location (name, street, housenumber, city, postalcode) VALUES (?, ?, ?, ?, ?)";
+                "INSERT INTO location (name, street, houseNumber, city, postalCode) VALUES (?, ?, ?, ?, ?)";
 
             logger.debug("query", query);
 

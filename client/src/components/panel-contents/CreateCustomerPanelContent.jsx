@@ -48,8 +48,8 @@ export default function CreateCustomerPanelContent() {
         const location = {
             name: locationName,
             street,
-            housenumber: parseInt(houseNumber),
-            postalcode: postalCode,
+            houseNumber: parseInt(houseNumber),
+            postalCode: postalCode,
             city
         }
 

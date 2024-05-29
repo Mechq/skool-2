@@ -3,7 +3,7 @@ const router = express.Router();
 const locationController = require("../controller/location.controller");
 
 function validateLocation(req, res, next) {
-    const {name, street, housenumber, postalcode, city} = req.body;
+    const {name, street, houseNumber, postalCode, city} = req.body;
 
     if (!name || typeof name !== 'string') {
         return res.status(400).json({error: "Name is required and must be a string."});
@@ -13,11 +13,11 @@ function validateLocation(req, res, next) {
         return res.status(400).json({error: "Street is required and must be a string."});
     }
 
-    if (!housenumber || typeof housenumber !== 'number') {
+    if (!houseNumber || typeof houseNumber !== 'number') {
         return res.status(400).json({error: "House number is required and must be an integer."});
     }
 
-    if (!postalcode || typeof postalcode !== 'string') {
+    if (!postalCode || typeof postalCode !== 'string') {
         return res.status(400).json({error: "Postal code is required and must be a string."});
     }
 
