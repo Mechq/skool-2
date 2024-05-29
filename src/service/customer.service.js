@@ -17,40 +17,19 @@ const customerService = {
                 contactName,
                 email,
                 phone,
-                locationName,
-                street,
-                houseNumber,
-                city,
-                postalCode
+                locationId,
             } = customer;
 
-            const valuesLocation = [locationName, street, houseNumber, city, postalCode];
+            const values = [name, contactName, email, phone, locationId];
 
-            const addressQuery = 'INSERT INTO location (name, street, houseNumber, city, postalCode) VALUES (?, ?, ?, ?, ?)';
-
-            logger.debug('AddressQuery', addressQuery);
-
-            connection.query(addressQuery, valuesLocation, function(error, results, fields) {
-                if (error) {
+            const sql = 'INSERT INTO customer (name, contactName, email, phone, locationId) VALUES (?, ?, ?, ?, ?)';
+              connection.query(sql, values, function(error, results, fields) {
                     connection.release();
-                    logger.error('Error creating location', error);
-                    callback(error, null);
-                    return;
-                }
-
-                const locationId = results.insertId;  // get the inserted location ID
-                const customerValues = [name, contactName, email, phone, locationId];
-                const customerQuery = 'INSERT INTO customer (name, contactName, email, phone, locationId) VALUES (?, ?, ?, ?, ?)';
-
-                connection.query(customerQuery, customerValues, function(error, results, fields) {
-                    connection.release();
-
                     if (error) {
                         logger.error('Error creating customer', error);
                         callback(error, null);
                         return;
                     }
-
                     const customerId = results.insertId;
                     logger.trace('customer created', customerId);
 
@@ -62,7 +41,6 @@ const customerService = {
                     });
                 });
             });
-        });
     },
 
     getAll: (callback) => {

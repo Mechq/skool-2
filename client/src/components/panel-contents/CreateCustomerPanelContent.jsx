@@ -23,6 +23,8 @@ export default function CreateCustomerPanelContent() {
     const [emailValid, setEmailValid] = useState(true);  // Email validation state
     const [phoneNumberValid, setPhoneNumberValid] = useState(true); // Phone number validation state
 
+    const [locationId, setLocationId] = useState(null);  // Location ID state
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -37,37 +39,61 @@ export default function CreateCustomerPanelContent() {
         if (!email) setEmailValid(false);
         if (!phoneNumber) setPhoneNumberValid(false);
 
+
         // If any field is invalid, stop the form submission
-        if (!name || !locationName || !contactName || street || houseNumber || postalCode || city || email || phoneNumber) return;
+        if (!name || !locationName || !contactName || !street || !houseNumber || !postalCode || !city || !email || !phoneNumber) return;
 
-        // Create a new customer object
-        const customer = {
-            name,
-            locationName,
-            contactName,
+
+
+        const location = {
+            name: locationName,
             street,
-            houseNumber,
-            postalCode,
-            city,
-            email,
-            phoneNumber
-        };
+            housenumber: parseInt(houseNumber),
+            postalcode: postalCode,
+            city
+        }
 
-        // Send a POST request to the backend
-        fetch('/api/customer', {
+        fetch('/api/location', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(customer),
+            body: JSON.stringify(location),
         })
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                setLocationId(data.data.Id);
+
+                const customer = {
+                    name,
+                    contactName,
+                    email,
+                    phone: parseInt(phoneNumber),
+                    locationId: data.data.Id
+                };
+                fetch('/api/customer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(customer),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
+
+        // Send a POST request to the backend
+
 
         setShowSidePanel(false); // Close the side panel
 
@@ -84,7 +110,7 @@ export default function CreateCustomerPanelContent() {
 
     return (
         <div>
-            <h1 className='side-panel-title'>Create Client</h1>
+            <h1 className='side-panel-title'>Create Klant</h1>
             <div className='side-panel-content'>
                 <form action="#" method="get" className="form-container">
                     <div className="form-group">

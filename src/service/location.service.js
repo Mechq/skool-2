@@ -15,7 +15,7 @@ const locationService = {
             const {name, street, housenumber, city, postalcode} = location;
 
             const values = [name, street, housenumber, city, postalcode];
-
+            console.log(values);
             const query =
                 "INSERT INTO location (name, street, housenumber, city, postalcode) VALUES (?, ?, ?, ?, ?)";
 
