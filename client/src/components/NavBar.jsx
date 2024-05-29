@@ -10,7 +10,8 @@ function NavBar() {
             <CustomLink to='/mailTemplates'>Mail Templates</CustomLink>
             <CustomLink to='/opdracht'>Opdracht</CustomLink>
             <CustomLink to='/werklocatie'>Werklocatie</CustomLink>
-    </ul>
+            <CustomLink to='/customers'>Customer</CustomLink>
+        </ul>
     </nav>
 }
 

@@ -1,12 +1,14 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom'
+
 import NavBar from "./components/NavBar";
 import Home from "./pages/home";
+import Workshops from "./pages/workshops";
+import Customers from './pages/customers';
 import Workshop from "./pages/workshop";
 import MailTemplates from './pages/mailTemplates'
-import { Route, Routes } from 'react-router-dom'
 import Commission from "./pages/commission";
 import Werklocatie from "./pages/worklocation";
-
 
 function App() {
     return (
@@ -20,6 +22,7 @@ function App() {
                     <Route path='/mailTemplates' element={<MailTemplates/>}/>
                     <Route path='/opdracht' element={<Commission/>} />
                     <Route path='/werklocatie' element={<Werklocatie />} />
+                    <Route path='/customers' element={<Customers />} />
                 </Routes>
             </div>
         </>
