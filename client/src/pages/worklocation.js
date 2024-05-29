@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SidePanel from "../components/SidePanel";
 import CreateWorkLocationContent from "../components/panel-contents/CreateWorkLocationContent";
+import CreateButton from "../components/CreateButton";
 
 function Worklocation() {
     const [showSidePanel, setShowSidePanel] = useState(false);
@@ -11,13 +12,14 @@ function Worklocation() {
     }, [showSidePanel]);
 
     return (
-        <div>
-            <button className="fab fab-common" onClick={() => setShowSidePanel(!showSidePanel)}>
-                <span className={showSidePanel ? "rotate" : ""}>{'+'}</span>
-            </button>
-            {/* <LocationList /> Assuming you have a LocationList component */}
+        <div className='werklocatieContent'>
+            <CreateButton
+                setShowSidePanel={setShowSidePanel}
+                showSidePanel={showSidePanel}
+                setSidePanelContent={setSidePanelContent}
+            />
             <h1 className="title">Werklocatie Aanmaken</h1>
-            <SidePanel showSidePanel={showSidePanel}>
+            <SidePanel showSidePanel={showSidePanel} setShowSidePanel={setShowSidePanel}>
                 {sidePanelContent === "create" && <CreateWorkLocationContent/>}
             </SidePanel>
         </div>
