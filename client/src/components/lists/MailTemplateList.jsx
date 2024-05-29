@@ -1,17 +1,6 @@
 import {React, useState, useEffect} from "react";
 
-function MailTemplateList({setShowSidePanel, setSidePanelContent, setMailTemplateId}) {
-    const [mailTemplates, setMailTemplates] = useState([]);
-
-    useEffect(() => {
-        fetch('/api/mailTemplate')
-            .then(res => res.json())
-            .then(data => setMailTemplates(data.data))
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
-    console.log(mailTemplates);
-
-
+function MailTemplateList({setShowSidePanel, setSidePanelContent, setMailTemplateId, mailTemplates}) {
     const editMailTemplate = (id) => {
         setMailTemplateId(id);
         setSidePanelContent("edit");

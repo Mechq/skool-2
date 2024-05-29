@@ -33,13 +33,14 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
         if (!subject) setSubject(false);
         if (!cc) setCcValid(false);
         if (!details) setDetailsValid(false);
-
+        if (!name) setNameValid(false);
         if (!subject || !cc || !details) return;
 
         const mailTemplate = {
             subject,
             cc,
-            details
+            details,
+            name
         };
 
         fetch(`/api/mailTemplate/${mailTemplateId}`, {
@@ -63,6 +64,20 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
             <h1 className='side-panel-title'>Edit Mail Template</h1>
             <div className='side-panel-content'>
                 <form className="form-container" onSubmit={handleSubmit}>
+                    <div>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={name}
+                            onChange={(e) => {
+                                setName(e.target.value);
+                                setNameValid(true);
+                            }}
+                            className={nameValid ? "" : "invalid"}
+                            placeholder="Name"
+                        />
+                    </div>
                     <div className="row">
                         <input
                             type="text"

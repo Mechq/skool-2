@@ -30,7 +30,7 @@ export default function Workshop() {
                 setSidePanelContent={setSidePanelContent}
             />
             <SidePanel showSidePanel={showSidePanel}>
-                {sidePanelContent === "create" && <CreatePanelContent setWorkshops={setWorkshops}/>}
+                {sidePanelContent === "create" && <CreatePanelContent setWorkshops={setWorkshops} setShowSidePanel={setShowSidePanel}/>}
                 {sidePanelContent === "edit" &&
                     <EditPanelContent workshopId={workshopId} setShowSidePanel={setShowSidePanel}/>}
             </SidePanel>
