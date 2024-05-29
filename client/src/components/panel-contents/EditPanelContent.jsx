@@ -84,7 +84,7 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
         <div className='workshopEditContent'>
             <h1 className='side-panel-title'>Edit Workshop</h1>
             <div className='side-panel-content'>
-                <form className="form-container" onSubmit={handleSubmit}>
+                <form className="form-container" >
                     <div className="row">
                         <input
                             type="text"
@@ -138,7 +138,7 @@ function EditPanelContent({workshopId, setShowSidePanel}) {
                         placeholder="Materials"
                     />
                 </form>
-                <button className="submit-fab fab-common saveButton" type="submit">Update</button>
+                <button className="submit-fab fab-common saveButton" onClick={handleSubmit} type="submit">Update</button>
             </div>
         </div>
     );
