@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 
 export default function CreateCustomerPanelContent() {
     const [showSidePanel, setShowSidePanel] = useState(false);
@@ -42,7 +42,6 @@ export default function CreateCustomerPanelContent() {
 
         // If any field is invalid, stop the form submission
         if (!name || !locationName || !contactName || !street || !houseNumber || !postalCode || !city || !email || !phoneNumber) return;
-
 
 
         const location = {
@@ -91,9 +90,6 @@ export default function CreateCustomerPanelContent() {
             .catch((error) => {
                 console.error('Error:', error);
             });
-
-        // Send a POST request to the backend
-
 
         setShowSidePanel(false); // Close the side panel
 

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import '../../styles/components/EditPanelContent.css';
 import '../../styles/components/saveButton.css';
 
-function EditPanelWorkshopContent({ workshopId, setShowSidePanel }) {
+function EditPanelWorkshopContent({workshopId, setShowSidePanel}) {
     const [name, setName] = useState("");
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -41,7 +41,7 @@ function EditPanelWorkshopContent({ workshopId, setShowSidePanel }) {
                     setSelectedCategory(data.category || "");
                     setDescription(data.description || "");
                     setMaterials(data.materials || "");
-                    autoResize({ target: document.getElementById('edit-description') });
+                    autoResize({target: document.getElementById('edit-description')});
                 })
                 .catch(error => console.error('Error fetching workshop:', error));
         }
@@ -129,7 +129,7 @@ function EditPanelWorkshopContent({ workshopId, setShowSidePanel }) {
                         }}
                         className={descriptionValid ? "" : "invalid"}
                         placeholder="Workshop Description"
-                        style={{ overflow: 'hidden', resize: 'none' }} // Disable manual resizing for better control
+                        style={{overflow: 'hidden', resize: 'none'}} // Disable manual resizing for better control
                     />
                     <input
                         type="text"
@@ -144,7 +144,8 @@ function EditPanelWorkshopContent({ workshopId, setShowSidePanel }) {
                         placeholder="Materials"
                     />
                 </form>
-                <button className="submit-fab fab-common saveButton" onClick={handleSubmit} type="submit">Update</button>
+                <button className="submit-fab fab-common saveButton" onClick={handleSubmit} type="submit">Update
+                </button>
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from "react";
+import {React} from "react";
 
 function MailTemplateList({setShowSidePanel, setSidePanelContent, setMailTemplateId, mailTemplates}) {
     const editMailTemplate = (id) => {
@@ -6,7 +6,6 @@ function MailTemplateList({setShowSidePanel, setSidePanelContent, setMailTemplat
         setSidePanelContent("edit");
         setShowSidePanel(true);
     };
-
 
     return (
         <div>

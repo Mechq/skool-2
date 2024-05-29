@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom'
+import {Route, Routes} from 'react-router-dom'
 
 import NavBar from "./components/NavBar";
 import Home from "./pages/home";
@@ -12,16 +12,16 @@ import Worklocation from "./pages/worklocation";
 function App() {
     return (
         <>
-            <NavBar />
+            <NavBar/>
             <div className='container'>
                 <Routes>
-                    <Route path={'*'} element={<h1>Not Found</h1>} />
-                    <Route path='/' element={<Home />} />
-                    <Route path='/workshops' element={<Workshop />} />
+                    <Route path={'*'} element={<h1>Not Found</h1>}/>
+                    <Route path='/' element={<Home/>}/>
+                    <Route path='/workshops' element={<Workshop/>}/>
                     <Route path='/mailTemplates' element={<MailTemplates/>}/>
-                    <Route path='/opdracht' element={<Commission/>} />
-                    <Route path='/werklocatie' element={<Worklocation />} />
-                    <Route path='/customers' element={<Customers />} />
+                    <Route path='/opdracht' element={<Commission/>}/>
+                    <Route path='/werklocatie' element={<Worklocation/>}/>
+                    <Route path='/customers' element={<Customers/>}/>
                 </Routes>
             </div>
         </>

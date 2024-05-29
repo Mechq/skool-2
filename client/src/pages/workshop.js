@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import WorkshopList from "../components/lists/WorkshopList";
 import CreatePanelContent from "../components/panel-contents/CreatePanelContent";
 import SidePanel from "../components/SidePanel";
@@ -30,7 +30,8 @@ export default function Workshop() {
                 setSidePanelContent={setSidePanelContent}
             />
             <SidePanel showSidePanel={showSidePanel}>
-                {sidePanelContent === "create" && <CreatePanelContent setWorkshops={setWorkshops} setShowSidePanel={setShowSidePanel}/>}
+                {sidePanelContent === "create" &&
+                    <CreatePanelContent setWorkshops={setWorkshops} setShowSidePanel={setShowSidePanel}/>}
                 {sidePanelContent === "edit" &&
                     <EditPanelWorkshopContent workshopId={workshopId} setShowSidePanel={setShowSidePanel}/>}
             </SidePanel>

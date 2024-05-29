@@ -1,16 +1,16 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import '../../styles/components/EditPanelContent.css'
 
 function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
     const [subject, setSubject] = useState("");
     const [cc, setCc] = useState("");
     const [details, setDetails] = useState("");
-    const[name, setName] = useState("")
+    const [name, setName] = useState("")
 
     const [subjectValid, setSubjectValid] = useState(true);
     const [ccValid, setCcValid] = useState(true);
     const [detailsValid, setDetailsValid] = useState(true);
-    const[nameValid, setNameValid] = useState(true);
+    const [nameValid, setNameValid] = useState(true);
 
     useEffect(() => {
         if (mailTemplateId) {
@@ -22,7 +22,7 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
                     setCc(data.cc || "");
                     setDetails(data.details || "");
                     setName(data.name || "")
-                    autoResize({ target: document.getElementById('edit-details') });
+                    autoResize({target: document.getElementById('edit-details')});
                 })
                 .catch(error => console.error('Error fetching mail template:', error));
         }

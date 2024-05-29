@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import SidePanel from "../components/SidePanel";
 import CreateWorkLocationContent from "../components/panel-contents/CreateWorkLocationContent";
 import CreateButton from "../components/CreateButton";
@@ -28,11 +28,11 @@ function Worklocation() {
                 setSidePanelContent={setSidePanelContent}
             />
             <h1 className="title">Werklocatie Aanmaken</h1>
-            <SidePanel showSidePanel={showSidePanel} setShowSidePanel={setShowSidePanel} >
+            <SidePanel showSidePanel={showSidePanel} setShowSidePanel={setShowSidePanel}>
                 {sidePanelContent === "create" && <CreateWorkLocationContent/>}
             </SidePanel>
             <WorkLocationList
-            workLocations={workLocations}
+                workLocations={workLocations}
             />
         </div>
     );

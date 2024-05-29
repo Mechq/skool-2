@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import '../../styles/components/CreatePanelContent.css'
 import '../../styles/components/saveButton.css'
 

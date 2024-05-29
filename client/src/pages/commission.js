@@ -4,7 +4,6 @@ import SidePanel from "../components/SidePanel";
 import CommissionPanelContent from "../components/panel-contents/CommissionPanelContent";
 import CreateButton from "../components/CreateButton";
 
-
 export default function Commission() {
     const [showSidePanel, setShowSidePanel] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
@@ -29,9 +28,10 @@ export default function Commission() {
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}
-                />
+            />
             <SidePanel showSidePanel={showSidePanel}>
-                {sidePanelContent === "create" && <CommissionPanelContent setCommissions={setCommissions} setShowSidePanel={setShowSidePanel}/>}
+                {sidePanelContent === "create" &&
+                    <CommissionPanelContent setCommissions={setCommissions} setShowSidePanel={setShowSidePanel}/>}
             </SidePanel>
         </>
     );

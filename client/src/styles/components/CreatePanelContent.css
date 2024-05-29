@@ -17,7 +17,7 @@ input[type="text"], select, textarea#description {
 
 .invalid {
     /*border-color: red !important;*/
-    border:1px solid red !important;
+    border: 1px solid red !important;
 }
 
 textarea#description {

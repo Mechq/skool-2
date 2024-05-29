@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import MailTemplateList from "../components//lists/MailTemplateList";
 import SidePanel from "../components/SidePanel";
 import MailTemplateContent from "../components/panel-contents/MailTemplateContent";

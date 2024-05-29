@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-
+import React, {useEffect, useState} from 'react';
 
 function Home() {
 
-    const [data, setData] = useState({ workshops: [] });
+    const [data, setData] = useState({workshops: []});
 
     useEffect(() => {
         fetch('/api')
