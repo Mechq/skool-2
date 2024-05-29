@@ -5,6 +5,7 @@ import Workshop from "./pages/workshop";
 import MailTemplates from './pages/mailTemplates'
 import { Route, Routes } from 'react-router-dom'
 import Commission from "./pages/commission";
+import Werklocatie from "./pages/werklocatie";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                     <Route path='/workshops' element={<Workshop />} />
                     <Route path='/mailTemplates' element={<MailTemplates/>}/>
                     <Route path='/opdracht' element={<Commission/>} />
+                    <Route path='/werklocatie' element={<Werklocatie />} />
                 </Routes>
             </div>
         </>
