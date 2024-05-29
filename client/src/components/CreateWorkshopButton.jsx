@@ -1,5 +1,5 @@
 import React from "react";
-import '../styles/CreateWorkshopButton.css';
+import '../styles/components/CreateWorkshopButton.css';
 
 export default function CreateWorkshopButton({ setShowSidePanel, showSidePanel, setSidePanelContent }) {
     const handleClick = () => {

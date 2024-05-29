@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from "react";
-import "../styles/SidePanel.css";
+import "../styles/components/SidePanel.css";
 
 function SidePanel({showSidePanel, children}) {
     const sidePanelRef = useRef(null);
