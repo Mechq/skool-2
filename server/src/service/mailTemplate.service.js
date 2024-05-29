@@ -67,7 +67,7 @@ const mailTemplateService = {
 
 
             connection.query(
-                'SELECT subject,cc,details FROM mailTemplate',
+                'SELECT * FROM mailTemplate',
                 function (error, results, fields) {
                     connection.release();
 
