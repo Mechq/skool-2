@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from "react";
 import '../../styles/components/saveButton.css'
-
+import '../../styles/components/CreatePanelContent.css'
 
 export default function MailTemplateContent() {
     const [subject, setSubject] = useState("");
     const [cc, setCc] = useState("");
     const [details, setDetails] = useState("");
+    const [name, setName] = useState("");
 
     const [subjectValid, setSubjectValid] = useState(true);
     const [ccValid, setCcValid] = useState(true);
     const [detailsValid, setDetailsValid] = useState(true);
+    const [nameValid, setNameValid] = useState(true);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,13 +20,14 @@ export default function MailTemplateContent() {
         if (!subject) setSubjectValid(false);
         if (!cc) setCcValid(false);
         if (!details) setDetailsValid(false);
-
+        if (!name) setNameValid(false);
         if (!subject || !cc || !details) return;
 
         const mailTemplate = {
             subject,
             cc,
-            details
+            details,
+            name
         };
 
         fetch('/api/mailTemplate', {
@@ -45,6 +48,7 @@ export default function MailTemplateContent() {
         setSubject('')
         setCc('')
         setDetails('')
+        setName('')
 
     };
 
@@ -52,6 +56,18 @@ export default function MailTemplateContent() {
         <div className='side-panel-content'>
             <h1 className='side-panel-title'>Create Mail Template</h1>
             <form action="#" method="get" className="form-container">
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={name}
+                    onChange={(e) => {
+                        setName(e.target.value)
+                        setNameValid(true); // Reset validation state
+                    }}
+                    className={nameValid ? "" : "invalid"}  // Apply CSS class
+                    placeholder="Naam"
+                />
                 <input
                     type="text"
                     id="subject"

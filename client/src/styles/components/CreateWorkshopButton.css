@@ -20,3 +20,8 @@
 .fab span.rotate {
     transform: rotate(45deg);
 }
+
+.fab:hover {
+    background-color: #e18d00;
+    cursor: pointer;
+}
