@@ -15,7 +15,6 @@ function SidePanel({ showSidePanel, setShowSidePanel, children }) { // Add child
     return (
         <div id='side-panel-root'>
             <div className="side-panel">
-                <h1 className='side-panel-title'>Create Workshop</h1>
                 {children}
             </div>
         </div>

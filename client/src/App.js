@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import Workshops from "./pages/workshops";
 import Footer from "./components/Footer";
 import { Route, Routes } from 'react-router-dom'
+import Werklocatie from './pages/werklocatie';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
                     <Route path='/' element={<Home />} />
                     <Route path='/about' element={<About />} />
                     <Route path='/workshops' element={<Workshops />} />
+                    <Route path='/werklocatie' element={<Werklocatie />} />
                 </Routes>
             </div>
             <Footer />
