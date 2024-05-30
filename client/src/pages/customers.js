@@ -4,11 +4,13 @@ import '../styles/customers.css';
 import CreateButton from "../components/CreateButton";
 import CreateCustomerPanelContent from "../components/panel-contents/CreateCustomerPanelContent";
 import CustomerList from "../components/lists/CustomerList";
+import EditCustomerPanelContent from "../components/panel-contents/EditCustomerPanelContent";
 
 function Customers() {
     const [showSidePanel, setShowSidePanel] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [customers, setCustomers] = useState([]);
+    const [customerId, setCustomerId] = useState(null);
 
     useEffect(() => {
         fetch('/api/customer')
@@ -29,9 +31,16 @@ function Customers() {
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}
             />
-            <CustomerList customers={customers}/>
+            <CustomerList
+                customers={customers}
+                setShowSidePanel={setShowSidePanel}
+                setCustomerId={setCustomerId}
+                setSidePanelContent={setSidePanelContent}/>
             <SidePanel showSidePanel={showSidePanel}>
                 {sidePanelContent === "create" && <CreateCustomerPanelContent/>}
+                {sidePanelContent === "edit" && <EditCustomerPanelContent
+                customerId={customerId}
+                />}
             </SidePanel>
         </>
     );
