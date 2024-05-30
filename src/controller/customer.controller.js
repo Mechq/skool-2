@@ -72,7 +72,33 @@ let customerController = {
                 });
             }
         });
-    }
+    },
+    update: (req, res, next) => {
+        const customerId = req.params.id;
+        const customer = req.body;
+        logger.debug('customerId', customerId);
+        logger.debug('customer', customer);
+
+        logger.info('updating customer', customerId);
+
+        customerService.update( customer, customerId, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
+    },
 
 
 };

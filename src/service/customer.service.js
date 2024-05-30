@@ -71,56 +71,55 @@ const customerService = {
         });
     },
     update:
-        (customer, customerId, callback) => {
-            logger.info('updating customer', customer);
+    (customer, customerId, callback) => {
+        logger.info('updating customer', customer);
 
-            let sql = 'UPDATE customer SET ';
-            const values = [];
+        let sql = 'UPDATE customer SET ';
+        const values = [];
 
-            if (customer.name) {
-                sql += 'name = ?, ';
-                values.push(customer.name);
-            }
-            if (customer.locationId) {
-                sql += 'locationName = ?, ';
-                values.push(customer.locationId);
-            }
-            if (customer.contactName) {
-                sql += 'contactName = ?, ';
-                values.push(customer.contactName);
-            }
-            if (customer.phone) {
-                sql += 'phone = ?, ';
-                values.push(customer.phone);
-            }
-            if (customer.email) {
-                sql += 'email = ?, ';
-                values.push(customer.email);
-            }
+        if (customer.name) {
+            sql += 'name = ?, ';
+            values.push(customer.name);
+        }
+        // if (customer.locationId) {
+        //     sql += 'locationId = ?, '; // Corrected here
+        //     values.push(customer.locationId);
+        // }
+        if (customer.contactName) {
+            sql += 'contactName = ?, ';
+            values.push(customer.contactName);
+        }
+        if (customer.phone) {
+            sql += 'phone = ?, ';
+            values.push(customer.phone);
+        }
+        if (customer.email) {
+            sql += 'email = ?, ';
+            values.push(customer.email);
+        }
 
+        // Remove the trailing comma and space
+        sql = sql.slice(0, -2);
 
-            // Remove the trailing comma and space
-            sql = sql.slice(0, -2);
+        sql += ' WHERE id = ?';
+        values.push(customerId);
 
-            sql += ' WHERE id = ?';
-            values.push(customer.id);
+        database.query(sql, values, (error, results, fields) => {
+            if (error) {
+                logger.error('Error updating customer', error);
+                callback(error, null);
 
-            database.query(sql, values, (error, results, fields) => {
-                if (error) {
-                    logger.error('Error updating customer', error);
-                    callback(error, null);
-
+            } else {
+                if (results.affectedRows > 0) {
+                    logger.info('customer updated successfully');
+                    callback(null, 'customer updated successfully');
                 } else {
-                    if (results.affectedRows > 0) {
-                        logger.info('customer updated successfully');
-                        callback(null, 'customer updated successfully');
-                    } else {
-                        logger.info('No customer found with the provided ID');
-                        callback(null, 'No customer found with the provided ID');
-                    }
+                    logger.info('No customer found with the provided ID');
+                    callback(null, 'No customer found with the provided ID');
                 }
-            });
-        },
+            }
+        });
+    },
     getCustomerById: (id, callback) => {
         logger.info('getting customer by id', id);
 

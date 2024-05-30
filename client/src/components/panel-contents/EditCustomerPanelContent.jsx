@@ -56,42 +56,68 @@ const[locationId, setLocationId] = useState(null)
         }
     }, [customerId]);
 
+    const handleSubmit = (e) => {
+    e.preventDefault();
 
-    // console.log(name)
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //
-    //     if (!subject) setSubject(false);
-    //     // if (!cc) setCcValid(false);
-    //     if (!details) setDetailsValid(false);
-    //     if (!name) setNameValid(false);
-    //     if (!subject || !details) return;
-    //
-    //     const mailTemplate = {
-    //         subject,
-    //         cc: cc || null,
-    //         details,
-    //         name
-    //     };
-    //
-    //     fetch(`/api/mailTemplate/${mailTemplateId}`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(mailTemplate),
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log('Success:', data);
-    //             setShowSidePanel(false); // Close the side panel after submission
-    //         })
-    //         .catch(error => console.error('Error:', error));
-    // };
-    // const autoResize = (e) => {
-    //     e.target.style.height = 'auto';
-    //     e.target.style.height = `${e.target.scrollHeight}px`;
-    // };
+    if (!name) setNameValid(false);
+    if (!locationName) setLocationNameValid(false);
+    if (!contactName) setContactNameValid(false);
+    if (!street) setStreetValid(false);
+    if (!houseNumber) setHouseNumberValid(false);
+    if (!postalCode) setPostalCodeValid(false);
+    if (!city) setCityValid(false);
+    if (!email) setEmailValid(false);
+    if (!phoneNumber) setPhoneNumberValid(false);
+
+    if (!name || !locationName || !contactName || !street || !houseNumber || !postalCode || !city || !email || !phoneNumber) return;
+
+    const location = {
+        name: locationName,
+        street,
+        houseNumber: parseInt(houseNumber),
+        postalCode: postalCode,
+        city,
+    }
+
+    const customer = {
+        name,
+        contactName,
+        email,
+        phone: parseInt(phoneNumber),
+    };
+    console.log('customer', customer);
+    console.log('location', location);
+    console.log('customerId', customerId);
+    console.log('locationId', locationId);
+
+    fetch(`/api/customer/${customerId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(customer),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            // After the customer update is successful, update the location
+            fetch(`/api/location/${locationId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(location),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    setShowSidePanel(false); // Close the side panel after submission
+                })
+                .catch(error => console.error('Error:', error));
+        })
+        .catch(error => console.error('Error:', error));
+};
+
 
     return (
         <div>
@@ -212,7 +238,7 @@ const[locationId, setLocationId] = useState(null)
                             placeholder={phoneNumber}
                         />
                     </div>
-                    {/*<button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>*/}
+                    <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
                 </form>
             </div>
         </div>

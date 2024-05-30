@@ -140,7 +140,7 @@ const locationService = {
             sql = sql.slice(0, -2);
 
             sql += ' WHERE id = ?';
-            values.push(location.Id);
+            values.push(locationId);
 
             database.query(sql, values, (error, results, fields) => {
                 if (error) {
