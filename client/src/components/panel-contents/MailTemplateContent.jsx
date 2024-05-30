@@ -4,12 +4,10 @@ import '../../styles/components/CreatePanelContent.css'
 
 export default function MailTemplateContent() {
     const [subject, setSubject] = useState("");
-    const [cc, setCc] = useState("");
     const [details, setDetails] = useState("");
     const [name, setName] = useState("");
 
     const [subjectValid, setSubjectValid] = useState(true);
-    const [ccValid, setCcValid] = useState(true);
     const [detailsValid, setDetailsValid] = useState(true);
     const [nameValid, setNameValid] = useState(true);
 
@@ -18,14 +16,12 @@ export default function MailTemplateContent() {
 
         // Validation
         if (!subject) setSubjectValid(false);
-        if (!cc) setCcValid(false);
         if (!details) setDetailsValid(false);
         if (!name) setNameValid(false);
-        if (!subject || !cc || !details) return;
+        if (!subject || !details) return;
 
         const mailTemplate = {
             subject,
-            cc,
             details,
             name
         };
@@ -46,7 +42,6 @@ export default function MailTemplateContent() {
             });
 
         setSubject('')
-        setCc('')
         setDetails('')
         setName('')
 
@@ -79,18 +74,6 @@ export default function MailTemplateContent() {
                     }}
                     className={subjectValid ? "" : "invalid"}  // Apply CSS class
                     placeholder="Mail onderwerp"
-                />
-                <input
-                    type="text"
-                    id="cc"
-                    name="cc"
-                    value={cc}
-                    onChange={(e) => {
-                        setCc(e.target.value)
-                        setCcValid(true); // Reset validation state
-                    }}
-                    className={ccValid ? "" : "invalid"}  // Apply CSS class
-                    placeholder="standaard CC"
                 />
                 <textarea
                     id="details"

@@ -3,12 +3,10 @@ import '../../styles/components/EditPanelContent.css'
 
 function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
     const [subject, setSubject] = useState("");
-    const [cc, setCc] = useState("");
     const [details, setDetails] = useState("");
     const [name, setName] = useState("")
 
     const [subjectValid, setSubjectValid] = useState(true);
-    const [ccValid, setCcValid] = useState(true);
     const [detailsValid, setDetailsValid] = useState(true);
     const [nameValid, setNameValid] = useState(true);
 
@@ -19,7 +17,6 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
                 .then(response => {
                     const data = response.data;
                     setSubject(data.subject || "");
-                    setCc(data.cc || "");
                     setDetails(data.details || "");
                     setName(data.name || "")
                     autoResize({target: document.getElementById('edit-details')});
@@ -32,14 +29,12 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
         e.preventDefault();
 
         if (!subject) setSubject(false);
-        // if (!cc) setCcValid(false);
         if (!details) setDetailsValid(false);
         if (!name) setNameValid(false);
         if (!subject || !details) return;
 
         const mailTemplate = {
             subject,
-            cc: cc || null,
             details,
             name
         };
@@ -96,18 +91,6 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
                             placeholder="Mail Template Subject"
                         />
                     </div>
-                    <input
-                        type="text"
-                        id="edit-cc"
-                        name="cc"
-                        value={cc}
-                        onChange={(e) => {
-                            setCc(e.target.value);
-                            setCcValid(true);
-                        }}
-                        className={ccValid ? "" : "invalid"}
-                        placeholder="Mail Template CC"
-                    />
                     <textarea
                         id="edit-details"
                         name="details"
