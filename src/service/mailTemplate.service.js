@@ -22,7 +22,7 @@ const mailTemplateService = {
             const values = [subject, cc, details, name];
 
             // TODO: Implement the query to insert correct data
-            const query = 'INSERT INTO mailTemplate (subject, cc, details, name) VALUES (?, ?, ?, ?)';
+            const query = 'INSERT INTO mailTemplate (subject, details, name) VALUES (?, ?, ?)';
 
             logger.debug('query', query);
 
@@ -128,10 +128,6 @@ const mailTemplateService = {
             if (mailTemplate.subject) {
                 sql += 'subject = ?, ';
                 values.push(mailTemplate.subject);
-            }
-            if (mailTemplate.cc) {
-                sql += 'cc = ?, ';
-                values.push(mailTemplate.cc);
             }
             if (mailTemplate.details) {
                 sql += 'details = ?, ';
