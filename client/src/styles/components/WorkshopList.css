@@ -1,54 +1,30 @@
-* {
-    position: relative;
-}
+    * {
+        position: relative;
+    }
 
-/*.list {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    align-items: center;*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*    list-style: none;*/
-/*}*/
+    .list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Creates 3 equal columns */
+        gap: 20px; /* Space between grid items */
+        align-items: start; /* Aligns items to the start of their grid area */
+        margin-left: 10vw;
+        margin-right: 10vw;
+        padding: 0;
+        list-style: none;
+    }
 
-/*.list li {*/
-/*    margin: 10px 0;*/
-/*    padding: 10px;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 5px;*/
-/*    width: 10vw;*/
-/*    max-width: 300px;*/
-/*    box-sizing: border-box;*/
-/*    text-align: start;*/
+    .list li {
+        margin: 10px 0;
+        padding: 20px; /* Increase padding */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: auto; /* Let the grid control the width */
+        box-sizing: border-box;
+        text-align: start;
+        font-size: 1.2rem; /* Increase font size */
+    }
 
-/*}*/
-/*.list li:hover {*/
-/*    background-color: #f9f9f9;*/
-/*    cursor: pointer;*/
-/*}*/
-.list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Creates 3 equal columns */
-    gap: 20px; /* Space between grid items */
-    align-items: start; /* Aligns items to the start of their grid area */
-    margin-left: 10vw;
-    margin-right: 10vw;
-    padding: 0;
-    list-style: none;
-}
-
-.list li {
-    margin: 10px 0;
-    padding: 20px; /* Increase padding */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: auto; /* Let the grid control the width */
-    box-sizing: border-box;
-    text-align: start;
-    font-size: 1.2rem; /* Increase font size */
-}
-
-.list li:hover {
-    background-color: #f9f9f9;
-    cursor: pointer;
-}
+    .list li:hover {
+        background-color: #f9f9f9;
+        cursor: pointer;
+    }
