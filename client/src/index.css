@@ -4,82 +4,82 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    font-family: "Roboto", sans-serif;
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    height: 100vh; /* Add this line */
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-width: 100%;
-}
+/*body {*/
+/*    font-family: "Roboto", sans-serif;*/
+/*    margin: 0;*/
+/*    -webkit-font-smoothing: antialiased;*/
+/*    -moz-osx-font-smoothing: grayscale;*/
+/*    height: 100vh; !* Add this line *!*/
+/*    overflow-y: scroll;*/
+/*    overflow-x: hidden;*/
+/*    max-width: 100%;*/
+/*}*/
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+/*code {*/
+/*    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',*/
+/*    monospace;*/
+/*}*/
 
-* {
-    box-sizing: border-box;
-}
+/** {*/
+/*    box-sizing: border-box;*/
+/*}*/
 
-.container {
-    text-align: center;
-    height: 100vh; /* Add this line */
-}
+/*.container {*/
+/*    text-align: center;*/
+/*    height: 100vh; !* Add this line *!*/
+/*}*/
 
-h1 {
-    font-family: 'Oswald', sans-serif;
-}
+/*h1 {*/
+/*    font-family: 'Oswald', sans-serif;*/
+/*}*/
 
-.nav {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.3rem;
-    background-color: #151515;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    gap: 2rem;
-    padding: 1rem;
-    top: 0;
-    margin-bottom: 10px;
-    position: fixed;
-    width: 100%; /* Add this line */
-    z-index: 100; /* Add this line */
-}
+/*.nav {*/
+/*    font-family: 'Oswald', sans-serif;*/
+/*    font-size: 1.3rem;*/
+/*    background-color: #151515;*/
+/*    color: white;*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: stretch;*/
+/*    gap: 2rem;*/
+/*    padding: 1rem;*/
+/*    top: 0;*/
+/*    margin-bottom: 10px;*/
+/*    position: fixed;*/
+/*    width: 100%; !* Add this line *!*/
+/*    z-index: 100; !* Add this line *!*/
+/*}*/
 
-.nav ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-}
+/*.nav ul {*/
+/*    padding: 0;*/
+/*    margin: 0;*/
+/*    list-style: none;*/
+/*    display: flex;*/
+/*    gap: 1rem;*/
+/*}*/
 
-.navTitleImage img {
-    height: 50px;
-    width: auto;
-}
+/*.navTitleImage img {*/
+/*    height: 50px;*/
+/*    width: auto;*/
+/*}*/
 
-.nav a {
-    color: inherit;
-    text-decoration: none;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: .25rem;
-}
+/*.nav a {*/
+/*    color: inherit;*/
+/*    text-decoration: none;*/
+/*    height: 100%;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    padding: .25rem;*/
+/*}*/
 
-.nav li:hover, .nav li.active {
-    color: #F49700;
-    box-shadow: inset 0 -1px 0 #F49700;
-}
+/*.nav li:hover, .nav li.active {*/
+/*    color: #F49700;*/
+/*    box-shadow: inset 0 -1px 0 #F49700;*/
+/*}*/
 
 
-.container {
-    text-align: center;
-    height: 100vh;
-    padding-top: 90px; /* Add this line */
-}
+/*.container {*/
+/*    text-align: center;*/
+/*    height: 100vh;*/
+/*    padding-top: 90px; !* Add this line *!*/
+/*}*/
