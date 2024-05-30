@@ -27,9 +27,10 @@ let roundController = {
     },
 
     getAllroundsFromCommission: (req, res, next) => {
-        logger.info('retrieving rounds');
+        const commissionId = req.params.commissionId;
+        logger.info('retrieving rounds from commission', commissionId);
 
-        roundService.getAll((error, success) => {
+        roundService.getAll(commissionId, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,
