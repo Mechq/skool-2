@@ -238,7 +238,7 @@ const[locationId, setLocationId] = useState(null)
                             placeholder={phoneNumber}
                         />
                     </div>
-                    <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
+                    <button className="submit-fab fab-common" onClick={handleSubmit}>Opslaan</button>
                 </form>
             </div>
         </div>
