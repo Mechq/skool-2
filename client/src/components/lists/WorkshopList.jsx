@@ -1,11 +1,12 @@
 import React from "react";
 
-export default function WorkshopList({ setShowSidePanel, setSidePanelContent, setWorkshopId, workshops }) {
+export default function WorkshopList({ setShowSidePanel, setSidePanelContent, setWorkshopId, workshops, setRotateSpan }) {
 
     const editWorkshop = (id) => {
         setWorkshopId(id);
         setSidePanelContent("edit");
         setShowSidePanel(true);
+        setRotateSpan(true); // add this line
     };
 
     return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-export default function CreateButton({ setShowSidePanel, showSidePanel, setSidePanelContent }) {
-    const [rotateSpan, setRotateSpan] = useState(false);
+export default function CreateButton({ setShowSidePanel, showSidePanel, setSidePanelContent, rotateSpan, setRotateSpan }) {
+    // const [rotateSpan, setRotateSpan] = useState(false);
 
     const handleClick = () => {
         setSidePanelContent("create");

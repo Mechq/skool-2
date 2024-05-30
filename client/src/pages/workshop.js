@@ -10,6 +10,7 @@ export default function Workshop() {
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [workshopId, setWorkshopId] = useState(null);
     const [workshops, setWorkshops] = useState([]);
+    const [rotateSpan, setRotateSpan] = useState(false);
 
     useEffect(() => {
         fetch('/api/workshop')
@@ -28,7 +29,10 @@ export default function Workshop() {
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}
+                rotateSpan={rotateSpan}
+                setRotateSpan={setRotateSpan}
             />
+
             <SidePanel showSidePanel={showSidePanel}>
                 {sidePanelContent === "create" &&
                     <CreatePanelContent setWorkshops={setWorkshops} setShowSidePanel={setShowSidePanel}/>}
@@ -41,6 +45,7 @@ export default function Workshop() {
                 setSidePanelContent={setSidePanelContent}
                 setWorkshopId={setWorkshopId}
                 workshops={workshops}
+                setRotateSpan={setRotateSpan}
             />
         </div>
     );
