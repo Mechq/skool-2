@@ -10,6 +10,7 @@ export default function MailTemplates() {
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [mailTemplateId, setMailTemplateId] = useState(null);
     const [mailTemplates, setMailTemplates] = useState([]);
+    const [rotateSpan, setRotateSpan] = useState(false);
 
     useEffect(() => {
         fetch('/api/mailTemplate/')
@@ -27,6 +28,8 @@ export default function MailTemplates() {
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}
+                rotateSpan={rotateSpan}
+                setRotateSpan={setRotateSpan}
             />
 
             <SidePanel showSidePanel={showSidePanel}>
@@ -40,6 +43,7 @@ export default function MailTemplates() {
                 setSidePanelContent={setSidePanelContent}
                 setMailTemplateId={setMailTemplateId}
                 mailTemplates={mailTemplates}
+                setRotateSpan={setRotateSpan}
             />
         </>
     );
