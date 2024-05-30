@@ -2,59 +2,55 @@ const database = require('../database/database.connection');
 const logger = require('../util/logger');
 
 const roundService = {
-    // create: (workshop, callback) => {
-    //     logger.info('creating workshop', workshop);
-    //
-    //     database.getConnection(function (err, connection) {
-    //         if (err) {
-    //             logger.error('Error creating workshop', err);
-    //             callback(err, null);
-    //             return;
-    //         }
-    //
-    //         const {
-    //             name,
-    //             category,
-    //             description,
-    //             picture,
-    //             materials
-    //         } = workshop;
-    //
-    //         const values = [name, category, description, picture, materials];
-    //
-    //         // TODO: Implement the query to insert correct data
-    //         const query = 'INSERT INTO workshop (name, category, description, picture, materials) VALUES (?, ?, ?, ?, ?)';
-    //
-    //         logger.debug('query', query);
-    //
-    //         connection.query(
-    //             query,
-    //             values,
-    //             function (error, results, fields) {
-    //                 connection.release();
-    //
-    //                 if (error) {
-    //
-    //                     // TODO: Implement correct logging for possible error cases
-    //                     logger.error('Error creating workshop', error);
-    //                     callback(error, null);
-    //
-    //                 } else {
-    //                     // Get the last inserted id for logging
-    //                     const workshopId = results.insertId;
-    //                     logger.trace('workshop created', workshopId);
-    //
-    //                     const workshopDataWithId = {...workshop, Id: workshopId};
-    //                     callback(null, {
-    //                         status: 200,
-    //                         message: 'workshop created',
-    //                         data: workshopDataWithId,
-    //                     });
-    //                 }
-    //             }
-    //         )
-    //     });
-    // },
+    create: (commissionId, round, callback) => {
+        logger.info('creating round ' ,round);
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error creating round', err);
+                callback(err, null);
+                return;
+            }
+
+            const {
+                Type,
+            } = round;
+
+            const values = [Type, commissionId];
+
+            // TODO: Implement the query to insert correct data
+            const query = 'INSERT INTO round (Type,commissionId) VALUES (?,?)';
+
+            logger.debug('query', query);
+
+            connection.query(
+                query,
+                values,
+                function (error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+
+                        // TODO: Implement correct logging for possible error cases
+                        logger.error('Error creating round', error);
+                        callback(error, null);
+
+                    } else {
+                        // Get the last inserted id for logging
+                        // const workshopId = results.insertId;
+                        logger.trace('round created ', results.id);
+
+                        // const workshopDataWithId = {...workshop, Id: workshopId};
+                        callback(null, {
+                            status: 200,
+                            message: 'round created',
+                            data: results,
+                        });
+                    }
+                }
+            )
+        });
+    },
 
     // getWorkshopById: (id, callback) => {
     //     logger.info('getting workshop by id', id);
