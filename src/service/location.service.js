@@ -106,6 +106,63 @@ const locationService = {
             }
         });
     },
+
+    update:
+        (location,locationId, callback) => {
+            logger.info('updating location', location);
+
+            let sql = 'UPDATE location SET ';
+            const values = [];
+
+            if (location.name) {
+                sql += 'name = ?, ';
+                values.push(location.name);
+            }
+            if (location.street) {
+                sql += 'street = ?, ';
+                values.push(location.street);
+            }
+            if (location.houseNumber) {
+                sql += 'houseNumber = ?, ';
+                values.push(location.houseNumber);
+            }
+            if (location.city) {
+                sql += 'city = ?, ';
+                values.push(location.city);
+            }
+            if (location.postalCode) {
+                sql += 'postalCode = ?, ';
+                values.push(location.postalCode);
+            }
+
+
+            // Remove the trailing comma and space
+            sql = sql.slice(0, -2);
+
+            sql += ' WHERE id = ?';
+            values.push(location.Id);
+
+            database.query(sql, values, (error, results, fields) => {
+                if (error) {
+                    logger.error('Error updating location', error);
+                    callback(error, null);
+
+                } else {
+                    if (results.affectedRows > 0) {
+                        logger.info('customer updated successfully');
+                        callback(null, 'customer updated successfully');
+                    } else {
+                        logger.info('No customer found with the provided ID');
+                        callback(null, {
+                            status: 200,
+                            message: "location updated successfully",
+                            data: results,
+                        });
+                    }
+                }
+            });
+
+        }
 };
 
 module.exports = locationService;

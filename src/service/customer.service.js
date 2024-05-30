@@ -69,7 +69,86 @@ const customerService = {
                 });
             });
         });
-    }
+    },
+    update:
+        (customer, customerId, callback) => {
+            logger.info('updating customer', customer);
+
+            let sql = 'UPDATE customer SET ';
+            const values = [];
+
+            if (customer.name) {
+                sql += 'name = ?, ';
+                values.push(customer.name);
+            }
+            if (customer.locationId) {
+                sql += 'locationName = ?, ';
+                values.push(customer.locationId);
+            }
+            if (customer.contactName) {
+                sql += 'contactName = ?, ';
+                values.push(customer.contactName);
+            }
+            if (customer.phone) {
+                sql += 'phone = ?, ';
+                values.push(customer.phone);
+            }
+            if (customer.email) {
+                sql += 'email = ?, ';
+                values.push(customer.email);
+            }
+
+
+            // Remove the trailing comma and space
+            sql = sql.slice(0, -2);
+
+            sql += ' WHERE id = ?';
+            values.push(customer.id);
+
+            database.query(sql, values, (error, results, fields) => {
+                if (error) {
+                    logger.error('Error updating customer', error);
+                    callback(error, null);
+
+                } else {
+                    if (results.affectedRows > 0) {
+                        logger.info('customer updated successfully');
+                        callback(null, 'customer updated successfully');
+                    } else {
+                        logger.info('No customer found with the provided ID');
+                        callback(null, 'No customer found with the provided ID');
+                    }
+                }
+            });
+        },
+    getCustomerById: (id, callback) => {
+        logger.info('getting customer by id', id);
+
+        let sql = 'SELECT * FROM customer WHERE id = ?';
+
+        database.query(sql, [id], (error, results, fields) => {
+            if (error) {
+                logger.error('Error getting customer', error);
+                callback(error, null);
+
+            } else {
+                if (results.length > 0) {
+                    logger.info('Customer fetched successfully', results[0]);
+                    callback(null, {
+                        status: 200,
+                        message: 'Customer fetched successfully',
+                        data: results[0],
+                    });
+                } else {
+                    logger.warn('No customer found with id', id);
+                    callback({
+                        status: 404,
+                        message: 'Customer not found',
+                    }, null);
+                }
+            }
+        });
+    },
 };
 
 module.exports = customerService;

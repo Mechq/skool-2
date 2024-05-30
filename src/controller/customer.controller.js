@@ -48,6 +48,30 @@ let customerController = {
                 });
             }
         });
+    },
+    getCustomerById: (req, res, next) => {
+        const customerId = req.params.id;
+        logger.debug('customerId', customerId);
+
+        logger.info('retrieving customer by id', customerId);
+
+        customerService.getCustomerById(customerId, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 
 
