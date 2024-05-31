@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
+
 import SidePanel from "../components/SidePanel";
-import '../styles/customers.css';
 import CreateButton from "../components/CreateButton";
 import CreateCustomerPanelContent from "../components/panel-contents/CreateCustomerPanelContent";
 import CustomerList from "../components/lists/CustomerList";

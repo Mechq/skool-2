@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from "react";
-import '../../styles/components/CreatePanelContent.css'
-import '../../styles/components/saveButton.css'
 
 export default function CreatePanelContent({setWorkshops, setShowSidePanel}) {
     const [name, setName] = useState("");
@@ -77,6 +75,7 @@ export default function CreatePanelContent({setWorkshops, setShowSidePanel}) {
 
     return (
         <div className="px-6">
+            <header className="pt-4 pb-4 font-bold text-lg">Workshop aanmaken</header>
             <form>
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
@@ -102,14 +101,16 @@ export default function CreatePanelContent({setWorkshops, setShowSidePanel}) {
                 </div>
                 <div className="mb-6">
                     <label htmlFor="description"
-                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Beschrijving workshop</label>
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Beschrijving
+                        workshop</label>
                     <textarea id="description" rows="20"
                               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                               placeholder="Beschrijving..."></textarea>
                 </div>
                 <div className="mb-6">
                     <label htmlFor="materials"
-                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Materiaal en benodigdheden</label>
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Materiaal en
+                        benodigdheden</label>
                     <input type="text" id="materials"
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="Microfoon, Speaker..." required/>

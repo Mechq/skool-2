@@ -1,12 +1,9 @@
 import React, {useState} from "react";
-import '../../styles/components/saveButton.css'
-import '../../styles/components/CreatePanelContent.css'
 
 export default function MailTemplateContent() {
     const [subject, setSubject] = useState("");
     const [details, setDetails] = useState("");
     const [name, setName] = useState("");
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -47,6 +44,7 @@ export default function MailTemplateContent() {
 
     return (
         <div className="px-6">
+            <header className="pt-4 pb-4 font-bold text-lg">Mail template aanmaken</header>
             <form>
                 <div className="mb-6">
                     <label htmlFor="templateName"

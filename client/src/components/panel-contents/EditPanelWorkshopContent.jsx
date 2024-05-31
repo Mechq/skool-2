@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from "react";
-import '../../styles/components/EditPanelContent.css';
-import '../../styles/components/saveButton.css';
 
 function EditPanelWorkshopContent({workshopId, setShowSidePanel}) {
     const [name, setName] = useState("");
@@ -86,6 +84,7 @@ function EditPanelWorkshopContent({workshopId, setShowSidePanel}) {
 
     return (
         <div className="px-6">
+            <header className="pt-4 pb-4 font-bold text-lg">Workshop bewerken</header>
             <form>
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
                     <div>

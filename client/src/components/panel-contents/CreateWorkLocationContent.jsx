@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import '../../styles/components/CreateWorkLocationContent.css'
 
 export default function CreateWorkLocationContent() {
     const [name, setName] = useState(""); // Name state

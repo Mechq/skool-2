@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import '../../styles/components/EditPanelContent.css'
 
 function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
     const [subject, setSubject] = useState("");
