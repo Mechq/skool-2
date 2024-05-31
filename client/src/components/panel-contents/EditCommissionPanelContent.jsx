@@ -13,7 +13,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const[selectedCustomerId, setSelectedCustomerId] = useState("")
     const [customers, setCustomers] = useState([]);
     const [locationName, setLocationName] = useState("");
-
+    const [workshops, setWorkshops] = useState([])
     const [roundIds, setRoundIds] = useState([]);
     const [types, setTypes] = useState([]);
     const [editedRoundId, setEditedRoundId] = useState(""); // State to store the edited round ID
@@ -45,6 +45,44 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .catch((error) => console.error("Error fetching commission:", error));
         }
     }, [commissionId]);
+
+
+
+    useEffect(() => {
+        // Clear the workshops state before fetching new data
+        setWorkshops([]);
+        // Create a set to keep track of fetched round IDs
+        const fetchedRoundIds = new Set();
+
+        // Function to fetch workshops for a specific round
+        const fetchWorkshopsForRound = (roundId) => {
+            fetch(`/api/workshopRound/workshop/${roundId}`)
+                .then((res) => res.json())
+                .then((response) => {
+                    const data = response.data;
+                    setWorkshops((prevWorkshops) => [...prevWorkshops, { roundId: roundId, workshops: data }]);
+                })
+                .catch((error) => console.error("Error fetching workshops:", error));
+        };
+
+        // Fetch workshops for workshop rounds
+        roundIds.forEach((roundId, index) => {
+            // Check if the round ID corresponds to a workshop round
+            if (types[index] === "workshopronde") {
+                // Check if the round ID has not been fetched before
+                if (!fetchedRoundIds.has(roundId)) {
+                    // Add the round ID to the fetched set
+                    fetchedRoundIds.add(roundId);
+                    // Fetch workshops for the round
+                    fetchWorkshopsForRound(roundId);
+                }
+            }
+        });
+    }, [roundIds, types]);
+
+
+    console.log(workshops)
+
 
 
 
@@ -276,6 +314,23 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                             )}
                         </div>
                     </div>
+                    <div>
+                        {/*<h2>Rondes</h2>*/}
+                        {workshops.map((workshopRound) => (
+                            <div key={workshopRound.roundId}>
+                                {/*<h3>{workshopRound.roundType}</h3>*/}
+                                <h2>Workshops for {workshopRound.roundType}</h2>
+                                <ul>
+                                    {workshopRound.workshops.map((workshop) => (
+                                        <li key={workshop.id}>
+                                            {workshop.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
+                    </div>
+
                     <button onClick={handleSubmit}>Opslaan</button>
                 </form>
             </div>
