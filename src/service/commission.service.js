@@ -162,7 +162,7 @@ const commissionService = {
         getCustomer: (customerId, callback) => {
             logger.info('getting customer by id', customerId);
 
-            let sql = 'SELECT name FROM customer WHERE id = ?';
+            let sql = 'SELECT name FROM customer WHERE id = (SELECT customerId FROM commission WHERE id = ?)';
 
             database.query(sql, [customerId], (error, results, fields) => {
                 if (error) {
