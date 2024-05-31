@@ -3,12 +3,14 @@ import "../../styles/components/EditPanelContent.css";
 import "../../styles/optionsRoundCreate.css";
 import RoundEditModal from "../CommissionRoundModalScreen";
 import WorkshopRoundEditModal from "../CommissionWorkshopRoundModalScreen";
+import {use} from "chai";
 
 export default function EditCommissionPanelContent({ setShowSidePanel, commissionId }) {
     const [customerId, setCustomerId] = useState("");
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
-    const [selectedCustomer, setSelectedCustomer] = useState("");
+    const [selectedCustomerName, setSelectedCustomerName] = useState("");
+    const[selectedCustomerId, setSelectedCustomerId] = useState("")
     const [customers, setCustomers] = useState([]);
     const [locationName, setLocationName] = useState("");
 
@@ -67,9 +69,17 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .then((res) => res.json())
                 .then((response) => {
                     const data = response.data;
-                    setSelectedCustomer(data.name || "");
+                    if (data && data.length > 0) { // Check if data is not empty
+                        const customer = data[0]; // Extract the first customer
+                        setSelectedCustomerName(customer.name || "");
+                        setSelectedCustomerId(customer.id || "");
+                    } else {
+                        // Handle case when no customer is found
+                        setSelectedCustomerName("");
+                        setSelectedCustomerId("");
+                    }
                 })
-                .catch((error) => console.error("Error fetching round:", error));
+                .catch((error) => console.error("Error fetching customer:", error));
         }
     }, [commissionId]);
 
@@ -85,10 +95,10 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     }, []);
 
     useEffect(() => {
-        console.log(selectedCustomer)
-        console.log(selectedCustomer.id)
-        if (selectedCustomer.id) {
-            fetch(`/api/location/default/${selectedCustomer.id}`)
+        console.log(selectedCustomerId, "aaaaaaaaaaaaa")
+        // console.log()
+        if (selectedCustomerId) {
+            fetch(`/api/location/default/${selectedCustomerId}`)
                 .then(response => response.json())
                 .then(data => {
                     const locationData = data.data;
@@ -183,7 +193,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     <select
                         id="customerId"
                         name="customerId"
-                        value={selectedCustomer} // Change value to selectedCustomer
+                        value={selectedCustomerName} // Change value to selectedCustomer
                         onChange={(e) => {
                             setCustomerId(e.target.value);
                             setCustomerIdValid(true); // Reset validation state
@@ -191,7 +201,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                         className={customerIdValid ? "" : "invalid"} // Apply CSS class
                     >
                         <option value="" disabled>
-                            {selectedCustomer}
+                            {selectedCustomerName}
                         </option>
                         {customers.map((customer) => (
                             <option key={customer.id} value={customer.id}>

@@ -162,7 +162,7 @@ const commissionService = {
         getCustomer: (commissionId, callback) => {
             logger.info('getting customer by commission id', commissionId);
 
-            let sql = 'SELECT name FROM customer WHERE id = (SELECT customerId FROM commission WHERE id = ?)';
+            let sql = 'SELECT name,id FROM customer WHERE id = (SELECT customerId FROM commission WHERE id = ?)';
 
             database.query(sql, [commissionId], (error, results, fields) => {
                 if (error) {
@@ -175,7 +175,7 @@ const commissionService = {
                         callback(null, {
                             status: 200,
                             message: 'Customer fetched successfully',
-                            data: results[0],
+                            data: results,
                         });
                     } else {
                         logger.warn('No customer found with commission id', commissionId);

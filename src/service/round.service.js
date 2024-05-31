@@ -40,13 +40,11 @@ const roundService = {
                         // const workshopId = results.insertId;
                         logger.trace('round created ', results.id);
 
-                        // const workshopDataWithId = {...workshop, Id: workshopId};
+                        const roundIdData = {...results, roundId: round.id};
                         callback(null, {
                             status: 200,
                             message: 'round created',
-                            data: results,
-                            roundId: roundId,
-                            ...results
+                            data: roundIdData
                         });
                     }
                 }
