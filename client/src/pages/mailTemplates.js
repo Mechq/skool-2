@@ -42,7 +42,7 @@ export default function MailTemplates() {
                     <EditMailTemplateContent mailTemplateId={mailTemplateId} setShowSidePanel={setIsOpen} />}
             </SidePanel>
 
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg mr-6 ml-6">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                         <tr>
