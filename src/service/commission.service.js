@@ -159,6 +159,35 @@ const commissionService = {
             });
         },
 
+        getCustomer: (customerId, callback) => {
+            logger.info('getting customer by id', customerId);
+
+            let sql = 'SELECT name FROM customer WHERE id = ?';
+
+            database.query(sql, [customerId], (error, results, fields) => {
+                if (error) {
+                    logger.error('Error getting customer', error);
+                    callback(error, null);
+
+                } else {
+                    if (results.length > 0) {
+                        logger.info('Customer fetched successfully', results[0]);
+                        callback(null, {
+                            status: 200,
+                            message: 'Customer fetched successfully',
+                            data: results[0],
+                        });
+                    } else {
+                        logger.warn('No customer found with id', customerId);
+                        callback({
+                            status: 404,
+                            message: 'Customer not found',
+                        }, null);
+                    }
+                }
+            });
+        }
+
 };
 
 module.exports = commissionService;
