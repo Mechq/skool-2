@@ -42,7 +42,7 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
                 .then(response => {
                     const data = response.data;
                     // Assuming `data` is an array of objects
-                    const _types = data.map(item => item.Type);
+                    const _types = data.map(item => item.type);
                     setTypes(_types);
                 })
                 .catch(error => console.error('Error fetching round:', error));
@@ -90,10 +90,28 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
     }
 
     const handleOptionClick = (option) => {
-        // Add the selected option to the types list and hide the options list
-        // setTypes([...types, option]);
+        console.log(option);
         setShowOptions(false);
+
+        const requestBody = JSON.stringify({ type: option });
+
+        fetch(`/api/round/${commissionId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: requestBody,
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Optionally update the types list with the new round type from the response
+                setTypes(prevTypes => [...prevTypes, option]);
+            })
+            .catch(error => console.error('Error:', error));
     };
+
+
 
     return (
         <div className='workshopEditContent'>
@@ -147,11 +165,11 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
                             {showOptions && (
                                 <div className="options-list">
                                     <ul>
-                                        <li onClick={() => handleOptionClick("pauze toevoegen")}>pauze toevoegen</li>
-                                        <li onClick={() => handleOptionClick("afsluiting toevoegen")}>afsluiting
+                                        <li onClick={() => handleOptionClick("pauze")}>pauze toevoegen</li>
+                                        <li onClick={() => handleOptionClick("afsluiting")}>afsluiting
                                             toevoegen
                                         </li>
-                                        <li onClick={() => handleOptionClick("warmingup toevoegen")}>warmingup
+                                        <li onClick={() => handleOptionClick("warmingup")}>warmingup
                                             toevoegen
                                         </li>
                                     </ul>
