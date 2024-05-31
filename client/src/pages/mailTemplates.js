@@ -4,9 +4,11 @@ import SidePanel from "../components/SidePanel";
 import MailTemplateContent from "../components/panel-contents/MailTemplateContent";
 import CreateButton from "../components/CreateButton";
 import EditMailTemplateContent from "../components/panel-contents/EditMailTemplateContent";
+import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
+import WorkshopList from "../components/lists/WorkshopList";
 
 export default function MailTemplates() {
-    const [showSidePanel, setShowSidePanel] = useState(false);
+    const [isOpen, setIsOpen] = React.useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [mailTemplateId, setMailTemplateId] = useState(null);
     const [mailTemplates, setMailTemplates] = useState([]);
@@ -20,31 +22,36 @@ export default function MailTemplates() {
                 console.log("Fetched mailTemplates: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, [showSidePanel]);
+    }, [isOpen]);
 
     return (
-        <>
+        <div>
+            <h1 id={"header"}>Workshops</h1>
             <CreateButton
-                setShowSidePanel={setShowSidePanel}
-                showSidePanel={showSidePanel}
+                setShowSidePanel={setIsOpen}
+                showSidePanel={isOpen}
                 setSidePanelContent={setSidePanelContent}
                 rotateSpan={rotateSpan}
                 setRotateSpan={setRotateSpan}
             />
 
-            <SidePanel showSidePanel={showSidePanel}>
-                {sidePanelContent === "create" && <MailTemplateContent/>}
+            <SidePanel isOpen={isOpen}
+                       setIsOpen={setIsOpen}
+                       rotateSpan={rotateSpan}
+                       setRotateSpan={setRotateSpan}>
+                {sidePanelContent === "create" &&
+                    <MailTemplateContent  setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditMailTemplateContent mailTemplateId={mailTemplateId} setShowSidePanel={setShowSidePanel}/>}
+                    <EditMailTemplateContent mailTemplateId={mailTemplateId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
-            <MailTemplateList
-                setShowSidePanel={setShowSidePanel}
-                showSidePanel={showSidePanel}
+            <WorkshopList
+                setShowSidePanel={setIsOpen}
+                showSidePanel={isOpen}
                 setSidePanelContent={setSidePanelContent}
-                setMailTemplateId={setMailTemplateId}
-                mailTemplates={mailTemplates}
+                setWorkshopId={setMailTemplateId}
+                workshops={mailTemplates}
                 setRotateSpan={setRotateSpan}
             />
-        </>
+        </div>
     );
 }
