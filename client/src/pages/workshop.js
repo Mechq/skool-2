@@ -33,7 +33,10 @@ export default function Workshop() {
                 setRotateSpan={setRotateSpan}
             />
 
-            <SidePanel isOpen={isOpen} setIsOpen={setIsOpen}>
+            <SidePanel isOpen={isOpen}
+                       setIsOpen={setIsOpen}
+                       rotateSpan={rotateSpan}
+                       setRotateSpan={setRotateSpan}>
                 {/*{sidePanelContent === "create" &&*/}
                 {/*    <CreatePanelContent setWorkshops={setWorkshops} setShowSidePanel={setShowSidePanel}/>}*/}
                 {/*{sidePanelContent === "edit" &&*/}

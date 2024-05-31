@@ -1,6 +1,6 @@
 import React, {useRef} from "react";
 
-function SidePanel({isOpen, setIsOpen, children}) {
+function SidePanel({isOpen, setIsOpen,  rotateSpan, setRotateSpan, children}) {
     const sidePanelRef = useRef(null);
 
     return (
@@ -15,6 +15,8 @@ function SidePanel({isOpen, setIsOpen, children}) {
                     }
                     onClick={() => {
                         setIsOpen(false);
+                        setRotateSpan(!rotateSpan);
+
                     }}
                 >
                     <section
