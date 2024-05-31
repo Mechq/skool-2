@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../styles/components/EditPanelContent.css";
 import "../../styles/optionsRoundCreate.css";
 import RoundEditModal from "../CommissionRoundModalScreen";
+import WorkshopRoundEditModal from "../CommissionWorkshopRoundModalScreen";
 
 export default function EditCommissionPanelContent({
                                                        setShowSidePanel,
@@ -116,7 +117,6 @@ export default function EditCommissionPanelContent({
     const handleOptionClick = (option) => {
         console.log(option);
         setShowOptions(false);
-
         const requestBody = JSON.stringify({type: option});
 
         fetch(`/api/round/${commissionId}`, {
@@ -233,7 +233,14 @@ export default function EditCommissionPanelContent({
                     <button onClick={handleSubmit}>Opslaan</button>
                 </form>
             </div>
-            {showEditModal && (
+            {showEditModal && editedRoundType === "workshopronde" && (
+                <WorkshopRoundEditModal
+                    roundType={editedRoundType}
+                    onClose={handleModalClose}
+                    onSave={handleModalSave}
+                />
+            )}
+            {showEditModal && editedRoundType !== "workshopronde" && (
                 <RoundEditModal
                     roundType={editedRoundType}
                     onClose={handleModalClose}
