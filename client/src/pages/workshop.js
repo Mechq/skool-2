@@ -42,11 +42,12 @@ export default function Workshop() {
                     <EditPanelWorkshopContent workshopId={workshopId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
             <WorkshopList
-                setShowSidePanel={setIsOpen}
-                showSidePanel={isOpen}
+                setIsOpen={setIsOpen}
+                isOpen={isOpen}
                 setSidePanelContent={setSidePanelContent}
                 setWorkshopId={setWorkshopId}
                 workshops={workshops}
+                setWorkshops={setWorkshops} // pass setWorkshops as prop
                 setRotateSpan={setRotateSpan}
             />
         </div>
