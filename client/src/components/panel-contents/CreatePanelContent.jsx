@@ -81,65 +81,70 @@ export default function CreatePanelContent({setWorkshops, setShowSidePanel}) {
 
     return (
         <>
-            <h1 className={"side-panel-title"}>Create Workshop</h1>
-            <div className='side-panel-content'>
-                <form className="form-container">
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={name}
-                            onChange={(e) => {
-                                setName(e.target.value);
-                                setNameValid(true);
-                            }}
-                            className={nameValid ? "" : "invalid"}
-                            placeholder="Naam workshop"
-                        />
-                        <select
-                            id="selectedCategory"
-                            name="selectedCategory"
-                            value={selectedCategory}
-                            onChange={(e) => {
-                                setSelectedCategory(e.target.value);
-                                setCategoryValid(true);
-                            }}
-                            className={categoryValid ? "" : "invalid"}
-                        >
-                            <option value="">Selecteer een categorie</option>
-                            {categories.map((category, index) => (
-                                <option key={index} value={category}>{category}</option>
-                            ))}
-                        </select>
-                        <textarea
-                            id="description"
-                            name="description"
-                            value={description}
-                            onChange={(e) => {
-                                setDescription(e.target.value);
-                                setDescriptionValid(true);
-                            }}
-                            className={descriptionValid ? "" : "invalid"}
-                            placeholder="Beschrijving workshop"
-                        />
-                        <input
-                            type='text'
-                            id="materials"
-                            name="materials"
-                            value={materials}
-                            onChange={(e) => {
-                                setMaterials(e.target.value);
-                                setMaterialsValid(true);
-                            }}
-                            className={materialsValid ? "" : "invalid"}
-                            placeholder="Benodigdheden en speciale eisen"
-                        />
-                    </div>
-                </form>
-                <button className="submit-fab fab-common saveButton" onClick={handleSubmit}>Aanmaken</button>
 
-            </div>
+
         </>
+
+        // <>
+        //     <h1 className={"side-panel-title"}>Create Workshop</h1>
+        //     <div className='side-panel-content'>
+        //         <form className="form-container">
+        //             <div className="form-group">
+        //                 <input
+        //                     type="text"
+        //                     id="name"
+        //                     name="name"
+        //                     value={name}
+        //                     onChange={(e) => {
+        //                         setName(e.target.value);
+        //                         setNameValid(true);
+        //                     }}
+        //                     className={nameValid ? "" : "invalid"}
+        //                     placeholder="Naam workshop"
+        //                 />
+        //                 <select
+        //                     id="selectedCategory"
+        //                     name="selectedCategory"
+        //                     value={selectedCategory}
+        //                     onChange={(e) => {
+        //                         setSelectedCategory(e.target.value);
+        //                         setCategoryValid(true);
+        //                     }}
+        //                     className={categoryValid ? "" : "invalid"}
+        //                 >
+        //                     <option value="">Selecteer een categorie</option>
+        //                     {categories.map((category, index) => (
+        //                         <option key={index} value={category}>{category}</option>
+        //                     ))}
+        //                 </select>
+        //                 <textarea
+        //                     id="description"
+        //                     name="description"
+        //                     value={description}
+        //                     onChange={(e) => {
+        //                         setDescription(e.target.value);
+        //                         setDescriptionValid(true);
+        //                     }}
+        //                     className={descriptionValid ? "" : "invalid"}
+        //                     placeholder="Beschrijving workshop"
+        //                 />
+        //                 <input
+        //                     type='text'
+        //                     id="materials"
+        //                     name="materials"
+        //                     value={materials}
+        //                     onChange={(e) => {
+        //                         setMaterials(e.target.value);
+        //                         setMaterialsValid(true);
+        //                     }}
+        //                     className={materialsValid ? "" : "invalid"}
+        //                     placeholder="Benodigdheden en speciale eisen"
+        //                 />
+        //             </div>
+        //         </form>
+        //         <button className="submit-fab fab-common saveButton" onClick={handleSubmit}>Aanmaken</button>
+        //
+        //     </div>
+        // </>
     );
 }
