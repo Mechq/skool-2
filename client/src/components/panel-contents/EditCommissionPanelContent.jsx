@@ -60,6 +60,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .then((res) => res.json())
                 .then((response) => {
                     const data = response.data;
+                    console.log("Workshops data for round", roundId, ":", data); // Log the data
                     setWorkshops((prevWorkshops) => [...prevWorkshops, { roundId: roundId, workshops: data }]);
                 })
                 .catch((error) => console.error("Error fetching workshops:", error));
@@ -69,11 +70,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         roundIds.forEach((roundId, index) => {
             // Check if the round ID corresponds to a workshop round
             if (types[index] === "workshopronde") {
-                // Check if the round ID has not been fetched before
                 if (!fetchedRoundIds.has(roundId)) {
-                    // Add the round ID to the fetched set
                     fetchedRoundIds.add(roundId);
-                    // Fetch workshops for the round
+                    console.log(roundId)
                     fetchWorkshopsForRound(roundId);
                 }
             }
@@ -81,7 +80,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     }, [roundIds, types]);
 
 
-    console.log(workshops)
 
 
 
@@ -133,7 +131,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     }, []);
 
     useEffect(() => {
-        console.log(selectedCustomerId, "aaaaaaaaaaaaa")
+        // console.log(selectedCustomerId, "aaaaaaaaaaaaa")
         // console.log()
         if (selectedCustomerId) {
             fetch(`/api/location/default/${selectedCustomerId}`)
@@ -147,7 +145,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     console.error('Error:', error);
                     setLocationName(""); // Ensure locationName is always defined
                 });
-            console.log(locationName)
+            // console.log(locationName)
         }})
 
     const handleSubmit = (e) => {
@@ -185,7 +183,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     };
 
     const handleOptionClick = (option) => {
-        console.log(option);
+        // console.log(option);
         setShowOptions(false);
         const requestBody = JSON.stringify({ type: option });
 
@@ -206,7 +204,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     };
 
     const editRound = (type, id) => {
-        console.log(type);
+        // console.log(type);
         setEditingRoundType(type);
         setEditedRoundType(type);
         setEditedRoundId(id); // Set the edited round ID
@@ -219,7 +217,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
 
     const handleModalSave = (editedType) => {
         // Update the type in the backend
-        console.log("Edited Type:", editedType);
+        // console.log("Edited Type:", editedType);
         setShowEditModal(false);
     };
 
@@ -316,8 +314,8 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     </div>
                     <div>
                         {/*<h2>Rondes</h2>*/}
-                        {workshops.map((workshopRound) => (
-                            <div key={workshopRound.roundId}>
+                        {workshops.map((workshopRound, index) => (
+                            <div key={workshopRound.roundId || index}>
                                 {/*<h3>{workshopRound.roundType}</h3>*/}
                                 <h2>Workshops for {workshopRound.roundType}</h2>
                                 <ul>
@@ -330,6 +328,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                             </div>
                         ))}
                     </div>
+
 
                     <button onClick={handleSubmit}>Opslaan</button>
                 </form>
