@@ -164,6 +164,47 @@ const roundService = {
     //         });
     //
     //     }
+
+    deleteRound: (id, callback) => {
+        logger.info("deleting round", id);
+    
+        database.getConnection((err, connection) => {
+          if (err) {
+            logger.error("Error deleting round", err);
+            callback(err, null);
+            return;
+          }
+    
+          connection.query(
+            "DELETE FROM round WHERE id = ?",
+            [id],
+            (error, results, fields) => {
+              connection.release();
+    
+              if (error) {
+                logger.error("Error deleting round", error);
+                callback(error, null);
+              } else {
+                if (results.affectedRows === 0) {
+                  // No rows were affected, implying the round does not exist
+                  const notFoundError = {
+                    status: 404,
+                    message: 'Round not found',
+                  };
+                  logger.warn("Round not found", id);
+                  callback(notFoundError, null);
+                } else {
+                  callback(null, {
+                    status: 200,
+                    message: 'Round deleted',
+                    data: results,
+                  });
+                }
+              }
+            }
+          );
+        });
+      },
 };
 
 module.exports = roundService;
