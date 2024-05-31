@@ -26,11 +26,12 @@ let roundController = {
         });
     },
 
-    getAllroundsFromCommission: (req, res, next) => {
-        const commissionId = req.params.commissionId;
-        logger.info('retrieving rounds from commission', commissionId);
+    getAllRoundsFromCommission: (req, res, next) => {
+        console.log("aaaaaaaaaaaaaaaaaaaaa")
+        const id = req.params.id;
+        logger.info('retrieving rounds from commission', id);
 
-        roundService.getAll(commissionId, (error, success) => {
+        roundService.getAllRoundsFromCommission(id, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,

@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import '../../styles/components/EditPanelContent.css'
 
-function EditCommissionPanelContent({setShowSidePanel, commissionId}) {
+export default function EditCommissionPanelContent({setShowSidePanel, commissionId}) {
     const [customerId, setCustomerId] = useState("");
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("")
 
     const[rounds, setRounds] = useState([])
-    const[type, setType] = useState([])
+    const[types, setTypes] = useState([])
 
     const [customerIdValid, setCustomerIdValid] = useState(true);
     const [detailsValid, setDetailsValid] = useState(true);
@@ -37,12 +37,15 @@ function EditCommissionPanelContent({setShowSidePanel, commissionId}) {
                 .then(res => res.json())
                 .then(response => {
                     const data = response.data;
-                    // setRounds(data.round || []);
-                    setType(data.Type || [])
+                    // Assuming `data` is an array of objects
+                    const _types = data.map(item => item.Type);
+                    setTypes(_types);
                 })
                 .catch(error => console.error('Error fetching round:', error));
         }
     }, [commissionId]);
+
+    console.log(types)
 
     // const handleSubmit = (e) => {
     //     e.preventDefault();
@@ -79,54 +82,55 @@ function EditCommissionPanelContent({setShowSidePanel, commissionId}) {
 
     return (
         <div className='workshopEditContent'>
-            <h1 className='side-panel-title'>Edit Mail Template</h1>
+            <h1 className='side-panel-title'>Bewerk opdracht</h1>
             <div className='side-panel-content'>
-                <form className="form-container" onSubmit={handleSubmit}>
-                    <div>
-                        <input
-                            type="text"
-                            id="edit-name"
-                            name="name"
-                            value={name}
-                            onChange={(e) => {
-                                setName(e.target.value);
-                                setNameValid(true);
-                            }}
-                            className={nameValid ? "" : "invalid"}
-                            placeholder="Name"
-                        />
-                    </div>
-                    <div className="row">
-                        <input
-                            type="text"
-                            id="edit-subject"
-                            name="subject"
-                            value={subject}
-                            onChange={(e) => {
-                                setSubject(e.target.value);
-                                setSubjectValid(true);
-                            }}
-                            className={subjectValid ? "" : "invalid"}
-                            placeholder="Mail Template Subject"
-                        />
-                    </div>
-                    <textarea
-                        id="edit-details"
+                <form action="#" method="get" className="form-container">
+                    <input
+                        type="text"
+                        id="customerId"
+                        name="customerId"
+                        value={customerId}
+                        onChange={(e) => {
+                            setCustomerId(e.target.value)
+                            setCustomerIdValid(true); // Reset validation state
+                        }}
+                        className={customerIdValid ? "" : "invalid"}  // Apply CSS class
+                        placeholder={customerId}
+                    />
+                    <input
+                        type="text"
+                        id="details"
                         name="details"
                         value={details}
                         onChange={(e) => {
-                            setDetails(e.target.value);
-                            setDetailsValid(true);
-                            autoResize(e);
+                            setDetails(e.target.value)
+                            setDetailsValid(true); // Reset validation state
                         }}
-                        className={detailsValid ? "" : "invalid"}
-                        placeholder="Mail Template Message"
+                        className={detailsValid ? "" : "invalid"}  // Apply CSS class
+                        placeholder={details}
                     />
-                    <button className="submit-fab fab-common" type="submit">Update</button>
+                    <textarea
+                        id="targetAudience"
+                        name="targetAudience"
+                        value={targetAudience}
+                        onChange={(e) => {
+                            setTargetAudience(e.target.value)
+                            setTargetAudienceValid(true); // Reset validation state
+                        }}
+                        className={targetAudienceValid ? "" : "invalid"}  // Apply CSS class
+                        placeholder={targetAudience}
+                    />
+                    <div>
+                        <h2>Rondes</h2>
+                        <ul>
+                            {types.map((type, index) => (
+                                <li key={index}>{type}</li>
+                            ))}
+                        </ul>
+                    </div>
                 </form>
             </div>
         </div>
     );
 }
 
-export default EditMailTemplatePanelContent;

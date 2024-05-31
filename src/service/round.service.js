@@ -92,7 +92,7 @@ const roundService = {
 
 
             connection.query(
-                'SELECT * FROM Round WHERE commissionId = ?', [commissionId],
+                'SELECT * FROM round WHERE commissionId = ?', [commissionId],
                 function (error, results, fields) {
                     connection.release();
 
