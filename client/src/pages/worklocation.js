@@ -8,6 +8,7 @@ function Worklocation() {
     const [showSidePanel, setShowSidePanel] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [workLocations, setWorkLocations] = useState([]);
+    const [rotateSpan, setRotateSpan] = useState(false);
 
 
     useEffect(() => {
@@ -26,6 +27,8 @@ function Worklocation() {
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}
+                rotateSpan={rotateSpan}
+                setRotateSpan={setRotateSpan}
             />
             <h1 className="title">Werklocatie Aanmaken</h1>
             <SidePanel showSidePanel={showSidePanel} setShowSidePanel={setShowSidePanel}>
@@ -33,6 +36,7 @@ function Worklocation() {
             </SidePanel>
             <WorkLocationList
                 workLocations={workLocations}
+                setRotateSpan={setRotateSpan}
             />
         </div>
     );
