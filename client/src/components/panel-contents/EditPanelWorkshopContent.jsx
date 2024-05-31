@@ -90,16 +90,19 @@ function EditPanelWorkshopContent({workshopId, setShowSidePanel}) {
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
                         <label htmlFor="workshopName"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Workshop naam</label>
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Workshop
+                            naam</label>
                         <input type="text" id="workshopName" value={name} required
+                               onChange={(e) => setName(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               />
+                        />
                     </div>
                     <div>
                         <label htmlFor="category"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Kies een
                             categorie</label>
                         <select id="category" value={selectedCategory}
+                                onChange={(e) => setSelectedCategory(e.target.value)}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
                             <option value="">Selecteer een categorie</option>
                             {categories.map((category, index) => (
@@ -113,6 +116,7 @@ function EditPanelWorkshopContent({workshopId, setShowSidePanel}) {
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Beschrijving
                         workshop</label>
                     <textarea id="description" rows="20" value={description}
+                              onChange={(e) => setDescription(e.target.value)}
                               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                               placeholder="Beschrijving..."></textarea>
                 </div>
@@ -121,6 +125,7 @@ function EditPanelWorkshopContent({workshopId, setShowSidePanel}) {
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Materiaal en
                         benodigdheden</label>
                     <input type="text" id="materials" value={materials}
+                           onChange={(e) => setMaterials(e.target.value)}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="Microfoon, Speaker..." required/>
                 </div>
