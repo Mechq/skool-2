@@ -52,41 +52,42 @@ export default function CreateWorkLocationContent({setWorkLocations, setShowSide
         <div className="px-6">
             <header className="pt-4 pb-4 font-bold text-lg">Create Work Location</header>
             <form>
+                <div className="mb-6">
+                    <label htmlFor="locationName"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Locatie naam</label>
+                    <input type="text" id="locationName"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="Hoofdkantoor A" required/>
+                </div>
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
-                        <label htmlFor="name"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Name</label>
-                        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="Name" required/>
-                    </div>
-                    <div>
                         <label htmlFor="street"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Street</label>
-                        <input type="text" id="street" value={street} onChange={(e) => setStreet(e.target.value)}
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Straat</label>
+                        <input type="text" id="street" value={name} onChange={(e) => setName(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="Street" required/>
+                               placeholder="Dorpstraat" required/>
                     </div>
                     <div>
                         <label htmlFor="houseNumber"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">House Number</label>
-                        <input type="text" id="houseNumber" value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)}
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Huisnummer</label>
+                        <input type="text" id="houseNumber" value={street} onChange={(e) => setStreet(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="House Number" required/>
+                               placeholder="1" required/>
+                    </div>
+                    <div>
+                        <label htmlFor="postalCode"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Postcode</label>
+                        <input type="text" id="postalCode" value={houseNumber}
+                               onChange={(e) => setHouseNumber(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="1234 AB" required/>
                     </div>
                     <div>
                         <label htmlFor="city"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">City</label>
                         <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="City" required/>
-                    </div>
-                    <div>
-                        <label htmlFor="postalCode"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Postal Code</label>
-                        <input type="text" id="postalCode" value={postalCode} onChange={(e) => setPostalCode(e.target.value)}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="Postal Code" required/>
+                               placeholder="Roelofarendsveen" required/>
                     </div>
                 </div>
                 <button type="submit" onClick={handleSubmit}
@@ -98,24 +99,18 @@ export default function CreateWorkLocationContent({setWorkLocations, setShowSide
 }
 
 
-
-
-
-
-
-
-    // {/*<h1 className='side-panel-title'>Create Work Location</h1>*/}
-    //         {/*<div className='side-panel-content'>*/}
-    //         {/*    <form action="#" method="get" className="form-container">*/}
-    //         {/*        <div className="form-group">*/}
-    //         {/*            <input*/}
-    //         {/*                type="text"*/}
-    //         {/*                id="name"*/}
-    //         {/*                name="name"*/}
-    //         {/*                value={name}*/}
-    //         {/*                onChange={(e) => {*/}
-    //         {/*                    setName(e.target.value);*/}
-    //         {/*                    setNameValid(true); // Reset validation state*/}
+// {/*<h1 className='side-panel-title'>Create Work Location</h1>*/}
+//         {/*<div className='side-panel-content'>*/}
+//         {/*    <form action="#" method="get" className="form-container">*/}
+//         {/*        <div className="form-group">*/}
+//         {/*            <input*/}
+//         {/*                type="text"*/}
+//         {/*                id="name"*/}
+//         {/*                name="name"*/}
+//         {/*                value={name}*/}
+//         {/*                onChange={(e) => {*/}
+//         {/*                    setName(e.target.value);*/}
+//         {/*                    setNameValid(true); // Reset validation state*/}
     //         {/*                }}*/}
     //         {/*                className={nameValid ? "" : "invalid"}  // Apply CSS class*/}
     //         {/*                placeholder="Naam"*/}
