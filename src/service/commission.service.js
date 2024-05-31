@@ -1,3 +1,4 @@
+const { getCommissionById } = require('../controller/commission.controller');
 const database = require('../database/database.connection');
 const logger = require('../util/logger');
 
@@ -86,6 +87,35 @@ const commissionService = {
                     }
                 }
             )
+        });
+    },
+
+    getCommissionById: (id, callback) => {
+        logger.info('getting commission by id', id);
+
+        let sql = 'SELECT * FROM commission WHERE id = ?';
+
+        database.query(sql, [id], (error, results, fields) => {
+            if (error) {
+                logger.error('Error getting commission', error);
+                callback(error, null);
+
+            } else {
+                if (results.length > 0) {
+                    logger.info('Commission fetched successfully', results[0]);
+                    callback(null, {
+                        status: 200,
+                        message: 'Commission fetched successfully',
+                        data: results[0],
+                    });
+                } else {
+                    logger.warn('No commission found with id', id);
+                    callback({
+                        status: 404,
+                        message: 'Commission not found',
+                    }, null);
+                }
+            }
         });
     }
 
