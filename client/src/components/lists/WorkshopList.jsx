@@ -1,9 +1,23 @@
-export default function WorkshopList({ setShowSidePanel, setSidePanelContent, setWorkshopId, workshops, setRotateSpan }) {
+import {useEffect} from "react";
+
+export default function WorkshopList({ isOpen, setIsOpen, setSidePanelContent, setWorkshopId, workshops, setRotateSpan, setWorkshops }) {
+
+    useEffect(() => {
+        fetch('/api/workshop')
+            .then(res => res.json())
+            .then(data => {
+                setWorkshops(data.data);
+                console.log("Fetched workshops: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, [isOpen]); // Add isOpen as a dependency
+
+
 
     const editWorkshop = (id) => {
         setWorkshopId(id);
         setSidePanelContent("edit");
-        setShowSidePanel(true);
+        setIsOpen(true);
         setRotateSpan(true);
     };
 
