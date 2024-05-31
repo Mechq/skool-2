@@ -1,76 +1,76 @@
-const roundService = require('../service/round.service');
-const logger = require('../util/logger');
+const roundService = require("../service/round.service");
+const logger = require("../util/logger");
 
 let roundController = {
-    createRound: (req, res, next) => {
-        const round = req.body;
-        const commissionId = req.params.id;
-        logger.info('creating round', round);
+  createRound: (req, res, next) => {
+    const round = req.body;
+    const commissionId = req.params.id;
+    logger.info("creating round", round);
 
-        roundService.create(commissionId, round, (error, success) => {
-            if (error) {
-                return next({
-                    status: error.status,
-                    message: error.message,
-                    data: {},
-                });
-            }
-
-            if (success) {
-                res.status(200).json({
-                    status: success.status,
-                    message: success.message,
-                    data: success.data,
-                });
-            }
+    roundService.create(commissionId, round, (error, success) => {
+      if (error) {
+        return next({
+          status: error.status,
+          message: error.message,
+          data: {},
         });
-    },
+      }
 
-    getAllRoundsFromCommission: (req, res, next) => {
-        const id = req.params.id;
-        logger.info('retrieving rounds from commission', id);
-
-        roundService.getAllRoundsFromCommission(id, (error, success) => {
-            if (error) {
-                return next({
-                    status: error.status,
-                    message: error.message,
-                    data: {},
-                });
-            }
-
-            if (success) {
-                res.status(200).json({
-                    status: success.status,
-                    message: success.message,
-                    data: success.data,
-                });
-            }
+      if (success) {
+        res.status(200).json({
+          status: success.status,
+          message: success.message,
+          data: success.data,
         });
-    },
+      }
+    });
+  },
 
-    deleteRound: (req, res, next) => {
-        const id = req.params.id;
-        logger.info('deleting round', id);
+  getAllRoundsFromCommission: (req, res, next) => {
+    const id = req.params.id;
+    logger.info("retrieving rounds from commission", id);
 
-        roundService.deleteRound(id, (error, success) => {
-            if (error) {
-                return next({
-                    status: error.status,
-                    message: error.message,
-                    data: {},
-                });
-            }
-
-            if (success) {
-                res.status(200).json({
-                    status: success.status,
-                    message: success.message,
-                    data: success.data,
-                });
-            }
+    roundService.getAllRoundsFromCommission(id, (error, success) => {
+      if (error) {
+        return next({
+          status: error.status,
+          message: error.message,
+          data: {},
         });
-    }
+      }
+
+      if (success) {
+        res.status(200).json({
+          status: success.status,
+          message: success.message,
+          data: success.data,
+        });
+      }
+    });
+  },
+
+  deleteRound: (req, res, next) => {
+    const id = req.params.id;
+    logger.info("deleting round", id);
+
+    roundService.deleteRound(id, (error, success) => {
+      if (error) {
+        return next({
+          status: error.status || 500,
+          message: error.message || "Internal Server Error",
+          data: {},
+        });
+      }
+
+      if (success) {
+        res.status(200).json({
+          status: success.status,
+          message: success.message,
+          data: success.data,
+        });
+      }
+    });
+  },
 };
 
 module.exports = roundController;
