@@ -103,7 +103,7 @@ export default function CreatePanelContent({setWorkshops, setShowSidePanel}) {
                 <div className="mb-6">
                     <label htmlFor="description"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Beschrijving workshop</label>
-                    <textarea id="description" rows="4"
+                    <textarea id="description" rows="20"
                               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                               placeholder="Beschrijving..."></textarea>
                 </div>
@@ -120,69 +120,6 @@ export default function CreatePanelContent({setWorkshops, setShowSidePanel}) {
                 </button>
 
             </form>
-
         </div>
-
-        // <>
-        //     <h1 className={"side-panel-title"}>Create Workshop</h1>
-        //     <div className='side-panel-content'>
-        //         <form className="form-container">
-        //             <div className="form-group">
-        //                 <input
-        //                     type="text"
-        //                     id="name"
-        //                     name="name"
-        //                     value={name}
-        //                     onChange={(e) => {
-        //                         setName(e.target.value);
-        //                         setNameValid(true);
-        //                     }}
-        //                     className={nameValid ? "" : "invalid"}
-        //                     placeholder="Naam workshop"
-        //                 />
-        //                 <select
-        //                     id="selectedCategory"
-        //                     name="selectedCategory"
-        //                     value={selectedCategory}
-        //                     onChange={(e) => {
-        //                         setSelectedCategory(e.target.value);
-        //                         setCategoryValid(true);
-        //                     }}
-        //                     className={categoryValid ? "" : "invalid"}
-        //                 >
-        //                     <option value="">Selecteer een categorie</option>
-        //                     {categories.map((category, index) => (
-        //                         <option key={index} value={category}>{category}</option>
-        //                     ))}
-        //                 </select>
-        //                 <textarea
-        //                     id="description"
-        //                     name="description"
-        //                     value={description}
-        //                     onChange={(e) => {
-        //                         setDescription(e.target.value);
-        //                         setDescriptionValid(true);
-        //                     }}
-        //                     className={descriptionValid ? "" : "invalid"}
-        //                     placeholder="Beschrijving workshop"
-        //                 />
-        //                 <input
-        //                     type='text'
-        //                     id="materials"
-        //                     name="materials"
-        //                     value={materials}
-        //                     onChange={(e) => {
-        //                         setMaterials(e.target.value);
-        //                         setMaterialsValid(true);
-        //                     }}
-        //                     className={materialsValid ? "" : "invalid"}
-        //                     placeholder="Benodigdheden en speciale eisen"
-        //                 />
-        //             </div>
-        //         </form>
-        //         <button className="submit-fab fab-common saveButton" onClick={handleSubmit}>Aanmaken</button>
-        //
-        //     </div>
-        // </>
     );
 }
