@@ -64,66 +64,71 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
     };
 
     return (
-        <div className='workshopEditContent'>
-            <h1 className='side-panel-title'>Edit Mail Template</h1>
-            <div className='side-panel-content'>
-                <form className="form-container" onSubmit={handleSubmit}>
-                    <div>
-                        <input
-                            type="text"
-                            id="edit-name"
-                            name="name"
-                            value={name}
-                            onChange={(e) => {
-                                setName(e.target.value);
-                                setNameValid(true);
-                            }}
-                            className={nameValid ? "" : "invalid"}
-                            placeholder="Name"
-                        />
-                    </div>
-                    <div className="row">
-                        <input
-                            type="text"
-                            id="edit-subject"
-                            name="subject"
-                            value={subject}
-                            onChange={(e) => {
-                                setSubject(e.target.value);
-                                setSubjectValid(true);
-                            }}
-                            className={subjectValid ? "" : "invalid"}
-                            placeholder="Mail Template Subject"
-                        />
-                    </div>
-                    <input
-                        type="text"
-                        id="edit-cc"
-                        name="cc"
-                        value={cc}
-                        onChange={(e) => {
-                            setCc(e.target.value);
-                            setCcValid(true);
-                        }}
-                        className={ccValid ? "" : "invalid"}
-                        placeholder="Mail Template CC"
-                    />
-                    <textarea
-                        id="edit-details"
-                        name="details"
-                        value={details}
-                        onChange={(e) => {
-                            setDetails(e.target.value);
-                            setDetailsValid(true);
-                            autoResize(e);
-                        }}
-                        className={detailsValid ? "" : "invalid"}
-                        placeholder="Mail Template Message"
-                    />
-                    <button className="submit-fab fab-common" type="submit">Update</button>
-                </form>
-            </div>
-        </div>
+        <>
+        </>
+
+
+        //
+        // <div className='workshopEditContent'>
+        //     <h1 className='side-panel-title'>Edit Mail Template</h1>
+        //     <div className='side-panel-content'>
+        //         <form className="form-container" onSubmit={handleSubmit}>
+        //             <div>
+        //                 <input
+        //                     type="text"
+        //                     id="edit-name"
+        //                     name="name"
+        //                     value={name}
+        //                     onChange={(e) => {
+        //                         setName(e.target.value);
+        //                         setNameValid(true);
+        //                     }}
+        //                     className={nameValid ? "" : "invalid"}
+        //                     placeholder="Name"
+        //                 />
+        //             </div>
+        //             <div className="row">
+        //                 <input
+        //                     type="text"
+        //                     id="edit-subject"
+        //                     name="subject"
+        //                     value={subject}
+        //                     onChange={(e) => {
+        //                         setSubject(e.target.value);
+        //                         setSubjectValid(true);
+        //                     }}
+        //                     className={subjectValid ? "" : "invalid"}
+        //                     placeholder="Mail Template Subject"
+        //                 />
+        //             </div>
+        //             <input
+        //                 type="text"
+        //                 id="edit-cc"
+        //                 name="cc"
+        //                 value={cc}
+        //                 onChange={(e) => {
+        //                     setCc(e.target.value);
+        //                     setCcValid(true);
+        //                 }}
+        //                 className={ccValid ? "" : "invalid"}
+        //                 placeholder="Mail Template CC"
+        //             />
+        //             <textarea
+        //                 id="edit-details"
+        //                 name="details"
+        //                 value={details}
+        //                 onChange={(e) => {
+        //                     setDetails(e.target.value);
+        //                     setDetailsValid(true);
+        //                     autoResize(e);
+        //                 }}
+        //                 className={detailsValid ? "" : "invalid"}
+        //                 placeholder="Mail Template Message"
+        //             />
+        //             <button className="submit-fab fab-common" type="submit">Update</button>
+        //         </form>
+        //     </div>
+        // </div>
     );
 }
 
