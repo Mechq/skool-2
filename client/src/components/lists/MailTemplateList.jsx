@@ -26,7 +26,6 @@ export default function MailTemplateList({ setShowSidePanel, setSidePanelContent
                             <tr>
                                 <th className="header-cell start">Name</th>
                                 <th className="header-cell end">Subject</th>
-                                <th className="header-cell end">CC</th>
                                 <th className="header-cell end padded">Details</th>
                             </tr>
                             </thead>

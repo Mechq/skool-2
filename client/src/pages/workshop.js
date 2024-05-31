@@ -6,7 +6,7 @@ import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWork
 import CreateButton from "../components/CreateButton";
 
 export default function Workshop() {
-    const [showSidePanel, setShowSidePanel] = useState(false);
+    const [isOpen, setIsOpen] = React.useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [workshopId, setWorkshopId] = useState(null);
     const [workshops, setWorkshops] = useState([]);
@@ -20,28 +20,28 @@ export default function Workshop() {
                 console.log("Fetched workshops: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, [showSidePanel]);
+    }, [setIsOpen]);
 
     return (
         <div>
             <h1 id={"header"}>Workshops</h1>
             <CreateButton
-                setShowSidePanel={setShowSidePanel}
-                showSidePanel={showSidePanel}
+                setShowSidePanel={setIsOpen}
+                showSidePanel={isOpen}
                 setSidePanelContent={setSidePanelContent}
                 rotateSpan={rotateSpan}
                 setRotateSpan={setRotateSpan}
             />
 
-            <SidePanel showSidePanel={showSidePanel}>
-                {sidePanelContent === "create" &&
-                    <CreatePanelContent setWorkshops={setWorkshops} setShowSidePanel={setShowSidePanel}/>}
-                {sidePanelContent === "edit" &&
-                    <EditPanelWorkshopContent workshopId={workshopId} setShowSidePanel={setShowSidePanel}/>}
+            <SidePanel isOpen={isOpen} setIsOpen={setIsOpen}>
+                {/*{sidePanelContent === "create" &&*/}
+                {/*    <CreatePanelContent setWorkshops={setWorkshops} setShowSidePanel={setShowSidePanel}/>}*/}
+                {/*{sidePanelContent === "edit" &&*/}
+                {/*    <EditPanelWorkshopContent workshopId={workshopId} setShowSidePanel={setShowSidePanel}/>}*/}
             </SidePanel>
             <WorkshopList
-                setShowSidePanel={setShowSidePanel}
-                showSidePanel={showSidePanel}
+                setShowSidePanel={setIsOpen}
+                showSidePanel={isOpen}
                 setSidePanelContent={setSidePanelContent}
                 setWorkshopId={setWorkshopId}
                 workshops={workshops}

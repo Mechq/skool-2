@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 export default function CreateButton({ setShowSidePanel, showSidePanel, setSidePanelContent, rotateSpan, setRotateSpan }) {
-    // const [rotateSpan, setRotateSpan] = useState(false);
-
     const handleClick = () => {
         setSidePanelContent("create");
         setShowSidePanel(!showSidePanel);
@@ -11,10 +9,10 @@ export default function CreateButton({ setShowSidePanel, showSidePanel, setSideP
 
     return (
         <button
-            className={`fixed right-4 bottom-4 px-4 h-12 bg-[#F49700] text-white text-2xl text-center border-none z-50 transition-colors ease-in-out hover:bg-[#e18d00] cursor-pointer`}
+            className="fixed right-4 bottom-4 w-12 h-12 bg-[#F49700] text-white text-2xl flex items-center justify-center rounded-full border-none z-50 transition-colors ease-in-out hover:bg-[#e18d00] cursor-pointer"
             onClick={handleClick}
         >
-            <span className={`inline-block transition-transform ease-in-out duration-300 ${rotateSpan ? 'rotate-45' : ''}`}>
+            <span className={`transition-transform ease-in-out duration-300 ${rotateSpan ? 'transform rotate-45' : ''}`}>
                 {'+'}
             </span>
         </button>
