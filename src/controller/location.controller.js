@@ -94,6 +94,30 @@ let locationController = {
                 });
             }
         });
+    },
+
+    getDefaultLocationByCustomerId: (req, res, next) => {
+        const customerId = req.params.customerId;
+
+        logger.info("retrieving default location by customer id", customerId);
+
+        locationService.getDefaultLocationByCustomerId(customerId, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 };
 
