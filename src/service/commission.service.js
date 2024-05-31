@@ -159,12 +159,12 @@ const commissionService = {
             });
         },
 
-        getCustomer: (customerId, callback) => {
-            logger.info('getting customer by id', customerId);
+        getCustomer: (commissionId, callback) => {
+            logger.info('getting customer by commission id', commissionId);
 
             let sql = 'SELECT name FROM customer WHERE id = (SELECT customerId FROM commission WHERE id = ?)';
 
-            database.query(sql, [customerId], (error, results, fields) => {
+            database.query(sql, [commissionId], (error, results, fields) => {
                 if (error) {
                     logger.error('Error getting customer', error);
                     callback(error, null);
@@ -178,7 +178,7 @@ const commissionService = {
                             data: results[0],
                         });
                     } else {
-                        logger.warn('No customer found with id', customerId);
+                        logger.warn('No customer found with commission id', commissionId);
                         callback({
                             status: 404,
                             message: 'Customer not found',

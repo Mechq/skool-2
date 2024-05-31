@@ -99,10 +99,10 @@ let commissionController = {
     },
 
     getCustomer: (req, res, next) => {
-        const customerId = req.params.customerId;
-        logger.info('retrieving customer name', customerId);
+        const commissionId = req.params.commissionId;
+        logger.info('retrieving customer name from commissionId', commissionId);
 
-        commissionService.getCustomer(customerId, (error, success) => {
+        commissionService.getCustomer(commissionId, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,
