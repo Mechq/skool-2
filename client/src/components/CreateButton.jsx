@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CreateButton({ setShowSidePanel, showSidePanel, setSidePanelContent, rotateSpan, setRotateSpan }) {
+export default function CreateButton({ setShowSidePanel, showSidePanel, setSidePanelContent, rotateSpan, setRotateSpan}) {
     const handleClick = () => {
         setSidePanelContent("create");
         setShowSidePanel(!showSidePanel);

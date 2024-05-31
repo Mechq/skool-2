@@ -1,9 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 
 export default function MailTemplateContent() {
-    const [subject, setSubject] = useState("");
-    const [details, setDetails] = useState("");
-    const [name, setName] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -14,7 +11,7 @@ export default function MailTemplateContent() {
 
         // Check if all required fields have values
         if (!subject || !details || !name) {
-            return; // Exit the function if any required field is empty
+            return;
         }
 
         const mailTemplate = {
