@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import '../../styles/components/EditPanelContent.css'
+import '../../styles/optionsRoundCreate.css'
 
 export default function EditCommissionPanelContent({setShowSidePanel, commissionId}) {
     const [customerId, setCustomerId] = useState("");
@@ -8,6 +9,9 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
 
     const[rounds, setRounds] = useState([])
     const[types, setTypes] = useState([])
+
+    const [showOptions, setShowOptions] = useState(false); // New state for showing options
+
 
     const [customerIdValid, setCustomerIdValid] = useState(true);
     const [detailsValid, setDetailsValid] = useState(true);
@@ -80,6 +84,17 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
     //     e.target.style.height = `${e.target.scrollHeight}px`;
     // };
 
+    const addRound = (e) => {
+        e.preventDefault()
+        setShowOptions(!showOptions);
+    }
+
+    const handleOptionClick = (option) => {
+        // Add the selected option to the types list and hide the options list
+        // setTypes([...types, option]);
+        setShowOptions(false);
+    };
+
     return (
         <div className='workshopEditContent'>
             <h1 className='side-panel-title'>Bewerk opdracht</h1>
@@ -127,10 +142,26 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
                                 <li key={index}>{type}</li>
                             ))}
                         </ul>
+                        <div style={{position: 'relative'}}>
+                            <button onClick={addRound}>+</button>
+                            {showOptions && (
+                                <div className="options-list">
+                                    <ul>
+                                        <li onClick={() => handleOptionClick("pauze toevoegen")}>pauze toevoegen</li>
+                                        <li onClick={() => handleOptionClick("afsluiting toevoegen")}>afsluiting
+                                            toevoegen
+                                        </li>
+                                        <li onClick={() => handleOptionClick("warmingup toevoegen")}>warmingup
+                                            toevoegen
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
-    );
+);
 }
 
