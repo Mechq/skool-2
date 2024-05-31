@@ -9,6 +9,13 @@ export default function MailTemplateList({ setShowSidePanel, setSidePanelContent
         setRotateSpan(true); // add this line
     };
 
+    const truncateDetails = (details, maxLength = 50) => {
+        if (details.length > maxLength) {
+            return details.substring(0, maxLength) + '...';
+        }
+        return details;
+    };
+
     return (
         <div>
             <div className="flex-container">
@@ -29,7 +36,7 @@ export default function MailTemplateList({ setShowSidePanel, setSidePanelContent
                                     <td className="table-cell start">{mailTemplate.name}</td>
                                     <td className="table-cell end">{mailTemplate.subject}</td>
                                     <td className="table-cell end">{mailTemplate.cc}</td>
-                                    <td className="table-cell end padded">{mailTemplate.details}</td>
+                                    <td className="table-cell end padded">{truncateDetails(mailTemplate.details)}</td>
                                 </tr>
                             ))}
                             </tbody>
@@ -40,29 +47,3 @@ export default function MailTemplateList({ setShowSidePanel, setSidePanelContent
         </div>
     );
 }
-
-
-
-// import {React} from "react";
-
-// function MailTemplateList({setShowSidePanel, setSidePanelContent, setMailTemplateId, mailTemplates}) {
-//     const editMailTemplate = (id) => {
-//         setMailTemplateId(id);
-//         setSidePanelContent("edit");
-//         setShowSidePanel(true);
-//     };
-
-//     return (
-//         <div>
-//             <h1>Mail Templates</h1>
-//             <ul className={"list"}>
-//                 {mailTemplates.map(mailTemplate => (
-//                     <li key={mailTemplate.id} onClick={() => editMailTemplate(mailTemplate.id)}>
-//                         {mailTemplate.name}</li>
-//                 ))}
-//             </ul>
-//         </div>
-//     );
-// }
-
-// export default MailTemplateList;
