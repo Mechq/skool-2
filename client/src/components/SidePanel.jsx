@@ -13,11 +13,6 @@ function SidePanel({isOpen, setIsOpen,  rotateSpan, setRotateSpan, children}) {
                             ? " transition-opacity opacity-100 duration-500 "
                             : " transition-opacity duration-500 opacity-0 ")
                     }
-                    onClick={() => {
-                        setIsOpen(false);
-                        setRotateSpan(!rotateSpan);
-
-                    }}
                 >
                     <section
                         className={
