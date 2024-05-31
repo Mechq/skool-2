@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import '../../styles/components/EditPanelContent.css'
+import '../../styles/optionsRoundCreate.css'
 
 export default function EditCommissionPanelContent({setShowSidePanel, commissionId}) {
     const [customerId, setCustomerId] = useState("");
@@ -8,6 +9,9 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
 
     const[rounds, setRounds] = useState([])
     const[types, setTypes] = useState([])
+
+    const [showOptions, setShowOptions] = useState(false); // New state for showing options
+
 
     const [customerIdValid, setCustomerIdValid] = useState(true);
     const [detailsValid, setDetailsValid] = useState(true);
@@ -38,7 +42,7 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
                 .then(response => {
                     const data = response.data;
                     // Assuming `data` is an array of objects
-                    const _types = data.map(item => item.Type);
+                    const _types = data.map(item => item.type);
                     setTypes(_types);
                 })
                 .catch(error => console.error('Error fetching round:', error));
@@ -79,6 +83,35 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
     //     e.target.style.height = 'auto';
     //     e.target.style.height = `${e.target.scrollHeight}px`;
     // };
+
+    const addRound = (e) => {
+        e.preventDefault()
+        setShowOptions(!showOptions);
+    }
+
+    const handleOptionClick = (option) => {
+        console.log(option);
+        setShowOptions(false);
+
+        const requestBody = JSON.stringify({ type: option });
+
+        fetch(`/api/round/${commissionId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: requestBody,
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Optionally update the types list with the new round type from the response
+                setTypes(prevTypes => [...prevTypes, option]);
+            })
+            .catch(error => console.error('Error:', error));
+    };
+
+
 
     return (
         <div className='workshopEditContent'>
@@ -127,10 +160,26 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
                                 <li key={index}>{type}</li>
                             ))}
                         </ul>
+                        <div style={{position: 'relative'}}>
+                            <button onClick={addRound}>+</button>
+                            {showOptions && (
+                                <div className="options-list">
+                                    <ul>
+                                        <li onClick={() => handleOptionClick("pauze")}>pauze toevoegen</li>
+                                        <li onClick={() => handleOptionClick("afsluiting")}>afsluiting
+                                            toevoegen
+                                        </li>
+                                        <li onClick={() => handleOptionClick("warmingup")}>warmingup
+                                            toevoegen
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
-    );
+);
 }
 

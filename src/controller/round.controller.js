@@ -4,10 +4,10 @@ const logger = require('../util/logger');
 let roundController = {
     createRound: (req, res, next) => {
         const round = req.body;
-
+        const commissionId = req.params.id;
         logger.info('creating round', round);
 
-        roundService.create(round, (error, success) => {
+        roundService.create(commissionId, round, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,
