@@ -46,11 +46,11 @@ export default function MailTemplates() {
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                         <tr>
-                            <th scope="col" className="px-6 py-3">Template Name</th>
-                            <th scope="col" className="px-6 py-3">Subject</th>
+                            <th scope="col" className="px-6 py-3">Template Naam</th>
+                            <th scope="col" className="px-6 py-3">Onderwerp</th>
                             <th scope="col" className="px-6 py-3"></th>
                             <th scope="col" className="px-6 py-3">Created At</th>
-                            <th scope="col" className="px-6 py-3">Action</th>
+                            <th scope="col" className="px-6 py-3">Bewerken</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +67,7 @@ export default function MailTemplates() {
                                         setMailTemplateId(template.id);
                                         setSidePanelContent("edit");
                                         setIsOpen(true);
-                                    }} className="font-medium text-blue-600 light:text-blue-500 hover:underline">Edit</a>
+                                    }} className="font-medium text-[#f49700] light:text-[#f49700] hover:underline">Bewerken</a>
                                 </td>
                             </tr>
                         ))}
