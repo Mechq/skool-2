@@ -51,38 +51,34 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
 
     console.log(types)
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //
-    //     if (!subject) setSubject(false);
-    //     if (!details) setDetailsValid(false);
-    //     if (!name) setNameValid(false);
-    //     if (!subject || !details) return;
-    //
-    //     const mailTemplate = {
-    //         subject,
-    //         details,
-    //         name
-    //     };
-    //
-    //     fetch(`/api/mailTemplate/${mailTemplateId}`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(mailTemplate),
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log('Success:', data);
-    //             setShowSidePanel(false); // Close the side panel after submission
-    //         })
-    //         .catch(error => console.error('Error:', error));
-    // };
-    // const autoResize = (e) => {
-    //     e.target.style.height = 'auto';
-    //     e.target.style.height = `${e.target.scrollHeight}px`;
-    // };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (!customerId) setCustomerIdValid(false);
+        if (!details) setDetailsValid(false);
+        if (!targetAudience) setTargetAudienceValid(false);
+        if (!customerId || !details || !targetAudience) return;
+
+        const commission = {
+            customerId,
+            details,
+            targetAudience
+        };
+
+        fetch(`/api/commission/${commissionId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(commission),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                setShowSidePanel(false); // Close the side panel after submission
+            })
+            .catch(error => console.error('Error:', error));
+    };
 
     const addRound = (e) => {
         e.preventDefault()
@@ -105,7 +101,6 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                // Optionally update the types list with the new round type from the response
                 setTypes(prevTypes => [...prevTypes, option]);
             })
             .catch(error => console.error('Error:', error));
@@ -177,6 +172,7 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
                             )}
                         </div>
                     </div>
+                    <button onClick={handleSubmit}>Opslaan</button>
                 </form>
             </div>
         </div>

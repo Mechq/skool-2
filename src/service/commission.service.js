@@ -116,7 +116,48 @@ const commissionService = {
                 }
             }
         });
-    }
+    },
+    update:
+        (commission, commissionId, callback) => {
+            logger.info('updating commission', commission);
+
+            let sql = 'UPDATE commission SET ';
+            const values = [];
+
+            if (commission.customerId) {
+                sql += 'customerId = ?, ';
+                values.push(commission.customerId);
+            }
+            if (commission.details) {
+                sql += 'details = ?, ';
+                values.push(commission.details);
+            }
+            if (commission.targetAudience) {
+                sql += 'targetAudience = ?, ';
+                values.push(commission.targetAudience);
+            }
+            // Remove the trailing comma and space
+            sql = sql.slice(0, -2);
+
+            sql += ' WHERE id = ?';
+            values.push(commissionId);
+
+            database.query(sql, values, (error, results, fields) => {
+                if (error) {
+                    logger.error('Error updating commission', error);
+                    callback(error, null);
+
+                } else {
+                    if (results.affectedRows > 0) {
+                        logger.info('commission updated successfully');
+                        callback(null, 'commission updated successfully');
+                    } else {
+                        logger.info('No commission found with the provided ID');
+                        callback(null, 'No commission found with the provided ID');
+                    }
+                }
+            });
+        },
 
 };
 
