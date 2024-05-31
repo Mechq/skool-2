@@ -1,4 +1,3 @@
-const { getCommissionById } = require('../controller/commission.controller');
 const database = require('../database/database.connection');
 const logger = require('../util/logger');
 
