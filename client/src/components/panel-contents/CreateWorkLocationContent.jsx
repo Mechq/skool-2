@@ -1,41 +1,23 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
-export default function CreateWorkLocationContent() {
-    const [name, setName] = useState(""); // Name state
-    const [street, setStreet] = useState("");  // Street state
-    const [houseNumber, setHouseNumber] = useState("");  // House number state
-    const [city, setCity] = useState("");  // City state
-    const [postalCode, setPostalCode] = useState("");  // Postal code state
-
-    const [nameValid, setNameValid] = useState(true); // Name validation state
-    const [streetValid, setStreetValid] = useState(true);  // Street validation state
-    const [houseNumberValid, setHouseNumberValid] = useState(true);  // House number validation state
-    const [cityValid, setCityValid] = useState(true);  // City validation state
-    const [postalCodeValid, setPostalCodeValid] = useState(true);  // Postal code validation state
+export default function CreateWorkLocationContent({setWorkLocations, setShowSidePanel}) {
+    const [name, setName] = useState("");
+    const [street, setStreet] = useState("");
+    const [houseNumber, setHouseNumber] = useState("");
+    const [city, setCity] = useState("");
+    const [postalCode, setPostalCode] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Validation
-        if (!name) setNameValid(false);
-        if (!street) setStreetValid(false);
-        if (!houseNumber) setHouseNumberValid(false);
-        if (!city) setCityValid(false);
-        if (!postalCode) setPostalCodeValid(false);
-
-        // If any field is invalid, stop the form submission
-        if (!name || !street || !houseNumber || !city || !postalCode) return;
-
-        // Create a new location object
         const location = {
-            name,
-            street,
-            houseNumber: parseInt(houseNumber),
-            city,
-            postalCode
+            name: name,
+            street: street,
+            houseNumber: houseNumber,
+            city: city,
+            postalCode: postalCode
         };
 
-        // Send a POST request to the backend
         fetch('/api/location', {
             method: 'POST',
             headers: {
@@ -46,89 +28,148 @@ export default function CreateWorkLocationContent() {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                setName('');
+                setStreet('');
+                setHouseNumber('');
+                setCity('');
+                setPostalCode('');
+
+                fetch('/api/location')
+                    .then(res => res.json())
+                    .then(data => {
+                        setWorkLocations(data.data);
+                        setShowSidePanel(false);
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-
-        // Reset fields
-        setName('');
-        setStreet('');
-        setHouseNumber('');
-        setCity('');
-        setPostalCode('');
     };
 
     return (
-        <>
-            <h1 className='side-panel-title'>Create Work Location</h1>
-            <div className='side-panel-content'>
-                <form action="#" method="get" className="form-container">
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={name}
-                            onChange={(e) => {
-                                setName(e.target.value);
-                                setNameValid(true); // Reset validation state
-                            }}
-                            className={nameValid ? "" : "invalid"}  // Apply CSS class
-                            placeholder="Naam"
-                        />
-                        <input
-                            type="text"
-                            id="street"
-                            name="street"
-                            value={street}
-                            onChange={(e) => {
-                                setStreet(e.target.value);
-                                setStreetValid(true);  // Reset validation state
-                            }}
-                            className={streetValid ? "" : "invalid"}  // Apply CSS class
-                            placeholder="Straat"
-                        />
-                        <input
-                            type="text"
-                            id="houseNumber"
-                            name="houseNumber"
-                            value={houseNumber}
-                            onChange={(e) => {
-                                setHouseNumber(e.target.value);
-                                setHouseNumberValid(true);  // Reset validation state
-                            }}
-                            className={houseNumberValid ? "" : "invalid"}  // Apply CSS class
-                            placeholder="Huisnummer"
-                        />
-                        <input
-                            type="text"
-                            id="city"
-                            name="city"
-                            value={city}
-                            onChange={(e) => {
-                                setCity(e.target.value);
-                                setCityValid(true);  // Reset validation state
-                            }}
-                            className={cityValid ? "" : "invalid"}  // Apply CSS class
-                            placeholder="Stad"
-                        />
-                        <input
-                            type="text"
-                            id="postalCode"
-                            name="postalCode"
-                            value={postalCode}
-                            onChange={(e) => {
-                                setPostalCode(e.target.value);
-                                setPostalCodeValid(true);  // Reset validation state
-                            }}
-                            className={postalCodeValid ? "" : "invalid"}  // Apply CSS class
-                            placeholder="Postcode"
-                        />
+        <div className="px-6">
+            <header className="pt-4 pb-4 font-bold text-lg">Create Work Location</header>
+            <form>
+                <div className="grid gap-6 mb-6 md:grid-cols-2">
+                    <div>
+                        <label htmlFor="name"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Name</label>
+                        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="Name" required/>
                     </div>
-                    <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
-                </form>
-            </div>
-        </>
+                    <div>
+                        <label htmlFor="street"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Street</label>
+                        <input type="text" id="street" value={street} onChange={(e) => setStreet(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="Street" required/>
+                    </div>
+                    <div>
+                        <label htmlFor="houseNumber"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">House Number</label>
+                        <input type="text" id="houseNumber" value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="House Number" required/>
+                    </div>
+                    <div>
+                        <label htmlFor="city"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">City</label>
+                        <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="City" required/>
+                    </div>
+                    <div>
+                        <label htmlFor="postalCode"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Postal Code</label>
+                        <input type="text" id="postalCode" value={postalCode} onChange={(e) => setPostalCode(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="Postal Code" required/>
+                    </div>
+                </div>
+                <button type="submit" onClick={handleSubmit}
+                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Submit
+                </button>
+            </form>
+        </div>
     );
 }
+
+
+
+
+
+
+
+
+    // {/*<h1 className='side-panel-title'>Create Work Location</h1>*/}
+    //         {/*<div className='side-panel-content'>*/}
+    //         {/*    <form action="#" method="get" className="form-container">*/}
+    //         {/*        <div className="form-group">*/}
+    //         {/*            <input*/}
+    //         {/*                type="text"*/}
+    //         {/*                id="name"*/}
+    //         {/*                name="name"*/}
+    //         {/*                value={name}*/}
+    //         {/*                onChange={(e) => {*/}
+    //         {/*                    setName(e.target.value);*/}
+    //         {/*                    setNameValid(true); // Reset validation state*/}
+    //         {/*                }}*/}
+    //         {/*                className={nameValid ? "" : "invalid"}  // Apply CSS class*/}
+    //         {/*                placeholder="Naam"*/}
+    //         {/*            />*/}
+    //         {/*            <input*/}
+    //         {/*                type="text"*/}
+    //         {/*                id="street"*/}
+    //         {/*                name="street"*/}
+    //         {/*                value={street}*/}
+    //         {/*                onChange={(e) => {*/}
+    //         {/*                    setStreet(e.target.value);*/}
+    //         {/*                    setStreetValid(true);  // Reset validation state*/}
+    //         {/*                }}*/}
+    //         {/*                className={streetValid ? "" : "invalid"}  // Apply CSS class*/}
+    //         {/*                placeholder="Straat"*/}
+    //         {/*            />*/}
+    //         {/*            <input*/}
+    //         {/*                type="text"*/}
+    //         {/*                id="houseNumber"*/}
+    //         {/*                name="houseNumber"*/}
+    //         {/*                value={houseNumber}*/}
+    //         {/*                onChange={(e) => {*/}
+    //         {/*                    setHouseNumber(e.target.value);*/}
+    //         {/*                    setHouseNumberValid(true);  // Reset validation state*/}
+    //         {/*                }}*/}
+    //         {/*                className={houseNumberValid ? "" : "invalid"}  // Apply CSS class*/}
+    //         {/*                placeholder="Huisnummer"*/}
+    //         {/*            />*/}
+    //         {/*            <input*/}
+    //         {/*                type="text"*/}
+    //         {/*                id="city"*/}
+    //         {/*                name="city"*/}
+    //         {/*                value={city}*/}
+    //         {/*                onChange={(e) => {*/}
+    //         {/*                    setCity(e.target.value);*/}
+    //         {/*                    setCityValid(true);  // Reset validation state*/}
+    //         {/*                }}*/}
+    //         {/*                className={cityValid ? "" : "invalid"}  // Apply CSS class*/}
+    //         {/*                placeholder="Stad"*/}
+    //         {/*            />*/}
+    //         {/*            <input*/}
+    //         {/*                type="text"*/}
+    //         {/*                id="postalCode"*/}
+    //         {/*                name="postalCode"*/}
+    //         {/*                value={postalCode}*/}
+    //         {/*                onChange={(e) => {*/}
+    //         {/*                    setPostalCode(e.target.value);*/}
+    //         {/*                    setPostalCodeValid(true);  // Reset validation state*/}
+    //         {/*                }}*/}
+    //         {/*                className={postalCodeValid ? "" : "invalid"}  // Apply CSS class*/}
+    //         {/*                placeholder="Postcode"*/}
+    //         {/*            />*/}
+    //         {/*        </div>*/}
+    //         {/*        <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>*/}
+    //         {/*    </form>*/}
+    //         {/*</div>*/}
+
