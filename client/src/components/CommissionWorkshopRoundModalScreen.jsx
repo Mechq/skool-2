@@ -2,9 +2,11 @@ import React, {useEffect, useState} from "react";
 import "../styles/ModalScreen.css";
 import {use} from "chai";
 
-export default function CommissionWorkshopRoundModalScreen({ roundType, onClose, onSave }) {
+export default function CommissionWorkshopRoundModalScreen({ roundType,  roundId, onClose, onSave, }) {
+
     const [editedRound, setEditedRound] = useState(roundType);
     const [workshops, setWorkshops] = useState([])
+    const [selectedWorkshops, setSelectedWorkshops] = useState([])
 
     useEffect(() => {
         fetch('/api/workshop')
@@ -18,14 +20,55 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, onClose,
     }, []);
     // console.log(workshops)
 
-    const handleChange = (e) => {
-        setEditedRound(e.target.value);
+
+    const handleCheckboxChange = (workshopId) => {
+        setSelectedWorkshops(prevSelectedWorkshops => {
+            if (prevSelectedWorkshops.includes(workshopId)) {
+                return prevSelectedWorkshops.filter(id => id !== workshopId);
+            } else {
+                return [...prevSelectedWorkshops, workshopId];
+            }
+        });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         onSave(editedRound);
+        console.log(roundId, "----------------")
+
+        const fetchPromises = selectedWorkshops.map(selectedWorkshop => {
+            // console.log(selectedWorkshop)
+            console.log(selectedWorkshop, "ppppppppppppppppppppppppppppppppppppp")
+            return fetch(`/api/workshopRound/${selectedWorkshop}/${roundId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    workshopId: selectedWorkshop.id,
+                    roundId: editedRound.id
+                    //TODO add amountOfStudents and amountOfTeachers
+
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        Promise.all(fetchPromises)
+            .then(() => {
+                // setShowSidePanel(false); // Close the side panel after all submissions
+                onClose()
+            })
+            .catch(error => {
+                console.error('Error in one of the fetch calls:', error);
+            });
     };
+
+
 
         return (
             <div className="round-edit-modal">
@@ -40,15 +83,15 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, onClose,
                                 <label>
                                     <input
                                         type="checkbox"
-                                        // checked={selectedWorkshops.includes(workshop.id)}
-                                        // onChange={() => handleCheckboxChange(workshop.id)}
+                                        checked={selectedWorkshops.includes(workshop.id)}
+                                        onChange={() => handleCheckboxChange(workshop.id)}
                                     />
                                     {workshop.name}
                                 </label>
                             </li>
                         ))}
                     </ul>
-                    <button type="submit">Save</button>
+                    <button type="submit" onClick={handleSubmit}>Save</button>
 
                 </div>
             </div>

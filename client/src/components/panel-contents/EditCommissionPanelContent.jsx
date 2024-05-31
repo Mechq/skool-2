@@ -4,23 +4,24 @@ import "../../styles/optionsRoundCreate.css";
 import RoundEditModal from "../CommissionRoundModalScreen";
 import WorkshopRoundEditModal from "../CommissionWorkshopRoundModalScreen";
 
-export default function EditCommissionPanelContent({
-                                                       setShowSidePanel,
-                                                       commissionId,
-                                                   }) {
+export default function EditCommissionPanelContent({ setShowSidePanel, commissionId }) {
     const [customerId, setCustomerId] = useState("");
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
     const [selectedCustomer, setSelectedCustomer] = useState("");
     const [customers, setCustomers] = useState([]);
+    const [locationName, setLocationName] = useState("");
 
-    const [rounds, setRounds] = useState([]);
+    const [roundIds, setRoundIds] = useState([]);
     const [types, setTypes] = useState([]);
+    const [editedRoundId, setEditedRoundId] = useState(""); // State to store the edited round ID
 
     const [showOptions, setShowOptions] = useState(false); // New state for showing options
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingRoundType, setEditingRoundType] = useState("");
     const [editedRoundType, setEditedRoundType] = useState("");
+
+    const [locationNameValid, setLocationNameValid] = useState(true);
 
     const [customerIdValid, setCustomerIdValid] = useState(true);
     const [detailsValid, setDetailsValid] = useState(true);
@@ -43,15 +44,18 @@ export default function EditCommissionPanelContent({
         }
     }, [commissionId]);
 
+
+
     useEffect(() => {
         if (commissionId) {
             fetch(`/api/round/${commissionId}`)
                 .then((res) => res.json())
                 .then((response) => {
                     const data = response.data;
-                    // Assuming `data` is an array of objects
                     const _types = data.map((item) => item.type);
                     setTypes(_types);
+                    const _roundIds = data.map((item) => item.id);
+                    setRoundIds(_roundIds);
                 })
                 .catch((error) => console.error("Error fetching round:", error));
         }
@@ -79,6 +83,24 @@ export default function EditCommissionPanelContent({
                 console.error("Error:", error);
             });
     }, []);
+
+    useEffect(() => {
+        console.log(selectedCustomer)
+        console.log(selectedCustomer.id)
+        if (selectedCustomer.id) {
+            fetch(`/api/location/default/${selectedCustomer.id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const locationData = data.data;
+                    const locationName = locationData ? locationData.name || "" : "";
+                    setLocationName(locationName);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    setLocationName(""); // Ensure locationName is always defined
+                });
+            console.log(locationName)
+        }})
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -117,7 +139,7 @@ export default function EditCommissionPanelContent({
     const handleOptionClick = (option) => {
         console.log(option);
         setShowOptions(false);
-        const requestBody = JSON.stringify({type: option});
+        const requestBody = JSON.stringify({ type: option });
 
         fetch(`/api/round/${commissionId}`, {
             method: "POST",
@@ -130,14 +152,16 @@ export default function EditCommissionPanelContent({
             .then((data) => {
                 console.log("Success:", data);
                 setTypes((prevTypes) => [...prevTypes, option]);
+                setRoundIds(prevRoundIds => [...prevRoundIds, data.data.id]); // Assuming the backend returns the created round with an ID
             })
             .catch((error) => console.error("Error:", error));
     };
 
-    const editRound = (type) => {
+    const editRound = (type, id) => {
         console.log(type);
         setEditingRoundType(type);
         setEditedRoundType(type);
+        setEditedRoundId(id); // Set the edited round ID
         setShowEditModal(true);
     };
 
@@ -199,11 +223,23 @@ export default function EditCommissionPanelContent({
                         className={targetAudienceValid ? "" : "invalid"} // Apply CSS class
                         placeholder={targetAudience}
                     />
+                    <input
+                        type="text"
+                        id="locationName"
+                        name="locationName"
+                        value={locationName}
+                        onChange={(e) => {
+                            setLocationName(e.target.value);
+                            setLocationNameValid(true); // Reset validation state
+                        }}
+                        className={locationNameValid ? "" : "invalid"}  // Apply CSS class
+                        placeholder={locationName ? locationName : "Location"}
+                    />
                     <div>
                         <h2>Rondes</h2>
                         <ul>
                             {types.map((type, index) => (
-                                <li key={index} onClick={() => editRound(type)}>
+                                <li key={index} onClick={() => editRound(type, roundIds[index])}>
                                     {type}
                                 </li>
                             ))}
@@ -236,6 +272,7 @@ export default function EditCommissionPanelContent({
             {showEditModal && editedRoundType === "workshopronde" && (
                 <WorkshopRoundEditModal
                     roundType={editedRoundType}
+                    roundId={editedRoundId} // Pass the round ID
                     onClose={handleModalClose}
                     onSave={handleModalSave}
                 />
@@ -243,6 +280,7 @@ export default function EditCommissionPanelContent({
             {showEditModal && editedRoundType !== "workshopronde" && (
                 <RoundEditModal
                     roundType={editedRoundType}
+                    roundId={editedRoundId} // Pass the round ID
                     onClose={handleModalClose}
                     onSave={handleModalSave}
                 />
@@ -250,4 +288,3 @@ export default function EditCommissionPanelContent({
         </div>
     );
 }
-
