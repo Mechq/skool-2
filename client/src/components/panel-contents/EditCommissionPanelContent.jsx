@@ -6,6 +6,8 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
     const [customerId, setCustomerId] = useState("");
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("")
+    const [selectedCustomer, setSelectedCustomer] = useState("")
+    const [customers, setCustomers] = useState([])
 
     const[rounds, setRounds] = useState([])
     const[types, setTypes] = useState([])
@@ -18,6 +20,7 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
     const [targetAudienceValid, setTargetAudienceValid] = useState(true);
     const[roundsValid, setRoundsValid] = useState(true)
     const[typesValid, setTypesValid] = useState(true)
+    const[customerNameValid, setCustomerNameValid] = useState(true)
 
     useEffect(() => {
         if (commissionId) {
@@ -49,7 +52,31 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
         }
     }, [commissionId]);
 
-    console.log(types)
+    useEffect(() => {
+        if (commissionId) {
+            fetch(`/api/commission/customer/${commissionId}`)
+                .then(res => res.json())
+                .then(response => {
+                    const data = response.data;
+                    setSelectedCustomer(data.name || "");
+                })
+                .catch(error => console.error('Error fetching round:', error));
+        }
+    }, [commissionId]);
+
+    useEffect(() => {
+        fetch('/api/customer')
+            .then(response => response.json())
+            .then(data => {
+                setCustomers(data.data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, []);
+
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -113,18 +140,24 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
             <h1 className='side-panel-title'>Bewerk opdracht</h1>
             <div className='side-panel-content'>
                 <form action="#" method="get" className="form-container">
-                    <input
-                        type="text"
+                    <select
                         id="customerId"
                         name="customerId"
-                        value={customerId}
+                        value={selectedCustomer} // Change value to selectedCustomer
                         onChange={(e) => {
-                            setCustomerId(e.target.value)
+                            setCustomerId(e.target.value);
                             setCustomerIdValid(true); // Reset validation state
                         }}
                         className={customerIdValid ? "" : "invalid"}  // Apply CSS class
-                        placeholder={customerId}
-                    />
+                    >
+                        <option value="" disabled>{selectedCustomer}</option>
+                        {customers.map(customer => (
+                            <option key={customer.id} value={customer.id}>
+                                {customer.name}
+                            </option>
+                        ))}
+                    </select>
+
                     <input
                         type="text"
                         id="details"
@@ -176,6 +209,6 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
                 </form>
             </div>
         </div>
-);
+    );
 }
 
