@@ -4,10 +4,12 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
     const [customerId, setCustomerId] = useState("");
+    const [locationName, setLocationName] = useState("");
 
     const [detailsValid, setDetailsValid] = useState(true);
     const [targetAudienceValid, setTargetAudienceValid] = useState(true);
     const [customerIdValid, setCustomerIdValid] = useState(true);
+    const [locationNameValid, setLocationNameValid] = useState(true);
 
     const [customers, setCustomers] = useState([]); // Customers state
 
@@ -22,6 +24,26 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
             });
     }, []);
 
+    const handleCustomerChange = (e) => {
+        const selectedCustomerId = e.target.value;
+        console.log(selectedCustomerId)
+        setCustomerId(selectedCustomerId);
+        setCustomerIdValid(true); // Reset validation state
+
+        // Fetch location name for the selected customer
+        fetch(`/api/location/default/${selectedCustomerId}`)
+            .then(response => response.json())
+            .then(data => {
+                const locationData = data.data;
+                const locationName = locationData ? locationData.name || "" : "";
+                setLocationName(locationName);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                setLocationName(""); // Ensure locationName is always defined
+            });
+        console.log(locationName)
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -56,6 +78,7 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                 setCustomerId('');
                 setTargetAudience('');
                 setDetails('');
+                setLocationName('');
 
                 fetch('/api/commission')
                     .then(res => res.json())
@@ -79,10 +102,7 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                     id="customerId"
                     name="customerId"
                     value={customerId}
-                    onChange={(e) => {
-                        setCustomerId(e.target.value);
-                        setCustomerIdValid(true); // Reset validation state
-                    }}
+                    onChange={handleCustomerChange}
                     className={customerIdValid ? "" : "invalid"}  // Apply CSS class
                 >
                     <option value="" disabled>Select Customer</option>
@@ -114,6 +134,18 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                     }}
                     className={targetAudienceValid ? "" : "invalid"}  // Apply CSS class
                     placeholder="Doelgroep"
+                />
+                <input
+                    type="text"
+                    id="locationName"
+                    name="locationName"
+                    value={locationName}
+                    onChange={(e) => {
+                        setLocationName(e.target.value);
+                        setLocationNameValid(true); // Reset validation state
+                    }}
+                    className={locationNameValid ? "" : "invalid"}  // Apply CSS class
+                    placeholder={locationName ? locationName : "Location"}
                 />
             </form>
             <button className="submit-fab fab-common saveButton" onClick={handleSubmit}>Aanmaken</button>
