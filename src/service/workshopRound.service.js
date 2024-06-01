@@ -62,25 +62,26 @@ const workshopRound = {
             if (error) {
                 logger.error('Error getting workshops', error);
                 callback(error, null);
-
             } else {
                 if (results.length > 0) {
-                    logger.info('Workshops fetched successfully', results[0]);
+                    logger.info('Workshops fetched successfully', results);
                     callback(null, {
                         status: 200,
                         message: 'Workshops fetched successfully',
                         data: results,
                     });
                 } else {
-                    logger.warn('No workshops found with round id', roundId);
-                    callback({
-                        status: 404,
-                        message: 'workshops not found',
-                    }, null);
+                    logger.debug('No workshops found with round id', roundId);
+                    callback(null, {
+                        status: 200,
+                        message: 'No workshops found for round id ' + roundId,
+                        data: [],
+                    });
                 }
             }
         });
     }
+
 
 };
 
