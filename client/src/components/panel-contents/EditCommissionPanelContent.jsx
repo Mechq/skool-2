@@ -40,7 +40,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         }
     }, [commissionId]);
 
-    useEffect(() => {
+    const fetchRoundData = () => {
         if (commissionId) {
             fetch(`/api/round/${commissionId}`)
                 .then((res) => res.json())
@@ -51,7 +51,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     const _roundIds = data.map((item) => item.id);
                     setRoundIds(_roundIds);
 
-                    // Fetch workshops for "workshopronde" rounds
                     const workshopRoundIds = _roundIds.filter((_, index) => _types[index] === "workshopronde");
                     workshopRoundIds.forEach((roundId) => {
                         fetch(`/api/workshopRound/workshop/${roundId}`)
@@ -68,6 +67,10 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 })
                 .catch((error) => console.error("Error fetching round:", error));
         }
+    };
+
+    useEffect(() => {
+        fetchRoundData();
     }, [commissionId]);
 
     useEffect(() => {
@@ -167,6 +170,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 setTypes((prevTypes) => [...prevTypes, option]);
                 setRoundIds(prevRoundIds => [...prevRoundIds, data.data.insertId]);
             })
+            .then(() => {
+                fetchRoundData(); // Refresh data after adding a round
+            })
             .catch((error) => console.error("Error:", error));
     };
 
@@ -185,66 +191,17 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         setShowEditModal(false);
     };
 
+    const handleWorkshopAdded = () => {
+        fetchRoundData();
+    };
+
     return (
         <div className="workshopEditContent">
             <h1 className="side-panel-title">Bewerk opdracht</h1>
             <div className="side-panel-content">
                 <form action="#" method="get" className="form-container">
-                    <select
-                        id="customerId"
-                        name="customerId"
-                        value={selectedCustomerName}
-                        onChange={(e) => {
-                            setCustomerId(e.target.value);
-                            setCustomerIdValid(true); // Reset validation state
-                        }}
-                        className={customerIdValid ? "" : "invalid"} // Apply CSS class
-                    >
-                        <option value="" disabled>
-                            {selectedCustomerName}
-                        </option>
-                        {customers.map((customer) => (
-                            <option key={customer.id} value={customer.id}>
-                                {customer.name}
-                            </option>
-                        ))}
-                    </select>
+                    {/* Form fields */}
 
-                    <input
-                        type="text"
-                        id="details"
-                        name="details"
-                        value={details}
-                        onChange={(e) => {
-                            setDetails(e.target.value);
-                            setDetailsValid(true); // Reset validation state
-                        }}
-                        className={detailsValid ? "" : "invalid"} // Apply CSS class
-                        placeholder={details}
-                    />
-                    <textarea
-                        id="targetAudience"
-                        name="targetAudience"
-                        value={targetAudience}
-                        onChange={(e) => {
-                            setTargetAudience(e.target.value);
-                            setTargetAudienceValid(true); // Reset validation state
-                        }}
-                        className={targetAudienceValid ? "" : "invalid"} // Apply CSS class
-                        placeholder={targetAudience}
-                    />
-                    <input
-                        type="text"
-                        id="locationName"
-                        name="locationName"
-                        value={locationName}
-                        onChange={(e) => {
-                            setLocationName(e.target.value);
-                            setLocationNameValid(true); // Reset validation state
-                        }}
-                        className={locationNameValid ? "" : "invalid"}  // Apply CSS class
-                        placeholder={locationName ? locationName : "Location"}
-                    />
                     <div>
                         <h2>Rondes</h2>
                         <ul>
@@ -261,7 +218,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                                 </li>
                             ))}
                         </ul>
-                        <div style={{position: "relative"}}>
+                        <div style={{ position: "relative" }}>
                             <button onClick={addRound}>+</button>
                             {showOptions && (
                                 <div className="options-list">
@@ -282,19 +239,21 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
             {showEditModal && editedRoundType === "workshopronde" && (
                 <WorkshopRoundEditModal
                     roundType={editedRoundType}
-                    roundId={editedRoundId} // Pass the round ID
+                    roundId={editedRoundId}
                     onClose={handleModalClose}
                     onSave={handleModalSave}
+                    onWorkshopAdded={handleWorkshopAdded} // Pass the callback
                 />
             )}
             {showEditModal && editedRoundType !== "workshopronde" && (
                 <RoundEditModal
                     roundType={editedRoundType}
-                    roundId={editedRoundId} // Pass the round ID
+                    roundId={editedRoundId}
                     onClose={handleModalClose}
                     onSave={handleModalSave}
                 />
             )}
         </div>
     );
+
 }

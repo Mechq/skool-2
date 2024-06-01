@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../styles/ModalScreen.css";
 import {use} from "chai";
 
-export default function CommissionWorkshopRoundModalScreen({ roundType,  roundId, onClose, onSave, }) {
+export default function CommissionWorkshopRoundModalScreen({ roundType,  roundId, onClose, onSave, onWorkshopAdded ,}) {
 
     const [editedRound, setEditedRound] = useState(roundType);
     const [workshops, setWorkshops] = useState([])
@@ -34,11 +34,8 @@ export default function CommissionWorkshopRoundModalScreen({ roundType,  roundId
     const handleSubmit = (e) => {
         e.preventDefault();
         onSave(editedRound);
-        console.log(roundId, "----------------")
 
         const fetchPromises = selectedWorkshops.map(selectedWorkshop => {
-            // console.log(selectedWorkshop)
-            console.log(selectedWorkshop, "ppppppppppppppppppppppppppppppppppppp")
             return fetch(`/api/workshopRound/${selectedWorkshop}/${roundId}`, {
                 method: 'POST',
                 headers: {
@@ -60,7 +57,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType,  roundId
 
         Promise.all(fetchPromises)
             .then(() => {
-                // setShowSidePanel(false); // Close the side panel after all submissions
+                onWorkshopAdded();
                 onClose()
             })
             .catch(error => {
