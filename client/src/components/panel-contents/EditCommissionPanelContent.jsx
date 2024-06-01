@@ -165,7 +165,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
             .then((response) => response.json())
             .then((data) => {
                 setTypes((prevTypes) => [...prevTypes, option]);
-                setRoundIds(prevRoundIds => [...prevRoundIds, data.data.id]);
+                setRoundIds(prevRoundIds => [...prevRoundIds, data.data.insertId]);
             })
             .catch((error) => console.error("Error:", error));
     };
@@ -173,7 +173,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const editRound = (type, id) => {
         setEditingRoundType(type);
         setEditedRoundType(type);
-        setEditedRoundId(id); // Set the edited round ID
+        setEditedRoundId(id);
         setShowEditModal(true);
     };
 
