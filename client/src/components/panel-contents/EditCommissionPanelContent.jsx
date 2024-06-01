@@ -3,33 +3,27 @@ import "../../styles/components/EditPanelContent.css";
 import "../../styles/optionsRoundCreate.css";
 import RoundEditModal from "../CommissionRoundModalScreen";
 import WorkshopRoundEditModal from "../CommissionWorkshopRoundModalScreen";
-import {use} from "chai";
 
 export default function EditCommissionPanelContent({ setShowSidePanel, commissionId }) {
     const [customerId, setCustomerId] = useState("");
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
     const [selectedCustomerName, setSelectedCustomerName] = useState("");
-    const[selectedCustomerId, setSelectedCustomerId] = useState("")
+    const[selectedCustomerId, setSelectedCustomerId] = useState("");
     const [customers, setCustomers] = useState([]);
     const [locationName, setLocationName] = useState("");
-    const [workshops, setWorkshops] = useState([])
     const [roundIds, setRoundIds] = useState([]);
     const [types, setTypes] = useState([]);
+    const [workshopRoundWorkshops, setWorkshopRoundWorkshops] = useState({}); // Updated to store workshops for each roundId
     const [editedRoundId, setEditedRoundId] = useState(""); // State to store the edited round ID
-
     const [showOptions, setShowOptions] = useState(false); // New state for showing options
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingRoundType, setEditingRoundType] = useState("");
     const [editedRoundType, setEditedRoundType] = useState("");
-
     const [locationNameValid, setLocationNameValid] = useState(true);
-
     const [customerIdValid, setCustomerIdValid] = useState(true);
     const [detailsValid, setDetailsValid] = useState(true);
     const [targetAudienceValid, setTargetAudienceValid] = useState(true);
-    const [roundsValid, setRoundsValid] = useState(true);
-    const [typesValid, setTypesValid] = useState(true);
     const [customerNameValid, setCustomerNameValid] = useState(true);
 
     useEffect(() => {
@@ -46,44 +40,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         }
     }, [commissionId]);
 
-
-
-    useEffect(() => {
-        // Clear the workshops state before fetching new data
-        setWorkshops([]);
-        // Create a set to keep track of fetched round IDs
-        const fetchedRoundIds = new Set();
-
-        // Function to fetch workshops for a specific round
-        const fetchWorkshopsForRound = (roundId) => {
-            fetch(`/api/workshopRound/workshop/${roundId}`)
-                .then((res) => res.json())
-                .then((response) => {
-                    const data = response.data;
-                    console.log("Workshops data for round", roundId, ":", data); // Log the data
-                    setWorkshops((prevWorkshops) => [...prevWorkshops, { roundId: roundId, workshops: data }]);
-                })
-                .catch((error) => console.error("Error fetching workshops:", error));
-        };
-
-        // Fetch workshops for workshop rounds
-        roundIds.forEach((roundId, index) => {
-            // Check if the round ID corresponds to a workshop round
-            if (types[index] === "workshopronde") {
-                if (!fetchedRoundIds.has(roundId)) {
-                    fetchedRoundIds.add(roundId);
-                    console.log(roundId)
-                    fetchWorkshopsForRound(roundId);
-                }
-            }
-        });
-    }, [roundIds, types]);
-
-
-
-
-
-
     useEffect(() => {
         if (commissionId) {
             fetch(`/api/round/${commissionId}`)
@@ -94,6 +50,21 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     setTypes(_types);
                     const _roundIds = data.map((item) => item.id);
                     setRoundIds(_roundIds);
+
+                    // Fetch workshops for "workshopronde" rounds
+                    const workshopRoundIds = _roundIds.filter((_, index) => _types[index] === "workshopronde");
+                    workshopRoundIds.forEach((roundId) => {
+                        fetch(`/api/workshopRound/workshop/${roundId}`)
+                            .then((res) => res.json())
+                            .then((response) => {
+                                const data = response.data;
+                                setWorkshopRoundWorkshops((prevWorkshops) => ({
+                                    ...prevWorkshops,
+                                    [roundId]: data,
+                                }));
+                            })
+                            .catch((error) => console.error("Error fetching workshops:", error));
+                    });
                 })
                 .catch((error) => console.error("Error fetching round:", error));
         }
@@ -131,8 +102,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     }, []);
 
     useEffect(() => {
-        // console.log(selectedCustomerId, "aaaaaaaaaaaaa")
-        // console.log()
         if (selectedCustomerId) {
             fetch(`/api/location/default/${selectedCustomerId}`)
                 .then(response => response.json())
@@ -145,8 +114,8 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     console.error('Error:', error);
                     setLocationName(""); // Ensure locationName is always defined
                 });
-            // console.log(locationName)
-        }})
+        }
+    }, [selectedCustomerId]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -183,7 +152,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     };
 
     const handleOptionClick = (option) => {
-        // console.log(option);
         setShowOptions(false);
         const requestBody = JSON.stringify({ type: option });
 
@@ -196,15 +164,13 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log("Success:", data);
                 setTypes((prevTypes) => [...prevTypes, option]);
-                setRoundIds(prevRoundIds => [...prevRoundIds, data.data.id]); // Assuming the backend returns the created round with an ID
+                setRoundIds(prevRoundIds => [...prevRoundIds, data.data.id]);
             })
             .catch((error) => console.error("Error:", error));
     };
 
     const editRound = (type, id) => {
-        // console.log(type);
         setEditingRoundType(type);
         setEditedRoundType(type);
         setEditedRoundId(id); // Set the edited round ID
@@ -216,8 +182,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     };
 
     const handleModalSave = (editedType) => {
-        // Update the type in the backend
-        // console.log("Edited Type:", editedType);
         setShowEditModal(false);
     };
 
@@ -229,7 +193,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     <select
                         id="customerId"
                         name="customerId"
-                        value={selectedCustomerName} // Change value to selectedCustomer
+                        value={selectedCustomerName}
                         onChange={(e) => {
                             setCustomerId(e.target.value);
                             setCustomerIdValid(true); // Reset validation state
@@ -287,6 +251,13 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                             {types.map((type, index) => (
                                 <li key={index} onClick={() => editRound(type, roundIds[index])}>
                                     {type}
+                                    {type === "workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
+                                        <ul>
+                                            {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
+                                                <li key={workshop.id}>{workshop.name}</li>
+                                            ))}
+                                        </ul>
+                                    )}
                                 </li>
                             ))}
                         </ul>
@@ -295,40 +266,15 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                             {showOptions && (
                                 <div className="options-list">
                                     <ul>
-                                        <li onClick={() => handleOptionClick("pauze")}>
-                                            pauze toevoegen
-                                        </li>
-                                        <li onClick={() => handleOptionClick("afsluiting")}>
-                                            afsluiting toevoegen
-                                        </li>
-                                        <li onClick={() => handleOptionClick("warmingup")}>
-                                            warmingup toevoegen
-                                        </li>
-                                        <li onClick={() => handleOptionClick("workshopronde")}>
-                                            workshop ronde toevoegen
-                                        </li>
+                                        <li onClick={() => handleOptionClick("pauze")}>pauze toevoegen</li>
+                                        <li onClick={() => handleOptionClick("afsluiting")}>afsluiting toevoegen</li>
+                                        <li onClick={() => handleOptionClick("warmingup")}>warmingup toevoegen</li>
+                                        <li onClick={() => handleOptionClick("workshopronde")}>workshop ronde toevoegen</li>
                                     </ul>
                                 </div>
                             )}
                         </div>
                     </div>
-                    <div>
-                        {/*<h2>Rondes</h2>*/}
-                        {workshops.map((workshopRound, index) => (
-                            <div key={workshopRound.roundId || index}>
-                                {/*<h3>{workshopRound.roundType}</h3>*/}
-                                <h2>Workshops for {workshopRound.roundType}</h2>
-                                <ul>
-                                    {workshopRound.workshops.map((workshop) => (
-                                        <li key={workshop.id}>
-                                            {workshop.name}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-
 
                     <button onClick={handleSubmit}>Opslaan</button>
                 </form>
