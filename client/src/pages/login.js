@@ -101,8 +101,8 @@ export default function Login() {
                                     className="w-full text-black bg-brand-orange hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800">Inloggen
                             </button>
                             <p className="text-sm font-light text-gray-500 light:text-gray-400">
-                                Nog geen account? <a href="#"
-                                className="font-medium text-primary-600 hover:underline light:text-primary-500">Registreren</a>
+                                Nog geen account? <a href="/register"
+                                                     className="font-medium text-primary-600 hover:underline light:text-primary-500">Registreren</a>
                             </p>
                         </form>
                     </div>
