@@ -27,6 +27,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
+  "dependencies": {
+    "react-router-dom": "^6.23.1"
   }
 }
