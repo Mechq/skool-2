@@ -11,6 +11,16 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
     const handleChange = (e) => {
         setEditedRound(e.target.value);
     };
+    useEffect(() => {
+        fetch(`/api/round/${roundId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                setDuration(data.data.duration);
+                setStartTime(data.data.startTime);
+            })
+            .catch(error => console.error('Error:', error))
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();

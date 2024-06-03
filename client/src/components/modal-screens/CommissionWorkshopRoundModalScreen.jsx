@@ -22,7 +22,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
     }, []);
 
     useEffect(() => {
-        fetch('/api/round')
+        fetch(`/api/round/${roundId}`)
             .then(res => res.json())
             .then(data => {
                 setDuration(data.data.duration);
