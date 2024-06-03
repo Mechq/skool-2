@@ -5,6 +5,11 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
     const [editedRound, setEditedRound] = useState(roundType);
     const [workshops, setWorkshops] = useState([]);
     const [selectedWorkshops, setSelectedWorkshops] = useState([]);
+    const [duration, setDuration] = useState('');
+    const [startTime, setStartTime] = useState('');
+
+    const [validDuration, setValidDuration] = useState(false);
+    const [validStartTime, setValidStartTime] = useState(false);
 
     useEffect(() => {
         fetch('/api/workshop')
@@ -15,6 +20,19 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
+
+    useEffect(() => {
+        fetch('/api/round')
+            .then(res => res.json())
+            .then(data => {
+                setDuration(data.data.duration);
+                setStartTime(data.data.startTime);
+                console.log("Fetched workshops: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
+    console.log("duration", duration)
+    console.log("startTime", startTime)
 
     useEffect(() => {
         fetch(`/api/workshopRound/workshop/${roundId}`)
@@ -40,6 +58,24 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
     const handleSubmit = (e) => {
         e.preventDefault();
         onSave(editedRound);
+
+        fetch(`/api/round/${roundId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                duration: parseInt(duration),
+                startTime
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch(error => console.error('Error:', error))
+
+
 
         fetch(`/api/workshopRound/workshop/${roundId}`, {
             method: 'DELETE',
@@ -88,6 +124,28 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                     &times;
                 </span>
                 <h2>Edit Workshop</h2>
+                <form>
+                    <p>Starttijd</p>
+                    <input
+                        type="text"
+                        value={startTime}
+                        placeholder={startTime}
+                        onChange={(e) => {
+                            setStartTime(e.target.value);
+                            setValidStartTime(true);
+                        }}
+                    />
+                    <p>Tijdsduur</p>
+                    <input
+                        type="text"
+                        value={duration}
+                        placeholder={duration}
+                        onChange={(e) => {
+                            setDuration(e.target.value);
+                            setValidDuration(true);
+                        }}
+                    />
+                </form>
                 <ul className="workshopList">
                     {workshops.map(workshop => (
                         <li key={workshop.id}>

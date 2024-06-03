@@ -85,7 +85,7 @@ const roundService = {
         });
     },
 
-    editRound: (round, roundId, callback) => {
+    editRound: (roundId, round, callback) => {
       logger.info('Updating round', round);
       logger.info('Round ID', roundId);
 

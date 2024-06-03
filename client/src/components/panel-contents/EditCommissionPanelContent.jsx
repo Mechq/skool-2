@@ -44,7 +44,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
 
     const fetchRoundData = () => {
         if (commissionId) {
-            fetch(`/api/round/${commissionId}`)
+            fetch(`/api/round/commission/${commissionId}`)
                 .then((res) => res.json())
                 .then((response) => {
                     const data = response.data;
