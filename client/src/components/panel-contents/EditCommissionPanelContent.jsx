@@ -16,6 +16,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const [roundIds, setRoundIds] = useState([]);
     const [types, setTypes] = useState([]);
     const [workshopRoundWorkshops, setWorkshopRoundWorkshops] = useState({}); // Updated to store workshops for each roundId
+    const [editedWorkshopId, setEditedWorkshopId] = useState(""); // New state to store the edited workshop ID
     const [editedRoundId, setEditedRoundId] = useState(""); // State to store the edited round ID
     const [showOptions, setShowOptions] = useState(false); // New state for showing options
     const [showEditModal, setShowEditModal] = useState(false);
@@ -177,10 +178,15 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
             .catch((error) => console.error("Error:", error));
     };
 
-    const editRound = (type, id) => {
+    const editRound = (type, id, parentId = null) => {
         setEditingRoundType(type);
         setEditedRoundType(type);
-        setEditedRoundId(id);
+        if (type === "workshop") {
+            setEditedWorkshopId(id);
+            setEditedRoundId(parentId); // Pass the parent workshop round ID as the round ID
+        } else {
+            setEditedRoundId(id);
+        }
         setShowEditModal(true);
         console.log("Editing round", type, id);
     };
@@ -257,7 +263,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                                             {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
                                                 <li onClick={(e) => {
                                                     e.stopPropagation();
-                                                    editRound("workshop", workshop.id);
+                                                    editRound("workshop", workshop.id, roundIds[index]); // Pass the parent workshop round ID
                                                 }}
                                                     key={workshop.id}>{workshop.name}</li>
                                             ))}
@@ -292,7 +298,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     roundId={editedRoundId}
                     onClose={handleModalClose}
                     onSave={handleModalSave}
-                    onWorkshopAdded={handleWorkshopAdded} // Pass the callback
+                    onWorkshopAdded={handleWorkshopAdded}
                 />
             )}
             {showEditModal && editedRoundType !== "workshopronde" && editedRoundType !== "workshop" && (
@@ -306,7 +312,8 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
             {showEditModal && editedRoundType === "workshop" && (
                 <WorkshopRoundWorkshopEditModal
                     roundType={editedRoundType}
-                    workshopId={editedRoundId}
+                    roundId={editedRoundId} // Pass the parent workshop round ID as the round ID
+                    workshopId={editedWorkshopId} // Pass the workshop ID
                     onClose={handleModalClose}
                     onSave={handleModalSave}
                 />

@@ -52,7 +52,6 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
 
 
         const fetchPromises = selectedWorkshops.map(selectedWorkshopId => {
-
             console.log("Adding workshop to round: ", selectedWorkshopId, roundId)
             return fetch(`/api/workshopRound/${selectedWorkshopId}/${roundId}`, {
                 method: 'POST',
