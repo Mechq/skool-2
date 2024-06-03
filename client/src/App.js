@@ -6,7 +6,7 @@ import Workshop from './pages/workshop';
 import MailTemplates from './pages/mailTemplates';
 import Commission from './pages/commission';
 import Worklocation from './pages/worklocation';
-import Login from './components/LoginPage';
+import Login from './pages/login';
 
 function App() {
     const location = useLocation();
