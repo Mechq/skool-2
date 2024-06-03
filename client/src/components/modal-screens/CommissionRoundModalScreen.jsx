@@ -5,8 +5,6 @@ import {use} from "chai";
 export default function CommissionRoundModalScreen({ roundType, roundId, onClose, onSave }) {
     const [editedRound, setEditedRound] = useState(roundType);
     const [duration, setDuration] = useState('')
-    const [amountOfStudents, setAmountOfStudents] = useState('')
-    const [amountOfTeachers, setAmountOfTeachers] = useState('')
     const [startTime, setStartTime] = useState('')
 
 
@@ -16,6 +14,23 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        fetch(`/api/round/${roundId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                duration: parseInt(duration),
+                startTime
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch(error => console.error('Error:', error))
+
         onSave(editedRound);
     };
     return (
@@ -29,26 +44,18 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
                     <input
                         type="text"
                         value={duration}
-                        onChange={handleChange}
                         placeholder="Tijdsduur"
-                    />
-                    <input
-                        type="text"
-                        value={amountOfStudents}
-                        onChange={handleChange}
-                        placeholder="Aantal leerlingen"
-                    />
-                    <input
-                        type="text"
-                        value={amountOfTeachers}
-                        onChange={handleChange}
-                        placeholder="Aantal docenten"
+                        onChange={(e) => {
+                            setDuration(e.target.value);
+                        }}
                     />
                     <input
                         type="text"
                         value={startTime}
-                        onChange={handleChange}
                         placeholder="Begintijd"
+                        onChange={(e) => {
+                            setStartTime(e.target.value);
+                        }}
                     />
                     <button type="submit">Save</button>
                 </form>
