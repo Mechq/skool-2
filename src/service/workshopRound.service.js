@@ -165,7 +165,7 @@ const workshopRound = {
           callback(null, {
             status: 200,
             message: "Workshop for round fetched successfully",
-            data: results,
+            data: results[0],
           });
         } else {
           logger.debug("No workshop found with workshop id", workshopId);
