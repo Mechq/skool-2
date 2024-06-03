@@ -14,12 +14,14 @@ const roundService = {
 
             const {
                 type,
+                duration,
+                startTime
             } = round;
 
-            const values = [type, commissionId];
+            const values = [type, commissionId, duration, startTime];
 
             // TODO: Implement the query to insert correct data
-            const query = 'INSERT INTO round (type,commissionId) VALUES (?,?)';
+            const query = 'INSERT INTO round (type,commissionId,duration,startTime) VALUES (?,?,?,?)';
 
             logger.debug('query', query);
 
