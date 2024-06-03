@@ -27,6 +27,8 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const [detailsValid, setDetailsValid] = useState(true);
     const [targetAudienceValid, setTargetAudienceValid] = useState(true);
     const [customerNameValid, setCustomerNameValid] = useState(true);
+    const [date, setDate] = useState("");
+    const [dateValid, setDateValid] = useState(true);
 
     useEffect(() => {
         if (commissionId) {
@@ -37,10 +39,13 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     setCustomerId(data.customerId || "");
                     setDetails(data.details || "");
                     setTargetAudience(data.targetAudience || "");
+                    setDate(data.date ? data.date.substring(0, 10) : "");
                 })
                 .catch((error) => console.error("Error fetching commission:", error));
         }
     }, [commissionId]);
+
+
 
     const fetchRoundData = () => {
         if (commissionId) {
@@ -128,12 +133,14 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         if (!customerId) setCustomerIdValid(false);
         if (!details) setDetailsValid(false);
         if (!targetAudience) setTargetAudienceValid(false);
-        if (!customerId || !details || !targetAudience) return;
+        if (!date) setDateValid(false);
+        if (!customerId || !details || !targetAudience || !date) return;
 
         const commission = {
             customerId,
             details,
             targetAudience,
+            date,
         };
 
         fetch(`/api/commission/${commissionId}`, {
@@ -250,6 +257,19 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                         className={targetAudienceValid ? "" : "invalid"}  // Apply CSS class
                         placeholder={targetAudience}
                     />
+
+                    <input
+                    type="text"
+                    id="date"
+                    name="date"
+                    value={date}
+                    onChange={(e) => {
+                        setDate(e.target.value)
+                        setDateValid(true); // Reset validation state
+                    }}
+                    className={dateValid ? "" : "invalid"}  // Apply CSS class
+                    placeholder={date}
+                />
                     <div>
                         <h2>Rondes</h2>
                         <ul>

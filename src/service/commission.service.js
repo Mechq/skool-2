@@ -136,6 +136,10 @@ const commissionService = {
                 sql += 'targetAudience = ?, ';
                 values.push(commission.targetAudience);
             }
+            if (commission.date) {
+                sql += 'date = ?, ';
+                values.push(commission.date);
+            }
             // Remove the trailing comma and space
             sql = sql.slice(0, -2);
 
