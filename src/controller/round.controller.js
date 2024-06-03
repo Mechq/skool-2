@@ -71,6 +71,30 @@ let roundController = {
       }
     });
   },
+
+  editRound: (req, res, next) => {
+    const id = req.params.id;
+    const round = req.body;
+    logger.info("editing round", id);
+
+    roundService.editRound(id, round, (error, success) => {
+      if (error) {
+        return next({
+          status: error.status || 500,
+          message: error.message || "Internal Server Error",
+          data: {},
+        });
+      }
+
+      if (success) {
+        res.status(200).json({
+          status: success.status,
+          message: success.message,
+          data: success.data,
+        });
+      }
+    });
+  }
 };
 
 module.exports = roundController;
