@@ -8,17 +8,35 @@ export default function CreateButton({ setShowSidePanel, showSidePanel, setSideP
     };
 
     return (
-        <button
-            className="fixed right-4 bottom-4 w-12 h-12 bg-[#F49700] text-white text-2xl flex items-center justify-center rounded-full border-none z-50 transition-colors ease-in-out hover:bg-[#e18d00] cursor-pointer"
-            onClick={handleClick}
-            style={{ overflow: "hidden" }}
-        >
-            <span
-                className={`flex items-center justify-center w-full h-full transition-transform ease-in-out duration-300 ${rotateSpan ? 'rotate-45' : ''}`}
-                style={{ transformOrigin: "center", fontSize: "1.5rem", position: "absolute" }}
+        <>
+
+
+            <button
+                type="button"
+                onClick={handleClick}
+                className={`fixed right-4 bottom-4 w-14 h-14 bg-brand-orange text-white rounded-full flex items-center justify-center transition-colors ease-in-out hover:bg-brand-orange-hover focus:outline-none z-50 ${rotateSpan ? 'rotate-45' : ''}`}
+                style={{ transformOrigin: "center", transition: "transform 0.3s ease-in-out" }}
             >
-                {'+'}
-            </span>
-        </button>
-    );
+                <svg
+                    className="w-5 h-5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 18 18"
+                >
+                    <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 1v16M1 9h16"
+                    />
+                </svg>
+                <span className="sr-only">Open actions menu</span>
+            </button>
+        </>
+
+
+    )
+        ;
 }
