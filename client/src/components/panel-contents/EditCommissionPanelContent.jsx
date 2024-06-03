@@ -203,7 +203,47 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
             <div className="side-panel-content">
                 <form action="#" method="get" className="form-container">
                     {/* Form fields */}
+                    <select
+                        id="customerId"
+                        name="customerId"
+                        value={selectedCustomerName} // Change value to selectedCustomer
+                        onChange={(e) => {
+                            setCustomerId(e.target.value);
+                            setCustomerIdValid(true); // Reset validation state
+                        }}
+                        className={customerIdValid ? "" : "invalid"}  // Apply CSS class
+                    >
+                        <option value="" disabled>{selectedCustomerName}</option>
+                        {customers.map(customer => (
+                            <option key={customer.id} value={customer.id}>
+                                {customer.name}
+                            </option>
+                        ))}
+                    </select>
 
+                    <input
+                        type="text"
+                        id="details"
+                        name="details"
+                        value={details}
+                        onChange={(e) => {
+                            setDetails(e.target.value)
+                            setDetailsValid(true); // Reset validation state
+                        }}
+                        className={detailsValid ? "" : "invalid"}  // Apply CSS class
+                        placeholder={details}
+                    />
+                    <textarea
+                        id="targetAudience"
+                        name="targetAudience"
+                        value={targetAudience}
+                        onChange={(e) => {
+                            setTargetAudience(e.target.value)
+                            setTargetAudienceValid(true); // Reset validation state
+                        }}
+                        className={targetAudienceValid ? "" : "invalid"}  // Apply CSS class
+                        placeholder={targetAudience}
+                    />
                     <div>
                         <h2>Rondes</h2>
                         <ul>
@@ -226,7 +266,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                                 </li>
                             ))}
                         </ul>
-                        <div style={{ position: "relative" }}>
+                        <div style={{position: "relative"}}>
                             <button onClick={addRound}>+</button>
                             {showOptions && (
                                 <div className="options-list">
@@ -234,7 +274,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                                         <li onClick={() => handleOptionClick("Pauze")}>Pauze toevoegen</li>
                                         <li onClick={() => handleOptionClick("Afsluiting")}>Afsluiting toevoegen</li>
                                         <li onClick={() => handleOptionClick("Warmingup")}>Warmingup toevoegen</li>
-                                        <li onClick={() => handleOptionClick("workshopronde")}>workshop ronde toevoegen</li>
+                                        <li onClick={() => handleOptionClick("workshopronde")}>workshop ronde
+                                            toevoegen
+                                        </li>
                                     </ul>
                                 </div>
                             )}
