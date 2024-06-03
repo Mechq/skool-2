@@ -22,7 +22,7 @@ const userService = {
                 }
 
                 const sql = "INSERT INTO user (`email`, `password`) VALUES (?, ?)";
-                const values = [user.name, user.email, hash];
+                const values = [user.email, hash];
 
                 connection.query(sql, values, (err, result) => {
                     connection.release();
