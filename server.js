@@ -7,6 +7,8 @@ const commissionRoutes = require("./src/routes/commission.routes");
 const locationRoutes = require("./src/routes/location.routes");
 const indexRoutes = require("./src/routes/index.routes");
 const customerRoutes = require ("./src/routes/customer.routes");
+const userRoutes = require ("./src/routes/user.routes");
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -19,7 +21,7 @@ app.use(locationRoutes)
 app.use(mailTemplateRoutes)
 app.use(categoryRoutes);
 app.use(commissionRoutes);
-
+app.use(userRoutes)
 
 app.use(express.static('./client/build'))
 app.use(indexRoutes)

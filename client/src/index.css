@@ -4,3 +4,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Change the text highlight color */
+::selection {
+    background: #F49700;
+    color: #000;
+}
+
+::-moz-selection {
+    background: #F49700;
+    color: #000;
+}
