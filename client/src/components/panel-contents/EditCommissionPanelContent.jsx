@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/components/EditPanelContent.css";
 import "../../styles/optionsRoundCreate.css";
-import RoundEditModal from "../CommissionRoundModalScreen";
-import WorkshopRoundEditModal from "../CommissionWorkshopRoundModalScreen";
-import WorkshopRoundWorkshopEditModal from "../CommissionWorkshopRoundWorkshopEditModal"
+import RoundEditModal from "../modal-screens/CommissionRoundModalScreen";
+import WorkshopRoundEditModal from "../modal-screens/CommissionWorkshopRoundModalScreen";
+import WorkshopRoundWorkshopEditModal from "../modal-screens/CommissionWorkshopRoundWorkshopEditModal"
 
 export default function EditCommissionPanelContent({ setShowSidePanel, commissionId }) {
     const [customerId, setCustomerId] = useState("");

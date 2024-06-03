@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import "../styles/ModalScreen.css";
+import "../../styles/ModalScreen.css";
 import {use} from "chai";
 
 export default function CommissionWorkshopRoundWorkshopEditModal({ roundType, workshopId, onClose, onSave }) {
