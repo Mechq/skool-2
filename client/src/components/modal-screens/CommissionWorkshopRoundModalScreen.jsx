@@ -59,6 +59,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
         e.preventDefault();
         onSave(editedRound);
 
+        // First, update the round duration and start time
         fetch(`/api/round/${roundId}`, {
             method: 'PUT',
             headers: {
@@ -72,50 +73,51 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-            })
-            .catch(error => console.error('Error:', error))
 
-
-
-        fetch(`/api/workshopRound/workshop/${roundId}`, {
-            method: 'DELETE',
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch(error => console.error('Error:', error));
-
-
-        const fetchPromises = selectedWorkshops.map(selectedWorkshopId => {
-            console.log("Adding workshop to round: ", selectedWorkshopId, roundId)
-            return fetch(`/api/workshopRound/${selectedWorkshopId}/${roundId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    workshopId: selectedWorkshopId,
-                    roundId: roundId
-                    //TODO add amountOfStudents and amountOfTeachers
-                }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
+                // After updating the round, delete associated workshops
+                fetch(`/api/workshopRound/workshop/${roundId}`, {
+                    method: 'DELETE',
                 })
-                .catch(error => console.error('Error:', error));
-        });
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Delete Success:', data);
 
-        Promise.all(fetchPromises)
-            .then(() => {
-                onWorkshopAdded();
-                onClose();
+                        // After deleting workshops, add selected workshops to the round
+                        const fetchPromises = selectedWorkshops.map(selectedWorkshopId => {
+                            console.log("Adding workshop to round: ", selectedWorkshopId, roundId)
+                            return fetch(`/api/workshopRound/${selectedWorkshopId}/${roundId}`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    workshopId: selectedWorkshopId,
+                                    roundId: roundId
+                                    //TODO add amountOfStudents and amountOfTeachers
+                                }),
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log('Success:', data);
+                                })
+                                .catch(error => console.error('Error:', error));
+                        });
+
+                        // After adding workshops, execute necessary follow-up actions
+                        Promise.all(fetchPromises)
+                            .then(() => {
+                                onWorkshopAdded();
+                                onClose();
+                            })
+                            .catch(error => {
+                                console.error('Error in one of the fetch calls:', error);
+                            });
+                    })
+                    .catch(error => console.error('Delete Error:', error));
             })
-            .catch(error => {
-                console.error('Error in one of the fetch calls:', error);
-            });
+            .catch(error => console.error('PUT Error:', error));
     };
+
 
     return (
         <div className="round-edit-modal">
