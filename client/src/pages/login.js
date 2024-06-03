@@ -31,15 +31,22 @@ export default function Login() {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'Success') {
-                    console.log('Login successful', data);
+                    console.log('Login voltooid', data);
                     // Handle successful login (e.g., store the token, redirect, etc.)
+                    setEmail("");
+                    setPassword("");
+                    console.log(data);
+                    // note using deconstructuring is better for cleaner code
+                    const {access, refresh} = data.access_token;
+                    localStorage.setItem("accessToken", access);
+                    localStorage.setItem("refreshToken", refresh);
                     window.location.href = "/workshops";
                 } else {
-                    setError(data.message || 'Something went wrong');
+                    setError(data.message || 'Login gefaald');
                 }
             })
             .catch((error) => {
-                setError('Failed to login');
+                setError('Login gefaald');
                 console.error('Error:', error);
             });
     }

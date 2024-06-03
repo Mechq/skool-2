@@ -39,7 +39,10 @@ const userController = {
             res.status(200).json({
                 status: success.status,
                 message: success.message,
-                token: success.token
+                access_token: {
+                    access: "teacher",
+                    refresh: "teacher"
+                }
             });
         });
     }
