@@ -35,6 +35,7 @@ function NavBar() {
                         <CustomLink to="/mailTemplates">Mail Templates</CustomLink>
                         <CustomLink to="/opdracht">Opdrachten</CustomLink>
                         <CustomLink to="/werklocatie">Locaties</CustomLink>
+                        <CustomLink to="/customers">Klanten</CustomLink>
                     </ul>
                 </div>
             </div>
