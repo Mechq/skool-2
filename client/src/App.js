@@ -7,26 +7,29 @@ import MailTemplates from './pages/mailTemplates';
 import Commission from './pages/commission';
 import Worklocation from './pages/worklocation';
 import Login from './pages/login';
+import Register from './pages/register';
 
 function App() {
     const location = useLocation();
     const isLoginPage = location.pathname === "/";
+    const isRegisterPage = location.pathname === "/register";
 
     React.useEffect(() => {
-        if (isLoginPage) {
+        if (isLoginPage || isRegisterPage) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'auto';
         }
-    }, [isLoginPage]);
+    }, [isLoginPage, isRegisterPage]);
 
     return (
         <div className="flex flex-col min-h-screen">
-            {!isLoginPage && <NavBar />}
+            {!(isLoginPage || isRegisterPage) && <NavBar />}
             <div className="container mx-auto flex-grow py-4">
                 <Routes>
                     <Route path="*" element={<h1>Not Found</h1>} />
                     <Route path="/" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                     <Route path="/workshops" element={<Workshop />} />
                     <Route path="/mailTemplates" element={<MailTemplates />} />
                     <Route path="/opdracht" element={<Commission />} />
