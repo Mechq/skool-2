@@ -6,5 +6,6 @@ const workshopRoundController = require("../controller/workshopRound.controller"
 router.post("/api/workshopRound/:workshopId/:roundId", workshopRoundController.create);
 router.get("/api/workshopRound/workshop/:roundId", workshopRoundController.getWorkshopsRoundById);
 router.delete("/api/workshopRound/workshop/:roundId", workshopRoundController.deleteWorkshopRoundWorkshopsByRoundId);
+router.put('/api/workshopRound/:workshopId/:roundId', workshopRoundController.editWorkshopRoundWorkshop)
 
 module.exports = router;
