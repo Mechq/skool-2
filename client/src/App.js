@@ -8,10 +8,11 @@ import Commission from './pages/commission';
 import Worklocation from './pages/worklocation';
 import Login from './pages/login';
 import Register from './pages/register';
+import Home from "./pages/home";
 
 function App() {
     const location = useLocation();
-    const isLoginPage = location.pathname === "/";
+    const isLoginPage = location.pathname === "/login";
     const isRegisterPage = location.pathname === "/register";
 
     React.useEffect(() => {
@@ -28,13 +29,14 @@ function App() {
             <div className="container mx-auto flex-grow py-4">
                 <Routes>
                     <Route path="*" element={<h1>Not Found</h1>} />
-                    <Route path="/" element={<Login />} />
+                    <Route path="/" element={<Home />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/workshops" element={<Workshop />} />
                     <Route path="/mailTemplates" element={<MailTemplates />} />
                     <Route path="/opdracht" element={<Commission />} />
                     <Route path="/werklocatie" element={<Worklocation />} />
                     <Route path="/customers" element={<Customers />} />
+                    <Route path="/login" element={<Login />} />
                 </Routes>
             </div>
         </div>

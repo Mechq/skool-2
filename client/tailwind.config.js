@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       colors: {
         'brand-orange': '#F49700',
+        'brand-orange-light': '#ffe3ab',
         'brand-orange-hover': '#F4A22C',
       },
     },
