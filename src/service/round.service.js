@@ -118,20 +118,20 @@ const roundService = {
           }
   
           connection.query(sql, values, (error, results, fields) => {
-              connection.release(); // Release the connection back to the pool
+              connection.release(); 
   
               if (error) {
-                  logger.error('Error updating round', error);
-                  callback(error, null);
-              } else {
-                  if (results.affectedRows > 0) {
-                      logger.info('Round updated successfully');
-                      callback(null, 'Round updated successfully');
-                  } else {
-                      logger.info('No round found with the provided ID');
-                      callback(null, 'No round found with the provided ID');
-                  }
-              }
+
+                logger.error('Error updating round', error);
+                callback(error, null);
+
+            } else {
+                callback(null, {
+                    status: 200,
+                    message: 'Round updated',
+                    data: results,
+                });
+            }
           });
       });
   },
