@@ -21,7 +21,7 @@ const userService = {
                     return;
                 }
 
-                const sql = "INSERT INTO users (`name`, `email`, `password`) VALUES (?, ?, ?)";
+                const sql = "INSERT INTO user (`email`, `password`) VALUES (?, ?)";
                 const values = [user.name, user.email, hash];
 
                 connection.query(sql, values, (err, result) => {
@@ -50,7 +50,7 @@ const userService = {
                 return;
             }
 
-            const sql = "SELECT * FROM users WHERE email = ?";
+            const sql = "SELECT * FROM user WHERE email = ?";
             connection.query(sql, [email], (err, results) => {
                 connection.release();
                 if (err) {
