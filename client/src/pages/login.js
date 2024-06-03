@@ -33,6 +33,7 @@ export default function Login() {
                 if (data.status === 'Success') {
                     console.log('Login successful', data);
                     // Handle successful login (e.g., store the token, redirect, etc.)
+                    window.location.href = "/workshops";
                 } else {
                     setError(data.message || 'Something went wrong');
                 }
@@ -101,7 +102,7 @@ export default function Login() {
                             </button>
                             <p className="text-sm font-light text-gray-500 light:text-gray-400">
                                 Nog geen account? <a href="#"
-                                                     className="font-medium text-primary-600 hover:underline light:text-primary-500">Registreren</a>
+                                className="font-medium text-primary-600 hover:underline light:text-primary-500">Registreren</a>
                             </p>
                         </form>
                     </div>
