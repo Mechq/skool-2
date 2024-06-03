@@ -14,15 +14,14 @@ const mailTemplateService = {
 
             const {
                 subject,
-                cc,
                 details,
                 name,
             } = mailTemplate;
 
-            const values = [subject, cc, details, name];
+            const values = [subject, details, name];
 
             // TODO: Implement the query to insert correct data
-            const query = 'INSERT INTO mailTemplate (subject, details, name) VALUES (?, ?, ?)';
+            const query = 'INSERT INTO mailTemplate (subject, content, name) VALUES (?, ?, ?)';
 
             logger.debug('query', query);
 

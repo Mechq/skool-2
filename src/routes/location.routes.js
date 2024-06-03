@@ -3,8 +3,9 @@ const router = express.Router();
 const locationController = require("../controller/location.controller");
 
 function validateLocation(req, res, next) {
-    const {name, street, houseNumber, postalCode, city} = req.body;
 
+    const {name, street, houseNumber, postalCode, city} = req.body;
+    console.log(postalCode)
     if (!name || typeof name !== 'string') {
         return res.status(400).json({error: "Name is required and must be a string."});
     }

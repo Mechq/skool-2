@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import "../../styles/components/EditPanelContent.css";
-import "../../styles/optionsRoundCreate.css";
+import React, { useEffect, useState } from "react"
 import RoundEditModal from "../modal-screens/CommissionRoundModalScreen";
 import WorkshopRoundEditModal from "../modal-screens/CommissionWorkshopRoundModalScreen";
 import WorkshopRoundWorkshopEditModal from "../modal-screens/CommissionWorkshopRoundWorkshopEditModal"
