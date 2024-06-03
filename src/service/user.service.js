@@ -62,7 +62,7 @@ const userService = {
                 if (results.length === 0) {
                     callback(null, {
                         status: 'Error',
-                        message: 'Wrong Email or Password'
+                        message: 'Verkeerde Email of Wachtwoord'
                     });
                     return;
                 }
@@ -83,7 +83,7 @@ const userService = {
                     } else {
                         callback(null, {
                             status: 'Error',
-                            message: 'Wrong Email or Password'
+                            message: 'Verkeerde Email of Wachtwoord'
                         });
                     }
                 });
