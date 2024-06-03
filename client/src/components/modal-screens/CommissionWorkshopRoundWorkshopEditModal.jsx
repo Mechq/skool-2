@@ -10,6 +10,21 @@ export default function CommissionWorkshopRoundWorkshopEditModal({ roundType, ro
     const [validAmountOfStudents, setValidAmountOfStudents] = useState(false);
     const [validAmountOfTeachers, setValidAmountOfTeachers] = useState(false);
     console.log("roundId", roundId)
+
+
+    useEffect(() => {
+        fetch(`/api/workshopRound/${workshopId}/${roundId}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log("Fetched workshop round: ", data.data);
+                setAmountOfStudents(data.data.amountOfStudents);
+                setAmountOfTeachers(data.data.amountOfTeachers);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+    }, []);
+console.log("amountOfStudents", amountOfStudents)
+    console.log("amountOfTeachers", amountOfTeachers)
     const handleSubmit = (e) => {
         e.preventDefault();
 
