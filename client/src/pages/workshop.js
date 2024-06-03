@@ -6,10 +6,11 @@ import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWork
 import CreateButton from "../components/CreateButton";
 
 export default function Workshop() {
-    const [showSidePanel, setShowSidePanel] = useState(false);
+    const [isOpen, setIsOpen] = React.useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [workshopId, setWorkshopId] = useState(null);
     const [workshops, setWorkshops] = useState([]);
+    const [rotateSpan, setRotateSpan] = useState(false);
 
     useEffect(() => {
         fetch('/api/workshop')
@@ -19,28 +20,35 @@ export default function Workshop() {
                 console.log("Fetched workshops: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, [showSidePanel]);
+    }, [setIsOpen]);
 
     return (
         <div>
-            <h1 id={"header"}>Workshops</h1>
             <CreateButton
-                setShowSidePanel={setShowSidePanel}
-                showSidePanel={showSidePanel}
+                setShowSidePanel={setIsOpen}
+                showSidePanel={isOpen}
                 setSidePanelContent={setSidePanelContent}
+                rotateSpan={rotateSpan}
+                setRotateSpan={setRotateSpan}
             />
-            <SidePanel showSidePanel={showSidePanel}>
+
+            <SidePanel isOpen={isOpen}
+                       setIsOpen={setIsOpen}
+                       rotateSpan={rotateSpan}
+                       setRotateSpan={setRotateSpan}>
                 {sidePanelContent === "create" &&
-                    <CreatePanelContent setWorkshops={setWorkshops} setShowSidePanel={setShowSidePanel}/>}
+                    <CreatePanelContent setWorkshops={setWorkshops} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditPanelWorkshopContent workshopId={workshopId} setShowSidePanel={setShowSidePanel}/>}
+                    <EditPanelWorkshopContent workshopId={workshopId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
             <WorkshopList
-                setShowSidePanel={setShowSidePanel}
-                showSidePanel={showSidePanel}
+                setIsOpen={setIsOpen}
+                isOpen={isOpen}
                 setSidePanelContent={setSidePanelContent}
                 setWorkshopId={setWorkshopId}
                 workshops={workshops}
+                setWorkshops={setWorkshops} // pass setWorkshops as prop
+                setRotateSpan={setRotateSpan}
             />
         </div>
     );
