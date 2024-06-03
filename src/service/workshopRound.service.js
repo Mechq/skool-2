@@ -82,7 +82,7 @@ const workshopRound = {
         });
     },
 
-    deleteWorkshopsRoundById: (roundId, callback) => {
+    deleteWorkshopRoundWorkshopsByRoundId: (roundId, callback) => {
         logger.info('Deleting workshops from round by roundId', roundId);
 
         const query = 'DELETE FROM workshopRound WHERE roundId = ?';

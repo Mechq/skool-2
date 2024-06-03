@@ -2,7 +2,6 @@ const logger = require("../util/logger");
 const workshopRoundService = require("../service/workshopRound.service");
 let workshopRoundController = {
     create: (req, res, next) => {
-        console.log("aaaaaaaaaaaaaaaa")
         const workshopRound = req.body;
         const workshopId = req.params.workshopId
         const roundId = req.params.roundId
@@ -54,13 +53,13 @@ let workshopRoundController = {
         });
     },
 
-    deleteWorkshopsRoundById: (req, res, next) => {
+    deleteWorkshopRoundWorkshopsByRoundId: (req, res, next) => {
         const roundId = req.params.roundId;
         logger.debug('roundId', roundId);
 
         logger.info('deleting workshops from round by roundId', roundId);
 
-        workshopRoundService.deleteWorkshopsRoundById(roundId, (error, success) => {
+        workshopRoundService.deleteWorkshopRoundWorkshopsByRoundId(roundId, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,
