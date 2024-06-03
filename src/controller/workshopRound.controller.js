@@ -52,6 +52,31 @@ let workshopRoundController = {
                 });
             }
         });
+    },
+
+    deleteWorkshopsRoundById: (req, res, next) => {
+        const roundId = req.params.roundId;
+        logger.debug('roundId', roundId);
+
+        logger.info('deleting workshops from round by roundId', roundId);
+
+        workshopRoundService.deleteWorkshopsRoundById(roundId, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 }
 

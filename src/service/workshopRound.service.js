@@ -80,6 +80,26 @@ const workshopRound = {
                 }
             }
         });
+    },
+
+    deleteWorkshopsRoundById: (roundId, callback) => {
+        logger.info('Deleting workshops from round by roundId', roundId);
+
+        const query = 'DELETE FROM workshopRound WHERE roundId = ?';
+
+        database.query(query, [roundId], (error, results, fields) => {
+            if (error) {
+                logger.error('Error deleting workshops from round', error);
+                callback(error, null);
+            } else {
+                logger.info('Workshops deleted successfully');
+                callback(null, {
+                    status: 200,
+                    message: 'Workshops deleted successfully',
+                    data: results,
+                });
+            }
+        });
     }
 
 
