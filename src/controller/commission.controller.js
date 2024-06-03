@@ -48,6 +48,77 @@ let commissionController = {
                 });
             }
         });
+    },
+
+    getCommissionById: (req, res, next) => {
+        const id = req.params.id;
+        logger.debug('commissionId', id);
+
+        logger.info('retrieving commission by id', id);
+
+        commissionService.getCommissionById(id, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
+    },
+    update: (req, res, next) => {
+        const commission = req.body;
+        const id = req.params.id;
+        logger.info('updating commission', commission);
+
+        commissionService.update(commission, id, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
+    },
+
+    getCustomer: (req, res, next) => {
+        const commissionId = req.params.commissionId;
+        logger.info('retrieving customer name from commissionId', commissionId);
+
+        commissionService.getCustomer(commissionId, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 };
 

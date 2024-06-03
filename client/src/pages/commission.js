@@ -3,11 +3,13 @@ import CommissionList from "../components/lists/CommissionList";
 import SidePanel from "../components/SidePanel";
 import CommissionPanelContent from "../components/panel-contents/CommissionPanelContent";
 import CreateButton from "../components/CreateButton";
+import EditCommissionPanelContent from "../components/panel-contents/EditCommissionPanelContent";
 
 export default function Commission() {
     const [showSidePanel, setShowSidePanel] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [commissions, setCommissions] = useState([]);
+    const [commissionId, setCommissionId] = useState(null);
 
 
     useEffect(() => {
@@ -23,7 +25,11 @@ export default function Commission() {
     return (
         <>
             <h1>Opdracht</h1>
-            <CommissionList commissions={commissions}/>
+            <CommissionList
+                commissions={commissions}
+                setSidePanelContent={setSidePanelContent}
+                setShowSidePanel={setShowSidePanel}
+                setCommissionId={setCommissionId}/>
             <CreateButton
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
@@ -32,6 +38,8 @@ export default function Commission() {
             <SidePanel showSidePanel={showSidePanel}>
                 {sidePanelContent === "create" &&
                     <CommissionPanelContent setCommissions={setCommissions} setShowSidePanel={setShowSidePanel}/>}
+                {sidePanelContent === "edit" &&
+                    <EditCommissionPanelContent commissionId={commissionId} setShowSidePanel={setShowSidePanel}/>}
             </SidePanel>
         </>
     );

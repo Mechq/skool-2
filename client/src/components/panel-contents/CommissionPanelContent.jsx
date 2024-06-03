@@ -1,14 +1,49 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 
-export default function CommissionPanelContent({setShowSidePanel, setCommissions}) {
+export default function CommissionPanelContent({ setShowSidePanel, setCommissions }) {
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
     const [customerId, setCustomerId] = useState("");
+    const [locationName, setLocationName] = useState("");
 
     const [detailsValid, setDetailsValid] = useState(true);
     const [targetAudienceValid, setTargetAudienceValid] = useState(true);
     const [customerIdValid, setCustomerIdValid] = useState(true);
+    const [locationNameValid, setLocationNameValid] = useState(true);
 
+    const [customers, setCustomers] = useState([]); // Customers state
+
+    useEffect(() => {
+        fetch('/api/customer')
+            .then(response => response.json())
+            .then(data => {
+                setCustomers(data.data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, []);
+
+    const handleCustomerChange = (e) => {
+        const selectedCustomerId = e.target.value;
+        console.log(selectedCustomerId)
+        setCustomerId(selectedCustomerId);
+        setCustomerIdValid(true); // Reset validation state
+
+        // Fetch location name for the selected customer
+        fetch(`/api/location/default/${selectedCustomerId}`)
+            .then(response => response.json())
+            .then(data => {
+                const locationData = data.data;
+                const locationName = locationData ? locationData.name || "" : "";
+                setLocationName(locationName);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                setLocationName(""); // Ensure locationName is always defined
+            });
+        console.log(locationName)
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -34,15 +69,16 @@ export default function CommissionPanelContent({setShowSidePanel, setCommissions
         })
             .then(response => {
                 if (!response.ok) {
-                    throw response
+                    throw response;
                 }
-                return response.json()
+                return response.json();
             })
             .then(data => {
                 console.log('Success:', data);
-                setCustomerId('')
-                setTargetAudience('')
-                setDetails('')
+                setCustomerId('');
+                setTargetAudience('');
+                setDetails('');
+                setLocationName('');
 
                 fetch('/api/commission')
                     .then(res => res.json())
@@ -51,39 +87,38 @@ export default function CommissionPanelContent({setShowSidePanel, setCommissions
                         setShowSidePanel(false);
                     })
                     .catch(error => console.error('Error fetching data:', error));
-
             })
             .catch((error) => {
                 console.error('Error:', error);
                 setCustomerIdValid(false); // Set customerId as invalid
             });
-
-
     };
 
     return (
         <div className='side-panel-content'>
             <h1 className='side-panel-title'>Create Opdracht</h1>
             <form action="#" method="get" className="form-container">
-                <input
-                    type="text"
+                <select
                     id="customerId"
                     name="customerId"
                     value={customerId}
-                    onChange={(e) => {
-                        setCustomerId(e.target.value)
-                        setCustomerIdValid(true); // Reset validation state
-                    }}
+                    onChange={handleCustomerChange}
                     className={customerIdValid ? "" : "invalid"}  // Apply CSS class
-                    placeholder="Customer Id"
-                />
+                >
+                    <option value="" disabled>Select Customer</option>
+                    {customers.map(customer => (
+                        <option key={customer.id} value={customer.id}>
+                            {customer.name}
+                        </option>
+                    ))}
+                </select>
                 <input
                     type="text"
                     id="details"
                     name="details"
                     value={details}
                     onChange={(e) => {
-                        setDetails(e.target.value)
+                        setDetails(e.target.value);
                         setDetailsValid(true); // Reset validation state
                     }}
                     className={detailsValid ? "" : "invalid"}  // Apply CSS class
@@ -94,11 +129,23 @@ export default function CommissionPanelContent({setShowSidePanel, setCommissions
                     name="targetAudience"
                     value={targetAudience}
                     onChange={(e) => {
-                        setTargetAudience(e.target.value)
+                        setTargetAudience(e.target.value);
                         setTargetAudienceValid(true); // Reset validation state
                     }}
                     className={targetAudienceValid ? "" : "invalid"}  // Apply CSS class
                     placeholder="Doelgroep"
+                />
+                <input
+                    type="text"
+                    id="locationName"
+                    name="locationName"
+                    value={locationName}
+                    onChange={(e) => {
+                        setLocationName(e.target.value);
+                        setLocationNameValid(true); // Reset validation state
+                    }}
+                    className={locationNameValid ? "" : "invalid"}  // Apply CSS class
+                    placeholder={locationName ? locationName : "Location"}
                 />
             </form>
             <button className="submit-fab fab-common saveButton" onClick={handleSubmit}>Aanmaken</button>

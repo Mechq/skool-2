@@ -7,6 +7,9 @@ const commissionRoutes = require("./src/routes/commission.routes");
 const locationRoutes = require("./src/routes/location.routes");
 const indexRoutes = require("./src/routes/index.routes");
 const customerRoutes = require ("./src/routes/customer.routes");
+const roundRoutes = require("./src/routes/round.routes");
+const workshopRoundRoutes = require("./src/routes/workshopRound.routes")
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -19,6 +22,8 @@ app.use(locationRoutes)
 app.use(mailTemplateRoutes)
 app.use(categoryRoutes);
 app.use(commissionRoutes);
+app.use(roundRoutes);
+app.use(workshopRoundRoutes)
 
 
 app.use(express.static('./client/build'))
