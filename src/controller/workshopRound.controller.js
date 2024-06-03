@@ -116,6 +116,35 @@ let workshopRoundController = {
       }
     );
   },
+
+  getWorkshopRoundWorkshopById: (req, res, next) => {
+    const workshopId = req.params.workshopId;
+    const roundId = req.params.roundId;
+
+    logger.info("getting workshop for round by workshopId and roundId", workshopId, roundId);
+
+    workshopRoundService.getWorkshopRoundWorkshopById(
+      workshopId,
+      roundId,
+      (error, success) => {
+        if (error) {
+          return next({
+            status: error.status,
+            message: error.message,
+            data: {},
+          });
+        }
+
+        if (success) {
+          res.status(200).json({
+            status: success.status,
+            message: success.message,
+            data: success.data,
+          });
+        }
+      }
+    );
+  }
 };
 
 module.exports = workshopRoundController;

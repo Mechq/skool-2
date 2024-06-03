@@ -148,6 +148,36 @@ const workshopRound = {
       });
     });
   },
+
+  getWorkshopRoundWorkshopById: (workshopId, roundId, callback) => {
+    logger.info("Get workshop for round", workshopId, roundId);
+
+    let sql =
+      "SELECT * FROM workshopRound WHERE workshopId = ? AND roundId = ?";
+
+    database.query(sql, [workshopId, roundId], (error, results, fields) => {
+      if (error) {
+        logger.error("Error getting workshop for round", error);
+        callback(error, null);
+      } else {
+        if (results.length > 0) {
+          logger.info("Workshop for round fetched successfully", results);
+          callback(null, {
+            status: 200,
+            message: "Workshop for round fetched successfully",
+            data: results,
+          });
+        } else {
+          logger.debug("No workshop found with workshop id", workshopId);
+          callback(null, {
+            status: 200,
+            message: "No workshop found for workshop id " + workshopId,
+            data: [],
+          });
+        }
+      }
+    });
+  }
 };
 
 module.exports = workshopRound;
