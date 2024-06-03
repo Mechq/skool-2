@@ -70,14 +70,14 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
                 <label htmlFor="templateName"
                        className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Template
                     naam</label>
-                <input type="text" id="templateName" value={name}
+                <input type="text" id="templateName" value={name} onChange={e => setName(e.target.value)}
                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                        placeholder="Bevestigings mail" required/>
             </div>
             <div className="mb-6">
                 <label htmlFor="subject"
                        className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Onderwerp</label>
-                <input type="text" id="subject" value={subject}
+                <input type="text" id="subject" value={subject} onChange={e => setSubject(e.target.value)}
                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                        placeholder="Bevestiging {workshop} op {executionDate}" required/>
             </div>
