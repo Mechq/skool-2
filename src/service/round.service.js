@@ -177,6 +177,47 @@ const roundService = {
           );
         });
       },
+
+      getRoundById: (id, callback) => {
+        logger.info("retrieving round by id", id);
+    
+        database.getConnection((err, connection) => {
+          if (err) {
+            logger.error("Error getting database connection", err);
+            callback(err, null);
+            return;
+          }
+    
+          connection.query(
+            "SELECT * FROM round WHERE id = ?",
+            [id],
+            (error, results, fields) => {
+              connection.release();
+    
+              if (error) {
+                logger.error("Error getting round", error);
+                callback(error, null);
+              } else {
+                if (results.length > 0) {
+                  logger.info("Round fetched successfully", results);
+                  callback(null, {
+                    status: 200,
+                    message: "Round fetched successfully",
+                    data: results[0],
+                  });
+                } else {
+                  logger.debug("No round found with id", id);
+                  callback(null, {
+                    status: 200,
+                    message: "No round found with id " + id,
+                    data: {},
+                  });
+                }
+              }
+            }
+          );
+        });
+      }
 };
 
 module.exports = roundService;
