@@ -96,6 +96,8 @@ const workshopRound = {
   },
 
   editWorkshopRoundWorkshop: (workshopId, roundId, workshopRound, callback) => {
+    logger.info('workshopId', workshopId);
+    logger.info('roundId', roundId);
     logger.info("Editing workshop for round", workshopRound);
 
     database.getConnection(function (err, connection) {
@@ -132,16 +134,16 @@ const workshopRound = {
         connection.release(); 
 
         if (error) {
-          logger.error("Error updating workshopRound", error);
-          callback(error, null);
+
+            logger.error('Error updating workshopRound', error);
+            callback(error, null);
+
         } else {
-          if (results.affectedRows > 0) {
-            logger.info("workshopRound updated successfully");
-            callback(null, "workshopRound updated successfully");
-          } else {
-            logger.info("No workshopRound found with the provided ID");
-            callback(null, "No workshopRound found with the provided ID");
-          }
+            callback(null, {
+                status: 200,
+                message: 'Updated workshopRound successfully',
+                data: results,
+            });
         }
       });
     });
