@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../styles/ModalScreen.css";
 import {use} from "chai";
 
-export default function CommissionRoundModalScreen({ roundType, onClose, onSave }) {
+export default function CommissionRoundModalScreen({ roundType, roundId, onClose, onSave }) {
     const [editedRound, setEditedRound] = useState(roundType);
     const [duration, setDuration] = useState('')
     const [amountOfStudents, setAmountOfStudents] = useState('')
@@ -18,7 +18,6 @@ export default function CommissionRoundModalScreen({ roundType, onClose, onSave 
         e.preventDefault();
         onSave(editedRound);
     };
-    if (roundType !== "workshopronde"){
     return (
         <div className="round-edit-modal">
             <div className="modal-content">
@@ -56,5 +55,5 @@ export default function CommissionRoundModalScreen({ roundType, onClose, onSave 
             </div>
         </div>
     );
-    }
+
 }

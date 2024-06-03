@@ -3,6 +3,7 @@ import "../../styles/components/EditPanelContent.css";
 import "../../styles/optionsRoundCreate.css";
 import RoundEditModal from "../CommissionRoundModalScreen";
 import WorkshopRoundEditModal from "../CommissionWorkshopRoundModalScreen";
+import WorkshopRoundWorkshopEditModal from "../CommissionWorkshopRoundWorkshopEditModal"
 
 export default function EditCommissionPanelContent({ setShowSidePanel, commissionId }) {
     const [customerId, setCustomerId] = useState("");
@@ -181,6 +182,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         setEditedRoundType(type);
         setEditedRoundId(id);
         setShowEditModal(true);
+        console.log("Editing round", type, id);
     };
 
     const handleModalClose = () => {
@@ -206,12 +208,18 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                         <h2>Rondes</h2>
                         <ul>
                             {types.map((type, index) => (
-                                <li key={index} onClick={() => editRound(type, roundIds[index])}>
-                                    {type}
+                                <li key={index}>
+                                    <span onClick={() => editRound(type, roundIds[index])}>
+                                        {type}
+                                    </span>
                                     {type === "workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
                                         <ul>
                                             {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
-                                                <li key={workshop.id}>{workshop.name}</li>
+                                                <li onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    editRound("workshop", workshop.id);
+                                                }}
+                                                    key={workshop.id}>{workshop.name}</li>
                                             ))}
                                         </ul>
                                     )}
@@ -223,9 +231,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                             {showOptions && (
                                 <div className="options-list">
                                     <ul>
-                                        <li onClick={() => handleOptionClick("pauze")}>pauze toevoegen</li>
-                                        <li onClick={() => handleOptionClick("afsluiting")}>afsluiting toevoegen</li>
-                                        <li onClick={() => handleOptionClick("warmingup")}>warmingup toevoegen</li>
+                                        <li onClick={() => handleOptionClick("Pauze")}>Pauze toevoegen</li>
+                                        <li onClick={() => handleOptionClick("Afsluiting")}>Afsluiting toevoegen</li>
+                                        <li onClick={() => handleOptionClick("Warmingup")}>Warmingup toevoegen</li>
                                         <li onClick={() => handleOptionClick("workshopronde")}>workshop ronde toevoegen</li>
                                     </ul>
                                 </div>
@@ -245,10 +253,18 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     onWorkshopAdded={handleWorkshopAdded} // Pass the callback
                 />
             )}
-            {showEditModal && editedRoundType !== "workshopronde" && (
+            {showEditModal && editedRoundType !== "workshopronde" && editedRoundType !== "workshop" && (
                 <RoundEditModal
                     roundType={editedRoundType}
                     roundId={editedRoundId}
+                    onClose={handleModalClose}
+                    onSave={handleModalSave}
+                />
+            )}
+            {showEditModal && editedRoundType === "workshop" && (
+                <WorkshopRoundWorkshopEditModal
+                    roundType={editedRoundType}
+                    workshopId={editedRoundId}
                     onClose={handleModalClose}
                     onSave={handleModalSave}
                 />
