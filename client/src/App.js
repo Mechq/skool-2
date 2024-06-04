@@ -7,7 +7,7 @@ import Workshop from './pages/workshop';
 import MailTemplates from './pages/mailTemplates';
 import Commission from './pages/commission';
 import Worklocation from './pages/worklocation';
-import Profile from './pages/profile';
+import User from './pages/user';
 
 function App() {
     return (
@@ -22,7 +22,7 @@ function App() {
                     <Route path="/opdracht" element={<Commission />} />
                     <Route path="/werklocatie" element={<Worklocation />} />
                     <Route path="/customers" element={<Customers />} />
-                    <Route path='/profile' element={<Profile />} />
+                    <Route path='/user' element={<User />} />
                 </Routes>
             </div>
         </div>
