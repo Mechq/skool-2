@@ -118,6 +118,30 @@ let locationController = {
                 });
             }
         });
+    },
+
+    getLocationsByCustomerId: (req, res, next) => {
+        const customerId = req.params.customerId;
+
+        logger.info("retrieving locations by customer id", customerId);
+
+        locationService.getLocationsByCustomerId(customerId, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 };
 

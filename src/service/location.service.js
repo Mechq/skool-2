@@ -12,12 +12,12 @@ const locationService = {
         return;
       }
 
-      const { name, street, houseNumber, city, postalCode } = location;
+      const { name, street, houseNumber, city, postalCode, customerId } = location;
 
-      const values = [name, street, houseNumber, city, postalCode];
+      const values = [name, street, houseNumber, city, postalCode, customerId];
       console.log(values);
       const query =
-        "INSERT INTO location (name, street, houseNumber, city, postalCode) VALUES (?, ?, ?, ?, ?)";
+        "INSERT INTO location (name, street, houseNumber, city, postalCode, customerId) VALUES (?, ?, ?, ?, ?, ?)";
 
       logger.debug("query", query);
 
@@ -188,6 +188,37 @@ const locationService = {
       }
     });
   },
+
+  getLocationsByCustomerId: (customerId, callback) => {
+    logger.info("getting locations by customer id", customerId);
+
+    let sql = "SELECT * FROM location WHERE customerId = ?";
+
+    database.query(sql, [customerId], (error, results, fields) => {
+      if (error) {
+        logger.error("Error getting locations", error);
+        callback(error, null);
+      } else {
+        if (results.length > 0) {
+          logger.info("locations fetched successfully", results);
+          callback(null, {
+            status: 200,
+            message: "locations fetched successfully",
+            data: results,
+          });
+        } else {
+          logger.warn("No locations found with customer id", customerId);
+          callback(
+            {
+              status: 404,
+              message: "locations not found",
+            },
+            null
+          );
+        }
+      }
+    });
+  }
 };
 
 module.exports = locationService;
