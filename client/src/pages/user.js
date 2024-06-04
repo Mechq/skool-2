@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
-import WorkshopList from "../components/lists/WorkshopList";
-import CreatePanelContent from "../components/panel-contents/CreatePanelContent";
 import SidePanel from "../components/SidePanel";
 import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
-import CreateButton from "../components/CreateButton";
 
-function user() {
+function User() {
     const [isOpen, setIsOpen] = React.useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [user, setUser] = useState({});
     const [rotateSpan, setRotateSpan] = useState(false);
 
-    const [email, setEmail] = useState("");
     const id = 5;
     
 
@@ -25,9 +21,7 @@ function user() {
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
 
-    // setEmail(profile.email);
-    // console.log("Email: ", email);
-
+    console.log("User password: ", user);
     const editUser = () => {
         // Logic to edit the profile
         setIsOpen(true);
@@ -84,7 +78,7 @@ function user() {
                      Postcode
                   </dt>
                  <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {profile.postalCode}
+                      {user.postalCode}
                   </dd>
               </div>
               <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -158,4 +152,4 @@ function user() {
     );
 }
 
-export default user;
+export default User;

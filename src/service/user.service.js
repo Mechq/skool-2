@@ -164,7 +164,7 @@ const userService = {
                         callback(null, {
                             status: 200,
                             message: 'user retrieved',
-                            data: results,
+                            data: results[0],
                         });
                     }
                 }
