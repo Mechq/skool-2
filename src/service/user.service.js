@@ -134,6 +134,42 @@ const userService = {
                 }
             )
         });
+    },
+    getById: (id, callback) => {
+        logger.info('retrieving user', id);
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error retrieving user', err);
+                callback(err, null);
+                return;
+            }
+
+            const query = 'SELECT * FROM user WHERE id = ?';
+
+            logger.debug('query', query);
+
+            connection.query(
+                query,
+                [id],
+                function (error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+                        logger.error('Error retrieving user', error);
+                        callback(error, null);
+                    } else {
+                        logger.trace('user retrieved', results);
+
+                        callback(null, {
+                            status: 200,
+                            message: 'user retrieved',
+                            data: results,
+                        });
+                    }
+                }
+            )
+        });
     }
 };
 
