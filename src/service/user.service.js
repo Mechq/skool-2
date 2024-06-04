@@ -74,11 +74,9 @@ const userService = {
                     }
 
                     if (response) {
-                        const token = jwt.sign({role: "admin"}, "jwt-secret-key", {expiresIn: '1d'});
                         callback(null, {
                             status: 'Success',
                             message: 'Login successful',
-                            token: token
                         });
                     } else {
                         callback(null, {

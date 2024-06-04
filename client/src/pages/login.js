@@ -35,11 +35,6 @@ export default function Login() {
                     // Handle successful login (e.g., store the token, redirect, etc.)
                     setEmail("");
                     setPassword("");
-                    console.log(data);
-                    // note using deconstructuring is better for cleaner code
-                    const {access, refresh} = data.access_token;
-                    localStorage.setItem("accessToken", access);
-                    localStorage.setItem("refreshToken", refresh);
                     window.location.href = "/";
                 } else {
                     setError(data.message || 'Login gefaald');
