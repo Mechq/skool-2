@@ -10,7 +10,7 @@ export default function WorkshopList({
                                          setWorkshops
                                      }) {
 
-    useEffect(() => {
+        useEffect(() => {
         fetch('/api/workshop')
             .then(res => res.json())
             .then(data => {
