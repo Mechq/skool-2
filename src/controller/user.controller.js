@@ -40,8 +40,8 @@ const userController = {
                 status: success.status,
                 message: success.message,
                 access_token: {
-                    access: "teacher",
-                    refresh: "teacher"
+                    access: success.token,
+                    refresh: success.token
                 }
             });
         });
