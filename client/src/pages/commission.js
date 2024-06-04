@@ -1,40 +1,38 @@
 import React, {useEffect, useState} from "react";
-
+import CommissionList from "../components/lists/CommissionList";
 import SidePanel from "../components/SidePanel";
+import CommissionPanelContent from "../components/panel-contents/CommissionPanelContent";
 import CreateButton from "../components/CreateButton";
-import CreateCustomerPanelContent from "../components/panel-contents/CreateCustomerPanelContent";
-import CustomerList from "../components/lists/CustomerList";
 
-function Customers() {
+export default function Commission() {
     const [showSidePanel, setShowSidePanel] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
-    const [customers, setCustomers] = useState([]);
+    const [commissions, setCommissions] = useState([]);
+
 
     useEffect(() => {
-        fetch('/api/customer')
+        fetch('/api/commission')
             .then(res => res.json())
             .then(data => {
-                setCustomers(data.data);
-                console.log("Fetched customers: ", data.data);
+                setCommissions(data.data);
+                console.log("Fetched commissions: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, []);
-
+    }, [showSidePanel]);
 
     return (
         <>
-            <h1>Customers</h1>
+            <h1>Opdracht</h1>
+            <CommissionList commissions={commissions}/>
             <CreateButton
                 setShowSidePanel={setShowSidePanel}
                 showSidePanel={showSidePanel}
                 setSidePanelContent={setSidePanelContent}
             />
-            <CustomerList customers={customers}/>
             <SidePanel showSidePanel={showSidePanel}>
-                {sidePanelContent === "create" && <CreateCustomerPanelContent/>}
+                {sidePanelContent === "create" &&
+                    <CommissionPanelContent setCommissions={setCommissions} setShowSidePanel={setShowSidePanel}/>}
             </SidePanel>
         </>
     );
 }
-
-export default Customers;
