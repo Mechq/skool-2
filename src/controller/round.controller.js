@@ -117,6 +117,53 @@ let roundController = {
         });
       }
     });
+  },
+  startTimeRound: (req, res, next) => {
+    const roundId = req.params.roundId;
+    const startTime = req.body.startTime;
+
+    logger.info("starting time for round", roundId);
+
+    roundService.startTimeRound(roundId, startTime, (error, success) => {
+      if (error) {
+        return next({
+          status: error.status,
+          message: error.message,
+          data: {},
+        });
+      }
+
+      if (success) {
+        res.status(200).json({
+          status: success.status,
+          message: success.message,
+          data: success.data,
+        });
+      }
+    });
+  },
+  endTimeRound: (req, res, next) => {
+    const commissionId = req.params.commissionId;
+
+    logger.info("ending time for round", commissionId);
+
+    roundService.endTimeRound(commissionId, (error, success) => {
+      if (error) {
+        return next({
+          status: error.status,
+          message: error.message,
+          data: {},
+        });
+      }
+
+      if (success) {
+        res.status(200).json({
+          status: success.status,
+          message: success.message,
+          data: success.data,
+        });
+      }
+    });
   }
 };
 

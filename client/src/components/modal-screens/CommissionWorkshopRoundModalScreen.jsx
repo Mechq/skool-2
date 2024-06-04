@@ -6,7 +6,10 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
     const [workshops, setWorkshops] = useState([]);
     const [selectedWorkshops, setSelectedWorkshops] = useState([]);
     const [duration, setDuration] = useState('');
-    const [startTime, setStartTime] = useState('');
+    const [startTime, setStartTime] = useState('')
+    const [order, setOrder] = useState('')
+    const [endTime, setEndTime] = useState('')
+
 
     const [validDuration, setValidDuration] = useState(false);
     const [validStartTime, setValidStartTime] = useState(false);
@@ -27,12 +30,12 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
             .then(data => {
                 setDuration(data.data.duration);
                 setStartTime(data.data.startTime);
+                setEndTime(data.data.endTime);
                 console.log("Fetched workshops: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
-    console.log("duration", duration)
-    console.log("startTime", startTime)
+
 
     useEffect(() => {
         fetch(`/api/workshopRound/workshop/${roundId}`)
@@ -55,6 +58,30 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
         });
     };
 
+    useEffect(() => {
+        if (startTime && duration >= 0) {
+            const newEndTime = calculateEndTime(startTime, duration);
+            setEndTime(newEndTime);
+        }
+    }, [startTime, duration]);
+
+    const calculateEndTime = (startTime, duration) => {
+        const [hours, minutes] = startTime.split(':').map(Number);
+        const totalMinutes = hours * 60 + minutes + duration;
+        const endHours = Math.floor(totalMinutes / 60) % 24;
+        const endMinutes = totalMinutes % 60;
+
+        return `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`;
+    };
+
+    const handleStartTimeChange = (e) => {
+        setStartTime(e.target.value);
+    };
+
+    const handleDurationChange = (e) => {
+        setDuration(Number(e.target.value));
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         onSave(editedRound);
@@ -67,7 +94,8 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
             },
             body: JSON.stringify({
                 duration: parseInt(duration),
-                startTime
+                startTime,
+                endTime
             }),
         })
             .then(response => response.json())
@@ -125,34 +153,42 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                 <span className="close" onClick={onClose}>
                     &times;
                 </span>
-                <h2>Edit Workshop</h2>
+                <h2>Bewerk Workshop</h2>
                 <form>
                     <p>Starttijd</p>
                     <input
                         type="text"
                         value={startTime}
-                        placeholder={startTime}
+                        placeholder="Starttijd"
                         onChange={(e) => {
                             setStartTime(e.target.value);
                             setValidStartTime(true);
+                            handleStartTimeChange(e);
                         }}
                     />
                     <p>Tijdsduur</p>
                     <input
                         type="text"
                         value={duration}
-                        placeholder={duration}
+                        placeholder="Tijdsduur"
                         onChange={(e) => {
                             setDuration(e.target.value);
                             setValidDuration(true);
+                            handleDurationChange(e)
                         }}
+                    />
+                    <input
+                        type="text"
+                        value={endTime}
+                        placeholder="Eindtijd"
+                        readOnly
                     />
                 </form>
                 <ul className="workshopList">
                     {workshops.map(workshop => (
                         <li key={workshop.id}>
                             <label>
-                                <input
+                            <input
                                     type="checkbox"
                                     checked={selectedWorkshops.includes(workshop.id)}
                                     onChange={() => handleCheckboxChange(workshop.id)}
@@ -162,7 +198,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                         </li>
                     ))}
                 </ul>
-                <button type="submit" onClick={handleSubmit}>Save</button>
+                <button type="submit" onClick={handleSubmit}>Opslaan</button>
             </div>
         </div>
     );

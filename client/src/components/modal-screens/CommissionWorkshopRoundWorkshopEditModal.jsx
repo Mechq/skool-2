@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../../styles/ModalScreen.css";
 import {use} from "chai";
 
-export default function CommissionWorkshopRoundWorkshopEditModal({ roundType, roundId, workshopId, onClose, onSave }) {
+export default function CommissionWorkshopRoundWorkshopEditModal({ roundType, roundId, workshopId, onClose, onSave, onEdit }) {
     const [editedRound, setEditedRound] = useState(roundType);
     const [amountOfStudents, setAmountOfStudents] = useState('')
     const [amountOfTeachers, setAmountOfTeachers] = useState('')
@@ -49,6 +49,7 @@ console.log("amountOfStudents", amountOfStudents)
             .then((data) => {
                 console.log("Success:", data);
                 onSave(editedRound);
+                onEdit()
             })
             .catch((error) => console.error("Error:", error));
 
@@ -61,27 +62,29 @@ console.log("amountOfStudents", amountOfStudents)
         <span className="close" onClick={onClose}>
           &times;
         </span>
-                    <h2>Edit {editedRound}</h2>
+                    <h2>Bewerk {editedRound}</h2>
                     <form>
+                        <p>Leerlingen</p>
                         <input
                             type="text"
                             value={amountOfStudents}
-                            placeholder={amountOfStudents}
+                            placeholder="Leerlingen"
                             onChange={(e) => {
                                 setAmountOfStudents(e.target.value);
                                 setValidAmountOfStudents(true);  // Reset validation state
                             }}
                         />
+                        <p>Docenten</p>
                         <input
                             type="text"
                             value={amountOfTeachers}
-                            placeholder={amountOfTeachers}
+                            placeholder="Docenten"
                             onChange={(e) => {
                                 setAmountOfTeachers(e.target.value);
                                 setValidAmountOfTeachers(true);  // Reset validation state
                             }}
                         />
-                        <button type="submit" onClick={handleSubmit}>Save</button>
+                        <button type="submit" onClick={handleSubmit}>Opslaan</button>
                     </form>
                 </div>
             </div>

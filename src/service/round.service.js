@@ -15,12 +15,13 @@ const roundService = {
             const {
                 type,
                 duration,
-                startTime
+                startTime,
+                order
             } = round;
 
-            const values = [type, commissionId, duration, startTime];
+            const values = [type, commissionId, duration, startTime, order];
 
-            const query = 'INSERT INTO round (type,commissionId,duration,startTime) VALUES (?,?,?,?)';
+            const query = 'INSERT INTO round (type,commissionId,duration,startTime,`order`) VALUES (?,?,?,?,?)';
 
             logger.debug('query', query);
 
@@ -64,7 +65,7 @@ const roundService = {
 
 
             connection.query(
-                'SELECT * FROM round WHERE commissionId = ?', [commissionId],
+                'SELECT * FROM round WHERE commissionId = ? ORDER BY `order`', [commissionId],
                 function (error, results, fields) {
                     connection.release();
 
@@ -100,7 +101,14 @@ const roundService = {
           sql += 'startTime = ?, ';
           values.push(round.startTime);
       }
-  
+      if (round.endTime !== undefined) {
+        sql += 'endTime = ?, ';
+        values.push(round.endTime);
+      }
+        if (round.endTime !== undefined) {
+            sql += 'endTime = ?, ';
+            values.push(round.endTime);
+        }
       // Remove the trailing comma and space
       sql = sql.slice(0, -2);
   
@@ -217,7 +225,80 @@ const roundService = {
             }
           );
         });
-      }
+      },
+
+      startTimeRound: (roundId, startTime, callback) => {
+        logger.info("starting time for round", roundId);
+    
+        database.getConnection((err, connection) => {
+          if (err) {
+            logger.error("Error getting database connection", err);
+            callback(err, null);
+            return;
+          }
+    
+          connection.query(
+            "UPDATE round SET startTime = ? WHERE id = ?",
+            [startTime, roundId],
+            (error, results, fields) => {
+              connection.release();
+    
+              if (error) {
+                logger.error("Error starting time for round", error);
+                callback(error, null);
+              } else {
+                callback(null, {
+                  status: 200,
+                  message: "Round start time updated",
+                  data: results,
+                });
+              }
+            }
+          );
+        });
+      },
+
+      endTimeRound: (commissionId, callback) => {
+        logger.info("getting ending time for round", commissionId);
+    
+        database.getConnection((err, connection) => {
+          if (err) {
+            logger.error("Error getting database connection", err);
+            callback(err, null);
+            return;
+          }
+    
+          sql = "select `endTime` from round where commissionId = ? ORDER BY `order` desc LIMIT 1";
+
+          connection.query(sql,
+            [commissionId],
+            (error, results, fields) => {
+              connection.release();
+    
+              if (error) {
+                logger.error("Error getting endTime", error);
+                callback(error, null);
+              } else {
+                if (results.length > 0) {
+                  logger.info("endTime fetched successfully", results);
+                  callback(null, {
+                    status: 200,
+                    message: "endTime fetched successfully",
+                    data: results[0],
+                  });
+                } else {
+                  logger.debug("No endTime found with commissionId", commissionId);
+                  callback(null, {
+                    status: 200,
+                    message: "No endTime found with commissionId", commissionId,
+                    data: {},
+                  });
+                }
+              }
+            }
+          );
+      })
+    }
 };
 
 module.exports = roundService;

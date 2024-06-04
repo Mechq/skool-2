@@ -2,15 +2,15 @@ import React, {useEffect, useState} from "react";
 import "../../styles/ModalScreen.css";
 import {use} from "chai";
 
-export default function CommissionRoundModalScreen({ roundType, roundId, onClose, onSave }) {
+export default function CommissionRoundModalScreen({ roundType, roundId, onClose, onSave, commissionId, onEdit }) {
     const [editedRound, setEditedRound] = useState(roundType);
     const [duration, setDuration] = useState('')
     const [startTime, setStartTime] = useState('')
+    const [endTime, setEndTime] = useState('')
+    const [loading, setLoading] = useState(true);
 
 
-    const handleChange = (e) => {
-        setEditedRound(e.target.value);
-    };
+
     useEffect(() => {
         fetch(`/api/round/${roundId}`)
             .then(response => response.json())
@@ -18,9 +18,36 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
                 console.log('Success:', data);
                 setDuration(data.data.duration);
                 setStartTime(data.data.startTime);
+                setEndTime(data.data.endTime);
+                setLoading(false)
             })
             .catch(error => console.error('Error:', error))
     }, [])
+
+
+    useEffect(() => {
+        if (startTime && duration >= 0) {
+            const newEndTime = calculateEndTime(startTime, duration);
+            setEndTime(newEndTime);
+        }
+    }, [startTime, duration]);
+
+    const calculateEndTime = (startTime, duration) => {
+        const [hours, minutes] = startTime.split(':').map(Number);
+        const totalMinutes = hours * 60 + minutes + duration;
+        const endHours = Math.floor(totalMinutes / 60) % 24;
+        const endMinutes = totalMinutes % 60;
+
+        return `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`;
+    };
+
+    const handleStartTimeChange = (e) => {
+        setStartTime(e.target.value);
+    };
+
+    const handleDurationChange = (e) => {
+        setDuration(Number(e.target.value));
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -32,45 +59,61 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
             },
             body: JSON.stringify({
                 duration: parseInt(duration),
-                startTime
+                startTime,
+                endTime
             }),
         })
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                onEdit()
             })
             .catch(error => console.error('Error:', error))
-
         onSave(editedRound);
     };
+
+    if (loading) return (<div>Loading...</div>);
+    else{
     return (
         <div className="round-edit-modal">
             <div className="modal-content">
         <span className="close" onClick={onClose}>
           &times;
         </span>
-                <h2>Edit {editedRound}</h2>
+                <h2>Bewerk {editedRound}</h2>
+
                 <form onSubmit={handleSubmit}>
+<p>Starttijd</p>
+                    <input
+                        type="text"
+                        value={startTime}
+                        placeholder="Starttijd"
+                        onChange={(e) => {
+                            setStartTime(e.target.value);
+                            handleStartTimeChange(e);
+                        }}
+                    />
+<p>Tijdsduur</p>
                     <input
                         type="text"
                         value={duration}
                         placeholder="Tijdsduur"
                         onChange={(e) => {
                             setDuration(e.target.value);
+                            handleDurationChange(e);
                         }}
                     />
+
                     <input
                         type="text"
-                        value={startTime}
-                        placeholder="Begintijd"
-                        onChange={(e) => {
-                            setStartTime(e.target.value);
-                        }}
+                        value={endTime}
+                        placeholder="Eindtijd"
+                        readOnly
                     />
-                    <button type="submit">Save</button>
+                    <button type="submit">Opslaan</button>
                 </form>
             </div>
         </div>
     );
 
-}
+}}
