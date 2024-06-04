@@ -10,7 +10,11 @@ router.get('/api/hash', (req, res) => {
         return res.json({result: hash});
     });
 });
-router.post("/api/verifyToken", authMiddleware)
+
+router.post("/api/verifyToken", authMiddleware, (req, res) => {
+    res.status(200).json({ status: 200, message: 'Authorized' });
+});
+
 router.post('/api/register', userController.register);
 router.post('/api/login', userController.login);
 

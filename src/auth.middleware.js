@@ -1,4 +1,3 @@
-// In `authMiddleware.js`
 const jwt = require('jsonwebtoken');
 
 function authMiddleware(req, res, next) {
@@ -8,7 +7,8 @@ function authMiddleware(req, res, next) {
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) return res.status(403).json({ status: 403, message: 'Forbidden' });
         req.user = user;
-        res.status(200).json({ status: 200, message: 'Authorized' });
+        next(); // Proceed to the next middleware or route handler
     });
 }
+
 module.exports = authMiddleware;

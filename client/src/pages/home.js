@@ -1,5 +1,5 @@
 import React from 'react';
-import PageSecurity from "../PageSecurity";
+import PageSecurity, {GetEmailFromToken} from "../PageSecurity";
 
 function Home() {
 
