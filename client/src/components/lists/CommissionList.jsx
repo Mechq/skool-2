@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-export default function CommissionList({ setSidePanelContent, commissions, setCommissionId, setShowSidePanel }) {
+export default function CommissionList({    isOpen,
+                                           setIsOpen,
+                                           setSidePanelContent,
+                                           setCommissionId,
+                                           commissions,
+                                           setRotateSpan,
+                                           setCommissions
+}) {
     const [customers, setCustomers] = useState([]);
 
     useEffect(() => {
@@ -8,10 +15,11 @@ export default function CommissionList({ setSidePanelContent, commissions, setCo
             .then(res => res.json())
             .then(data => {
                 console.log("Fetched commissions: ", data.data);
+                // setCommissions(data.data);
                 // Assuming that commissions are passed as props and not fetched here
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, []);
+    }, [isOpen]);
 
     const getCustomers = (commission) => {
         fetch(`/api/commission/customer/${commission.id}`)
@@ -32,7 +40,8 @@ export default function CommissionList({ setSidePanelContent, commissions, setCo
     const editCommission = (id) => {
         setCommissionId(id);
         setSidePanelContent("edit");
-        setShowSidePanel(true);
+        setIsOpen(true);
+        setRotateSpan(true);
     };
 
     return (

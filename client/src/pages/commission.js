@@ -6,10 +6,11 @@ import CreateButton from "../components/CreateButton";
 import EditCommissionPanelContent from "../components/panel-contents/EditCommissionPanelContent";
 
 export default function Commission() {
-    const [showSidePanel, setShowSidePanel] = useState(false);
+    const [isOpen, setIsOpen] = React.useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [commissions, setCommissions] = useState([]);
     const [commissionId, setCommissionId] = useState(null);
+    const [rotateSpan, setRotateSpan] = useState(false);
 
 
     useEffect(() => {
@@ -20,25 +21,33 @@ export default function Commission() {
                 console.log("Fetched commissions: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, [showSidePanel]);
+    }, [setIsOpen]);
 
     return (
         <>
             <CommissionList
+                setIsOpen={setIsOpen}
+                isOpen={isOpen}
+                setSidePanelContent={setSidePanelContent}
+                setCommissionId={setCommissionId}
                 commissions={commissions}
-                setSidePanelContent={setSidePanelContent}
-                setShowSidePanel={setShowSidePanel}
-                setCommissionId={setCommissionId}/>
+                setWorkshops={setCommissions} // pass setWorkshops as prop
+                setRotateSpan={setRotateSpan}/>
             <CreateButton
-                setShowSidePanel={setShowSidePanel}
-                showSidePanel={showSidePanel}
+                setShowSidePanel={setIsOpen}
+                showSidePanel={isOpen}
                 setSidePanelContent={setSidePanelContent}
+                rotateSpan={rotateSpan}
+                setRotateSpan={setRotateSpan}
             />
-            <SidePanel showSidePanel={showSidePanel}>
+            <SidePanel isOpen={isOpen}
+                       setIsOpen={setIsOpen}
+                       rotateSpan={rotateSpan}
+                setRotateSpan={rotateSpan}>
                 {sidePanelContent === "create" &&
-                    <CommissionPanelContent setCommissions={setCommissions} setShowSidePanel={setShowSidePanel}/>}
+                    <CommissionPanelContent setCommissions={setCommissions} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditCommissionPanelContent commissionId={commissionId} setShowSidePanel={setShowSidePanel}/>}
+                    <EditCommissionPanelContent commissionId={commissionId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
         </>
     );
