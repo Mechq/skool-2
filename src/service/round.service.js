@@ -100,6 +100,10 @@ const roundService = {
           sql += 'startTime = ?, ';
           values.push(round.startTime);
       }
+      if (round.endTime !== undefined) {
+        sql += 'endTime = ?, ';
+        values.push(round.endTime);
+      }
   
       // Remove the trailing comma and space
       sql = sql.slice(0, -2);
