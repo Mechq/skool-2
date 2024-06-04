@@ -212,6 +212,7 @@ const locationService = {
             {
               status: 404,
               message: "locations not found",
+              data: {},
             },
             null
           );
