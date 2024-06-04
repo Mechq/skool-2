@@ -15,12 +15,13 @@ const roundService = {
             const {
                 type,
                 duration,
-                startTime
+                startTime,
+                order
             } = round;
 
-            const values = [type, commissionId, duration, startTime];
+            const values = [type, commissionId, duration, startTime, order];
 
-            const query = 'INSERT INTO round (type,commissionId,duration,startTime) VALUES (?,?,?,?)';
+            const query = 'INSERT INTO round (type,commissionId,duration,startTime,order) VALUES (?,?,?,?,?)';
 
             logger.debug('query', query);
 
