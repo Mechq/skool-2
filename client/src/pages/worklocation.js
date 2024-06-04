@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import SidePanel from "../components/SidePanel";
 import CreateWorkLocationContent from "../components/panel-contents/CreateWorkLocationContent";
 import CreateButton from "../components/CreateButton";
 import WorkLocationList from "../components/lists/WorkLocationList";
 import EditPanelWorkLocationContent from "../components/panel-contents/EditWorkLocationContent";
-import MailTemplateList from "../components/lists/MailTemplateList";
+import PageSecurity from "../PageSecurity";
 
 function Worklocation() {
     const [isOpen, setIsOpen] = useState(false);
@@ -22,6 +22,11 @@ function Worklocation() {
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
+
+    const pageSecurity = PageSecurity();
+    if (pageSecurity === null) {
+        return null;
+    }
 
     return (
         <div className='werklocatieContent'>

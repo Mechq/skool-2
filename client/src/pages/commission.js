@@ -3,12 +3,12 @@ import CommissionList from "../components/lists/CommissionList";
 import SidePanel from "../components/SidePanel";
 import CommissionPanelContent from "../components/panel-contents/CommissionPanelContent";
 import CreateButton from "../components/CreateButton";
+import PageSecurity from "../PageSecurity";
 
 export default function Commission() {
     const [showSidePanel, setShowSidePanel] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [commissions, setCommissions] = useState([]);
-
 
     useEffect(() => {
         fetch('/api/commission')
@@ -19,6 +19,11 @@ export default function Commission() {
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [showSidePanel]);
+
+    const pageSecurity = PageSecurity();
+    if (pageSecurity === null) {
+        return null;
+    }
 
     return (
         <>

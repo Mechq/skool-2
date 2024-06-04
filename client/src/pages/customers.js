@@ -20,7 +20,6 @@ function Customers() {
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
-
     return (
         <>
             <h1>Customers</h1>

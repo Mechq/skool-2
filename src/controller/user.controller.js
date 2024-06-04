@@ -1,5 +1,6 @@
 const userService = require('../service/user.service');
 const logger = require('../util/logger');
+const cookieParser = require('cookie-parser');
 
 const userController = {
     register: (req, res, next) => {
@@ -36,6 +37,7 @@ const userController = {
                 });
             }
 
+            res.cookie('token', success.token, { httpOnly: true });
             res.status(200).json({
                 status: success.status,
                 message: success.message

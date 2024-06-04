@@ -1,4 +1,6 @@
 const express = require("express");
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const workshopRoutes = require("./src/routes/workshop.routes");
 const categoryRoutes = require("./src/routes/category.routes");
@@ -14,6 +16,14 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
+app.use(cookieParser());
+// Configure CORS
+const corsOptions = {
+    origin: 'http://localhost:3000', // replace with your client app's url
+    credentials: true
+};
+app.use(cors(corsOptions));
+
 // All routes
 app.use(customerRoutes);
 app.use(workshopRoutes);
@@ -21,10 +31,10 @@ app.use(locationRoutes)
 app.use(mailTemplateRoutes)
 app.use(categoryRoutes);
 app.use(commissionRoutes);
-app.use(userRoutes)
-
 app.use(express.static('./client/build'))
 app.use(indexRoutes)
+app.use(userRoutes)
+
 
 // Route error handler
 app.use((req, res, next) => {

@@ -74,9 +74,11 @@ const userService = {
                     }
 
                     if (response) {
+                        const token = jwt.sign({ email: email, role: 'user' }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
                         callback(null, {
                             status: 'Success',
                             message: 'Login successful',
+                            token: token
                         });
                     } else {
                         callback(null, {
