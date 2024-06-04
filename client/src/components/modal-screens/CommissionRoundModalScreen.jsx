@@ -10,18 +10,6 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
     const [loading, setLoading] = useState(true);
 
 
-    useEffect(() => {
-        fetch(`/api/round/endTime/${commissionId}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                setStartTime(data.data.endTime || '');
-                setLoading(false)
-            })
-
-            .catch(error => console.error('Error:', error))
-    }, [])
-
 
     useEffect(() => {
         fetch(`/api/round/${roundId}`)
@@ -31,6 +19,7 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
                 setDuration(data.data.duration);
                 setStartTime(data.data.startTime);
                 setEndTime(data.data.endTime);
+                setLoading(false)
             })
             .catch(error => console.error('Error:', error))
     }, [])
@@ -84,6 +73,7 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
     };
 
     if (loading) return (<div>Loading...</div>);
+    else{
     return (
         <div className="round-edit-modal">
             <div className="modal-content">
@@ -126,4 +116,4 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
         </div>
     );
 
-}
+}}
