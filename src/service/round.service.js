@@ -21,7 +21,7 @@ const roundService = {
 
             const values = [type, commissionId, duration, startTime, order];
 
-            const query = 'INSERT INTO round (type,commissionId,duration,startTime,order) VALUES (?,?,?,?,?)';
+            const query = 'INSERT INTO round (type,commissionId,duration,startTime,`order`) VALUES (?,?,?,?,?)';
 
             logger.debug('query', query);
 
@@ -105,7 +105,10 @@ const roundService = {
         sql += 'endTime = ?, ';
         values.push(round.endTime);
       }
-  
+        if (round.endTime !== undefined) {
+            sql += 'endTime = ?, ';
+            values.push(round.endTime);
+        }
       // Remove the trailing comma and space
       sql = sql.slice(0, -2);
   

@@ -29,6 +29,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const [customerNameValid, setCustomerNameValid] = useState(true);
     const [date, setDate] = useState("");
     const [dateValid, setDateValid] = useState(true);
+    const[startTimes, setStartTimes] = useState([]);
+    const[endTimes, setEndTimes] = useState([]);
+    const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         if (commissionId) {
@@ -53,11 +56,21 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .then((res) => res.json())
                 .then((response) => {
                     const data = response.data;
+
                     const _types = data.map((item) => item.type);
                     setTypes(_types);
+
+                    const _startTimes = data.map((item) => item.startTime);
+                    setStartTimes(_startTimes);
+
+                    const _endTimes = data.map((item) => item.endTime);
+                    setEndTimes(_endTimes);
+
+                    const _orders = data.map((item) => item.order);
+                    setOrders(_orders);
+
                     const _roundIds = data.map((item) => item.id);
                     setRoundIds(_roundIds);
-
                     const workshopRoundIds = _roundIds.filter((_, index) => _types[index] === "workshopronde");
                     workshopRoundIds.forEach((roundId) => {
                         fetch(`/api/workshopRound/workshop/${roundId}`)
@@ -75,6 +88,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .catch((error) => console.error("Error fetching round:", error));
         }
     };
+    console.log("fffffffffffffffffffffffff", startTimes, endTimes)
 
     useEffect(() => {
         fetchRoundData();
@@ -165,7 +179,12 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
 
     const handleOptionClick = (option) => {
         setShowOptions(false);
-        const requestBody = JSON.stringify({ type: option });
+        let order = 0
+        if(orders.length > 0){
+            order = orders[orders.length - 1] + 1
+        }
+        console.log(order)
+        const requestBody = JSON.stringify({ type: option, order });
 
         fetch(`/api/round/${commissionId}`, {
             method: "POST",
@@ -275,9 +294,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                         <ul>
                             {types.map((type, index) => (
                                 <li key={index}>
-                                    <span onClick={() => editRound(type, roundIds[index])}>
-                                        {type}
-                                    </span>
+            <span onClick={() => editRound(type, roundIds[index])}>
+                {type} - Time {startTimes[index]} - {endTimes[index]}
+            </span>
                                     {type === "workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
                                         <ul>
                                             {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
@@ -327,6 +346,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     roundId={editedRoundId}
                     onClose={handleModalClose}
                     onSave={handleModalSave}
+                    commissionId={commissionId}
                 />
             )}
             {showEditModal && editedRoundType === "workshop" && (

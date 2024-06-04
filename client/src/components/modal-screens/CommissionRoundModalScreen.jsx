@@ -2,16 +2,23 @@ import React, {useEffect, useState} from "react";
 import "../../styles/ModalScreen.css";
 import {use} from "chai";
 
-export default function CommissionRoundModalScreen({ roundType, roundId, onClose, onSave }) {
+export default function CommissionRoundModalScreen({ roundType, roundId, onClose, onSave, commissionId }) {
     const [editedRound, setEditedRound] = useState(roundType);
     const [duration, setDuration] = useState('')
     const [startTime, setStartTime] = useState('')
-    const [order, setOrder] = useState('')
     const [endTime, setEndTime] = useState('')
 
-    const handleChange = (e) => {
-        setEditedRound(e.target.value);
-    };
+    useEffect(() => {
+        fetch(`/api/round/endTime/${commissionId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                setStartTime(data.data.endTime || '');
+            })
+            .catch(error => console.error('Error:', error))
+    }, [])
+
+
     useEffect(() => {
         fetch(`/api/round/${roundId}`)
             .then(response => response.json())
@@ -19,11 +26,11 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
                 console.log('Success:', data);
                 setDuration(data.data.duration);
                 setStartTime(data.data.startTime);
-                setOrder(data.data.order);
                 setEndTime(data.data.endTime);
             })
             .catch(error => console.error('Error:', error))
     }, [])
+
 
     useEffect(() => {
         if (startTime && duration >= 0) {
@@ -59,7 +66,8 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
             },
             body: JSON.stringify({
                 duration: parseInt(duration),
-                startTime
+                startTime,
+                endTime
             }),
         })
             .then(response => response.json())
@@ -67,9 +75,10 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
                 console.log('Success:', data);
             })
             .catch(error => console.error('Error:', error))
-
         onSave(editedRound);
     };
+
+    //
     return (
         <div className="round-edit-modal">
             <div className="modal-content">

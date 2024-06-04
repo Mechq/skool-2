@@ -30,6 +30,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
             .then(data => {
                 setDuration(data.data.duration);
                 setStartTime(data.data.startTime);
+                setEndTime(data.data.endTime);
                 console.log("Fetched workshops: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
@@ -93,7 +94,8 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
             },
             body: JSON.stringify({
                 duration: parseInt(duration),
-                startTime
+                startTime,
+                endTime
             }),
         })
             .then(response => response.json())
