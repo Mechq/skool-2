@@ -83,7 +83,7 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
                 <h2>Bewerk {editedRound}</h2>
 
                 <form onSubmit={handleSubmit}>
-<p>Starttijd</p>
+                    <p>Starttijd</p>
                     <input
                         type="text"
                         value={startTime}

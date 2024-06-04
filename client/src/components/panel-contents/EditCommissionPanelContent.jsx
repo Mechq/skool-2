@@ -240,131 +240,66 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
 
     return (
         <div className="px-6">
+
+
             <header className="pt-4 pb-4 font-bold text-lg">Opdracht bewerken</header>
             <form>
-                <div className="grid gap-6 mb-6 md:grid-cols-2">
-                    <div>
-                        <label
-                            htmlFor="customer"
-                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white"
-                        >
-                            Kies een klant
-                        </label>
-                        <select
-                            id="customerName"
-                            value={selectedCustomerName} // Change value to selectedCustomer
+                <div className="mb-6">
+                    <label htmlFor="workshopName"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Kies een
+                        Klant</label>
+                    <select id="workshopName" value={selectedCustomerId} // Corrected line
                             onChange={(e) => {
-                                setCustomerId(e.target.value);
-                            }}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        >
-                            <option value="" disabled>
-                                {selectedCustomerName}
-                            </option>
-                            {customers.map((customer) => (
-                                <option key={customer.id} value={customer.id}>
-                                    {customer.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                <div className="grid gap-6 mb-6 md:grid-cols-2">
-                    <div>
-                        <label
-                            htmlFor="details"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >
-                            Opdracht details
-                        </label>
-                        <input
-                            type="text"
-                            id="details"
-                            value={details}
-                            required
-                            onChange={(e) => setDetails(e.target.value)}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        />
-                    </div>
-                </div>
-                <div className="grid gap-6 mb-6 md:grid-cols-2">
-                    <div>
-                        <label
-                            htmlFor="targetAudience"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >
-                            Opdracht doelgroep
-                        </label>
-                        <input
-                            type="text"
-                            id="targetAudience"
-                            value={targetAudience}
-                            required
-                            onChange={(e) => setTargetAudience(e.target.value)}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        />
-                    </div>
-                </div>
-                <div className="grid gap-6 mb-6 md:grid-cols-2">
-                    <div>
-                        <label
-                            htmlFor="date"
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >
-                            Workshop datum
-                        </label>
-                        <input
-                            type="text"
-                            id="date"
-                            value={date}
-                            required
-                            onChange={(e) => setDate(e.target.value)}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        />
-                    </div>
-                </div>
-                <div>
-                    <h2>Rondes</h2>
-                    <ul>
-                        {types.map((type, index) => (
-                            <li key={index}>
-                <span onClick={() => editRound(type, roundIds[index])}>
-                  {type} - Tijd {startTimes[index]} - {endTimes[index]}
-                </span>
-                                {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
-                                    <ul>
-                                        {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
-                                            <li
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    editRound("workshop", workshop.id, roundIds[index]); // Pass the parent workshop round ID
-                                                }}
-                                                key={workshop.id}
-                                            >
-                                                {workshop.name}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </li>
+                              setSelectedCustomerId(e.target.value);
+                            }} required
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
+                        <option value="" disabled>{selectedCustomerName}</option>
+                        {customers.map((customer) => (
+                            <option key={customer.id} value={customer.id}>{customer.name}</option>
                         ))}
-                    </ul>
-                    <div style={{ position: "relative" }}>
-                        <button type="button" onClick={addRound}>+</button>
-                        {showOptions && (
-                            <div className="options-list">
-                                <ul>
-                                    <li onClick={() => handleOptionClick("Pauze")}>Pauze toevoegen</li>
-                                    <li onClick={() => handleOptionClick("Afsluiting")}>Afsluiting toevoegen</li>
-                                    <li onClick={() => handleOptionClick("Warming up")}>Warmingup toevoegen</li>
-                                    <li onClick={() => handleOptionClick("Workshopronde")}>Workshopronde toevoegen</li>
-                                </ul>
-                            </div>
-                        )}
-                    </div>
+                    </select>
                 </div>
-                <button type="button" onClick={handleSubmit}>Opslaan</button>
+                <div className="mb-6">
+                    <label htmlFor="details"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Opdracht
+                        details</label>
+                    <input type="text" id="details" value={details} required
+                           onChange={(e) => setDetails(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                    />
+
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="targetAudience"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Doelgroep
+                        opdracht</label>
+                    <input id="targetAudience" value={targetAudience}
+                           onChange={(e) => setTargetAudience(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="Doelgroep"></input>
+                </div>
+
+
+
+
             </form>
+            <div style={{position: "relative"}}>
+                <button type="button" onClick={addRound}>+</button>
+                {showOptions && (
+                    <div className="options-list">
+                        <ul>
+                            <li onClick={() => handleOptionClick("Pauze")}>Pauze toevoegen</li>
+                            <li onClick={() => handleOptionClick("Afsluiting")}>Afsluiting toevoegen</li>
+                            <li onClick={() => handleOptionClick("Warming up")}>Warmingup toevoegen</li>
+                            <li onClick={() => handleOptionClick("Workshopronde")}>Workshopronde toevoegen</li>
+                        </ul>
+                    </div>
+                )}
+            </div>
+
+            <button type="submit" onClick={handleSubmit}
+                    className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Submit
+            </button>
 
             {showEditModal && editedRoundType === "Workshopronde" && (
                 <WorkshopRoundEditModal
