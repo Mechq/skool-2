@@ -80,14 +80,14 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
         <span className="close" onClick={onClose}>
           &times;
         </span>
-                <h2>Edit {editedRound}</h2>
+                <h2>Bewerk {editedRound}</h2>
 
                 <form onSubmit={handleSubmit}>
-<p>Begintijd</p>
+<p>Starttijd</p>
                     <input
                         type="text"
                         value={startTime}
-                        placeholder="Begintijd"
+                        placeholder="Starttijd"
                         onChange={(e) => {
                             setStartTime(e.target.value);
                             handleStartTimeChange(e);
@@ -107,10 +107,10 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
                     <input
                         type="text"
                         value={endTime}
-                        placeholder="Eind tijd"
+                        placeholder="Eindtijd"
                         readOnly
                     />
-                    <button type="submit">Save</button>
+                    <button type="submit">Opslaan</button>
                 </form>
             </div>
         </div>

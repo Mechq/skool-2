@@ -71,7 +71,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
 
                     const _roundIds = data.map((item) => item.id);
                     setRoundIds(_roundIds);
-                    const workshopRoundIds = _roundIds.filter((_, index) => _types[index] === "workshopronde");
+                    const workshopRoundIds = _roundIds.filter((_, index) => _types[index] === "Workshopronde");
                     workshopRoundIds.forEach((roundId) => {
                         fetch(`/api/workshopRound/workshop/${roundId}`)
                             .then((res) => res.json())
@@ -213,25 +213,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
             })
             .catch((error) => console.error("Error:", error));
 
-
-        // const requestBody = JSON.stringify({ type: option, order, startTime: latestStartTime});
-        //
-        // fetch(`/api/round/${commissionId}`, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: requestBody,
-        // })
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         setTypes((prevTypes) => [...prevTypes, option]);
-        //         setRoundIds(prevRoundIds => [...prevRoundIds, data.data.insertId]);
-        //     })
-        //     .then(() => {
-        //         fetchRoundData(); // Refresh data after adding a round
-        //     })
-        //     .catch((error) => console.error("Error:", error));
     };
 
     const editRound = (type, id, parentId = null) => {
@@ -325,9 +306,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                             {types.map((type, index) => (
                                 <li key={index}>
             <span onClick={() => editRound(type, roundIds[index])}>
-                {type} - Time {startTimes[index]} - {endTimes[index]}
+                {type} - Tijd {startTimes[index]} - {endTimes[index]}
             </span>
-                                    {type === "workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
+                                    {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
                                         <ul>
                                             {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
                                                 <li onClick={(e) => {
@@ -348,8 +329,8 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                                     <ul>
                                         <li onClick={() => handleOptionClick("Pauze")}>Pauze toevoegen</li>
                                         <li onClick={() => handleOptionClick("Afsluiting")}>Afsluiting toevoegen</li>
-                                        <li onClick={() => handleOptionClick("Warmingup")}>Warmingup toevoegen</li>
-                                        <li onClick={() => handleOptionClick("workshopronde")}>workshop ronde
+                                        <li onClick={() => handleOptionClick("Warming up")}>Warmingup toevoegen</li>
+                                        <li onClick={() => handleOptionClick("Workshopronde")}>Workshopronde
                                             toevoegen
                                         </li>
                                     </ul>
@@ -361,7 +342,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     <button onClick={handleSubmit}>Opslaan</button>
                 </form>
             </div>
-            {showEditModal && editedRoundType === "workshopronde" && (
+            {showEditModal && editedRoundType === "Workshopronde" && (
                 <WorkshopRoundEditModal
                     roundType={editedRoundType}
                     roundId={editedRoundId}
@@ -370,7 +351,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     onWorkshopAdded={handleUpdate}
                 />
             )}
-            {showEditModal && editedRoundType !== "workshopronde" && editedRoundType !== "workshop" && (
+            {showEditModal && editedRoundType !== "Workshopronde" && editedRoundType !== "workshop" && (
                 <RoundEditModal
                     roundType={editedRoundType}
                     roundId={editedRoundId}

@@ -153,13 +153,13 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                 <span className="close" onClick={onClose}>
                     &times;
                 </span>
-                <h2>Edit Workshop</h2>
+                <h2>Bewerk Workshop</h2>
                 <form>
                     <p>Starttijd</p>
                     <input
                         type="text"
                         value={startTime}
-                        placeholder="Start tijd"
+                        placeholder="Starttijd"
                         onChange={(e) => {
                             setStartTime(e.target.value);
                             setValidStartTime(true);
@@ -180,7 +180,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                     <input
                         type="text"
                         value={endTime}
-                        placeholder="Eind tijd"
+                        placeholder="Eindtijd"
                         readOnly
                     />
                 </form>
@@ -198,7 +198,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                         </li>
                     ))}
                 </ul>
-                <button type="submit" onClick={handleSubmit}>Save</button>
+                <button type="submit" onClick={handleSubmit}>Opslaan</button>
             </div>
         </div>
     );
