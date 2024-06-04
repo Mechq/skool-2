@@ -239,107 +239,133 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     };
 
     return (
-        <div className="workshopEditContent">
-            <h1 className="side-panel-title">Bewerk opdracht</h1>
-            <div className="side-panel-content">
-                <form action="#" method="get" className="form-container">
-                    {/* Form fields */}
-                    <select
-                        id="customerId"
-                        name="customerId"
-                        value={selectedCustomerName} // Change value to selectedCustomer
-                        onChange={(e) => {
-                            setCustomerId(e.target.value);
-                            setCustomerIdValid(true); // Reset validation state
-                        }}
-                        className={customerIdValid ? "" : "invalid"}  // Apply CSS class
-                    >
-                        <option value="" disabled>{selectedCustomerName}</option>
-                        {customers.map(customer => (
-                            <option key={customer.id} value={customer.id}>
-                                {customer.name}
-                            </option>
-                        ))}
-                    </select>
-
-                    <input
-                        type="text"
-                        id="details"
-                        name="details"
-                        value={details}
-                        onChange={(e) => {
-                            setDetails(e.target.value)
-                            setDetailsValid(true); // Reset validation state
-                        }}
-                        className={detailsValid ? "" : "invalid"}  // Apply CSS class
-                        placeholder={details}
-                    />
-                    <textarea
-                        id="targetAudience"
-                        name="targetAudience"
-                        value={targetAudience}
-                        onChange={(e) => {
-                            setTargetAudience(e.target.value)
-                            setTargetAudienceValid(true); // Reset validation state
-                        }}
-                        className={targetAudienceValid ? "" : "invalid"}  // Apply CSS class
-                        placeholder={targetAudience}
-                    />
-
-                    <input
-                    type="text"
-                    id="date"
-                    name="date"
-                    value={date}
-                    onChange={(e) => {
-                        setDate(e.target.value)
-                        setDateValid(true); // Reset validation state
-                    }}
-                    className={dateValid ? "" : "invalid"}  // Apply CSS class
-                    placeholder={date}
-                />
+        <div className="px-6">
+            <header className="pt-4 pb-4 font-bold text-lg">Opdracht bewerken</header>
+            <form>
+                <div className="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
-                        <h2>Rondes</h2>
-                        <ul>
-                            {types.map((type, index) => (
-                                <li key={index}>
-            <span onClick={() => editRound(type, roundIds[index])}>
-                {type} - Tijd {startTimes[index]} - {endTimes[index]}
-            </span>
-                                    {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
-                                        <ul>
-                                            {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
-                                                <li onClick={(e) => {
+                        <label
+                            htmlFor="customer"
+                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white"
+                        >
+                            Kies een klant
+                        </label>
+                        <select
+                            id="customerName"
+                            value={selectedCustomerName} // Change value to selectedCustomer
+                            onChange={(e) => {
+                                setCustomerId(e.target.value);
+                            }}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="" disabled>
+                                {selectedCustomerName}
+                            </option>
+                            {customers.map((customer) => (
+                                <option key={customer.id} value={customer.id}>
+                                    {customer.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+                <div className="grid gap-6 mb-6 md:grid-cols-2">
+                    <div>
+                        <label
+                            htmlFor="details"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                            Opdracht details
+                        </label>
+                        <input
+                            type="text"
+                            id="details"
+                            value={details}
+                            required
+                            onChange={(e) => setDetails(e.target.value)}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                </div>
+                <div className="grid gap-6 mb-6 md:grid-cols-2">
+                    <div>
+                        <label
+                            htmlFor="targetAudience"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                            Opdracht doelgroep
+                        </label>
+                        <input
+                            type="text"
+                            id="targetAudience"
+                            value={targetAudience}
+                            required
+                            onChange={(e) => setTargetAudience(e.target.value)}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                </div>
+                <div className="grid gap-6 mb-6 md:grid-cols-2">
+                    <div>
+                        <label
+                            htmlFor="date"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                            Workshop datum
+                        </label>
+                        <input
+                            type="text"
+                            id="date"
+                            value={date}
+                            required
+                            onChange={(e) => setDate(e.target.value)}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                </div>
+                <div>
+                    <h2>Rondes</h2>
+                    <ul>
+                        {types.map((type, index) => (
+                            <li key={index}>
+                <span onClick={() => editRound(type, roundIds[index])}>
+                  {type} - Tijd {startTimes[index]} - {endTimes[index]}
+                </span>
+                                {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
+                                    <ul>
+                                        {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
+                                            <li
+                                                onClick={(e) => {
                                                     e.stopPropagation();
                                                     editRound("workshop", workshop.id, roundIds[index]); // Pass the parent workshop round ID
                                                 }}
-                                                    key={workshop.id}>{workshop.name}</li>
-                                            ))}
-                                        </ul>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-                        <div style={{position: "relative"}}>
-                            <button onClick={addRound}>+</button>
-                            {showOptions && (
-                                <div className="options-list">
-                                    <ul>
-                                        <li onClick={() => handleOptionClick("Pauze")}>Pauze toevoegen</li>
-                                        <li onClick={() => handleOptionClick("Afsluiting")}>Afsluiting toevoegen</li>
-                                        <li onClick={() => handleOptionClick("Warming up")}>Warmingup toevoegen</li>
-                                        <li onClick={() => handleOptionClick("Workshopronde")}>Workshopronde
-                                            toevoegen
-                                        </li>
+                                                key={workshop.id}
+                                            >
+                                                {workshop.name}
+                                            </li>
+                                        ))}
                                     </ul>
-                                </div>
-                            )}
-                        </div>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                    <div style={{ position: "relative" }}>
+                        <button type="button" onClick={addRound}>+</button>
+                        {showOptions && (
+                            <div className="options-list">
+                                <ul>
+                                    <li onClick={() => handleOptionClick("Pauze")}>Pauze toevoegen</li>
+                                    <li onClick={() => handleOptionClick("Afsluiting")}>Afsluiting toevoegen</li>
+                                    <li onClick={() => handleOptionClick("Warming up")}>Warmingup toevoegen</li>
+                                    <li onClick={() => handleOptionClick("Workshopronde")}>Workshopronde toevoegen</li>
+                                </ul>
+                            </div>
+                        )}
                     </div>
+                </div>
+                <button type="button" onClick={handleSubmit}>Opslaan</button>
+            </form>
 
-                    <button onClick={handleSubmit}>Opslaan</button>
-                </form>
-            </div>
             {showEditModal && editedRoundType === "Workshopronde" && (
                 <WorkshopRoundEditModal
                     roundType={editedRoundType}
@@ -371,5 +397,4 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
             )}
         </div>
     );
-
 }
