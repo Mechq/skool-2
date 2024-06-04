@@ -221,6 +221,37 @@ const roundService = {
             }
           );
         });
+      },
+
+      startTimeRound: (roundId, startTime, callback) => {
+        logger.info("starting time for round", roundId);
+    
+        database.getConnection((err, connection) => {
+          if (err) {
+            logger.error("Error getting database connection", err);
+            callback(err, null);
+            return;
+          }
+    
+          connection.query(
+            "UPDATE round SET startTime = ? WHERE id = ?",
+            [startTime, roundId],
+            (error, results, fields) => {
+              connection.release();
+    
+              if (error) {
+                logger.error("Error starting time for round", error);
+                callback(error, null);
+              } else {
+                callback(null, {
+                  status: 200,
+                  message: "Round start time updated",
+                  data: results,
+                });
+              }
+            }
+          );
+        });
       }
 };
 

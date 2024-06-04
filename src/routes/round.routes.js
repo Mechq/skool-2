@@ -7,5 +7,6 @@ router.post("/api/round/:id", roundController.createRound);
 router.delete("/api/round/:id", roundController.deleteRound);
 router.put("/api/round/:id", roundController.editRound);
 router.get("/api/round/:id", roundController.getRoundById);
+router.post("/api/round/startTime/:roundId/", roundController.startTimeRound);
 
 module.exports = router;
