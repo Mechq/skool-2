@@ -179,7 +179,7 @@ const commissionService = {
                         callback(null, {
                             status: 200,
                             message: 'Customer fetched successfully',
-                            data: results,
+                            data: results[0],
                         });
                     } else {
                         logger.warn('No customer found with commission id', commissionId);
