@@ -252,7 +252,49 @@ const roundService = {
             }
           );
         });
-      }
+      },
+
+      endTimeRound: (commissionId, callback) => {
+        logger.info("getting ending time for round", commissionId);
+    
+        database.getConnection((err, connection) => {
+          if (err) {
+            logger.error("Error getting database connection", err);
+            callback(err, null);
+            return;
+          }
+    
+          sql = "select `endTime` from round where commissionId = ? ORDER BY `order` desc LIMIT 1";
+
+          connection.query(sql,
+            [commissionId],
+            (error, results, fields) => {
+              connection.release();
+    
+              if (error) {
+                logger.error("Error getting endTime", error);
+                callback(error, null);
+              } else {
+                if (results.length > 0) {
+                  logger.info("endTime fetched successfully", results);
+                  callback(null, {
+                    status: 200,
+                    message: "endTime fetched successfully",
+                    data: results[0],
+                  });
+                } else {
+                  logger.debug("No endTime found with commissionId", commissionId);
+                  callback(null, {
+                    status: 200,
+                    message: "No endTime found with commissionId", commissionId,
+                    data: {},
+                  });
+                }
+              }
+            }
+          );
+      })
+    }
 };
 
 module.exports = roundService;
