@@ -65,7 +65,7 @@ const roundService = {
 
 
             connection.query(
-                'SELECT * FROM round WHERE commissionId = ?', [commissionId],
+                'SELECT * FROM round WHERE commissionId = 37 ORDER BY `order`', [commissionId],
                 function (error, results, fields) {
                     connection.release();
 
