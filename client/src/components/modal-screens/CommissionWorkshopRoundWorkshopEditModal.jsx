@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../../styles/ModalScreen.css";
 import {use} from "chai";
 
-export default function CommissionWorkshopRoundWorkshopEditModal({ roundType, roundId, workshopId, onClose, onSave }) {
+export default function CommissionWorkshopRoundWorkshopEditModal({ roundType, roundId, workshopId, onClose, onSave, onEdit }) {
     const [editedRound, setEditedRound] = useState(roundType);
     const [amountOfStudents, setAmountOfStudents] = useState('')
     const [amountOfTeachers, setAmountOfTeachers] = useState('')
@@ -49,6 +49,7 @@ console.log("amountOfStudents", amountOfStudents)
             .then((data) => {
                 console.log("Success:", data);
                 onSave(editedRound);
+                onEdit()
             })
             .catch((error) => console.error("Error:", error));
 

@@ -88,8 +88,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .catch((error) => console.error("Error fetching round:", error));
         }
     };
-    console.log("fffffffffffffffffffffffff", startTimes, endTimes)
-
     useEffect(() => {
         fetchRoundData();
     }, [commissionId]);
@@ -183,25 +181,57 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         if(orders.length > 0){
             order = orders[orders.length - 1] + 1
         }
-        console.log(order)
-        const requestBody = JSON.stringify({ type: option, order });
+        let latestEndTime = ''
+        fetch(`/api/round/endTime/${commissionId}`, {
 
-        fetch(`/api/round/${commissionId}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: requestBody,
         })
             .then((response) => response.json())
             .then((data) => {
-                setTypes((prevTypes) => [...prevTypes, option]);
-                setRoundIds(prevRoundIds => [...prevRoundIds, data.data.insertId]);
+                latestEndTime = data.data.endTime || '';
+
+                const requestBody = JSON.stringify({ type: option, order, startTime: latestEndTime});
+
+                fetch(`/api/round/${commissionId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: requestBody,
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        setTypes((prevTypes) => [...prevTypes, option]);
+                        setRoundIds(prevRoundIds => [...prevRoundIds, data.data.insertId]);
+                    })
+                    .then(() => {
+                        fetchRoundData(); // Refresh data after adding a round
+                    })
+                    .catch((error) => console.error("Error:", error));
             })
             .then(() => {
                 fetchRoundData(); // Refresh data after adding a round
             })
             .catch((error) => console.error("Error:", error));
+
+
+        // const requestBody = JSON.stringify({ type: option, order, startTime: latestStartTime});
+        //
+        // fetch(`/api/round/${commissionId}`, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: requestBody,
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         setTypes((prevTypes) => [...prevTypes, option]);
+        //         setRoundIds(prevRoundIds => [...prevRoundIds, data.data.insertId]);
+        //     })
+        //     .then(() => {
+        //         fetchRoundData(); // Refresh data after adding a round
+        //     })
+        //     .catch((error) => console.error("Error:", error));
     };
 
     const editRound = (type, id, parentId = null) => {
@@ -225,7 +255,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         setShowEditModal(false);
     };
 
-    const handleWorkshopAdded = () => {
+    const handleUpdate = () => {
         fetchRoundData();
     };
 
@@ -337,7 +367,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     roundId={editedRoundId}
                     onClose={handleModalClose}
                     onSave={handleModalSave}
-                    onWorkshopAdded={handleWorkshopAdded}
+                    onWorkshopAdded={handleUpdate}
                 />
             )}
             {showEditModal && editedRoundType !== "workshopronde" && editedRoundType !== "workshop" && (
@@ -347,6 +377,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     onClose={handleModalClose}
                     onSave={handleModalSave}
                     commissionId={commissionId}
+                    onEdit={handleUpdate}
                 />
             )}
             {showEditModal && editedRoundType === "workshop" && (
@@ -356,6 +387,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     workshopId={editedWorkshopId} // Pass the workshop ID
                     onClose={handleModalClose}
                     onSave={handleModalSave}
+                    onEdit={handleUpdate}
                 />
             )}
         </div>

@@ -2,11 +2,13 @@ import React, {useEffect, useState} from "react";
 import "../../styles/ModalScreen.css";
 import {use} from "chai";
 
-export default function CommissionRoundModalScreen({ roundType, roundId, onClose, onSave, commissionId }) {
+export default function CommissionRoundModalScreen({ roundType, roundId, onClose, onSave, commissionId, onEdit }) {
     const [editedRound, setEditedRound] = useState(roundType);
     const [duration, setDuration] = useState('')
     const [startTime, setStartTime] = useState('')
     const [endTime, setEndTime] = useState('')
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         fetch(`/api/round/endTime/${commissionId}`)
@@ -14,7 +16,9 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
             .then(data => {
                 console.log('Success:', data);
                 setStartTime(data.data.endTime || '');
+                setLoading(false)
             })
+
             .catch(error => console.error('Error:', error))
     }, [])
 
@@ -73,12 +77,13 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                onEdit()
             })
             .catch(error => console.error('Error:', error))
         onSave(editedRound);
     };
 
-    //
+    if (loading) return (<div>Loading...</div>);
     return (
         <div className="round-edit-modal">
             <div className="modal-content">
@@ -86,16 +91,9 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
           &times;
         </span>
                 <h2>Edit {editedRound}</h2>
+
                 <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        value={duration}
-                        placeholder="Tijdsduur"
-                        onChange={(e) => {
-                            setDuration(e.target.value);
-                            handleDurationChange(e);
-                        }}
-                    />
+<p>Begintijd</p>
                     <input
                         type="text"
                         value={startTime}
@@ -105,6 +103,17 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
                             handleStartTimeChange(e);
                         }}
                     />
+<p>Tijdsduur</p>
+                    <input
+                        type="text"
+                        value={duration}
+                        placeholder="Tijdsduur"
+                        onChange={(e) => {
+                            setDuration(e.target.value);
+                            handleDurationChange(e);
+                        }}
+                    />
+
                     <input
                         type="text"
                         value={endTime}
