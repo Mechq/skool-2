@@ -18,6 +18,7 @@ module.exports = {
     require('flowbite/plugin')
   ],
   content: [
+    "./node_modules/tailwind-datepicker-react/dist/**/*.js",
     'node_modules/flowbite-react/lib/esm/**/*.js'
   ]
 }

@@ -40,7 +40,7 @@ export default function Login() {
                     const {access, refresh} = data.access_token;
                     localStorage.setItem("accessToken", access);
                     localStorage.setItem("refreshToken", refresh);
-                    window.location.href = "/";
+                    window.location.replace("/")
                 } else {
                     setError(data.message || 'Login gefaald');
                 }

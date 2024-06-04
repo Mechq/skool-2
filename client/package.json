@@ -28,6 +28,9 @@
     ]
   },
   "dependencies": {
-    "react-router-dom": "^6.23.1"
+    "flowbite": "^2.3.0",
+    "flowbite-datepicker": "^1.2.6",
+    "react-router-dom": "^6.23.1",
+    "tailwind-datepicker-react": "^1.4.3"
   }
 }
