@@ -20,9 +20,10 @@ const userService = {
                     callback(err, null);
                     return;
                 }
+                user.role= "teacher"
 
-                const sql = "INSERT INTO user (`email`, `password`) VALUES (?, ?)";
-                const values = [user.email, hash];
+                const sql = "INSERT INTO user (`email`, `password`, `firstName`, `lastName`, `phoneNumber`, `birthDate`, `street`, `houseNumber`, `postalCode`, `city`, `kvkNumber`, `btwNumber`, `iban`, `role`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                const values = [user.email, hash, user.firstName, user.lastName, user.phoneNumber, user.birthDate, user.street, user.houseNumber, user.postalCode, user.city, user.kvkNumber, user.btwNumber, user.iban, user.role];
 
                 connection.query(sql, values, (err, result) => {
                     connection.release();
