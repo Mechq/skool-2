@@ -6,5 +6,6 @@ router.get("/api/mailTemplate", mailTemplateController.getAllMailTemplates);
 router.post("/api/mailTemplate", mailTemplateController.createMailTemplate);
 router.get("/api/mailTemplate/:id", mailTemplateController.getById);
 router.put("/api/mailTemplate/:id", mailTemplateController.update);
+router.delete("/api/mailTemplate/:id", mailTemplateController.delete);
 
 module.exports = router;

@@ -161,6 +161,35 @@ const mailTemplateService = {
                 }
             });
 
+        },
+
+        delete: (id, callback) => {
+            logger.info('deleting mail template', id);
+
+            let sql = 'DELETE FROM mailTemplate WHERE id = ?';
+
+            database.query(sql, [id], (error, results, fields) => {
+                if (error) {
+                    logger.error('Error deleting mail template', error);
+                    callback(error, null);
+
+                } else {
+                    if (results.length > 0) {
+                        logger.info('mailTemplate fetched successfully', results[0]);
+                        callback(null, {
+                            status: 200,
+                            message: 'mailTemplate deleted successfully',
+                            data: results[0],
+                        });
+                    } else {
+                        logger.warn('No mailTemplate found with id', id);
+                        callback({
+                            status: 404,
+                            message: 'mailTemplate not found',
+                        }, null);
+                    }
+                }
+            });
         }
 
 };
