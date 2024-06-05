@@ -34,7 +34,10 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
             const defaultLocationResponse = await fetch(`/api/location/default/${selectedCustomerId}`);
             const defaultLocationData = await defaultLocationResponse.json();
             const defaultLocationName = defaultLocationData.data ? defaultLocationData.data.name || "" : "";
+            const defaultLocationId = defaultLocationData.data ? defaultLocationData.data.id || "" : "";
             setLocationName(defaultLocationName);
+            setSelectedLocationId(defaultLocationId);
+            console.log("-----------", defaultLocationId, defaultLocationName)
 
             // Fetch locations for the selected customer
             const locationsResponse = await fetch(`/api/location/customer/${selectedCustomerId}`);
@@ -48,9 +51,9 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
         }
     };
 
-
     const handleLocationChange = (e) => {
         setSelectedLocationId(e.target.value);
+        console.log("selectedLocationId", selectedLocationId)
     }
 
     const handleSubmit = (e) => {

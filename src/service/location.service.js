@@ -161,7 +161,7 @@ const locationService = {
     logger.debug("customerId", customerId);
 
     let sql =
-      "SELECT name FROM location WHERE id = (SELECT locationId FROM customer WHERE id = ?)";
+      "SELECT name,id FROM location WHERE id = (SELECT locationId FROM customer WHERE id = ?)";
 
     database.query(sql, [customerId], (error, results, fields) => {
       if (error) {
