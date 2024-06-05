@@ -49,13 +49,12 @@ let customerController = {
             }
         });
     },
+
     getCustomerById: (req, res, next) => {
-        const customerId = req.params.id;
-        logger.debug('customerId', customerId);
+        const id = req.params.id;
+        logger.info('retrieving customer', id);
 
-        logger.info('retrieving customer by id', customerId);
-
-        customerService.getCustomerById(customerId, (error, success) => {
+        customerService.getById(id, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,
@@ -73,15 +72,13 @@ let customerController = {
             }
         });
     },
-    update: (req, res, next) => {
-        const customerId = req.params.id;
+
+    updateCustomer: (req, res, next) => {
+        const id = req.params.id;
         const customer = req.body;
-        logger.debug('customerId', customerId);
-        logger.debug('customer', customer);
+        logger.info('updating customer', id);
 
-        logger.info('updating customer', customerId);
-
-        customerService.update( customer, customerId, (error, success) => {
+        customerService.update(id, customer, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,
@@ -98,7 +95,7 @@ let customerController = {
                 });
             }
         });
-    },
+    }
 
 
 };

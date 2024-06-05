@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 
-export default function CreateCustomerPanelContent() {
-    const [showSidePanel, setShowSidePanel] = useState(false);
+export default function CreateCustomerPanelContent({setCustomers, setShowSidePanel}) {
 
     const [name, setName] = useState(""); // Name state
     const [locationName, setLocationName] = useState(""); // Location state
@@ -81,6 +80,16 @@ export default function CreateCustomerPanelContent() {
                     .then(response => response.json())
                     .then(data => {
                         console.log('Success:', data);
+
+                        fetch('/api/customer')
+                            .then(res => res.json())
+                            .then(data => {
+                                setCustomers(data.data);
+                                setShowSidePanel(false);
+                                console.log("closing sidepanel")
+                            })
+                            .catch(error => console.error('Error fetching data:', error));
+
                     })
                     .catch((error) => {
                         console.error('Error:', error);
@@ -91,7 +100,6 @@ export default function CreateCustomerPanelContent() {
                 console.error('Error:', error);
             });
 
-        setShowSidePanel(false); // Close the side panel
 
         setName('');
         setLocationName('');
@@ -106,125 +114,78 @@ export default function CreateCustomerPanelContent() {
 
     return (
         <div>
-            <h1 className='side-panel-title'>Create Klant</h1>
+            <h1 className='side-panel-title'>Maak een klant aan</h1>
             <div className='side-panel-content'>
-                <form action="#" method="get" className="form-container">
-                    <div className="form-group">
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={name}
-                            onChange={(e) => {
-                                setName(e.target.value);
-                                setNameValid(true); // Reset validation state
-                            }}
-                            className={nameValid ? "" : "invalid"}  // Apply CSS class
-                            placeholder="Naam organisatie"
-                        />
-                        <input
-                            type="text"
-                            id="locationName"
-                            name="locationName"
-                            value={locationName}
-                            onChange={(e) => {
-                                setLocationName(e.target.value);
-                                setLocationNameValid(true); // Reset validation state
-                            }}
-                            className={locationNameValid ? "" : "invalid"}  // Apply CSS class
-                            placeholder="Locatienaam"
-                        />
-                        <input
-                            type="text"
-                            id="contactName"
-                            name="contactName"
-                            value={contactName}
-                            onChange={(e) => {
-                                setContactName(e.target.value);
-                                setContactNameValid(true); // Reset validation state
-                            }}
-                            className={contactNameValid ? "" : "invalid"}  // Apply CSS class
-                            placeholder="Contactpersoon"
-                        />
-                        <div className="row">
-                            <input
-                                type="text"
-                                id="street"
-                                name="street"
-                                value={street}
-                                onChange={(e) => {
-                                    setStreet(e.target.value);
-                                    setStreetValid(true);  // Reset validation state
-                                }}
-                                className={streetValid ? "" : "invalid"}  // Apply CSS class
-                                placeholder="Straatnaam"
-                            />
-                            <input
-                                type="text"
-                                id="houseNumber"
-                                name="houseNumber"
-                                value={houseNumber}
-                                onChange={(e) => {
-                                    setHouseNumber(e.target.value);
-                                    setHouseNumberValid(true);  // Reset validation state
-                                }}
-                                className={houseNumberValid ? "" : "invalid"}  // Apply CSS class
-                                placeholder="Huisnummer"
-                            />
-                        </div>
-                        <div className="row">
-                            <input
-                                type="text"
-                                id="postalCode"
-                                name="postalCode"
-                                value={postalCode}
-                                onChange={(e) => {
-                                    setPostalCode(e.target.value);
-                                    setPostalCodeValid(true);  // Reset validation state
-                                }}
-                                className={postalCodeValid ? "" : "invalid"}  // Apply CSS class
-                                placeholder="Postcode"
-                            />
-                            <input
-                                type="text"
-                                id="city"
-                                name="city"
-                                value={city}
-                                onChange={(e) => {
-                                    setCity(e.target.value);
-                                    setCityValid(true);  // Reset validation state
-                                }}
-                                className={cityValid ? "" : "invalid"}  // Apply CSS class
-                                placeholder="Plaatsnaam"
-                            />
-                        </div>
-                        <input
-                            type="text"
-                            id="email"
-                            name="email"
-                            value={email}
-                            onChange={(e) => {
-                                setEmail(e.target.value);
-                                setEmailValid(true);  // Reset validation state
-                            }}
-                            className={emailValid ? "" : "invalid"}  // Apply CSS class
-                            placeholder="Emailadres"
-                        />
-                        <input
-                            type="text"
-                            id="phoneNumber"
-                            name="phoneNumber"
-                            value={phoneNumber}
-                            onChange={(e) => {
-                                setPhoneNumber(e.target.value);
-                                setPhoneNumberValid(true);  // Reset validation state
-                            }}
-                            className={phoneNumberValid ? "" : "invalid"}  // Apply CSS class
-                            placeholder="Telefoonnummer"
-                        />
+            <form>
+                <div className="mb-6">
+                    <label htmlFor="name"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Naam</label>
+                    <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="Naam" required/>
+                </div>
+                <div className="grid gap-6 mb-6 md:grid-cols-2">
+                    <div>
+                        <label htmlFor="locationName"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Locatie naam</label>
+                        <input type="text" id="locationName" value={locationName} onChange={(e) => setLocationName(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="Hoofdlocatie" required/>
                     </div>
-                    <button className="submit-fab fab-common" onClick={handleSubmit}>Aanmaken</button>
-                </form>
+                    <div>
+                        <label htmlFor="contactName"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contact naam</label>
+                        <input type="text" id="contactName" value={contactName} onChange={(e) => setContactName(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="Naam contactpersoon" required/>
+                    </div>
+                    <div>
+                        <label htmlFor="street"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Straatnaam</label>
+                        <input type="text" id="street" value={street} onChange={(e) => setStreet(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="Straat" required/>
+                    </div>
+                    <div>
+                        <label htmlFor="houseNumber"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Huisnummer</label>
+                        <input type="text" id="houseNumber" value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="1" required/>
+                    </div>
+                    <div>
+                        <label htmlFor="postalCode"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Postcode</label>
+                        <input type="text" id="postalCode" value={postalCode} onChange={(e) => setPostalCode(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="1234 AB" required/>
+                    </div>
+                    <div>
+                        <label htmlFor="city"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Woonplaats</label>
+                        <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="Plaats" required/>
+                    </div>
+                    <div>
+                        <label htmlFor="email"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">E-mail</label>
+                        <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="abcd@gmail.com" required/>
+                    </div>
+                    <div>
+                        <label htmlFor="phoneNumber"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Telefoonnummer</label>
+                        <input type="text" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               placeholder="1234567890" required/>
+                    </div>
+                </div>
+                <button type="submit" onClick={handleSubmit}
+                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Submit
+                </button>
+            </form>
             </div>
         </div>
     );

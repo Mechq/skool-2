@@ -14,7 +14,7 @@ export default function WorkshopList({
     const [workshopToDeleteId, setWorkshopToDeleteId] = useState(null);
     const [workshopToDeleteName, setWorkshopToDeleteName] = useState(null);
 
-    useEffect(() => {
+        useEffect(() => {
         fetch('/api/workshop')
             .then(res => res.json())
             .then(data => {
