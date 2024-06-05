@@ -30,12 +30,21 @@ function NavBar() {
                     </button>
                 </div>
                 <div className={`w-full md:flex md:w-auto ${isMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
-                    <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+                    <ul className="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
                         <CustomLink to="/workshops">Workshops</CustomLink>
                         <CustomLink to="/mailTemplates">Mail Templates</CustomLink>
                         <CustomLink to="/opdracht">Opdrachten</CustomLink>
                         <CustomLink to="/werklocatie">Locaties</CustomLink>
-                        <CustomLink to="/user">Profile</CustomLink>
+                        <CustomLink to="/user">
+                            <div
+                                className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 hover:ring-2 hover:ring-brand-orange ring-offset-2">
+                                <svg className="absolute w-10 h-10 text-gray-400 -left-1" fill="currentColor"
+                                     viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                          clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                        </CustomLink>
                     </ul>
                 </div>
             </div>
