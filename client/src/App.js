@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import {Route, Routes, useLocation} from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/home';
 import Customers from './pages/customers';
@@ -9,7 +9,6 @@ import Commission from './pages/commission';
 import Worklocation from './pages/worklocation';
 import Login from './pages/login';
 import Register from './pages/register';
-import Home from "./pages/home";
 import User from './pages/user';
 
 function App() {
