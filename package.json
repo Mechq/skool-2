@@ -7,7 +7,7 @@
     "test": "node ./node_modules/mocha/bin/mocha --reporter spec --exit 'test/**/*.js'",
     "start": "node server",
     "dev": "nodemon server",
-    "build": "react-scripts build"
+    "build": "cd client && react-scripts build"
   },
   "repository": {
     "type": "git",
