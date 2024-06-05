@@ -12,7 +12,7 @@ const dateOptions = {
     clearBtn: false,
     clearBtnText: "",
     maxDate: new Date("2030-01-01"),
-    minDate: new Date("1950-01-01"),
+    minDate: new Date(),
     theme: {
         background: "bg-gray-700 light:bg-white-800",
         todayBtn: "",
@@ -30,7 +30,7 @@ const dateOptions = {
         next: () => <span>Volgende</span>,
     },
     datepickerClassNames: "top-12",
-    defaultDate: new Date("2022-01-01"),
+    defaultDate: new Date(),
     language: "en",
     disabledDates: [],
     weekDays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
@@ -76,11 +76,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const [show, setShow] = useState(false); // No need to specify type for useState
 
     const handleChange = (selectedDate) => {
-        // Convert the selectedDate to a string
-        const dateString = selectedDate.toISOString();
-        // Extract the first 10 characters representing the date portion
+        const localDate = new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000);
+        const dateString = localDate.toISOString();
         const slicedDate = dateString.slice(0, 10);
-        // Update the state with the sliced date
         setDate(slicedDate);
         console.log("typeeee dateee", typeof date);
     }
@@ -205,13 +203,14 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Trying to submit commission");
+        console.log(date)
         if (!customerId || !details || !targetAudience) return;
         console.log("Submitting commission");
             const commission = {
                 customerId,
                 details,
                 targetAudience,
-                date: date.slice(0, 10),
+                date
             };
 
         fetch(`/api/commission/${commissionId}`, {
