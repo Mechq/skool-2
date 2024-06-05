@@ -33,7 +33,7 @@ export default function WorkshopList({
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                 <tr>
                     <th className="px-6 py-3">Workshop Naam</th>
-                    <th className="px-6 py-3"></th>
+                    <th className=""></th>
                     <th className="px-6 py-3">Categorie</th>
                     <th className="px-6 py-3">Datum Aangemaakt</th>
                     <th className="px-6 py-3">Bewerken</th>
@@ -48,7 +48,8 @@ export default function WorkshopList({
                         </td>
                         <td className="px-6 py-4">{workshop.subject}</td>
                         <td className="px-6 py-4">{workshop.category}</td>
-                        <td className="px-6 py-4">{workshop.createdAt}</td>
+                        {/*<td className="px-6 py-4">{workshop.createdAt}</td>*/}
+                        <td className="px-6 py-4">-</td>
                         <td className="px-6 py-4">
                             <a href="#" onClick={(e) => {
                                 e.preventDefault();
