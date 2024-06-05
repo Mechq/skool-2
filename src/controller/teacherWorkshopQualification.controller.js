@@ -28,7 +28,7 @@ let teacherWorkshopQualification = {
 
     createWorkshopQualification: (req, res, next) => {
         const teacherId = req.params.id;
-        const workshops = req.body;
+        const workshops = req.body.workshops;
 
         logger.info('setting teacherWorkshopQualification', workshops);
 
