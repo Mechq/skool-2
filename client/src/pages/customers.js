@@ -4,16 +4,12 @@ import CreateCustomerPanelContent from "../components/panel-contents/CreateCusto
 import EditCustomerPanelContent from "../components/panel-contents/EditCustomerPanelContent";
 import SidePanel from "../components/SidePanel";
 import CreateButton from "../components/CreateButton";
-import CreateCustomerPanelContent from "../components/panel-contents/CreateCustomerPanelContent";
-import CustomerList from "../components/lists/CustomerList";
-import EditCustomerPanelContent from "../components/panel-contents/EditCustomerPanelContent";
 
 export function Customers() {
     const [isOpen, setIsOpen] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [customerId, setCustomerId] = useState(null);
     const [customers, setCustomers] = useState([]);
-    const [customerId, setCustomerId] = useState(null);
     const [rotateSpan, setRotateSpan] = useState(false);
 
     useEffect(() => {
