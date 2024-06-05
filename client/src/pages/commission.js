@@ -31,7 +31,7 @@ export default function Commission() {
                 setSidePanelContent={setSidePanelContent}
                 setCommissionId={setCommissionId}
                 commissions={commissions}
-                setWorkshops={setCommissions} // pass setWorkshops as prop
+                setCommissions={setCommissions} // pass setWorkshops as prop
                 setRotateSpan={setRotateSpan}/>
             <CreateButton
                 setShowSidePanel={setIsOpen}

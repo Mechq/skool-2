@@ -1,7 +1,48 @@
 import React, {useEffect, useState} from "react"
+import Datepicker from "tailwind-datepicker-react"
+
 import RoundEditModal from "../modal-screens/CommissionRoundModalScreen";
 import WorkshopRoundEditModal from "../modal-screens/CommissionWorkshopRoundModalScreen";
 import WorkshopRoundWorkshopEditModal from "../modal-screens/CommissionWorkshopRoundWorkshopEditModal"
+
+const dateOptions = {
+    title: " ",
+    autoHide: false,
+    todayBtn: false,
+    clearBtn: false,
+    clearBtnText: "",
+    maxDate: new Date("2030-01-01"),
+    minDate: new Date("1950-01-01"),
+    theme: {
+        background: "bg-gray-700 light:bg-white-800",
+        todayBtn: "",
+        clearBtn: "",
+        icons: "",
+        text: "",
+        disabledText: "",
+        input: "",
+        inputIcon: "",
+        selected: "",
+    },
+    icons: {
+        // () => ReactElement | JSX.Element
+        prev: () => <span>Vorige</span>,
+        next: () => <span>Volgende</span>,
+    },
+    datepickerClassNames: "top-12",
+    defaultDate: new Date("2022-01-01"),
+    language: "en",
+    disabledDates: [],
+    weekDays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+    inputNameProp: "date",
+    inputIdProp: "date",
+    inputPlaceholderProp: "Select Date",
+    inputDateFormatProp: {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    }
+}
 
 export default function EditCommissionPanelContent({ setShowSidePanel, commissionId }) {
     const [customerId, setCustomerId] = useState("");
@@ -30,6 +71,16 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const[startTimes, setStartTimes] = useState([]);
     const[endTimes, setEndTimes] = useState([]);
     const [orders, setOrders] = useState([]);
+
+    const [show, setShow] = useState(false); // No need to specify type for useState
+
+    const handleChange = (selectedDate) => {
+        console.log(selectedDate);
+    }
+
+    const handleClose = (state) => {
+        setShow(state);
+    }
 
     useEffect(() => {
         if (commissionId) {
@@ -132,18 +183,14 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        if (!customerId) setCustomerIdValid(false);
-        if (!details) setDetailsValid(false);
-        if (!targetAudience) setTargetAudienceValid(false);
-        if (!date) setDateValid(false);
-        if (!customerId || !details || !targetAudience || !date) return;
-
+        console.log("Trying to submit commission");
+        if (!customerId || !details || !targetAudience) return;
+        console.log("Submitting commission");
         const commission = {
             customerId,
             details,
             targetAudience,
-            date,
+            date: "2022-02-20",
         };
 
         fetch(`/api/commission/${commissionId}`, {
@@ -243,7 +290,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                         Klant</label>
                     <select id="workshopName" value={selectedCustomerId} // Corrected line
                             onChange={(e) => {
-                              setSelectedCustomerId(e.target.value);
+                                setSelectedCustomerId(e.target.value);
                             }} required
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
                         <option value="" disabled>{selectedCustomerName}</option>
@@ -271,11 +318,30 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="Doelgroep"></input>
                 </div>
+                <div className="mb-6">
+                    <label htmlFor="targetAudience"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Doelgroep
+                        opdracht</label>
+                    <input id="targetAudience" value={targetAudience}
+                           onChange={(e) => setTargetAudience(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="Doelgroep"></input>
+                </div>
 
+                <div className="mb-6">
+                    <label htmlFor="targetAudience"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Datum</label>
+                    <Datepicker options={dateOptions} onChange={handleChange} show={show} setShow={handleClose}/>
+                </div>
 
+                <button type="submit" onClick={handleSubmit}
+                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Submit
+                </button>
 
 
             </form>
+            <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
+
             <div style={{position: "relative"}}>
                 <button type="button" onClick={addRound}>+</button>
                 {showOptions && (
@@ -290,9 +356,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 )}
             </div>
 
-            <button type="submit" onClick={handleSubmit}
-                    className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Submit
-            </button>
 
             {showEditModal && editedRoundType === "Workshopronde" && (
                 <WorkshopRoundEditModal

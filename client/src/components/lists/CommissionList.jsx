@@ -15,8 +15,7 @@ export default function CommissionList({    isOpen,
             .then(res => res.json())
             .then(data => {
                 console.log("Fetched commissions: ", data.data);
-                // setCommissions(data.data);
-                // Assuming that commissions are passed as props and not fetched here
+                setCommissions(data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [isOpen]);
@@ -36,6 +35,11 @@ export default function CommissionList({    isOpen,
             getCustomers(commission);
         });
     }, [commissions]);
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
 
     const editCommission = (id) => {
         setCommissionId(id);
@@ -67,7 +71,7 @@ export default function CommissionList({    isOpen,
                                 </td>
                                 <td className="px-6 py-4">{commission.details}</td>
                                 <td className="px-6 py-4">{commission.targetAudience}</td>
-                                <td className="px-6 py-4">{commission.date}</td>
+                                <td className="px-6 py-4">{formatDate(commission.date)}</td>
                                 <td className="px-6 py-4">
                                     <button className="font-medium text-[#f49700] light:text-[#f49700] hover:underline" onClick={() => editCommission(commission.id)}>Bewerken</button>
                                 </td>
