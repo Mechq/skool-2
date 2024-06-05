@@ -11,7 +11,7 @@ export default function PageSecurity() {
 
     useEffect(() => {
         // Check if the user is authenticated
-        fetch('http://localhost:5000/api/verifyToken', {
+        fetch('/api/verifyToken', {
             method: 'POST',
             credentials: 'include', // Include cookies
         })
