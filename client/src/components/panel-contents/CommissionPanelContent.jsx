@@ -51,8 +51,6 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
 
     const handleLocationChange = (e) => {
         setSelectedLocationId(e.target.value);
-
-
     }
 
     const handleSubmit = (e) => {

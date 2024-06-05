@@ -137,6 +137,10 @@ const commissionService = {
                 sql += 'targetAudience = ?, ';
                 values.push(commission.targetAudience);
             }
+            if (commission.locationId) {
+                sql += 'locationId = ?, ';
+                values.push(commission.locationId);
+            }
             if (commission.date) {
                 sql += 'date = ?, ';
                 values.push(commission.date);

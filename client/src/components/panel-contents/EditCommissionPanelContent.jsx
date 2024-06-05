@@ -72,6 +72,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const[endTimes, setEndTimes] = useState([]);
     const [orders, setOrders] = useState([]);
     const optionsRef = useRef(null);
+    const [locations, setLocations] = useState([]); // Locations state
+    const [selectedLocationId, setSelectedLocationId] = useState("");
+    const [locationId, setLocationId] = useState("");
 
     const [show, setShow] = useState(false); // No need to specify type for useState
 
@@ -97,6 +100,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     setDetails(data.details || "");
                     setTargetAudience(data.targetAudience || "");
                     setDate(data.date ? data.date.substring(0, 10) : "");
+                    setLocationId(data.locationId || "");
                 })
                 .catch((error) => console.error("Error fetching commission:", error));
         }
@@ -171,13 +175,30 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     }, []);
 
     useEffect(() => {
-        if (selectedCustomerId) {
-            fetch(`/api/location/default/${selectedCustomerId}`)
+        if (locationId) {
+            fetch(`/api/location/${locationId}`)
                 .then(response => response.json())
                 .then(data => {
-                    const locationData = data.data;
-                    const locationName = locationData ? locationData.name || "" : "";
-                    setLocationName(locationName);
+                    const location = data.data;
+                    setLocationName(location.name || "");
+                    console.log("Fetched location:", locationName);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    setLocationName(""); // Ensure locationName is always defined
+                });
+        }
+    }, [selectedCustomerId]);
+
+    //
+
+    useEffect(() => {
+        if (locationId) {
+            fetch(`/api/location/customer/${selectedCustomerId}`)
+                .then(response => response.json())
+                .then(data => {
+                    setLocations(data.data || []);
+                    console.log("Fetched locationssss:", locations);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -200,6 +221,10 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         };
     }, [optionsRef]);
 
+    const handleLocationChange = (e) => {
+        setSelectedLocationId(e.target.value);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Trying to submit commission");
@@ -210,6 +235,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 customerId,
                 details,
                 targetAudience,
+                locationId: selectedLocationId,
                 date
             };
 
@@ -339,6 +365,21 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="Doelgroep"></input>
                 </div>
+
+                <select id="location" value={selectedLocationId} onChange={handleLocationChange}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                        required>
+                    {locationName && (
+                        <option value={locationName}>
+                            {locationName}
+                        </option>
+                    )}
+                    {locations.map((location) => (
+                        <option key={location.id} value={location.id}>
+                            {location.name}
+                        </option>
+                    ))}
+                </select>
 
                 <div className="mb-6">
                     <label htmlFor="date"
