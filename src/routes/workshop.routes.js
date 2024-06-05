@@ -27,4 +27,6 @@ router.post("/api/workshop", validateWorkshop, workshopController.createWorkshop
 router.get("/api/workshop", workshopController.getAllWorkshops);
 router.put("/api/workshop/:id", workshopController.update);
 router.get("/api/workshop/:id", workshopController.getWorkshopById);
+router.delete("/api/workshop/:id", workshopController.deleteWorkshop);
+
 module.exports = router;
