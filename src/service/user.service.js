@@ -91,12 +91,13 @@ const userService = {
             });
         });
     },
-    getAll: (callback) => {
-        logger.info('retrieving users');
 
-        database.getConnection(function (err, connection) {
+    getAll: (callback) => {
+        logger.info('Retrieving all users')
+
+        database.getConnection((err, connection) => {
             if (err) {
-                logger.error('Error retrieving users', err);
+                logger.error('Error connecting to database', err);
                 callback(err, null);
                 return;
             }

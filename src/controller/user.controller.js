@@ -67,7 +67,8 @@ const userController = {
             }
         });
     },
-    getAllUsers: (req, res, next) => {
+
+    getAllUsers: (req, res) => {
         logger.info('retrieving users');
 
         userService.getAll((error, success) => {
@@ -137,6 +138,7 @@ const userController = {
             }
         });
     }
+   
 };
 
 module.exports = userController;

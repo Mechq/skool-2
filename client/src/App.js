@@ -39,6 +39,7 @@ function App() {
                     <Route path="/customers" element={<Customers />} />
                     <Route path="/login" element={<Login />} />
                     <Route path='/user' element={<User />} />
+                    <Route path="/users" element={<Users />} />
                 </Routes>
             </div>
         </div>

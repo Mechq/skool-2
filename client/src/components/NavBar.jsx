@@ -46,6 +46,7 @@ function NavBar() {
                                 </svg>
                             </div>
                         </CustomLink>
+                        <CustomLink to="/users">Docenten</CustomLink>
                     </ul>
                 </div>
             </div>
