@@ -4,6 +4,7 @@ import CreatePanelContent from "../components/panel-contents/CreatePanelContent"
 import SidePanel from "../components/SidePanel";
 import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
 import CreateButton from "../components/CreateButton";
+import PageSecurity from "../PageSecurity";
 
 export default function Workshop() {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -21,6 +22,8 @@ export default function Workshop() {
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
+
+    const userEmail = PageSecurity();
 
     return (
         <div>

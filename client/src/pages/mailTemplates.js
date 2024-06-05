@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import MailTemplateList from "../components/lists/MailTemplateList";
 import SidePanel from "../components/SidePanel";
 import MailTemplateContent from "../components/panel-contents/MailTemplateContent";
 import CreateButton from "../components/CreateButton";
 import EditMailTemplateContent from "../components/panel-contents/EditMailTemplateContent";
+import PageSecurity from "../PageSecurity";
 
 export default function MailTemplates() {
     const [isOpen, setIsOpen] = useState(false);
@@ -22,6 +23,9 @@ export default function MailTemplates() {
             .catch(error => console.error('Error fetching data:', error));
     }, [isOpen]);
 
+    const userEmail = PageSecurity();
+
+
     return (
         <div>
             <CreateButton
@@ -37,9 +41,9 @@ export default function MailTemplates() {
                        rotateSpan={rotateSpan}
                        setRotateSpan={setRotateSpan}>
                 {sidePanelContent === "create" &&
-                    <MailTemplateContent setShowSidePanel={setIsOpen} />}
+                    <MailTemplateContent setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditMailTemplateContent mailTemplateId={mailTemplateId} setShowSidePanel={setIsOpen} />}
+                    <EditMailTemplateContent mailTemplateId={mailTemplateId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
 
             <MailTemplateList

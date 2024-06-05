@@ -1,5 +1,6 @@
 const userService = require('../service/user.service');
 const logger = require('../util/logger');
+const cookieParser = require('cookie-parser');
 
 const userController = {
     register: (req, res, next) => {
@@ -23,27 +24,24 @@ const userController = {
         });
     },
 
-    login: (req, res, next) => {
+    login: (req, res) => {
         const { email, password } = req.body;
-        logger.info('Logging in user', { email });
 
-        userService.login(email, password, (error, success) => {
-            if (error) {
-                return next({
-                    status: 500,
-                    message: error.message,
-                    data: {}
-                });
+        userService.login(email, password, (err, result) => {
+            if (err) {
+                return res.status(500).json({ status: 'Error', message: 'Internal Server Error' });
             }
 
-            res.status(200).json({
-                status: success.status,
-                message: success.message,
-                access_token: {
-                    access: "teacher",
-                    refresh: "teacher"
-                }
-            });
+            if (result.status === 'Success') {
+                res.cookie('token', result.token, {
+                    httpOnly: false,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'strict'
+                });
+                res.json({ status: 'Success', message: 'Login successful' });
+            } else {
+                res.status(401).json(result);
+            }
         });
     }
 };

@@ -1,10 +1,9 @@
 import React from 'react';
 
 export default function Login() {
+
     return (
         <>
-
-
             <ol className="flex items-center w-full mb-4 sm:mb-5">
                 <li className="flex w-full items-center text-brand-orange light:text-brand-orange-light after:content-[''] after:w-full after:h-1 after:border-b after:border-brand-orange-light after:border-4 after:inline-block light:after:border-brand-orange-light">
                     <div
@@ -50,7 +49,7 @@ export default function Login() {
                     <h3 className="mb-4 text-lg font-medium leading-none text-gray-900 light:text-white">Invoice
                         details</h3>
                     <div className="grid gap-4 mb-4 sm:grid-cols-2">
-                    <div>
+                        <div>
                             <label htmlFor="username"
                                    className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Username</label>
                             <input type="text" name="username" id="username"

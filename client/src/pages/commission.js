@@ -4,6 +4,7 @@ import SidePanel from "../components/SidePanel";
 import CommissionPanelContent from "../components/panel-contents/CommissionPanelContent";
 import CreateButton from "../components/CreateButton";
 import EditCommissionPanelContent from "../components/panel-contents/EditCommissionPanelContent";
+import PageSecurity from "../PageSecurity";
 
 export default function Commission() {
     const [showSidePanel, setShowSidePanel] = useState(false);
@@ -21,6 +22,9 @@ export default function Commission() {
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [showSidePanel]);
+
+    const userEmail = PageSecurity();
+
 
     return (
         <>
