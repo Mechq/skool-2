@@ -33,7 +33,36 @@ const PersonalDetails = ({ formData, setFormData, createAccount }) => {
 
         console.log(streetName, houseNr, postalCode, city, kvkNr, btwNr, iban, workshops)
 
-        if (!streetName || !houseNr || !postalCode || !city || !kvkNr || !btwNr || !iban) return;
+        if (postalCode) {
+            postalCode.trim();
+        }
+        if (btwNr) {
+            btwNr.trim();
+        }
+        if (iban) {
+            iban.trim();
+        }
+
+        if (!streetName || !houseNr || !postalCode || !city || !kvkNr || !btwNr || !iban ) return;
+        if (postalCode.length != 6) {
+            setPostalCodeValid(false);
+            return;
+        }
+
+        if (btwNr.length != 14) {
+            setBtwNrValid(false);
+            return;
+        }
+
+        if (houseNr.length > 5) {
+            setHouseNrValid(false);
+            return;
+        }
+
+        if (iban.length != 18) {
+            setIbanValid(false);
+            return;
+        }
 
         console.log(streetName, houseNr, postalCode, city, kvkNr, btwNr, iban, workshops)
 
@@ -106,7 +135,7 @@ const PersonalDetails = ({ formData, setFormData, createAccount }) => {
                         <div>
                                 <label htmlFor="kvkNr"
                                     className="block mb-2 text-sm font-medium text-gray-900 light:text-white">KvK Nummer</label>
-                                <input type="text" name="kvkNr" id="kvkNr"
+                                <input type="number" name="kvkNr" id="kvkNr"
                                     className={`bg-gray-50 border ${kvkNrValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                     placeholder="kvk nummer" required=""
                                     value={kvkNr} onChange={(e) => {

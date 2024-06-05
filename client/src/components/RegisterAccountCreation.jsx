@@ -124,9 +124,9 @@ const AccountCreation = ({ formData, setFormData, nextStep }) => {
                         </div>
                         <div>
                             <label htmlFor="phoneNr" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Telefoonnummer</label>
-                            <input type="text" name="phoneNr" id="phoneNr"
+                            <input type="number" name="phoneNr" id="phoneNr"
                                 className={`bg-gray-50 border ${phoneNrValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                                placeholder="+31 6 12345678" required=""
+                                placeholder="0612345678" required=""
                                 value={phoneNr} onChange={(e) => {
                                     setPhoneNr(e.target.value);
                                     setPhoneNrValid(true);
