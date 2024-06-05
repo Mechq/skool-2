@@ -10,6 +10,7 @@ import Worklocation from './pages/worklocation';
 import Login from './pages/login';
 import Register from './pages/register';
 import User from './pages/user';
+import Users from './pages/users';
 
 function App() {
     const location = useLocation();

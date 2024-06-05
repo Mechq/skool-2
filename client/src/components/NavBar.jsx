@@ -36,6 +36,11 @@ function NavBar() {
                         <CustomLink to="/opdracht">Opdrachten</CustomLink>
                         <CustomLink to="/werklocatie">Locaties</CustomLink>
                         <CustomLink to="/customers">Klanten</CustomLink>
+                        <CustomLink to="/users">Docenten</CustomLink>
+
+
+
+
                         <CustomLink to="/user">
                             <div
                                 className="relative w-8 h-8 overflow-hidden bg-brand-orange-light rounded-full light::bg-gray-600 hover:ring-2 hover:ring-brand-orange ring-offset-2">
@@ -46,7 +51,6 @@ function NavBar() {
                                 </svg>
                             </div>
                         </CustomLink>
-                        <CustomLink to="/users">Docenten</CustomLink>
                     </ul>
                 </div>
             </div>
