@@ -17,5 +17,8 @@ router.post("/api/verifyToken", authMiddleware, (req, res) => {
 
 router.post('/api/register', userController.register);
 router.post('/api/login', userController.login);
+router.get("/api/user", userController.getAllUsers);
+router.put("/api/user/:id", userController.updateUser);
+router.get("/api/user/:id", userController.getById);
 
 module.exports = router;

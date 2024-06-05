@@ -1,6 +1,7 @@
 import React from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
+import Home from './pages/home';
 import Customers from './pages/customers';
 import Workshop from './pages/workshop';
 import MailTemplates from './pages/mailTemplates';
@@ -9,6 +10,7 @@ import Worklocation from './pages/worklocation';
 import Login from './pages/login';
 import Register from './pages/register';
 import Home from "./pages/home";
+import User from './pages/user';
 
 function App() {
     const location = useLocation();
@@ -37,6 +39,7 @@ function App() {
                     <Route path="/werklocatie" element={<Worklocation />} />
                     <Route path="/customers" element={<Customers />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path='/user' element={<User />} />
                 </Routes>
             </div>
         </div>

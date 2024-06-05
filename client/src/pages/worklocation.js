@@ -40,12 +40,12 @@ function Worklocation() {
                 {sidePanelContent === "create" &&
                     <CreateWorkLocationContent setWorkLocations={setWorkLocations} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditPanelWorkLocationContent workLocationId={workLocationId} setShowSidePanel={setIsOpen}/>}
+                    <EditPanelWorkLocationContent locationId={workLocationId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
             <WorkLocationList
                 setShowSidePanel={setIsOpen}
                 setSidePanelContent={setSidePanelContent}
-                setMailTemplateId={setWorkLocationId}
+                setWorkLocationId={setWorkLocationId}
                 workLocations={workLocations} // Pass workLocations as mailTemplates for demonstration
                 setRotateSpan={setRotateSpan}
             />
