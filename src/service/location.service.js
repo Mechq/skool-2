@@ -219,6 +219,34 @@ const locationService = {
         }
       }
     });
+  },
+
+  deleteLocation: (id, callback) => {
+    logger.info("deleting location", id);
+
+    let sql = "DELETE FROM location WHERE id = ?";
+
+    database.query(sql, [id], (error, results, fields) => {
+      if (error) {
+        logger.error("Error deleting location", error);
+        callback(error, null);
+      } else {
+        if (results.affectedRows > 0) {
+          logger.info("location deleted successfully");
+          callback(null, {
+            status: 200,
+            message: "location deleted successfully",
+          });
+        } else {
+          logger.info("No location found with the provided ID");
+          callback(null, {
+            status: 200,
+            message: "location deleted successfully",
+            data: results,
+          });
+        }
+      }
+    });
   }
 };
 
