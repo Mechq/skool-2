@@ -70,7 +70,7 @@ export default function Login() {
                             <div>
                                 <label htmlFor="email"
                                        className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Email</label>
-                                <input type="email" name="email" id="email"
+                                <input type="text" name="email" id="email"
                                        className={`bg-gray-50 border ${emailValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                        placeholder="name@company.com" required=""
                                        value={email} onChange={(e) => {
@@ -81,7 +81,7 @@ export default function Login() {
                             <div>
                                 <label htmlFor="password"
                                        className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Wachtwoord</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••"
+                                <input type="text" name="password" id="password" placeholder="••••••••"
                                        className={`bg-gray-50 border ${passwordValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                        required=""
                                        value={password} onChange={(e) => {
