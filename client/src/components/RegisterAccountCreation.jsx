@@ -88,13 +88,13 @@ const AccountCreation = ({ formData, setFormData, nextStep }) => {
             ...formData,
             firstName: firstName,
             lastName: surName,
-            phoneNr: phoneNr,
+            phoneNumber: phoneNr,
             email: email,
             birthDate: birthDate,
             password: password
         });
 
-        nextStep(formData);
+        nextStep();
     }
     return (
         <>

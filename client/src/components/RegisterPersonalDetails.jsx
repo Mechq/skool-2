@@ -39,17 +39,17 @@ const PersonalDetails = ({ formData, setFormData, createAccount }) => {
 
         setFormData({
             ...formData,
-            streetName: streetName,
-            houseNr: houseNr,
+            street: streetName,
+            houseNumber: houseNr,
             postalCode: postalCode,
             city: city,
-            kvkNr: kvkNr,
-            btwNr: btwNr,
+            kvkNumber: kvkNr,
+            btwNumber: btwNr,
             iban: iban,
             workshops: workshops
         });
 
-        createAccount(formData);
+        createAccount();
     }
     return (
         <>

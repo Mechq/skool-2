@@ -6,20 +6,20 @@ import AccountConfirmation from '../components/RegisterConfirmation';
 const RegistrationFlow = () => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
-      birthDate: '',
-      email: '',
-      password: '',
-      streetName: '',
-      houseNr: '',
-      postalCode: '',
-      city: '',
-      kvkNr: '',
-      btwNr: '',
-      iban: '',
-      workshops: ''
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      birthDate: "",
+      email: "",
+      password: "",
+      street: "",
+      houseNumber: "",
+      postalCode: "",
+      city: "",
+      kvkNumber: "",
+      btwNumber: "",
+      iban: "",
+      workshops: ""
     });
 
     const nextStep = () => {
@@ -27,22 +27,12 @@ const RegistrationFlow = () => {
       setStep(step + 1);
     };
 
-    const createAccount = (e) => {
+    const createAccount = () => {
 
       setStep(step + 1);
       console.log(formData);
-      createDatabaseAccount(formData);
     };
-
-    const createDatabaseAccount = (registrationData) => {
-      console.log("Database account created with data: " + registrationData);
-    }
-    
-      const prevStep = () => {
-        setStep(step - 1);
-      };
       
-  
     return (
       <>
         <ol className="flex items-center w-full mb-4 sm:mb-5">
@@ -118,12 +108,8 @@ const RegistrationFlow = () => {
         <div>
             {step === 1 && <AccountCreation formData={formData} setFormData={setFormData} nextStep={nextStep} />}
             {step === 2 && <PersonalDetails formData={formData} setFormData={setFormData} createAccount={createAccount}/>}
-            {step === 3 && <AccountConfirmation formData={formData}/>}
+            {step === 3 && <AccountConfirmation formData={formData} />}
             
-            <div>
-            {step > 1 && step < 3 && <button onClick={prevStep} className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Back</button>}
-            {step === 2 && <button onClick={createAccount} className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Confirm</button>}
-            </div>
         </div>
       </div>
       </>
