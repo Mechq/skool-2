@@ -33,6 +33,10 @@ const RegistrationFlow = () => {
       setStep(step + 1);
       console.log(formData);
     };
+
+    const stepBack = () => {
+      setStep(step - 1);
+    }
       
     return (
       <>
@@ -108,7 +112,7 @@ const RegistrationFlow = () => {
       <div className="w-full bg-white rounded-lg shadow light:border light:bg-gray-800 light:border-gray-700">
         <div>
             {step === 1 && <AccountCreation formData={formData} setFormData={setFormData} nextStep={nextStep} />}
-            {step === 2 && <PersonalDetails formData={formData} setFormData={setFormData} createAccount={createAccount}/>}
+            {step === 2 && <PersonalDetails formData={formData} setFormData={setFormData} createAccount={createAccount} stepBack={stepBack} />}
             {step === 3 && <AccountConfirmation formData={formData} postRequest={postRequest} />}
             
         </div>

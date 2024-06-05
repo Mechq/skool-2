@@ -32,8 +32,13 @@ export default function AccountConfirmation({ formData, postRequest }) {
     }, [postRequest, hasPosted, formData]); // Dependency array includes hasPosted
 
     return (
-        <div>
-            <h1>Account aangemaakt</h1>
-        </div>
+        <>
+            <div>
+                <h1>Account aangemaakt</h1>
+            </div>
+
+            <button onClick={() => window.location.replace("/login")} 
+            className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Terug Naar Login Scherm</button>
+        </>
     );
 }

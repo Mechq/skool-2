@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-const PersonalDetails = ({ formData, setFormData, createAccount }) => {
+const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => {
 
     const [streetName, setStreetName] = useState("");
     const [houseNr, setHouseNr] = useState("");
@@ -83,11 +83,10 @@ const PersonalDetails = ({ formData, setFormData, createAccount }) => {
     return (
         <>
                 <form onSubmit={handleRegister}>
-                    <h3 className="mb-4 text-lg font-medium leading-none text-gray-900 light:text-white">Invoice
-                        details</h3>
+                    <h3 className="mb-4 text-lg font-medium leading-none text-gray-900 light:text-white">Persoonlijke Gegevens</h3>
                     <div className="grid gap-4 mb-4 sm:grid-cols-4">
                         <div>
-                            <label htmlFor="firstName"
+                            <label htmlFor="streetName"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Straatnaam</label>
                             <input type="text" name="streetName" id="streetName"
                                 className={`bg-gray-50 border ${streetNameValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
@@ -166,8 +165,13 @@ const PersonalDetails = ({ formData, setFormData, createAccount }) => {
                                 }}/>
                         </div>
                     </div>
-                    <button type='submit' 
-                    className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Create account</button>
+                    <div className="grid gap-4 mb-4 grid-cols-5">
+                    <button onClick={(stepBack)}
+                        className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Terug</button>
+                        <button type='submit' 
+                        className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Account Aanmaken</button>
+                        
+                    </div>
                 </form>
         </>
     )

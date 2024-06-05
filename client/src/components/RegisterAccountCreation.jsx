@@ -166,7 +166,7 @@ const AccountCreation = ({ formData, setFormData, nextStep }) => {
                     </div>
                     <button type="submit"
                     className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">
-                        Next Step: Payment Info
+                        Volgende stap: Persoonlijke info
                     </button>
                 </form>
         </>
