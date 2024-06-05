@@ -90,9 +90,11 @@ const userService = {
                 });
             });
         });
-    }
+    },
 
-    getAllUsers: (callback) => {
+    getAll: (callback) => {
+        logger.info('Retrieving all users')
+
         database.getConnection((err, connection) => {
             if (err) {
                 logger.error('Error connecting to database', err);
@@ -107,9 +109,15 @@ const userService = {
                     logger.error('Error executing query', err);
                     callback(err, null);
                     return;
+                } else {
+                    callback(null, {
+                        status: 200,
+                        message: 'Users fetched successfully',
+                        data: results
+                    });
+                    
                 }
 
-                callback(null, results);
             });
         });
     }
