@@ -5,6 +5,7 @@ import AccountConfirmation from '../components/RegisterConfirmation';
 
 const RegistrationFlow = () => {
     const [step, setStep] = useState(1);
+    const postRequest = true;
     const [formData, setFormData] = useState({
       firstName: "",
       lastName: "",
@@ -108,7 +109,7 @@ const RegistrationFlow = () => {
         <div>
             {step === 1 && <AccountCreation formData={formData} setFormData={setFormData} nextStep={nextStep} />}
             {step === 2 && <PersonalDetails formData={formData} setFormData={setFormData} createAccount={createAccount}/>}
-            {step === 3 && <AccountConfirmation formData={formData} />}
+            {step === 3 && <AccountConfirmation formData={formData} postRequest={postRequest} />}
             
         </div>
       </div>
