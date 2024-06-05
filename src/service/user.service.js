@@ -91,6 +91,28 @@ const userService = {
             });
         });
     }
+
+    getAllUsers: (callback) => {
+        database.getConnection((err, connection) => {
+            if (err) {
+                logger.error('Error connecting to database', err);
+                callback(err, null);
+                return;
+            }
+
+            const sql = "SELECT * FROM user";
+            connection.query(sql, (err, results) => {
+                connection.release();
+                if (err) {
+                    logger.error('Error executing query', err);
+                    callback(err, null);
+                    return;
+                }
+
+                callback(null, results);
+            });
+        });
+    }
 };
 
 module.exports = userService;

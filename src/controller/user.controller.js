@@ -43,7 +43,9 @@ const userController = {
                 res.status(401).json(result);
             }
         });
-    }
+    },
+
+   
 };
 
 module.exports = userController;
