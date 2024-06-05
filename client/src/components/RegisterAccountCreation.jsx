@@ -62,7 +62,7 @@ const AccountCreation = ({ formData, setFormData, nextStep }) => {
 
     const [show, setShow] = useState(false);
     const handleChange = (birthDate) => {
-        setbirthDate(birthDate);
+        setbirthDate(birthDate.getFullYear() + "-" + birthDate.getMonth() + "-" + birthDate.getDate());
         setBirthDateValid(true);
     };
 

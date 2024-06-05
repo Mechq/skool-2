@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function AccountConfirmation({formData}) {
 
-    console.log(formData)
+    console.log("---------",formData)
     const createDatabaseAccount = (formData) => {
         console.log("Printing database info: " + formData)
         fetch('/api/register', {
