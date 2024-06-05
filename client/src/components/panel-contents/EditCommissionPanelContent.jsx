@@ -76,7 +76,13 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const [show, setShow] = useState(false); // No need to specify type for useState
 
     const handleChange = (selectedDate) => {
-        console.log(selectedDate);
+        // Convert the selectedDate to a string
+        const dateString = selectedDate.toISOString();
+        // Extract the first 10 characters representing the date portion
+        const slicedDate = dateString.slice(0, 10);
+        // Update the state with the sliced date
+        setDate(slicedDate);
+        console.log("typeeee dateee", typeof date);
     }
 
     const handleClose = (state) => {
@@ -201,12 +207,12 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         console.log("Trying to submit commission");
         if (!customerId || !details || !targetAudience) return;
         console.log("Submitting commission");
-        const commission = {
-            customerId,
-            details,
-            targetAudience,
-            date: "2022-02-20",
-        };
+            const commission = {
+                customerId,
+                details,
+                targetAudience,
+                date: date.slice(0, 10),
+            };
 
         fetch(`/api/commission/${commissionId}`, {
             method: "PUT",
@@ -345,7 +351,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 </div>
 
                 <div className="mb-6">
-                    <label htmlFor="targetAudience"
+                    <label htmlFor="date"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Datum</label>
                     <Datepicker options={dateOptions} onChange={handleChange} show={show} setShow={handleClose}/>
                 </div>
