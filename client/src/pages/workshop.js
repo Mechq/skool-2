@@ -23,10 +23,7 @@ export default function Workshop() {
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
 
-    const pageSecurity = PageSecurity();
-    if (pageSecurity === null) {
-        return null;
-    }
+    const userEmail = PageSecurity();
 
     return (
         <div>

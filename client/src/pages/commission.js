@@ -20,10 +20,8 @@ export default function Commission() {
             .catch(error => console.error('Error fetching data:', error));
     }, [showSidePanel]);
 
-    const pageSecurity = PageSecurity();
-    if (pageSecurity === null) {
-        return null;
-    }
+    const userEmail = PageSecurity();
+
 
     return (
         <>
