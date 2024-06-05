@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 // Configure CORS
 const corsOptions = {
-    origin: '/', // replace with your client app's url
+    origin: 'https://skool-2.studententuin.nl', // replace with your client app's url
     credentials: true
 };
 app.use(cors(corsOptions));
