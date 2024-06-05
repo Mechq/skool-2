@@ -89,7 +89,6 @@ export default function WorkshopList({
                             <td className="px-6 py-4">{workshop.subject}</td>
                             <td className="px-6 py-4">{workshop.category}</td>
                              <td className="px-6 py-4">{formatDate(workshop.creationDate)}</td>
-                            <td className="px-6 py-4">-</td>
                             <td className="px-6 py-4">
                                 <a href="#" onClick={(e) => {
                                     editWorkshop(workshop.id, e);

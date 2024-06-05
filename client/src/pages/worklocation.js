@@ -35,7 +35,6 @@ function Worklocation() {
                 rotateSpan={rotateSpan}
                 setRotateSpan={setRotateSpan}
             />
-            <h1 className="title">Werklocatie Aanmaken</h1>
             <SidePanel isOpen={isOpen} setIsOpen={setIsOpen}>
                 {sidePanelContent === "create" &&
                     <CreateWorkLocationContent setWorkLocations={setWorkLocations} setShowSidePanel={setIsOpen}/>}

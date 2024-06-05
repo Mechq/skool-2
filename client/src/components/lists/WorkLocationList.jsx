@@ -15,6 +15,11 @@ export default function WorkLocationList({
         setRotateSpan(true);
     };
 
+    const formatDate = (date) => {
+        if (!date) return "";
+        const options = {year: 'numeric', month: 'long', day: 'numeric'};
+        return new Date(date).toLocaleDateString("nl-NL", options);
+    }
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mr-6 ml-6">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
@@ -36,7 +41,7 @@ export default function WorkLocationList({
                         </td>
                         <td className="px-6 py-4">{Worklocation.naam}</td>
                         <td className="px-6 py-4">{Worklocation.category}</td>
-                        <td className="px-6 py-4">{Worklocation.createdAt}</td>
+                        <td className="px-6 py-4">{formatDate(Worklocation.creationDate)}</td>
                         <td className="px-6 py-4">
                             <a href="#" onClick={(e) => {
                                 e.preventDefault();
