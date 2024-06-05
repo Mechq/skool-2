@@ -25,14 +25,12 @@ let teacherWorkshopQualification = {
             }
         });
     },
+    create: (req, res, next) => {
+        const userId = req.params.id;
+        const workshopIds = req.body;
+        logger.info('creating teacherWorkshopQualification');
 
-    createWorkshopQualification: (req, res, next) => {
-        const teacherId = req.params.id;
-        const workshops = req.body.workshops;
-
-        logger.info('setting teacherWorkshopQualification', workshops);
-
-        teacherWorkshopQualificationService.setWorkshops(workshops, teacherId, (error, success) => {
+        teacherWorkshopQualificationService.create(userId, workshopIds, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,
@@ -42,15 +40,16 @@ let teacherWorkshopQualification = {
             }
 
             if (success) {
-                res.status(200).json({
+                res.status(201).json({
                     status: success.status,
                     message: success.message,
                     data: success.data,
                 });
             }
         });
-    
+
     }
+
 
 };
 
