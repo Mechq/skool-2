@@ -31,9 +31,9 @@ const dateOptions = {
     },
     datepickerClassNames: "top-12",
     defaultDate: false,
-    language: "en",
+    language: "nl",
     disabledDates: [],
-    weekDays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+    weekDays: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
     inputNameProp: "date",
     inputIdProp: "date",
     inputPlaceholderProp: "Select Date",
@@ -61,13 +61,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingRoundType, setEditingRoundType] = useState("");
     const [editedRoundType, setEditedRoundType] = useState("");
-    const [locationNameValid, setLocationNameValid] = useState(true);
-    const [customerIdValid, setCustomerIdValid] = useState(true);
-    const [detailsValid, setDetailsValid] = useState(true);
-    const [targetAudienceValid, setTargetAudienceValid] = useState(true);
-    const [customerNameValid, setCustomerNameValid] = useState(true);
     const [date, setDate] = useState("");
-    const [dateValid, setDateValid] = useState(true);
     const[startTimes, setStartTimes] = useState([]);
     const[endTimes, setEndTimes] = useState([]);
     const [orders, setOrders] = useState([]);
@@ -83,7 +77,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         const dateString = localDate.toISOString();
         const slicedDate = dateString.slice(0, 10);
         setDate(slicedDate);
-        console.log("typeeee dateee", typeof date);
     }
 
     const handleClose = (state) => {
@@ -229,6 +222,8 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         e.preventDefault();
         console.log("Trying to submit commission");
         console.log(date)
+
+
         if (!customerId || !details || !targetAudience) return;
         console.log("Submitting commission");
             const commission = {
@@ -338,7 +333,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     <select id="workshopName" value={selectedCustomerId} // Corrected line
                             onChange={(e) => {
                                 setSelectedCustomerId(e.target.value);
-                            }} required
+                            }} required={true}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
                         <option value="" disabled>{selectedCustomerName}</option>
                         {customers.map((customer) => (
@@ -350,7 +345,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     <label htmlFor="details"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Opdracht
                         details</label>
-                    <input type="text" id="details" value={details} required
+                    <input type="text" id="details" value={details} required={true}
                            onChange={(e) => setDetails(e.target.value)}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                     />
@@ -360,7 +355,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     <label htmlFor="targetAudience"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Doelgroep
                         opdracht</label>
-                    <input id="targetAudience" value={targetAudience}
+                    <input id="targetAudience" value={targetAudience} required={true}
                            onChange={(e) => setTargetAudience(e.target.value)}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="Doelgroep"></input>
