@@ -19,7 +19,6 @@ export default function Login() {
         const user = {
             email: email,
             password: password,
-            role: 'teacher'
         };
 
         fetch('/api/login', {

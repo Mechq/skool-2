@@ -25,9 +25,9 @@ const userController = {
     },
 
     login: (req, res) => {
-        const { email, role, password } = req.body;
+        const { email, password } = req.body;
 
-        userService.login(email, role, password, (err, result) => {
+        userService.login(email, password, (err, result) => {
             if (err) {
                 return res.status(500).json({ status: 'Error', message: 'Internal Server Error' });
             }
