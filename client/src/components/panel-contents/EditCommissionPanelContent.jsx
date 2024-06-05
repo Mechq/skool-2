@@ -14,7 +14,7 @@ const dateOptions = {
     maxDate: new Date("2030-01-01"),
     minDate: new Date(),
     theme: {
-        background: "bg-gray-700 light:bg-white-800",
+        background: "bg-white",
         todayBtn: "",
         clearBtn: "",
         icons: "",
@@ -367,8 +367,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
                 <ul>
                     {types.map((type, index) => (
-                        <li key={index} className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer">
-                <span onClick={() => editRound(type, roundIds[index])}>
+                        <li key={index} className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer"
+                            onClick={() => editRound(type, roundIds[index])}>
+                <span>
                     {type} - Tijd {startTimes[index]} - {endTimes[index]}
                 </span>
                             {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
@@ -393,10 +394,11 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
             </div>
 
 
-
             <div style={{position: "relative"}}>
-                <button  className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange"
-                    type="button" onClick={addRound}>+</button>
+                <button
+                    className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange mt-4"
+                    type="button" onClick={addRound}>+
+                </button>
                 {showOptions && (
                     <div ref={optionsRef} className="options-list">
                         <ul>
