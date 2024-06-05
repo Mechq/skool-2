@@ -6,5 +6,6 @@ const customerController = require("../controller/customer.controller");
 router.get("/api/customer", customerController.getAllCustomers);
 router.post("/api/customer", customerController.createCustomer);
 router.get("/api/customer/:id", customerController.getCustomerById);
+router.put("/api/customer/:id", customerController.updateCustomer);
 
 module.exports = router;

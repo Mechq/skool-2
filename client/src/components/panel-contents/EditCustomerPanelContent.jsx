@@ -10,6 +10,7 @@ function EditCustomerPanelContent({ customerId, setShowSidePanel }) {
     const [city, setCity] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [locationId, setLocationId] = useState('');
 
     useEffect(() => {
     if (customerId) {
@@ -22,11 +23,12 @@ function EditCustomerPanelContent({ customerId, setShowSidePanel }) {
                 setContactName(data.contactName || '');
                 setEmail(data.email || '');
                 setPhoneNumber(data.phone || '');
-                setLocationName(data.name || '');
+                setLocationName(data.locationName || '');
                 setStreet(data.street || '');
                 setHouseNumber(data.houseNumber || '');
                 setCity(data.city || '');
                 setPostalCode(data.postalCode || '');
+                setLocationId(data.locationId || '')
                 autoResize({target: document.getElementById('edit-description')});
 
                 
@@ -52,7 +54,8 @@ function EditCustomerPanelContent({ customerId, setShowSidePanel }) {
             city,
             postalCode,
             email,
-            phoneNumber
+            phoneNumber,
+            locationId
         };
 
         fetch(`/api/customer/${customerId}`, {

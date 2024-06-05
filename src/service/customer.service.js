@@ -74,7 +74,7 @@ const customerService = {
     getById: (id, callback) => {
         logger.info('getting customer by id', id);
 
-        let sql = `SELECT customer.*, location.* 
+        let sql = `SELECT customer.*, location.street, location.houseNumber, location.city, location.postalCode, location.name AS locationName, location.id AS locationId, customer.id AS customerId
            FROM customer 
            LEFT JOIN location ON customer.locationId = location.id 
            WHERE customer.id = ?`;
@@ -99,6 +99,101 @@ const customerService = {
                 status: 200,
                 message: 'customer retrieved',
                 data: results[0],
+            });
+        });
+    },
+
+    update: (id, customer, callback) => {
+        logger.info('updating customer', id);
+    
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error updating customer', err);
+                callback(err, null);
+                return;
+            }
+    
+            const {
+                locationId
+            } = customer
+            logger.debug('locationId: ', locationId)
+    
+            const customerValues = [];
+            const locationValues = [];
+    
+            let customerSql = 'UPDATE customer SET ';
+            let locationSql = 'UPDATE location SET ';
+    
+            if (customer.name) {
+                customerSql += 'name = ?, ';
+                customerValues.push(customer.name);
+            }
+            if (customer.contactName) {
+                customerSql += 'contactName = ?, ';
+                customerValues.push(customer.contactName);
+            }
+            if (customer.email) {
+                customerSql += 'email = ?, ';
+                customerValues.push(customer.email);
+            }
+            if (customer.phone) {
+                customerSql += 'phone = ?, ';
+                customerValues.push(customer.phone);
+            }
+            if (customer.locationName) {
+                locationSql += 'name = ?, ';
+                locationValues.push(customer.locationName);
+            }
+            if (customer.street) {
+                locationSql += 'street = ?, ';
+                locationValues.push(customer.street);
+            }
+            if (customer.houseNumber) {
+                locationSql += 'houseNumber = ?, ';
+                locationValues.push(customer.houseNumber);
+            }
+            if (customer.city) {
+                locationSql += 'city = ?, ';
+                locationValues.push(customer.city);
+            }
+            if (customer.postalCode) {
+                locationSql += 'postalCode = ?, ';
+                locationValues.push(customer.postalCode);
+            }
+    
+            locationSql = locationSql.slice(0, -2);
+            customerSql = customerSql.slice(0, -2);
+    
+            locationSql += ' WHERE id = ?';
+            customerSql += ' WHERE id = ?';
+    
+            locationValues.push(locationId);
+            customerValues.push(id);
+    
+            connection.query(locationSql, locationValues, function(error, results, fields) {
+                if (error) {
+                    logger.error('Error updating location', error);
+                    callback(error, null);
+                    connection.release();
+                    return;
+                }
+    
+                connection.query(customerSql, customerValues, function(error, results, fields) {
+                    connection.release();
+    
+                    if (error) {
+                        logger.error('Error updating customer', error);
+                        callback(error, null);
+                        return;
+                    }
+    
+                    logger.trace('customer updated', id);
+                    callback(null, {
+                        status: 200,
+                        message: 'customer updated',
+                        data: customer,
+                    });
+                });
             });
         });
     }
