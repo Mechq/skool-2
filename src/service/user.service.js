@@ -42,8 +42,9 @@ const userService = {
         });
     },
 
-    login: (email, password, callback) => {
+    login: (email,role, password, callback) => {
         database.getConnection((err, connection) => {
+            logger.debug('login with role: ', role);
             if (err) {
                 logger.error('Error connecting to database', err);
                 callback(err, null);
@@ -75,7 +76,7 @@ const userService = {
 
                     if (response) {
                         logger.debug('Login successful', { email: email });
-                        const token = jwt.sign({ email: email, role: 'user' }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
+                        const token = jwt.sign({ email: email, role: role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
                         callback(null, {
                             status: 'Success',
                             message: 'Login successful',
