@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import CustomerList from "../components/lists/CustomerList";
 import CreateCustomerPanelContent from "../components/panel-contents/CreateCustomerPanelContent";
+import EditCustomerPanelContent from "../components/panel-contents/EditCustomerPanelContent";
 import SidePanel from "../components/SidePanel";
-// import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
 import CreateButton from "../components/CreateButton";
 
-function Customers() {
-    const [isOpen, setIsOpen] = React.useState(false);
-    const [showSidePanel, setShowSidePanel] = useState(false);
+export function Customers() {
+    const [isOpen, setIsOpen] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [customerId, setCustomerId] = useState(null);
     const [customers, setCustomers] = useState([]);
@@ -22,7 +21,6 @@ function Customers() {
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
-
 
     return (
         <div>
@@ -40,8 +38,8 @@ function Customers() {
                        setRotateSpan={setRotateSpan}>
                 {sidePanelContent === "create" &&
                     <CreateCustomerPanelContent setCustomers={setCustomers} setShowSidePanel={setIsOpen}/>}
-                {/* {sidePanelContent === "edit" &&
-                    <EditPanelWorkshopContent customerId={customerId} setShowSidePanel={setIsOpen}/>} */}
+                {sidePanelContent === "edit" &&
+                    <EditCustomerPanelContent customerId={customerId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
             <CustomerList customers={customers}
                           setIsOpen={setIsOpen}
@@ -54,13 +52,5 @@ function Customers() {
         </div>
     );
 }
-
-//setIsOpen={setIsOpen}
-// isOpen={isOpen}
-// setSidePanelContent={setSidePanelContent}
-// setWorkshopId={setWorkshopId}
-// workshops={workshops}
-// setWorkshops={setWorkshops}
-// setRotateSpan={setRotateSpan}
 
 export default Customers;

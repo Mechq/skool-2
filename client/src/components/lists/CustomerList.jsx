@@ -9,14 +9,6 @@ export default function CustomerList({
   customers,
   setCustomers,
 }) {
- 
-
-  const editCustomer = (id) => {
-    setCustomerId(id);
-    setSidePanelContent("edit");
-    setIsOpen(true);
-    setRotateSpan(true);
-  };
 
   useEffect(() => {
     fetch('/api/customer')
@@ -27,6 +19,13 @@ export default function CustomerList({
         })
         .catch(error => console.error('Error fetching data:', error));
 }, [isOpen]);
+
+const editCustomer = (id) => {
+  setCustomerId(id);
+  setSidePanelContent("edit");
+  setIsOpen(true);
+  setRotateSpan(true);
+};
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mr-6 ml-6">
