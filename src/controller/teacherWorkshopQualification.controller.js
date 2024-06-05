@@ -26,6 +26,31 @@ let teacherWorkshopQualification = {
         });
     },
 
+    createWorkshopQualification: (req, res, next) => {
+        const teacherId = req.params.id;
+        const workshops = req.body;
+
+        logger.info('setting teacherWorkshopQualification', workshops);
+
+        teacherWorkshopQualificationService.setWorkshops(workshops, teacherId, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
+    
+    }
 
 };
 
