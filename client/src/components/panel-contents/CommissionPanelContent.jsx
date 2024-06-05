@@ -136,14 +136,14 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                 <div className="mb-6">
                     <label htmlFor="details"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Details</label>
-                    <input type="text" id="details"
+                    <input type="text" id="details" value={details} onChange={(e) => setDetails(e.target.value)}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="Opdracht details" required/>
                 </div>
                 <div className="mb-6">
                     <label htmlFor="targetAudience"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Doelgroep</label>
-                    <input type="text" id="targetAudience"
+                    <input type="text" id="targetAudience" value={targetAudience} onChange={(e) => setTargetAudience(e.target.value)}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="doelgroep" required/>
                 </div>
@@ -152,12 +152,14 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
                         Locatie
                     </label>
-                    <select id="location"
+                    <select id="location" value={locationName} onChange={(e) => setLocationName(e.target.value)}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                             required>
-                        <option value={locationName} disabled>
-                            {locationName || "Selecteer een locatie"}
-                        </option>
+                        {locationName && (
+                            <option value={locationName}>
+                                {locationName}
+                            </option>
+                        )}
                         {locations.map((location) => (
                             <option key={location.id} value={location.name}>
                                 {location.name}
