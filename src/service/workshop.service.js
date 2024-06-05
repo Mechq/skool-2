@@ -167,6 +167,28 @@ const workshopService = {
                 }
             });
 
+        },
+
+        deleteWorkshop: (id, callback) => {
+            logger.info('deleting workshop', id);
+
+            let sql = 'DELETE FROM workshop WHERE id = ?';
+
+            database.query(sql, [id], (error, results, fields) => {
+                if (error) {
+                    logger.error('Error deleting workshop', error);
+                    callback(error, null);
+
+                } else {
+                    if (results.affectedRows > 0) {
+                        logger.info('Workshop deleted successfully');
+                        callback(null, 'Workshop deleted successfully');
+                    } else {
+                        logger.info('No workshop found with the provided ID');
+                        callback(null, 'No workshop found with the provided ID');
+                    }
+                }
+            });
         }
 };
 

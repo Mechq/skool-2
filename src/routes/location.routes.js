@@ -33,4 +33,7 @@ router.get('/api/location', locationController.getAllLocations);
 router.get('/api/location/:id', locationController.getLocationById);
 router.put('/api/location/:id', locationController.update);
 router.get('/api/location/default/:customerId', locationController.getDefaultLocationByCustomerId);
+router.delete('/api/location/:id', locationController.deleteLocation);
+
+
 module.exports = router;
