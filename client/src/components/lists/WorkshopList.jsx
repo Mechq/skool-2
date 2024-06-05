@@ -33,8 +33,8 @@ export default function WorkshopList({
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                 <tr>
                     <th className="px-6 py-3">Workshop Naam</th>
-                    <th className="px-6 py-3">Catergorie</th>
-                    <th className="px-6 py-3">Materialen</th>
+                    <th className="px-6 py-3"></th>
+                    <th className="px-6 py-3">Categorie</th>
                     <th className="px-6 py-3">Datum Aangemaakt</th>
                     <th className="px-6 py-3">Bewerken</th>
                 </tr>
