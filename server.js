@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 // Configure CORS
 const corsOptions = {
-    origin: 'http://localhost:3000', // replace with your client app's url
+    origin: '/', // replace with your client app's url
     credentials: true
 };
 app.use(cors(corsOptions));
