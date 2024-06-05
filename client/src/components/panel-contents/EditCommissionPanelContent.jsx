@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react"
+import React, {useRef, useEffect, useState} from "react"
 import Datepicker from "tailwind-datepicker-react"
-
+import "../../styles/optionsRoundCreate.css"
 import RoundEditModal from "../modal-screens/CommissionRoundModalScreen";
 import WorkshopRoundEditModal from "../modal-screens/CommissionWorkshopRoundModalScreen";
 import WorkshopRoundWorkshopEditModal from "../modal-screens/CommissionWorkshopRoundWorkshopEditModal"
@@ -71,6 +71,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const[startTimes, setStartTimes] = useState([]);
     const[endTimes, setEndTimes] = useState([]);
     const [orders, setOrders] = useState([]);
+    const optionsRef = useRef(null);
 
     const [show, setShow] = useState(false); // No need to specify type for useState
 
@@ -181,6 +182,20 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         }
     }, [selectedCustomerId]);
 
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (optionsRef.current && !optionsRef.current.contains(event.target)) {
+                // Clicked outside the options list, so close it
+                setShowOptions(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [optionsRef]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Trying to submit commission");
@@ -214,6 +229,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     };
 
     const handleOptionClick = (option) => {
+        console.log("Adding round of type", option);
         setShowOptions(false);
         let order = 0
         if(orders.length > 0){
@@ -341,11 +357,43 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
 
             </form>
             <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
+            <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+    focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400
+    light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
+                <ul>
+                    {types.map((type, index) => (
+                        <li key={index} className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer">
+                <span onClick={() => editRound(type, roundIds[index])}>
+                    {type} - Tijd {startTimes[index]} - {endTimes[index]}
+                </span>
+                            {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
+                                <ul className="pl-4 mt-2">
+                                    {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
+                                        <li
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                editRound("workshop", workshop.id, roundIds[index]); // Pass the parent workshop round ID
+                                            }}
+                                            key={workshop.id}
+                                            className={"hover:bg-gray-200 hover:cursor-pointer"}
+                                        >
+                                            {workshop.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+
 
             <div style={{position: "relative"}}>
-                <button type="button" onClick={addRound}>+</button>
+                <button  className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange"
+                    type="button" onClick={addRound}>+</button>
                 {showOptions && (
-                    <div className="options-list">
+                    <div ref={optionsRef} className="options-list">
                         <ul>
                             <li onClick={() => handleOptionClick("Pauze")}>Pauze toevoegen</li>
                             <li onClick={() => handleOptionClick("Afsluiting")}>Afsluiting toevoegen</li>
