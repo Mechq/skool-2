@@ -9,7 +9,8 @@ import Worklocation from './pages/worklocation';
 import Login from './pages/login';
 import Register from './pages/register';
 import Home from "./pages/home";
-import User from './pages/user';
+import User from './pages/users';
+import Users from './pages/users';
 
 function App() {
     const location = useLocation();
@@ -38,7 +39,7 @@ function App() {
                     <Route path="/werklocatie" element={<Worklocation />} />
                     <Route path="/customers" element={<Customers />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/user" element={<User />} />
+                    <Route path="/users" element={<Users />} />
                 </Routes>
             </div>
         </div>

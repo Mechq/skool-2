@@ -6,7 +6,7 @@ import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWork
 import CreateButton from "../components/CreateButton";
 import PageSecurity from "../PageSecurity";
 
-export default function Workshop() {
+export default function Users() {
     const [isOpen, setIsOpen] = React.useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [userId, setUserId] = useState(null);
