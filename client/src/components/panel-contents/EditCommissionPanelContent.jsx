@@ -197,7 +197,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
             fetch(`/api/location/customer/${selectedCustomerId}`)
                 .then(response => response.json())
                 .then(data => {
-                    setLocations(data.data || []);
+                    setLocations(Array.isArray(data.data) ? data.data : []);
                     console.log("Fetched locationssss:", locations);
                 })
                 .catch((error) => {
