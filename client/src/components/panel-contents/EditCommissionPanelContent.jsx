@@ -1,7 +1,48 @@
-import React, { useEffect, useState } from "react"
+import React, {useRef, useEffect, useState} from "react"
+import Datepicker from "tailwind-datepicker-react"
+import "../../styles/optionsRoundCreate.css"
 import RoundEditModal from "../modal-screens/CommissionRoundModalScreen";
 import WorkshopRoundEditModal from "../modal-screens/CommissionWorkshopRoundModalScreen";
 import WorkshopRoundWorkshopEditModal from "../modal-screens/CommissionWorkshopRoundWorkshopEditModal"
+
+const dateOptions = {
+    title: " ",
+    autoHide: false,
+    todayBtn: false,
+    clearBtn: false,
+    clearBtnText: "",
+    maxDate: new Date("2030-01-01"),
+    minDate: new Date(),
+    theme: {
+        background: "bg-white",
+        todayBtn: true,
+        clearBtn: "",
+        icons: "",
+        text: "",
+        disabledText: "",
+        input: "",
+        inputIcon: "",
+        selected: "",
+    },
+    icons: {
+        // () => ReactElement | JSX.Element
+        prev: () => <span>Vorige</span>,
+        next: () => <span>Volgende</span>,
+    },
+    datepickerClassNames: "top-12",
+    defaultDate: false,
+    language: "en",
+    disabledDates: [],
+    weekDays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+    inputNameProp: "date",
+    inputIdProp: "date",
+    inputPlaceholderProp: "Select Date",
+    inputDateFormatProp: {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    }
+}
 
 export default function EditCommissionPanelContent({ setShowSidePanel, commissionId }) {
     const [customerId, setCustomerId] = useState("");
@@ -30,6 +71,21 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const[startTimes, setStartTimes] = useState([]);
     const[endTimes, setEndTimes] = useState([]);
     const [orders, setOrders] = useState([]);
+    const optionsRef = useRef(null);
+
+    const [show, setShow] = useState(false); // No need to specify type for useState
+
+    const handleChange = (selectedDate) => {
+        const localDate = new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000);
+        const dateString = localDate.toISOString();
+        const slicedDate = dateString.slice(0, 10);
+        setDate(slicedDate);
+        console.log("typeeee dateee", typeof date);
+    }
+
+    const handleClose = (state) => {
+        setShow(state);
+    }
 
     useEffect(() => {
         if (commissionId) {
@@ -89,22 +145,15 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     useEffect(() => {
         fetchRoundData();
     }, [commissionId]);
-
     useEffect(() => {
         if (commissionId) {
             fetch(`/api/commission/customer/${commissionId}`)
                 .then((res) => res.json())
                 .then((response) => {
-                    const data = response.data;
-                    if (data && data.length > 0) { // Check if data is not empty
-                        const customer = data[0]; // Extract the first customer
+                    const customer = response.data
                         setSelectedCustomerName(customer.name || "");
                         setSelectedCustomerId(customer.id || "");
-                    } else {
-                        // Handle case when no customer is found
-                        setSelectedCustomerName("");
-                        setSelectedCustomerId("");
-                    }
+                        console.log("Fetched selected commissions customer:", customer)
                 })
                 .catch((error) => console.error("Error fetching customer:", error));
         }
@@ -137,21 +186,32 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         }
     }, [selectedCustomerId]);
 
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (optionsRef.current && !optionsRef.current.contains(event.target)) {
+                // Clicked outside the options list, so close it
+                setShowOptions(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [optionsRef]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        if (!customerId) setCustomerIdValid(false);
-        if (!details) setDetailsValid(false);
-        if (!targetAudience) setTargetAudienceValid(false);
-        if (!date) setDateValid(false);
-        if (!customerId || !details || !targetAudience || !date) return;
-
-        const commission = {
-            customerId,
-            details,
-            targetAudience,
-            date,
-        };
+        console.log("Trying to submit commission");
+        console.log(date)
+        if (!customerId || !details || !targetAudience) return;
+        console.log("Submitting commission");
+            const commission = {
+                customerId,
+                details,
+                targetAudience,
+                date
+            };
 
         fetch(`/api/commission/${commissionId}`, {
             method: "PUT",
@@ -174,6 +234,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     };
 
     const handleOptionClick = (option) => {
+        console.log("Adding round of type", option);
         setShowOptions(false);
         let order = 0
         if(orders.length > 0){
@@ -239,107 +300,118 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     };
 
     return (
-        <div className="workshopEditContent">
-            <h1 className="side-panel-title">Bewerk opdracht</h1>
-            <div className="side-panel-content">
-                <form action="#" method="get" className="form-container">
-                    {/* Form fields */}
-                    <select
-                        id="customerId"
-                        name="customerId"
-                        value={selectedCustomerName} // Change value to selectedCustomer
-                        onChange={(e) => {
-                            setCustomerId(e.target.value);
-                            setCustomerIdValid(true); // Reset validation state
-                        }}
-                        className={customerIdValid ? "" : "invalid"}  // Apply CSS class
-                    >
+        <div className="px-6">
+
+
+            <header className="pt-4 pb-4 font-bold text-lg">Opdracht bewerken</header>
+            <form>
+                <div className="mb-6">
+                    <label htmlFor="workshopName"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Kies een
+                        Klant</label>
+                    <select id="workshopName" value={selectedCustomerId} // Corrected line
+                            onChange={(e) => {
+                                setSelectedCustomerId(e.target.value);
+                            }} required
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
                         <option value="" disabled>{selectedCustomerName}</option>
-                        {customers.map(customer => (
-                            <option key={customer.id} value={customer.id}>
-                                {customer.name}
-                            </option>
+                        {customers.map((customer) => (
+                            <option key={customer.id} value={customer.id}>{customer.name}</option>
                         ))}
                     </select>
-
-                    <input
-                        type="text"
-                        id="details"
-                        name="details"
-                        value={details}
-                        onChange={(e) => {
-                            setDetails(e.target.value)
-                            setDetailsValid(true); // Reset validation state
-                        }}
-                        className={detailsValid ? "" : "invalid"}  // Apply CSS class
-                        placeholder={details}
-                    />
-                    <textarea
-                        id="targetAudience"
-                        name="targetAudience"
-                        value={targetAudience}
-                        onChange={(e) => {
-                            setTargetAudience(e.target.value)
-                            setTargetAudienceValid(true); // Reset validation state
-                        }}
-                        className={targetAudienceValid ? "" : "invalid"}  // Apply CSS class
-                        placeholder={targetAudience}
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="details"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Opdracht
+                        details</label>
+                    <input type="text" id="details" value={details} required
+                           onChange={(e) => setDetails(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                     />
 
-                    <input
-                    type="text"
-                    id="date"
-                    name="date"
-                    value={date}
-                    onChange={(e) => {
-                        setDate(e.target.value)
-                        setDateValid(true); // Reset validation state
-                    }}
-                    className={dateValid ? "" : "invalid"}  // Apply CSS class
-                    placeholder={date}
-                />
-                    <div>
-                        <h2>Rondes</h2>
-                        <ul>
-                            {types.map((type, index) => (
-                                <li key={index}>
-            <span onClick={() => editRound(type, roundIds[index])}>
-                {type} - Tijd {startTimes[index]} - {endTimes[index]}
-            </span>
-                                    {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
-                                        <ul>
-                                            {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
-                                                <li onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    editRound("workshop", workshop.id, roundIds[index]); // Pass the parent workshop round ID
-                                                }}
-                                                    key={workshop.id}>{workshop.name}</li>
-                                            ))}
-                                        </ul>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-                        <div style={{position: "relative"}}>
-                            <button onClick={addRound}>+</button>
-                            {showOptions && (
-                                <div className="options-list">
-                                    <ul>
-                                        <li onClick={() => handleOptionClick("Pauze")}>Pauze toevoegen</li>
-                                        <li onClick={() => handleOptionClick("Afsluiting")}>Afsluiting toevoegen</li>
-                                        <li onClick={() => handleOptionClick("Warming up")}>Warmingup toevoegen</li>
-                                        <li onClick={() => handleOptionClick("Workshopronde")}>Workshopronde
-                                            toevoegen
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="targetAudience"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Doelgroep
+                        opdracht</label>
+                    <input id="targetAudience" value={targetAudience}
+                           onChange={(e) => setTargetAudience(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="Doelgroep"></input>
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="targetAudience"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Doelgroep
+                        opdracht</label>
+                    <input id="targetAudience" value={targetAudience}
+                           onChange={(e) => setTargetAudience(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="Doelgroep"></input>
+                </div>
+
+                <div className="mb-6">
+                    <label htmlFor="date"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Datum</label>
+                    <Datepicker options={dateOptions} onChange={handleChange} show={show} setShow={handleClose}/>
+                </div>
+
+                <button type="submit" onClick={handleSubmit}
+                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Submit
+                </button>
+
+
+            </form>
+            <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
+            <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+    focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400
+    light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
+                <ul>
+                    {types.map((type, index) => (
+                        <li key={index} className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer"
+                            onClick={() => editRound(type, roundIds[index])}>
+                <span>
+                    {type} - Tijd {startTimes[index]} - {endTimes[index]}
+                </span>
+                            {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
+                                <ul className="pl-4 mt-2">
+                                    {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
+                                        <li
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                editRound("workshop", workshop.id, roundIds[index]); // Pass the parent workshop round ID
+                                            }}
+                                            key={workshop.id}
+                                            className={"hover:bg-gray-200 hover:cursor-pointer"}
+                                        >
+                                            {workshop.name}
                                         </li>
-                                    </ul>
-                                </div>
+                                    ))}
+                                </ul>
                             )}
-                        </div>
-                    </div>
-
-                    <button onClick={handleSubmit}>Opslaan</button>
-                </form>
+                        </li>
+                    ))}
+                </ul>
             </div>
+
+
+            <div style={{position: "relative"}}>
+                <button
+                    className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange mt-4"
+                    type="button" onClick={addRound}>+
+                </button>
+                {showOptions && (
+                    <div ref={optionsRef} className="options-list">
+                        <ul>
+                            <li onClick={() => handleOptionClick("Pauze")}>Pauze toevoegen</li>
+                            <li onClick={() => handleOptionClick("Afsluiting")}>Afsluiting toevoegen</li>
+                            <li onClick={() => handleOptionClick("Warming up")}>Warmingup toevoegen</li>
+                            <li onClick={() => handleOptionClick("Workshopronde")}>Workshopronde toevoegen</li>
+                        </ul>
+                    </div>
+                )}
+            </div>
+
+
             {showEditModal && editedRoundType === "Workshopronde" && (
                 <WorkshopRoundEditModal
                     roundType={editedRoundType}
@@ -371,5 +443,4 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
             )}
         </div>
     );
-
 }

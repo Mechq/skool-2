@@ -84,7 +84,8 @@ console.log("amountOfStudents", amountOfStudents)
                                 setValidAmountOfTeachers(true);  // Reset validation state
                             }}
                         />
-                        <button type="submit" onClick={handleSubmit}>Opslaan</button>
+                        <button className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange mt-4"
+                            type="submit" onClick={handleSubmit}>Opslaan</button>
                     </form>
                 </div>
             </div>

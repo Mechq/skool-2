@@ -15,13 +15,14 @@ const commissionService = {
             const {
                 customerId,
                 details,
-                targetAudience
+                targetAudience,
+                locationId,
             } = commission;
 
-            const values = [customerId, details, targetAudience];
+            const values = [customerId, details, targetAudience, locationId];
 
             // TODO: Implement the query to insert correct data
-            const query = 'INSERT INTO commission (customerId, details, targetAudience) VALUES (?, ?, ?)';
+            const query = 'INSERT INTO commission (customerId, details, targetAudience, locationId) VALUES (?, ?, ?, ?)';
 
             logger.debug('query', query);
 
@@ -179,7 +180,7 @@ const commissionService = {
                         callback(null, {
                             status: 200,
                             message: 'Customer fetched successfully',
-                            data: results,
+                            data: results[0],
                         });
                     } else {
                         logger.warn('No customer found with commission id', commissionId);

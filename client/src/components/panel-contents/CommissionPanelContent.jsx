@@ -5,11 +5,9 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
     const [targetAudience, setTargetAudience] = useState("");
     const [customerId, setCustomerId] = useState("");
     const [locationName, setLocationName] = useState("");
+    const [locations, setLocations] = useState([]); // Locations state
+    const [selectedLocationId, setSelectedLocationId] = useState("");
 
-    const [detailsValid, setDetailsValid] = useState(true);
-    const [targetAudienceValid, setTargetAudienceValid] = useState(true);
-    const [customerIdValid, setCustomerIdValid] = useState(true);
-    const [locationNameValid, setLocationNameValid] = useState(true);
 
     const [customers, setCustomers] = useState([]); // Customers state
 
@@ -23,42 +21,56 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                 console.error('Error:', error);
             });
     }, []);
-
-    const handleCustomerChange = (e) => {
+    const handleCustomerChange = async (e) => {
         const selectedCustomerId = e.target.value;
-        console.log(selectedCustomerId)
         setCustomerId(selectedCustomerId);
-        setCustomerIdValid(true); // Reset validation state
 
-        // Fetch location name for the selected customer
-        fetch(`/api/location/default/${selectedCustomerId}`)
-            .then(response => response.json())
-            .then(data => {
-                const locationData = data.data;
-                const locationName = locationData ? locationData.name || "" : "";
-                setLocationName(locationName);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                setLocationName(""); // Ensure locationName is always defined
-            });
-        console.log(locationName)
+        // Clear previous locations and location name
+        setLocations([]);
+        setLocationName("");
+
+        try {
+            // Fetch default location name for the selected customer
+            const defaultLocationResponse = await fetch(`/api/location/default/${selectedCustomerId}`);
+            const defaultLocationData = await defaultLocationResponse.json();
+            const defaultLocationName = defaultLocationData.data ? defaultLocationData.data.name || "" : "";
+            setLocationName(defaultLocationName);
+
+            // Fetch locations for the selected customer
+            const locationsResponse = await fetch(`/api/location/customer/${selectedCustomerId}`);
+            const locationsData = await locationsResponse.json();
+            // Ensure that locationsData.data is an array before setting it to the state
+            setLocations(Array.isArray(locationsData.data) ? locationsData.data : []);
+
+        } catch (error) {
+            console.error('Error:', error);
+            setLocationName(""); // Ensure locationName is always defined
+        }
     };
+
+
+    const handleLocationChange = (e) => {
+        setSelectedLocationId(e.target.value);
+
+
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
         // Validation
-        if (!details) setDetailsValid(false);
-        if (!targetAudience) setTargetAudienceValid(false);
-        if (!customerId) setCustomerIdValid(false);
+        const customerId = document.getElementById('customerName').value;
+        const details = document.getElementById('details').value;
+        const targetAudience = document.getElementById('targetAudience').value;
 
         if (!details || !targetAudience || !customerId) return;
-
+        console.log("locationId", selectedLocationId)
         const commission = {
             details,
             targetAudience,
-            customerId
+            customerId,
+            locationId: selectedLocationId,
         };
+        console.log(commission);
 
         fetch('/api/commission', {
             method: 'POST',
@@ -75,6 +87,7 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
             })
             .then(data => {
                 console.log('Success:', data);
+                setSelectedLocationId('')
                 setCustomerId('');
                 setTargetAudience('');
                 setDetails('');
@@ -90,65 +103,65 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
             })
             .catch((error) => {
                 console.error('Error:', error);
-                setCustomerIdValid(false); // Set customerId as invalid
             });
     };
 
     return (
-        <div className='side-panel-content'>
-            <h1 className='side-panel-title'>Create Opdracht</h1>
-            <form action="#" method="get" className="form-container">
-                <select
-                    id="customerId"
-                    name="customerId"
-                    value={customerId}
-                    onChange={handleCustomerChange}
-                    className={customerIdValid ? "" : "invalid"}  // Apply CSS class
-                >
-                    <option value="" disabled>Select Customer</option>
-                    {customers.map(customer => (
-                        <option key={customer.id} value={customer.id}>
-                            {customer.name}
-                        </option>
-                    ))}
-                </select>
-                <input
-                    type="text"
-                    id="details"
-                    name="details"
-                    value={details}
-                    onChange={(e) => {
-                        setDetails(e.target.value);
-                        setDetailsValid(true); // Reset validation state
-                    }}
-                    className={detailsValid ? "" : "invalid"}  // Apply CSS class
-                    placeholder="Details"
-                />
-                <textarea
-                    id="targetAudience"
-                    name="targetAudience"
-                    value={targetAudience}
-                    onChange={(e) => {
-                        setTargetAudience(e.target.value);
-                        setTargetAudienceValid(true); // Reset validation state
-                    }}
-                    className={targetAudienceValid ? "" : "invalid"}  // Apply CSS class
-                    placeholder="Doelgroep"
-                />
-                <input
-                    type="text"
-                    id="locationName"
-                    name="locationName"
-                    value={locationName}
-                    onChange={(e) => {
-                        setLocationName(e.target.value);
-                        setLocationNameValid(true); // Reset validation state
-                    }}
-                    className={locationNameValid ? "" : "invalid"}  // Apply CSS class
-                    placeholder={locationName ? locationName : "Location"}
-                />
+        <div className="px-6">
+            <header className="pt-4 pb-4 font-bold text-lg">Opdracht aanmaken</header>
+            <form>
+                <div className="grid gap-6 mb-6 md:grid-cols-2">
+                    <div>
+                        <label htmlFor="customerName"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Kies een
+                            klant</label>
+                        <select id="customerName" required={true} onChange={handleCustomerChange}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
+                            <option value="">Selecteer een klant</option>
+                            {customers.map(customer => (
+                                <option key={customer.id} value={customer.id}>{customer.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="details"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Details</label>
+                    <input type="text" id="details" value={details} onChange={(e) => setDetails(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="Opdracht details" required/>
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="targetAudience"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Doelgroep</label>
+                    <input type="text" id="targetAudience" value={targetAudience} onChange={(e) => setTargetAudience(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="doelgroep" required/>
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="location"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
+                        Locatie
+                    </label>
+                    <select id="location" value={selectedLocationId} onChange={handleLocationChange}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            required>
+                        {locationName && (
+                            <option value={locationName}>
+                                {locationName}
+                            </option>
+                        )}
+                        {locations.map((location) => (
+                            <option key={location.id} value={location.id}>
+                                {     location.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <button type="submit" onClick={handleSubmit}
+                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Submit
+                </button>
             </form>
-            <button className="submit-fab fab-common saveButton" onClick={handleSubmit}>Aanmaken</button>
         </div>
     );
 }
