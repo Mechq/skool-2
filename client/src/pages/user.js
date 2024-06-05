@@ -1,36 +1,40 @@
 import React, {useEffect, useState} from "react";
 import SidePanel from "../components/SidePanel";
 import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
+import PageSecurity from "../PageSecurity";
 
 function User() {
     const [isOpen, setIsOpen] = React.useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [user, setUser] = useState({});
     const [rotateSpan, setRotateSpan] = useState(false);
-
-    const id = 5;
-
+    const userEmail = PageSecurity();
 
     useEffect(() => {
-        fetch(`/api/user/${id}`) // Assuming this is your profile API endpoint
-            .then(res => res.json())
-            .then(data => {
-                setUser(data.data);
-                console.log("Fetched profile: ", data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, [setIsOpen]);
+        if (userEmail) {
+            fetch(`/api/user/email/${userEmail}`)
+                .then(res => res.json())
+                .then(data => {
+                    setUser(data.data);
+                    console.log("Fetched profile: ", data.data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+    }, [userEmail]);
+
+    if (userEmail === null) {
+        return null;
+    }
 
     console.log("User password: ", user);
+
     const editUser = () => {
-        // Logic to edit the profile
         setIsOpen(true);
         setSidePanelContent("edit");
     };
 
     return (
         <>
-
             <div flex justify-center>
                 <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg">
                     <div className="px-4 py-5 sm:px-6">
