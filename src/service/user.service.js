@@ -259,6 +259,43 @@ const userService = {
                 }
             )
         });
+    },
+
+    getByEmail: (email, callback) => {
+        logger.info('retrieving user by email', email);
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error retrieving user by email', err);
+                callback(err, null);
+                return;
+            }
+
+            const query = 'SELECT * FROM user WHERE email = ?';
+
+            logger.debug('query', query);
+
+            connection.query(
+                query,
+                [email],
+                function (error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+                        logger.error('Error retrieving user by email', error);
+                        callback(error, null);
+                    } else {
+                        logger.trace('user retrieved', results);
+
+                        callback(null, {
+                            status: 200,
+                            message: 'user retrieved',
+                            data: results[0],
+                        });
+                    }
+                }
+            )
+        });
     }
 };
 

@@ -20,5 +20,6 @@ router.post('/api/login', userController.login);
 router.get("/api/user", userController.getAllUsers);
 router.put("/api/user/:id", userController.updateUser);
 router.get("/api/user/:id", userController.getById);
+router.get("/api/user/email/:email", userController.getByEmail);
 
 module.exports = router;
