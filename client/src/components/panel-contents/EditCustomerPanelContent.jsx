@@ -12,25 +12,29 @@ function EditCustomerPanelContent({ customerId, setShowSidePanel }) {
     const [phoneNumber, setPhoneNumber] = useState('');
 
     useEffect(() => {
-        if (customerId) {
-            fetch(`/api/customer/${customerId}`)
-                .then(res => res.json())
-                .then(response => {
-                    const data = response.data;
-                    setName(data.name || '');
-                    setLocationName(data.locationName || '');
-                    setContactName(data.contactName || '');
-                    setStreet(data.street || '');
-                    setHouseNumber(data.houseNumber || '');
-                    setCity(data.city || '');
-                    setPostalCode(data.postalCode || '');
-                    setEmail(data.email || '');
-                    setPhoneNumber(data.phoneNumber || '');
-                    autoResize({target: document.getElementById('edit-description')});
-                })
-                .catch(error => console.error('Error fetching customer:', error));
-        }
-    }, [customerId]);
+    if (customerId) {
+        fetch(`/api/customer/${customerId}`)
+            .then(res => res.json())
+            .then(response => {
+                const data = response.data;
+                console.log('customerdata', data);  
+                setName(data.name || '');
+                setContactName(data.contactName || '');
+                setEmail(data.email || '');
+                setPhoneNumber(data.phone || '');
+                setLocationName(data.name || '');
+                setStreet(data.street || '');
+                setHouseNumber(data.houseNumber || '');
+                setCity(data.city || '');
+                setPostalCode(data.postalCode || '');
+                autoResize({target: document.getElementById('edit-description')});
+
+                
+            })
+            .catch(error => console.error('Error fetching customer:', error));
+    }
+}, [customerId]);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();

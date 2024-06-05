@@ -69,7 +69,40 @@ const customerService = {
                 });
             });
         });
+    },
+
+    getById: (id, callback) => {
+        logger.info('getting customer by id', id);
+
+        let sql = `SELECT customer.*, location.* 
+           FROM customer 
+           LEFT JOIN location ON customer.locationId = location.id 
+           WHERE customer.id = ?`;
+           
+        database.query(sql, [id], (error, results, fields) => {
+            if (error) {
+                logger.error('Error getting customer', error);
+                callback(error, null);
+                return;
+            }
+
+            if (results.length === 0) {
+                logger.warn('customer not found', id);
+                callback({
+                    status: 404,
+                    message: 'customer not found',
+                }, null);
+                return;
+            }
+
+            callback(null, {
+                status: 200,
+                message: 'customer retrieved',
+                data: results[0],
+            });
+        });
     }
+
 };
 
 module.exports = customerService;
