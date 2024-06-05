@@ -69,7 +69,7 @@ export default function CommissionList({    isOpen,
                                 <td className="px-6 py-4">{commission.targetAudience}</td>
                                 <td className="px-6 py-4">{commission.date}</td>
                                 <td className="px-6 py-4">
-                                    <button onClick={() => editCommission(commission.id)}>Edit</button>
+                                    <button className="font-medium text-[#f49700] light:text-[#f49700] hover:underline" onClick={() => editCommission(commission.id)}>Bewerken</button>
                                 </td>
                             </tr>
                         );

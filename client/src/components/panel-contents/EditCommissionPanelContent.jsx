@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, {useEffect, useState} from "react"
 import RoundEditModal from "../modal-screens/CommissionRoundModalScreen";
 import WorkshopRoundEditModal from "../modal-screens/CommissionWorkshopRoundModalScreen";
 import WorkshopRoundWorkshopEditModal from "../modal-screens/CommissionWorkshopRoundWorkshopEditModal"
@@ -89,22 +89,15 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     useEffect(() => {
         fetchRoundData();
     }, [commissionId]);
-
     useEffect(() => {
         if (commissionId) {
             fetch(`/api/commission/customer/${commissionId}`)
                 .then((res) => res.json())
                 .then((response) => {
-                    const data = response.data;
-                    if (data && data.length > 0) { // Check if data is not empty
-                        const customer = data[0]; // Extract the first customer
+                    const customer = response.data
                         setSelectedCustomerName(customer.name || "");
                         setSelectedCustomerId(customer.id || "");
-                    } else {
-                        // Handle case when no customer is found
-                        setSelectedCustomerName("");
-                        setSelectedCustomerId("");
-                    }
+                        console.log("Fetched selected commissions customer:", customer)
                 })
                 .catch((error) => console.error("Error fetching customer:", error));
         }

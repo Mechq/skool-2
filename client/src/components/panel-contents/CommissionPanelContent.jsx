@@ -5,6 +5,7 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
     const [targetAudience, setTargetAudience] = useState("");
     const [customerId, setCustomerId] = useState("");
     const [locationName, setLocationName] = useState("");
+    const [locations, setLocations] = useState([]); // Locations state
 
     const [detailsValid, setDetailsValid] = useState(true);
     const [targetAudienceValid, setTargetAudienceValid] = useState(true);
@@ -24,26 +25,46 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
             });
     }, []);
 
-    const handleCustomerChange = (e) => {
-        const selectedCustomerId = e.target.value;
-        console.log(selectedCustomerId)
-        setCustomerId(selectedCustomerId);
-        setCustomerIdValid(true); // Reset validation state
-
-        // Fetch location name for the selected customer
-        fetch(`/api/location/default/${selectedCustomerId}`)
+    const getCustomerLocations = (id) => {
+        fetch(`/api/location/customer/${id}`)
             .then(response => response.json())
             .then(data => {
-                const locationData = data.data;
-                const locationName = locationData ? locationData.name || "" : "";
-                setLocationName(locationName);
+                // Ensure that data.data is an array before setting it to the state
+                setLocations(Array.isArray(data.data) ? data.data : []);
             })
             .catch((error) => {
                 console.error('Error:', error);
-                setLocationName(""); // Ensure locationName is always defined
             });
-        console.log(locationName)
     };
+
+    const handleCustomerChange = async (e) => {
+        const selectedCustomerId = e.target.value;
+        setCustomerId(selectedCustomerId);
+        setCustomerIdValid(true); // Reset validation state
+
+        // Clear previous locations and location name
+        setLocations([]);
+        setLocationName("");
+
+        try {
+            // Fetch default location name for the selected customer
+            const defaultLocationResponse = await fetch(`/api/location/default/${selectedCustomerId}`);
+            const defaultLocationData = await defaultLocationResponse.json();
+            const defaultLocationName = defaultLocationData.data ? defaultLocationData.data.name || "" : "";
+            setLocationName(defaultLocationName);
+
+            // Fetch locations for the selected customer
+            const locationsResponse = await fetch(`/api/location/customer/${selectedCustomerId}`);
+            const locationsData = await locationsResponse.json();
+            // Ensure that locationsData.data is an array before setting it to the state
+            setLocations(Array.isArray(locationsData.data) ? locationsData.data : []);
+
+        } catch (error) {
+            console.error('Error:', error);
+            setLocationName(""); // Ensure locationName is always defined
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         // Validation
@@ -58,7 +79,7 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
             targetAudience,
             customerId
         };
-        console.log(commission)
+        console.log(commission);
 
         fetch('/api/commission', {
             method: 'POST',
@@ -111,32 +132,45 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                             ))}
                         </select>
                     </div>
-                    </div>
-                    <div className="mb-6">
-                        <label htmlFor="details"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Details</label>
-                        <input type="text" id="details"
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="Opdracht details" required/>
-                    </div>
-                    <div className="mb-6">
-                        <label htmlFor="targetAudience"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Doelgroep</label>
-                        <input type="text" id="targetAudience"
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="doelgroep" required/>
-                    </div>
-                    <div className="mb-6">
-                        <label htmlFor="location"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Locatie</label>
-                        <input type="text" id="location" value={locationName} readOnly
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="Hogeschoollaan 1" required/>
-                    </div>
-                    <button type="submit" onClick={handleSubmit}
-                            className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Submit
-                    </button>
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="details"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Details</label>
+                    <input type="text" id="details" value={details} onChange={(e) => setDetails(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="Opdracht details" required/>
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="targetAudience"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Doelgroep</label>
+                    <input type="text" id="targetAudience" value={targetAudience} onChange={(e) => setTargetAudience(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="doelgroep" required/>
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="location"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
+                        Locatie
+                    </label>
+                    <select id="location" value={locationName} onChange={(e) => setLocationName(e.target.value)}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            required>
+                        {locationName && (
+                            <option value={locationName}>
+                                {locationName}
+                            </option>
+                        )}
+                        {locations.map((location) => (
+                            <option key={location.id} value={location.name}>
+                                {location.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <button type="submit" onClick={handleSubmit}
+                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Submit
+                </button>
             </form>
         </div>
-);
+    );
 }
