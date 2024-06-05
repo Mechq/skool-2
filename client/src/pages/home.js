@@ -1,11 +1,13 @@
 import React from 'react';
-import PageSecurity, {GetEmailFromToken} from "../PageSecurity";
+import PageSecurity from "../PageSecurity";
 
 function Home() {
 
-    const pageSecurity = PageSecurity();
-    if (pageSecurity === null) {
+    const userEmail = PageSecurity();
+    if (userEmail === null) {
         return null;
+    } else {
+        console.log('Email:', userEmail)
     }
 
     return (

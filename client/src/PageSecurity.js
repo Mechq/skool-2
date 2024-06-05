@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 export default function PageSecurity() {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
+    const [email, setEmail] = useState(null); // Add this line
     const navigate = useNavigate();
     const cookies = new Cookies();
 
@@ -31,23 +33,10 @@ export default function PageSecurity() {
             navigate('/login');
         } else if (isAuthenticated === true) {
             const token = cookies.get('token');
-            console.log('Token:', token); // Ensure this logs the correct token
+            const decodedToken = jwtDecode(token);
+            setEmail(decodedToken.email); // Set the email state
         }
     }, [isAuthenticated, navigate, cookies]);
 
-    if (isAuthenticated === null) {
-        // Optionally render a loading indicator while checking authentication status
-        return <div>Loading...</div>;
-    }
-
-    if (isAuthenticated === true) {
-        return (
-            <div>
-                {/* Render your protected content here */}
-                Protected Content
-            </div>
-        );
-    }
-
-    return null; // This line ensures nothing is rendered while redirecting
+    return email; // Return the email state
 }

@@ -34,7 +34,7 @@ const userController = {
 
             if (result.status === 'Success') {
                 res.cookie('token', result.token, {
-                    httpOnly: true,
+                    httpOnly: false,
                     secure: process.env.NODE_ENV === 'production',
                     sameSite: 'strict'
                 });
