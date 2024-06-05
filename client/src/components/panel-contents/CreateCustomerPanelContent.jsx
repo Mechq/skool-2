@@ -122,7 +122,7 @@ export default function CreateCustomerPanelContent({setCustomers, setShowSidePan
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Naam</label>
                     <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                           placeholder="Hoofdkantoor A" required/>
+                           placeholder="Naam" required/>
                 </div>
                 <div className="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
@@ -130,56 +130,56 @@ export default function CreateCustomerPanelContent({setCustomers, setShowSidePan
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Locatie naam</label>
                         <input type="text" id="locationName" value={locationName} onChange={(e) => setLocationName(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="Dorpstraat" required/>
+                               placeholder="Hoofdlocatie" required/>
                     </div>
                     <div>
                         <label htmlFor="contactName"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contact naam</label>
                         <input type="text" id="contactName" value={contactName} onChange={(e) => setContactName(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="1" required/>
+                               placeholder="Naam contactpersoon" required/>
                     </div>
                     <div>
                         <label htmlFor="street"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Straatnaam</label>
                         <input type="text" id="street" value={street} onChange={(e) => setStreet(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="1234 AB" required/>
+                               placeholder="Straat" required/>
                     </div>
                     <div>
                         <label htmlFor="houseNumber"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Huisnummer</label>
                         <input type="text" id="houseNumber" value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="Roelofarendsveen" required/>
+                               placeholder="1" required/>
                     </div>
                     <div>
                         <label htmlFor="postalCode"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Postcode</label>
                         <input type="text" id="postalCode" value={postalCode} onChange={(e) => setPostalCode(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="Roelofarendsveen" required/>
+                               placeholder="1234 AB" required/>
                     </div>
                     <div>
                         <label htmlFor="city"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Woonplaats</label>
                         <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="Roelofarendsveen" required/>
+                               placeholder="Plaats" required/>
                     </div>
                     <div>
                         <label htmlFor="email"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">E-mail</label>
                         <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="Roelofarendsveen" required/>
+                               placeholder="abcd@gmail.com" required/>
                     </div>
                     <div>
                         <label htmlFor="phoneNumber"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Telefoonnummer</label>
                         <input type="text" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                               placeholder="Roelofarendsveen" required/>
+                               placeholder="1234567890" required/>
                     </div>
                 </div>
                 <button type="submit" onClick={handleSubmit}
