@@ -6,11 +6,8 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
     const [customerId, setCustomerId] = useState("");
     const [locationName, setLocationName] = useState("");
     const [locations, setLocations] = useState([]); // Locations state
+    const [selectedLocationId, setSelectedLocationId] = useState("");
 
-    const [detailsValid, setDetailsValid] = useState(true);
-    const [targetAudienceValid, setTargetAudienceValid] = useState(true);
-    const [customerIdValid, setCustomerIdValid] = useState(true);
-    const [locationNameValid, setLocationNameValid] = useState(true);
 
     const [customers, setCustomers] = useState([]); // Customers state
 
@@ -24,23 +21,9 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                 console.error('Error:', error);
             });
     }, []);
-
-    const getCustomerLocations = (id) => {
-        fetch(`/api/location/customer/${id}`)
-            .then(response => response.json())
-            .then(data => {
-                // Ensure that data.data is an array before setting it to the state
-                setLocations(Array.isArray(data.data) ? data.data : []);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    };
-
     const handleCustomerChange = async (e) => {
         const selectedCustomerId = e.target.value;
         setCustomerId(selectedCustomerId);
-        setCustomerIdValid(true); // Reset validation state
 
         // Clear previous locations and location name
         setLocations([]);
@@ -65,6 +48,13 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
         }
     };
 
+
+    const handleLocationChange = (e) => {
+        setSelectedLocationId(e.target.value);
+
+
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         // Validation
@@ -73,11 +63,12 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
         const targetAudience = document.getElementById('targetAudience').value;
 
         if (!details || !targetAudience || !customerId) return;
-
+        console.log("locationId", selectedLocationId)
         const commission = {
             details,
             targetAudience,
-            customerId
+            customerId,
+            locationId: selectedLocationId,
         };
         console.log(commission);
 
@@ -96,6 +87,7 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
             })
             .then(data => {
                 console.log('Success:', data);
+                setSelectedLocationId('')
                 setCustomerId('');
                 setTargetAudience('');
                 setDetails('');
@@ -111,7 +103,6 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
             })
             .catch((error) => {
                 console.error('Error:', error);
-                setCustomerIdValid(false); // Set customerId as invalid
             });
     };
 
@@ -152,7 +143,7 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
                         Locatie
                     </label>
-                    <select id="location" value={locationName} onChange={(e) => setLocationName(e.target.value)}
+                    <select id="location" value={selectedLocationId} onChange={handleLocationChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                             required>
                         {locationName && (
@@ -161,8 +152,8 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                             </option>
                         )}
                         {locations.map((location) => (
-                            <option key={location.id} value={location.name}>
-                                {location.name}
+                            <option key={location.id} value={location.id}>
+                                {     location.name}
                             </option>
                         ))}
                     </select>

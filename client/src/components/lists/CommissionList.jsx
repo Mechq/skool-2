@@ -37,6 +37,7 @@ export default function CommissionList({    isOpen,
     }, [commissions]);
 
     const formatDate = (dateString) => {
+        if (!dateString) return "";
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
@@ -71,7 +72,7 @@ export default function CommissionList({    isOpen,
                                 </td>
                                 <td className="px-6 py-4">{commission.details}</td>
                                 <td className="px-6 py-4">{commission.targetAudience}</td>
-                                <td className="px-6 py-4">{formatDate(commission.date)}</td>
+                                <td className="px-6 py-4">{formatDate(commission.date) || ''}</td>
                                 <td className="px-6 py-4">
                                     <button className="font-medium text-[#f49700] light:text-[#f49700] hover:underline" onClick={() => editCommission(commission.id)}>Bewerken</button>
                                 </td>

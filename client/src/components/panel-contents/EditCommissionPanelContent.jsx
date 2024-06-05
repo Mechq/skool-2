@@ -15,7 +15,7 @@ const dateOptions = {
     minDate: new Date(),
     theme: {
         background: "bg-white",
-        todayBtn: "",
+        todayBtn: true,
         clearBtn: "",
         icons: "",
         text: "",
@@ -30,7 +30,7 @@ const dateOptions = {
         next: () => <span>Volgende</span>,
     },
     datepickerClassNames: "top-12",
-    defaultDate: new Date(),
+    defaultDate: false,
     language: "en",
     disabledDates: [],
     weekDays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],

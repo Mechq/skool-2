@@ -80,7 +80,7 @@ export default function CommissionRoundModalScreen({ roundType, roundId, onClose
         <span className="close" onClick={onClose}>
           &times;
         </span>
-                <h2>Bewerk {editedRound}</h2>
+                <header>Bewerk {editedRound}</header>
 
                 <form onSubmit={handleSubmit}>
                     <p>Starttijd</p>
