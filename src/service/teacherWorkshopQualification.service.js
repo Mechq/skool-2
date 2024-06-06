@@ -36,69 +36,73 @@ const teacherWorkshopQualificationService = {
         });
     },
 
-    create: (userId, workshopIdsObj, callback) => {
-        logger.debug('creating teacherWorkshopQualification', userId, workshopIdsObj);
+    setWorkshops: (workshops, teacherId, callback) => {
+        console.log("workshops", workshops);
+        console.log("Adding qualification for teacher", teacherId);
 
-        // Extract workshopIds array from the object
-        const workshopIds = workshopIdsObj.workshops;
-
-        // Ensure workshopIds is an array
-        let workshopIdList = Array.isArray(workshopIds) ? workshopIds : [workshopIds];
-        logger.info(`Number of workshop IDs: ${workshopIdList.length}`);
-
-        // If workshopIdList is empty, return an error
-        if (workshopIdList.length === 0) {
-            const error = new Error('No workshop IDs provided');
-            logger.error('Error creating teacherWorkshopQualification', error);
-            callback(error, null);
-            return;
-        }
-
-        database.getConnection((err, connection) => {
+        database.getConnection(function (err, connection) {
             if (err) {
-                logger.error('Error getting database connection', err);
+                logger.error("Error setting teacherWorkshopQualification", err);
                 callback(err, null);
                 return;
             }
 
-            // Build the query
-            let sql = 'INSERT INTO teacherWorkshopQualification (userId, workshopId) VALUES ';
-            let values = [];
-            let placeholders = workshopIdList.map(() => '(?, ?)').join(',');
+            // First fetch existing qualifications
+            connection.query(
+                "SELECT workshopId FROM teacherWorkshopQualification WHERE userId = ?",
+                [teacherId],
+                function (fetchError, existingResults) {
+                    if (fetchError) {
+                        logger.error("Error fetching existing qualifications", fetchError);
+                        connection.release();
+                        callback(fetchError, null);
+                        return;
+                    }
 
-            // Populate values array with userId and workshopIds
-            for (let workshopId of workshopIdList) {
-                if (workshopId) {
-                    values.push(userId, workshopId);
+                    const existingWorkshopIds = existingResults.map(item => item.workshopId);
+                    const newWorkshops = workshops.filter(workshopId => !existingWorkshopIds.includes(workshopId));
+
+                    if (newWorkshops.length === 0) {
+                        // No new workshops to add
+                        connection.release();
+                        callback(null, {
+                            status: 200,
+                            message: "No new teacherWorkshopQualification to add",
+                            data: [],
+                        });
+                        return;
+                    }
+
+                    const values = [];
+                    for (const workshopId of newWorkshops) {
+                        values.push([teacherId, workshopId]);
+                    }
+
+                    connection.query(
+                        `INSERT INTO teacherWorkshopQualification (userId, workshopId) VALUES ?`,
+                        [values],
+                        function (insertError, results, fields) {
+                            connection.release();
+
+                            if (insertError) {
+                                logger.error(
+                                    "Error setting teacherWorkshopQualification",
+                                    insertError
+                                );
+                                callback(insertError, null);
+                            } else {
+                                callback(null, {
+                                    status: 200,
+                                    message: "teacherWorkshopQualification set successfully",
+                                    data: results,
+                                });
+                            }
+                        }
+                    );
                 }
-            }
-
-            if (values.length === 0) {
-                connection.release();
-                const error = new Error('No valid workshop IDs provided');
-                logger.error('Error creating teacherWorkshopQualification', error);
-                callback(error, null);
-                return;
-            }
-
-            sql += placeholders;
-
-            connection.query(sql, values, (error, results, fields) => {
-                connection.release();
-
-                if (error) {
-                    logger.error('Error executing query for teacherWorkshopQualification', error);
-                    callback(error, null);
-                } else {
-                    callback(null, {
-                        status: 200,
-                        message: 'teacherWorkshopQualification created successfully',
-                        data: results,
-                    });
-                }
-            });
+            );
         });
-    }
+    },
 };
 
 module.exports = teacherWorkshopQualificationService;

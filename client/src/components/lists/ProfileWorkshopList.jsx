@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 
-export default function ProfileWorkshopList({ user, editUser, workshops, qualifiedWorkshops }) {
+export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshops }) {
     const [selectedWorkshops, setSelectedWorkshops] = useState([]);
 
     useEffect(() => {
-        // Initialize the selected workshops with qualified workshops
-        const initialSelectedWorkshops = qualifiedWorkshops.map(qw => qw.id);
-        setSelectedWorkshops(initialSelectedWorkshops);
+        // Initialize selected workshops based on qualifiedWorkshops
+        if (Array.isArray(qualifiedWorkshops)) {
+            const qualifiedIds = qualifiedWorkshops.map(qw => qw.id);
+            setSelectedWorkshops(qualifiedIds);
+        }
     }, [qualifiedWorkshops]);
 
-    const handleCheckboxChange = (workshopId) => {
-        setSelectedWorkshops((prevSelected) => {
-            if (prevSelected.includes(workshopId)) {
-                return prevSelected.filter(id => id !== workshopId);
-            } else {
-                return [...prevSelected, workshopId];
-            }
-        });
+    const handleCheckboxChange = (workshopId, checked) => {
+        if (checked) {
+            setSelectedWorkshops([...selectedWorkshops, workshopId]);
+        } else {
+            setSelectedWorkshops(selectedWorkshops.filter(id => id !== workshopId));
+        }
     };
 
     const handleUpdate = () => {
@@ -41,7 +41,6 @@ export default function ProfileWorkshopList({ user, editUser, workshops, qualifi
             });
     };
 
-
     return (
         <>
             <div className="justify-center">
@@ -58,24 +57,20 @@ export default function ProfileWorkshopList({ user, editUser, workshops, qualifi
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
-                                <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
-                                <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Category
                                 </th>
-                                <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 </th>
                             </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                             {workshops.map(workshop => (
-                                <tr key={workshop.id}
-                                    className="wfiodd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700">
-                                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
+                                <tr key={workshop.id} className="odd:bg-white even:bg-gray-50">
+                                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                         {workshop.name}
                                     </td>
                                     <td className="px-6 py-4">{workshop.category}</td>
@@ -84,8 +79,8 @@ export default function ProfileWorkshopList({ user, editUser, workshops, qualifi
                                             id={`checkbox-${workshop.id}`}
                                             type="checkbox"
                                             checked={selectedWorkshops.includes(workshop.id)}
-                                            onChange={() => handleCheckboxChange(workshop.id)}
-                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-800 focus:ring-2 light:bg-gray-700 light:border-gray-600"
+                                            onChange={(e) => handleCheckboxChange(workshop.id, e.target.checked)}
+                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                                         />
                                     </td>
                                 </tr>
@@ -96,7 +91,6 @@ export default function ProfileWorkshopList({ user, editUser, workshops, qualifi
                 </div>
             </div>
 
-            {/* Update button */}
             <button
                 onClick={handleUpdate}
                 className="bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-white mt-4"

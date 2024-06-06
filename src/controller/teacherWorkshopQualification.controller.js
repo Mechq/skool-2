@@ -28,10 +28,10 @@ let teacherWorkshopQualification = {
 
     create: (req, res, next) => {
         const userId = req.params.id;
-        const workshopIds = req.body;
+        const workshopIds = req.body.workshops;
         logger.info('creating teacherWorkshopQualification');
 
-        teacherWorkshopQualificationService.create(userId, workshopIds, (error, success) => {
+        teacherWorkshopQualificationService.setWorkshops(workshopIds, userId, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,
@@ -48,7 +48,9 @@ let teacherWorkshopQualification = {
                 });
             }
         });
+
     }
+
 };
 
 module.exports = teacherWorkshopQualification;
