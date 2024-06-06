@@ -39,8 +39,8 @@ export default function TeacherList({
                     <tr>
                         <th className="px-6 py-3">Docent Naam</th>
                         <th className="px-6 py-3">Email</th>
-                        <th className="px-6 py-3">Rol</th>
-                        <th className="px-6 py-3">Datum Aangemaakt</th>
+                        <th className="px-6 py-3">Telefoon nummer</th>
+                        <th className="px-6 py-3">Geboortedatum</th>
                         <th className="px-6 py-3">Bewerken</th>
                     </tr>
                 </thead>
@@ -51,15 +51,16 @@ export default function TeacherList({
                             {/* <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
                                 {user.name}
                             </td> */}
-                            <td className="px-6 py-4">{user.firstName.charAt(0) + ". " + user.lastName}</td>
+                            <td className="px-6 py-4">{user.firstName + ' ' + user.lastName}</td>
                             <td className="px-6 py-4">{user.email}</td>
-                            <td className="px-6 py-4">{user.role}</td>
-                            <td className="px-6 py-4">{formatDate(user.creationDate)}</td>
+                            <td className="px-6 py-4">{user.phoneNumber}</td>
+                            <td className="px-6 py-4">{formatDate(user.birthDate)}</td>
                             <td className="px-6 py-4">
                                 <a href="#" onClick={(e) => {
                                     e.preventDefault();
                                     editTeacher(user.id);
-                                }} className="font-medium text-[#f49700] light:text-[#f49700] hover:underline">Bewerken</a>
+                                }}
+                                   className="font-medium text-[#f49700] light:text-[#f49700] hover:underline">Bewerken</a>
                             </td>
                         </tr>
                     ))}

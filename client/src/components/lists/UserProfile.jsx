@@ -1,13 +1,26 @@
 import React from "react";
 
 export default function UserProfile({user, editUser}) {
+
+    const calculate_age = (dob) => {
+        let today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        let m = today.getMonth() - dob.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate()))
+        {
+            age--;
+        }
+        console.log(age);
+        return age;
+    }
+
     return (
         <>
             <div className="justify-center">
                 <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg">
                     <div className="px-4 py-5 sm:px-6">
                         <h3 className="text-lg leading-6 font-medium text-gray-900">
-                            {user.firstName + ' ' + user.lastName}
+                            {user.firstName + ' ' + user.lastName + ' (' + calculate_age(new Date(user.birthDate)) + ' jaar)'}
                         </h3>
                         <p className="mt-1 max-w-2xl text-sm text-gray-500">
                             {user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : ''}

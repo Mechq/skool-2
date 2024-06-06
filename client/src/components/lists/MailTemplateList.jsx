@@ -29,7 +29,6 @@ export default function MailTemplateList({
                     <th scope="col" className="px-6 py-3">Template Naam</th>
                     <th scope="col" className="px-6 py-3">Onderwerp</th>
                     <th scope="col" className="px-6 py-3"></th>
-                    <th scope="col" className="px-6 py-3">Datum aangemaakt</th>
                     <th scope="col" className="px-6 py-3">Bewerken</th>
                 </tr>
                 </thead>
@@ -43,7 +42,6 @@ export default function MailTemplateList({
                         </th>
                         <td className="px-6 py-4">{template.subject}</td>
                         <td className="px-6 py-4">{template.category}</td>
-                        <td className="px-6 py-4">{formatDate(template.creationDate)}</td>
                         <td className="px-6 py-4">
                             <a href="#" onClick={() => {
                                 editMailTemplate(template.id);

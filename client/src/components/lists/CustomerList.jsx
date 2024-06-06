@@ -38,10 +38,10 @@ const editCustomer = (id) => {
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
           <tr>
-            <th className="px-6 py-3">Customer Naam</th>
+            <th className="px-6 py-3">Klant Naam</th>
+            <th className="px-6 py-3">Email</th>
+            <th className="px-6 py-3">Telefoon nummer</th>
             <th className="px-6 py-3"></th>
-            <th className="px-6 py-3"></th>
-            <th className="px-6 py-3">Datum Aangemaakt</th>
             <th className="px-6 py-3">Bewerken</th>
           </tr>
         </thead>
@@ -54,9 +54,9 @@ const editCustomer = (id) => {
               <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
                 {customer.name}
               </td>
-              <td className="px-6 py-4">{customer.subject}</td>
-              <td className="px-6 py-4">{customer.category}</td>
-              <td className="px-6 py-4">{formatDate(customer.creationDate)}</td>
+              <td className="px-6 py-4">{customer.email}</td>
+              <td className="px-6 py-4">{customer.phone}</td>
+              <td className="px-6 py-4">{}</td>
               <td className="px-6 py-4">
                 <a
                   href="#"
