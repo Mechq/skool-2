@@ -1,50 +1,46 @@
 import React, {useEffect, useState} from 'react';
 import Datepicker from "tailwind-datepicker-react";
 
-
-
+const dateOptions = {
+    title: " ",
+    autoHide: false,
+    todayBtn: false,
+    clearBtn: false,
+    clearBtnText: "",
+    maxDate: new Date("2030-01-01"),
+    minDate: new Date(),
+    theme: {
+        background: "bg-white",
+        todayBtn: true,
+        clearBtn: "",
+        icons: "",
+        text: "",
+        disabledText: "",
+        input: "",
+        inputIcon: "",
+        selected: "bg-brand-orange",
+    },
+    icons: {
+        // () => ReactElement | JSX.Element
+        prev: () => <span>Vorige</span>,
+        next: () => <span>Volgende</span>,
+    },
+    datepickerClassNames: "top-12",
+    defaultDate: false,
+    language: "nl",
+    disabledDates: [],
+    weekDays: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
+    inputNameProp: "date",
+    inputIdProp: "date",
+    inputPlaceholderProp: "Select Date",
+    inputDateFormatProp: {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    }
+}
 
 const AccountCreation = ({ formData, setFormData, nextStep }) => {
-
-    
-    const options = {
-        title: "Selecteer geboortedatum",
-        autoHide: true,
-        todayBtn: false,
-        clearBtn: false,
-        clearBtnText: "Clear",
-        maxDate: new Date(),
-        minDate: new Date("1900-01-01"),
-        theme: {
-            background: "bg-gray-100 light:bg-gray-200",
-            todayBtn: "",
-            clearBtn: "",
-            icons: "",
-            text: "",
-            disabledText: "bg-orange-500",
-            input: "",
-            inputIcon: "",
-            selected: "bg-gray-800",
-        },
-        icons: {
-            // () => ReactElement | JSX.Element
-            prev: () => <span>Vorige</span>,
-            next: () => <span>Volgende</span>,
-        },
-        datepickerClassNames: "top-12",
-        defaultDate: new Date(),
-        language: "nl",
-        disabledDates: [],
-        weekDays: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
-        inputNameProp: "date",
-        inputIdProp: "date",
-        inputPlaceholderProp: "Selecteer geboortedatum",
-        inputDateFormatProp: {
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        }
-    }
 
     const [firstName, setFirstName] = useState("");
     const [surName, setSurName] = useState("");
@@ -133,9 +129,9 @@ const AccountCreation = ({ formData, setFormData, nextStep }) => {
                                 }} />
                         </div>
                         <div>
-                        <label htmlFor="birthDate" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Geboortedatum</label>
-                            <Datepicker options={options} onChange={handleChange} show={show} setShow={handleClose} 
-                            className={`bg-gray-50 border ${birthDateValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}/>
+                        <label htmlFor="birthDate"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Geboortedatum</label>
+                            <Datepicker options={dateOptions} onChange={handleChange} show={show} setShow={handleClose} />   
                         </div> 
                     </div>
                     <div className="grid gap-4 mb-4 sm:grid-cols-2">

@@ -22,7 +22,7 @@ const dateOptions = {
         disabledText: "",
         input: "",
         inputIcon: "",
-        selected: "",
+        selected: "bg-brand-orange",
     },
     icons: {
         // () => ReactElement | JSX.Element
