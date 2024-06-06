@@ -52,44 +52,66 @@ const userService = {
             }
 
             const sql = "SELECT * FROM user WHERE email = ?";
-            connection.query(sql, [email], (err, results) => {
-                connection.release();
-                if (err) {
-                    logger.error('Error executing query', err);
-                    callback(err, null);
-                    return;
-                }
+            let role = '';
 
-                if (results.length === 0) {
-                    callback(null, {
-                        status: 'Error',
-                        message: 'Verkeerde Email of Wachtwoord'
-                    });
-                    return;
-                }
+                connection.query(
+                `SELECT role from user where email = ?`,email,
+                function (error, results, fields) {
+                    connection.release();
 
-                bcrypt.compare(password.toString(), results[0].password, (err, response) => {
-                    if (err) {
-                        callback(err, null);
-                        return;
-                    }
-
-                    if (response) {
-                        logger.debug('Login successful', { email: email });
-                        const token = jwt.sign({ email: email, role: 'user' }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
-                        callback(null, {
-                            status: 'Success',
-                            message: 'Login successful',
-                            token: token
-                        });
+                    if (error) {
+                        logger.error('Error retrieving role', error);
+                        callback(error, null);
                     } else {
-                        callback(null, {
-                            status: 'Error',
-                            message: 'Verkeerde Email of Wachtwoord'
+                        logger.trace('role retrieved', results);
+
+                        // set role to the role of the user
+                        role = results[0].role;
+
+                        // set jwt token
+                        connection.query(sql, [email], (err, results) => {
+                            connection.release();
+                            if (err) {
+                                logger.error('Error executing query', err);
+                                callback(err, null);
+                                return;
+                            }
+
+                            if (results.length === 0) {
+                                callback(null, {
+                                    status: 'Error',
+                                    message: 'Verkeerde Email of Wachtwoord'
+                                });
+                                return;
+                            }
+
+                            bcrypt.compare(password.toString(), results[0].password, (err, response) => {
+                                if (err) {
+                                    callback(err, null);
+                                    return;
+                                }
+
+                                if (response) {
+                                    logger.debug('Login successful', { email: email });
+                                    const token = jwt.sign({ email: email, role: role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
+                                    callback(null, {
+                                        status: 'Success',
+                                        message: 'Login successful',
+                                        token: token
+                                    });
+                                } else {
+                                    callback(null, {
+                                        status: 'Error',
+                                        message: 'Verkeerde Email of Wachtwoord'
+                                    });
+                                }
+                            });
                         });
                     }
-                });
-            });
+                }
+            )
+
+
         });
     },
 

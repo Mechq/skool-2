@@ -11,7 +11,8 @@ const locationRoutes = require("./src/routes/location.routes");
 const indexRoutes = require("./src/routes/index.routes");
 const customerRoutes = require ("./src/routes/customer.routes");
 const roundRoutes = require("./src/routes/round.routes");
-const workshopRoundRoutes = require("./src/routes/workshopRound.routes");
+const workshopRoundRoutes = require("./src/routes/workshopRound.routes")
+const teacherWorkshopQualificationRoutes = require("./src/routes/teacherWorkshopQualification.routes");
 
 const userRoutes = require ("./src/routes/user.routes");
 
@@ -39,6 +40,7 @@ app.use(commissionRoutes);
 app.use(userRoutes);
 app.use(roundRoutes);
 app.use(workshopRoundRoutes);
+app.use(teacherWorkshopQualificationRoutes);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
