@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ProfileWorkshopList({user, editUser, workshops}) {
+export default function ProfileWorkshopList({user, editUser, workshops, qualifiedWorkshops}) {
     return (
         <>
             <div className="justify-center">
@@ -17,13 +17,16 @@ export default function ProfileWorkshopList({user, editUser, workshops}) {
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Category
                                 </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col"
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 </th>
                             </tr>
                             </thead>
@@ -36,9 +39,12 @@ export default function ProfileWorkshopList({user, editUser, workshops}) {
                                     </td>
                                     <td className="px-6 py-4">{workshop.category}</td>
                                     <td className="px-6 py-4 text-center">
-                                        <input id={`checkbox-${workshop.id}`} type="checkbox" value=""
-                                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-800 focus:ring-2 light:bg-gray-700 light:border-gray-600"/>
-                                    </td>
+                                        <input
+                                            id={`checkbox-${workshop.id}`}
+                                            type="checkbox"
+                                            defaultChecked={qualifiedWorkshops.some(qw => qw.id === workshop.id)}
+                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-800 focus:ring-2 light:bg-gray-700 light:border-gray-600"
+                                        /></td>
                                 </tr>
                             ))}
                             </tbody>

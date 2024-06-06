@@ -12,6 +12,7 @@ function User() {
     const [rotateSpan, setRotateSpan] = useState(false);
     const [workshopId, setWorkshopId] = useState(null);
     const [workshops, setWorkshops] = useState([]);
+    const [qualifiedWorkshops, setQualifiedWorkshops] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const {email, role} = PageSecurity();
@@ -32,13 +33,23 @@ function User() {
                     setLoading(false);
                 });
 
-            fetch(`/api/teacherWorkshopQualification/${user.id}`)
+            fetch(`/api/workshop`)
                 .then(res => res.json())
                 .then(data => {
                     setWorkshops(data.data);
                     console.log("Fetched workshops: ", data.data);
                 })
                 .catch(error => console.error('Error fetching data:', error));
+
+            fetch(`/api/teacherWorkshopQualification/${user.id}`)
+                .then(res => res.json())
+                .then(data => {
+                    setQualifiedWorkshops(data.data);
+                    console.log("Fetched workshops: ", data.data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+
+
         }
     }, [email, user.id]);
     if (loading) {
@@ -69,6 +80,7 @@ function User() {
                         user={user}
                         editUser={editUser}
                         workshops={workshops}
+                        qualifiedWorkshops={qualifiedWorkshops}
                     />
                 </div>
             </div>
