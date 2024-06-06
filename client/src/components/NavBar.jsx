@@ -1,5 +1,6 @@
 import {Link, useMatch, useResolvedPath} from 'react-router-dom';
 import {useState} from 'react';
+import PageSecurity from "../PageSecurity";
 
 function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -7,6 +8,8 @@ function NavBar() {
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    const {email, role} = PageSecurity();
 
     return (
         <nav className="bg-white text-black border-b border-gray-200 px-2 sm:px-4 py-2.5 shadow">
@@ -31,15 +34,17 @@ function NavBar() {
                 </div>
                 <div className={`w-full md:flex md:w-auto ${isMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
                     <ul className="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+                        {role === 'admin' && (
+                            <>
                         <CustomLink to="/workshops">Workshops</CustomLink>
                         <CustomLink to="/mailTemplates">Mail Templates</CustomLink>
-                        <CustomLink to="/opdracht">Opdrachten</CustomLink>
+                                <CustomLink to="/users">Docenten</CustomLink>
                         <CustomLink to="/werklocatie">Locaties</CustomLink>
                         <CustomLink to="/customers">Klanten</CustomLink>
-                        <CustomLink to="/users">Docenten</CustomLink>
+                            </>
+                        )}
 
-
-
+                        <CustomLink to="/opdracht">Opdrachten</CustomLink>
 
                         <CustomLink to="/user">
                             <div

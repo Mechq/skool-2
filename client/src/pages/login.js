@@ -18,7 +18,7 @@ export default function Login() {
 
         const user = {
             email: email,
-            password: password
+            password: password,
         };
 
         fetch('/api/login', {
