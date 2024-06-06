@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/workshops", (req, res, next) => {
+router.get("/", (req, res, next) => {
     res.render('index.html')
 });
 
-router.get("/", (req, res, next) => {
+router.get("/workshops", (req, res, next) => {
     res.render('index.html')
 });
 
@@ -24,6 +24,23 @@ router.get('/werklocatie', (req, res, next) => {
 router.get('/customers', (req, res, next) => {
     res.render('index.html')
 });
+
+router.get('/user', (req, res, next) => {
+    res.render('index.html')
+});
+
+router.get('/users', (req, res, next) => {
+    res.render('index.html')
+});
+
+router.get("/register", (req, res, next) => {
+    res.render('index.html')
+});
+
+router.get("/login", (req, res, next) => {
+    res.render('index.html')
+});
+
 
 
 
