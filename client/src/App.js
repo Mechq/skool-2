@@ -11,6 +11,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import User from './pages/user';
 import Users from './pages/users';
+import PageSecurity from "./PageSecurity";
 
 function App() {
     const location = useLocation();
@@ -25,22 +26,40 @@ function App() {
         }
     }, [isLoginPage, isRegisterPage]);
 
+    const {role} = PageSecurity()
+    if (role === null){
+        return null
+    }
+    console.log(role)
+
+
     return (
         <div className="flex flex-col min-h-screen">
-            {!(isLoginPage || isRegisterPage) && <NavBar />}
+            {!(isLoginPage || isRegisterPage) && <NavBar role={role} />}
             <div className="container mx-auto flex-grow py-4">
                 <Routes>
+                    {role === 'admin' && (
+                        <>
+                            <Route path="/workshops" element={<Workshop />} />
+                            <Route path="/mailTemplates" element={<MailTemplates />} />
+                            <Route path="/users" element={<Users />} />
+                            <Route path="/werklocatie" element={<Worklocation />} />
+                            <Route path="/customers" element={<Customers />} />
+                        </>
+                    )}
+
                     <Route path="*" element={<h1>Not Found</h1>} />
                     <Route path="/" element={<Home />} />
+
                     <Route path="/register" element={<Register />} />
-                    <Route path="/workshops" element={<Workshop />} />
-                    <Route path="/mailTemplates" element={<MailTemplates />} />
+                    {/*<Route path="/workshops" element={<Workshop />} />*/}
+                    {/*<Route path="/mailTemplates" element={<MailTemplates />} />*/}
                     <Route path="/opdracht" element={<Commission />} />
-                    <Route path="/werklocatie" element={<Worklocation />} />
-                    <Route path="/customers" element={<Customers />} />
+                    {/*<Route path="/werklocatie" element={<Worklocation />} />*/}
+                    {/*<Route path="/customers" element={<Customers />} />*/}
                     <Route path="/login" element={<Login />} />
                     <Route path='/user' element={<User />} />
-                    <Route path="/users" element={<Users />} />
+                    {/*<Route path="/users" element={<Users />} />*/}
                 </Routes>
             </div>
         </div>

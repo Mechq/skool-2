@@ -14,11 +14,11 @@ function User() {
     const [workshops, setWorkshops] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const userEmail = PageSecurity();
+    const {email, role} = PageSecurity();
 
     useEffect(() => {
-        if (userEmail) {
-            fetch(`/api/user/email/${userEmail}`)
+        if (email) {
+            fetch(`/api/user/email/${email}`)
                 .then(res => res.json())
                 .then(data => {
                     setUser(data.data);
@@ -40,11 +40,11 @@ function User() {
                 })
                 .catch(error => console.error('Error fetching data:', error));
         }
-    }, [userEmail, user.id]);
+    }, [email, user.id]);
     if (loading) {
         return <div>Loading...</div>;
     }
-    if (userEmail === null) {
+    if (email === null) {
         return null;
     }
 
