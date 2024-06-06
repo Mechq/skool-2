@@ -26,19 +26,14 @@ function App() {
         }
     }, [isLoginPage, isRegisterPage]);
 
-    const {role} = PageSecurity()
-    if (role === null){
-        return null
-    }
-    console.log(role)
 
 
     return (
         <div className="flex flex-col min-h-screen">
-            {!(isLoginPage || isRegisterPage) && <NavBar role={role} />}
+            {!(isLoginPage || isRegisterPage) && <NavBar/>}
             <div className="container mx-auto flex-grow py-4">
                 <Routes>
-                    {role === 'admin' && (
+
                         <>
                             <Route path="/workshops" element={<Workshop />} />
                             <Route path="/mailTemplates" element={<MailTemplates />} />
@@ -46,7 +41,6 @@ function App() {
                             <Route path="/werklocatie" element={<Worklocation />} />
                             <Route path="/customers" element={<Customers />} />
                         </>
-                    )}
 
                     <Route path="*" element={<h1>Not Found</h1>} />
                     <Route path="/" element={<Home />} />
