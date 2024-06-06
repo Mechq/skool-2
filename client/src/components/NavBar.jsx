@@ -1,12 +1,15 @@
 import {Link, useMatch, useResolvedPath} from 'react-router-dom';
 import {useState} from 'react';
+import PageSecurity from "../PageSecurity";
 
-function NavBar({role}) {
+function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    const {email, role} = PageSecurity();
 
     return (
         <nav className="bg-white text-black border-b border-gray-200 px-2 sm:px-4 py-2.5 shadow">
