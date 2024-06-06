@@ -67,20 +67,22 @@ function User() {
 
     return (
         <>
-            <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-4">
-                <div>
-                    <UserProfile
-                        user={user}
-                        editUser={editUser}
-                    />
-                </div>
-                <div>
-                    <ProfileWorkshopList
-                        user={user}
-                        editUser={editUser}
-                        workshops={workshops}
-                        qualifiedWorkshops={qualifiedWorkshops}
-                    />
+            <div className="container mx-auto px-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-4">
+                    <div>
+                        <UserProfile
+                            user={user}
+                            editUser={editUser}
+                        />
+                    </div>
+                    <div>
+                        <ProfileWorkshopList
+                            user={user}
+                            editUser={editUser}
+                            workshops={workshops}
+                            qualifiedWorkshops={qualifiedWorkshops}
+                        />
+                    </div>
                 </div>
             </div>
 
