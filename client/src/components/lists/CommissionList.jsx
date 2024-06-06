@@ -20,20 +20,18 @@ export default function CommissionList({    isOpen,
             .catch(error => console.error('Error fetching data:', error));
     }, [isOpen]);
 
-    const getCustomers = (commission) => {
-        fetch(`/api/commission/customer/${commission.id}`)
+    const getAllCustomers = () => {
+        fetch(`/api/customer`)
             .then(res => res.json())
             .then(data => {
                 console.log("Fetched customers: ", data.data);
-                setCustomers(prevCustomers => [...prevCustomers, data.data]);
+                setCustomers(data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     };
 
     useEffect(() => {
-        commissions.forEach(commission => {
-            getCustomers(commission);
-        });
+        getAllCustomers()
     }, [commissions]);
 
     const formatDate = (dateString) => {

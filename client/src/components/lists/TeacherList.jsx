@@ -26,6 +26,11 @@ export default function TeacherList({
         setIsOpen(true);
         setRotateSpan(true);
     };
+    const formatDate = (date) => {
+        if (!date) return "";
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(date).toLocaleDateString("nl-NL", options);
+    }
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mr-6 ml-6">
@@ -49,7 +54,7 @@ export default function TeacherList({
                             <td className="px-6 py-4">{user.firstName.charAt(0) + ". " + user.lastName}</td>
                             <td className="px-6 py-4">{user.email}</td>
                             <td className="px-6 py-4">{user.role}</td>
-                            <td className="px-6 py-4">{}</td>
+                            <td className="px-6 py-4">{formatDate(user.creationDate)}</td>
                             <td className="px-6 py-4">
                                 <a href="#" onClick={(e) => {
                                     e.preventDefault();

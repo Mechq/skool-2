@@ -27,7 +27,6 @@ export default function WorkshopList({
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [isOpen]); // Add isOpen as a dependency
-
     const editWorkshop = (id, e) => {
         e.preventDefault();
         e.stopPropagation(); // Prevent row click event
@@ -60,6 +59,11 @@ export default function WorkshopList({
     const handleModalSave = (editedType) => {
         setShowModal(false);
     };
+    const formatDate = (date) => {
+        if (!date) return "";
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(date).toLocaleDateString("nl-NL", options);
+    }
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mr-6 ml-6">
@@ -84,8 +88,7 @@ export default function WorkshopList({
                             </td>
                             <td className="px-6 py-4">{workshop.subject}</td>
                             <td className="px-6 py-4">{workshop.category}</td>
-                            {/* <td className="px-6 py-4">{workshop.createdAt}</td> */}
-                            <td className="px-6 py-4">-</td>
+                             <td className="px-6 py-4">{formatDate(workshop.creationDate)}</td>
                             <td className="px-6 py-4">
                                 <a href="#" onClick={(e) => {
                                     editWorkshop(workshop.id, e);
