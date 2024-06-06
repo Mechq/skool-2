@@ -146,7 +146,7 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
                             <label htmlFor="btwNr"
                                 className="block mb-2 text-sm font-medium text-gray-900 light:text-white">BTW Nummer</label>
                             <input type="text" name="btwNr" id="btwNr"
-                                className={`bg-gray-50 border ${kvkNrValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
+                                className={`bg-gray-50 border ${btwNrValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                 placeholder="btw nummer" required=""
                                 value={btwNr} onChange={(e) => {
                                 setBtwNr(e.target.value);
@@ -157,7 +157,7 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
                             <label htmlFor="iban"
                                 className="block mb-2 text-sm font-medium text-gray-900 light:text-white">IBAN Nummer</label>
                             <input type="text" name="iban" id="iban"
-                                className={`bg-gray-50 border ${kvkNrValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
+                                className={`bg-gray-50 border ${ibanValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                 placeholder="iban nummer" required=""
                                 value={iban} onChange={(e) => {
                                 setIban(e.target.value);

@@ -35,6 +35,23 @@ const RegistrationFlow = () => {
     };
 
     const stepBack = () => {
+      setFormData({
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        birthDate: "",
+        email: "",
+        password: "",
+        street: "",
+        houseNumber: "",
+        postalCode: "",
+        city: "",
+        kvkNumber: "",
+        btwNumber: "",
+        iban: "",
+        workshops: ""
+      });
+      
       setStep(step - 1);
     }
       

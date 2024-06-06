@@ -8,7 +8,7 @@ const dateOptions = {
     clearBtn: false,
     clearBtnText: "",
     maxDate: new Date("2030-01-01"),
-    minDate: new Date(),
+    minDate: new Date("1900-01-01"),
     theme: {
         background: "bg-white",
         todayBtn: true,
