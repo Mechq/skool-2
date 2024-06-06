@@ -2,84 +2,45 @@ const database = require("../database/database.connection");
 const logger = require("../util/logger");
 
 const teacherWorkshopQualificationService = {
-  getAllByCustomerId: (id, callback) => {
-    logger.info("get all teacherWorkshopQualificationService");
+    getAllByCustomerId: (id, callback) => {
+        logger.info("get all teacherWorkshopQualificationService");
 
-    database.getConnection(function (err, connection) {
-      if (err) {
-        logger.error("Error getting teacherWorkshopQualificationService", err);
-        callback(err, null);
-        return;
-      }
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error("Error getting teacherWorkshopQualificationService", err);
+                callback(err, null);
+                return;
+            }
 
-      connection.query(
-        "SELECT * FROM workshop WHERE id IN (SELECT workshopId FROM teacherWorkshopQualification WHERE userId = ?)",
-        [id],
-        function (error, results, fields) {
-          connection.release();
+            connection.query(
+                "SELECT * FROM workshop WHERE id IN (SELECT workshopId FROM teacherWorkshopQualification WHERE userId = ?)",
+                [id],
+                function (error, results, fields) {
+                    connection.release();
 
-          if (error) {
-            logger.error(
-              "Error getting teacherWorkshopQualificationService",
-              error
+                    if (error) {
+                        logger.error(
+                            "Error getting teacherWorkshopQualificationService",
+                            error
+                        );
+                        callback(error, null);
+                    } else {
+                        callback(null, {
+                            status: 200,
+                            message: `${results.length} teacherWorkshopQualification retrieved`,
+                            data: results,
+                        });
+                    }
+                }
             );
-            callback(error, null);
-          } else {
-            callback(null, {
-              status: 200,
-              message: `${results.length} teacherWorkshopQualification retrieved`,
-              data: results,
-            });
-          }
-        }
-      );
-    });
-  },
+        });
+    },
 
-  setWorkshops: (workshops, teacherId, callback) => {
-    console.log("workshops", workshops);
-    console.log("Adding qualification for teacher", teacherId);
-
-      database.getConnection(function (err, connection) {
-          if (err) {
-              logger.error("Error setting teacherWorkshopQualification", err);
-              callback(err, null);
-              return;
-          }
-
-          const values = [];
-          for (const workshopId of workshops) {
-              values.push([teacherId, workshopId]);
-          }
-
-          connection.query(
-              `INSERT INTO teacherWorkshopQualification (userId, workshopId) VALUES ?`,
-              [values],
-              function (error, results, fields) {
-                  connection.release();
-
-                  if (error) {
-                      logger.error(
-                          "Error setting teacherWorkshopQualification",
-                          error
-                      );
-                      callback(error, null);
-                  } else {
-                      callback(null, {
-                          status: 200,
-                          message: "teacherWorkshopQualification set successfully",
-                          data: results,
-                      });
-                  }
-              }
-          );
-      });
-  },
     create: (userId, workshopIdsObj, callback) => {
         logger.debug('creating teacherWorkshopQualification', userId, workshopIdsObj);
 
         // Extract workshopIds array from the object
-        const workshopIds = workshopIdsObj.workshopIds;
+        const workshopIds = workshopIdsObj.workshops;
 
         // Ensure workshopIds is an array
         let workshopIdList = Array.isArray(workshopIds) ? workshopIds : [workshopIds];
@@ -107,7 +68,17 @@ const teacherWorkshopQualificationService = {
 
             // Populate values array with userId and workshopIds
             for (let workshopId of workshopIdList) {
-                values.push(userId, workshopId);
+                if (workshopId) {
+                    values.push(userId, workshopId);
+                }
+            }
+
+            if (values.length === 0) {
+                connection.release();
+                const error = new Error('No valid workshop IDs provided');
+                logger.error('Error creating teacherWorkshopQualification', error);
+                callback(error, null);
+                return;
             }
 
             sql += placeholders;
@@ -128,6 +99,6 @@ const teacherWorkshopQualificationService = {
             });
         });
     }
-
 };
+
 module.exports = teacherWorkshopQualificationService;

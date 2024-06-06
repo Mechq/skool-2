@@ -1,6 +1,47 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-export default function ProfileWorkshopList({user, editUser, workshops, qualifiedWorkshops}) {
+export default function ProfileWorkshopList({ user, editUser, workshops, qualifiedWorkshops }) {
+    const [selectedWorkshops, setSelectedWorkshops] = useState([]);
+
+    useEffect(() => {
+        // Initialize the selected workshops with qualified workshops
+        const initialSelectedWorkshops = qualifiedWorkshops.map(qw => qw.id);
+        setSelectedWorkshops(initialSelectedWorkshops);
+    }, [qualifiedWorkshops]);
+
+    const handleCheckboxChange = (workshopId) => {
+        setSelectedWorkshops((prevSelected) => {
+            if (prevSelected.includes(workshopId)) {
+                return prevSelected.filter(id => id !== workshopId);
+            } else {
+                return [...prevSelected, workshopId];
+            }
+        });
+    };
+
+    const handleUpdate = () => {
+        console.log('Updating workshops for user:', user.id);
+        console.log('Selected workshops:', selectedWorkshops);
+
+        fetch(`/api/teacherWorkshopQualification/${user.id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ workshops: selectedWorkshops }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Optionally, you can handle success here, like showing a success message
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Optionally, handle errors here
+            });
+    };
+
+
     return (
         <>
             <div className="justify-center">
@@ -42,9 +83,11 @@ export default function ProfileWorkshopList({user, editUser, workshops, qualifie
                                         <input
                                             id={`checkbox-${workshop.id}`}
                                             type="checkbox"
-                                            defaultChecked={qualifiedWorkshops.some(qw => qw.id === workshop.id)}
+                                            checked={selectedWorkshops.includes(workshop.id)}
+                                            onChange={() => handleCheckboxChange(workshop.id)}
                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-800 focus:ring-2 light:bg-gray-700 light:border-gray-600"
-                                        /></td>
+                                        />
+                                    </td>
                                 </tr>
                             ))}
                             </tbody>
@@ -53,9 +96,9 @@ export default function ProfileWorkshopList({user, editUser, workshops, qualifie
                 </div>
             </div>
 
-            {/* Bewerk button */}
+            {/* Update button */}
             <button
-                // onClick={editUser}
+                onClick={handleUpdate}
                 className="bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-white mt-4"
             >
                 Update

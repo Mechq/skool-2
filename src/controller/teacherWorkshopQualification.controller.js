@@ -25,6 +25,7 @@ let teacherWorkshopQualification = {
             }
         });
     },
+
     create: (req, res, next) => {
         const userId = req.params.id;
         const workshopIds = req.body;
@@ -47,10 +48,7 @@ let teacherWorkshopQualification = {
                 });
             }
         });
-
     }
-
-
 };
 
 module.exports = teacherWorkshopQualification;
