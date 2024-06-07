@@ -3,11 +3,11 @@ import PageSecurity from "../PageSecurity";
 
 function Home() {
 
-    const userEmail = PageSecurity();
-    if (userEmail === null) {
+    const user = PageSecurity();
+    if (user === null) {
         return null;
     } else {
-        console.log('Email:', userEmail)
+        console.log('Email:', user.email)
     }
 
     return (
