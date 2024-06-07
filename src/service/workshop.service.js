@@ -96,7 +96,7 @@ const workshopService = {
 
 
             connection.query(
-                'SELECT * FROM workshop',
+                'SELECT * FROM workshop ORDER BY name',
                 function (error, results, fields) {
                     connection.release();
 
