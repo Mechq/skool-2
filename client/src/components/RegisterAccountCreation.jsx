@@ -95,8 +95,7 @@ const AccountCreation = ({ formData, setFormData, nextStep }) => {
     return (
         <>
                 <form onSubmit={handleRegister}>
-                    <h3 className="mb-4 text-lg font-medium leading-none text-gray-900 light:text-white">Invoice
-                        details</h3>
+                    <h3 className="mb-4 text-lg font-medium leading-none text-gray-900 light:text-white">Registreren</h3>
                     <div className="grid gap-4 mb-4 sm:grid-cols-2">
                         <div>
                             <label htmlFor="firstName" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Voornaam</label>
