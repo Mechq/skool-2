@@ -1,6 +1,29 @@
 import React, {useEffect, useState} from "react";
+import 'quill/dist/quill.snow.css'
+import ReactQuill from 'react-quill'
 
 function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
+
+    var modules = {
+        toolbar: [
+          ["bold", "italic", "underline", "strike", "blockquote"],
+          ["link", "image"],
+          [{ "color": ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466", 'custom-color'] }],
+        ]
+      };
+
+      const handleProcedureContentChange = (content) => {
+        console.log("content---->", content);
+        setContent(content);
+      };
+
+      var formats = [
+        "header", "height", "bold", "italic",
+        "underline", "strike", "blockquote",
+        "list", "color", "bullet", "indent",
+        "link", "image", "align", "size",
+      ];
+
     const [subject, setSubject] = useState("");
     const [cc, setCc] = useState("");
     const [content, setContent] = useState("");
@@ -83,7 +106,22 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
             </div>
             <div
                 className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 light:bg-gray-700 light:border-gray-600">
-                <div className="flex items-center justify-between px-3 py-2 border-b light:border-gray-600">
+                <div >
+                    <h1 style={{ textAlign: "center" }}>Mail Details</h1>
+                    <div style={{ display: "grid", justifyContent: "center"}}>
+                        <ReactQuill
+                            theme="snow"
+                            modules={modules}
+                            formats={formats}
+                            placeholder="Beste {firstName}..."
+                            onChange={handleProcedureContentChange}
+                            value={content}
+                            style={{ height: "220px" }}
+                            >
+                        </ReactQuill>
+                    </div>
+                </div>
+                {/* <div className="flex items-center justify-between px-3 py-2 border-b light:border-gray-600">
                     <div
                         className="flex flex-wrap items-center divide-gray-200 sm:divide-x sm:rtl:divide-x-reverse light:divide-gray-600">
                         <div className="flex items-center space-x-1 rtl:space-x-reverse sm:pe-4">
@@ -96,7 +134,7 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
                                     <path
                                         d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
                                 </svg>
-                                <span className="sr-only">Upload image</span>
+                                <span className="sr-only">Bold</span>
                             </button>
                         </div>
                         <div className="flex flex-wrap items-center space-x-1 rtl:space-x-reverse sm:ps-4">
@@ -109,17 +147,30 @@ function EditMailTemplatePanelContent({mailTemplateId, setShowSidePanel}) {
                                     <path
                                         d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
                                 </svg>
-                                <span className="sr-only">Download</span>
+                                <span className="sr-only">Italic</span>
+                            </button>
+                        </div>
+                        <div className="flex flex-wrap items-center space-x-1 rtl:space-x-reverse sm:ps-4">
+                            <button type="button"
+                                    className="p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 light:text-gray-400 light:hover:text-white light:hover:bg-gray-600">
+                                <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                     fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/>
+                                    <path
+                                        d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
+                                </svg>
+                                <span className="sr-only">Underline</span>
                             </button>
                         </div>
                     </div>
-                </div>
-                <div className="px-4 py-2 bg-white rounded-b-lg light:bg-gray-800">
+                </div> */}
+                {/* <div className="px-4 py-2 bg-white rounded-b-lg light:bg-gray-800">
                     <label htmlFor="content" className="sr-only">Publish post</label>
                     <textarea id="content" rows="20" value={content} onChange={e => setContent(e.target.value)}
                               className="block w-full px-0 text-sm text-gray-800 bg-white border-0 light:bg-gray-800 focus:ring-0 light:text-white light:placeholder-gray-400"
                               placeholder="Beste {firstName}..." required></textarea>
-                </div>
+                </div> */}
             </div>
             <button type="submit" onClick={handleSubmit}
                     className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Submit
