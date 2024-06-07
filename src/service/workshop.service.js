@@ -59,7 +59,7 @@ const workshopService = {
     getWorkshopById: (id, callback) => {
         logger.info('getting workshop by id', id);
 
-        let sql = 'SELECT * FROM workshop WHERE id = ? SORT BY name';
+        let sql = 'SELECT * FROM workshop WHERE id = ?';
 
         database.query(sql, [id], (error, results, fields) => {
             if (error) {
