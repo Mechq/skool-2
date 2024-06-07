@@ -80,7 +80,7 @@ export default function WorkshopList({
                         onClick={() => toggleAccordion(index)}
                         aria-expanded={isAccordionOpen[index]}
                         aria-controls={`accordion-collapse-body-${index}`}>
-                    <span>{`Categorie ${category}`}</span>
+                    <span>{category}</span>
                     <svg data-accordion-icon className={`w-3 h-3 ${isAccordionOpen[index] ? 'rotate-180' : ''} shrink-0`} aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -163,7 +163,7 @@ export default function WorkshopList({
 
     return (
         <div id="accordion-collapse" data-accordion="collapse">
-            {['1', '2', '3', '4', '5', '6'].map((category, index) => renderAccordion(category, index))}
+            {['Beeldende kunst', 'Dans', 'Media', 'Muziek', 'Sport', 'Theater'].map((category, index) => renderAccordion(category, index))}
         </div>
     );
 }
