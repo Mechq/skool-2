@@ -3,7 +3,7 @@ const logger = require("../util/logger");
 
 let dashboardController = {
     getCommissionsWorkshopsByTeacherId: (req, res, next) => {
-        const teacherId = req.params.id;
+        const teacherId = req.params.teacherId;
 
         logger.info("getting all workshops by teacher id", teacherId);
 
