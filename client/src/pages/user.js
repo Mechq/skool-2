@@ -8,18 +8,18 @@ import ProfileWorkshopList from "../components/lists/ProfileWorkshopList";
 function User() {
     const [isOpen, setIsOpen] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
-    const [user, setUser] = useState({});
+    const [userData, setUser] = useState({});
     const [rotateSpan, setRotateSpan] = useState(false);
     const [workshopId, setWorkshopId] = useState(null);
     const [workshops, setWorkshops] = useState([]);
     const [qualifiedWorkshops, setQualifiedWorkshops] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const { email, role } = PageSecurity();
+    const user = PageSecurity();
 
     useEffect(() => {
-        if (email) {
-            fetch(`/api/user/email/${email}`)
+        if (user) {
+            fetch(`/api/user/email/${user.email}`)
                 .then(res => res.json())
                 .then(data => {
                     setUser(data.data);
@@ -49,12 +49,12 @@ function User() {
                 })
                 .catch(error => console.error('Error fetching data:', error));
         }
-    }, [email, user.id]);
+    }, [user.email, user.id]);
 
     if (loading) {
         return <div>Loading...</div>;
     }
-    if (email === null) {
+    if (user.email === null) {
         return null;
     }
 

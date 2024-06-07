@@ -28,10 +28,10 @@ function App() {
     }, [isLoginPage, isRegisterPage]);
 
     function PrivateRoute({ children, roleRequired }) {
-        const { email, role } = PageSecurity();
-        if (role !== null) {
-            if (role !== roleRequired) {
-                console.log(role, 'should be', roleRequired)
+        const user = PageSecurity();
+        if (user !== null) {
+            if (user.role !== roleRequired) {
+                console.log(user.role, 'should be', roleRequired)
                 return <Navigate to="/"/>;
             }
         }

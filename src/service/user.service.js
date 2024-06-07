@@ -52,10 +52,10 @@ const userService = {
             }
 
             const sql = "SELECT * FROM user WHERE email = ?";
-            let role = '';
+            let user = {};
 
             connection.query(
-                `SELECT role FROM user WHERE email = ?`, email,
+                sql, email,
                 function (error, results, fields) {
                     if (error) {
                         logger.error('Error retrieving role', error);
@@ -64,7 +64,9 @@ const userService = {
                     }
                     logger.trace('role retrieved', results);
 
-                    role = results[0].role;
+                    user = results[0];
+                    logger.debug('userData: ', user)
+                    logger.debug('user role: ', user.role)
 
                     connection.query(sql, [email], (err, results) => {
                         connection.release();
@@ -89,8 +91,8 @@ const userService = {
                             }
 
                             if (response) {
-                                logger.debug('Login successful', { email: email });
-                                const token = jwt.sign({ email: email, role: role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
+                                logger.debug('Login successful', { email: user.email });
+                                const token = jwt.sign({ user: user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
                                 callback(null, {
                                     status: 'Success',
                                     message: 'Login successful',

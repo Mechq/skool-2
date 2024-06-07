@@ -6,8 +6,7 @@ import {use} from "chai";
 
 export default function PageSecurity() {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
-    const [email, setEmail] = useState(null); // Add this line
-    const [role, setRole] = useState(null)
+    const [user ,setUser] = useState({}); // Add this line
     const navigate = useNavigate();
     const cookies = new Cookies();
 
@@ -36,11 +35,11 @@ export default function PageSecurity() {
         } else if (isAuthenticated === true) {
             const token = cookies.get('token');
             const decodedToken = jwtDecode(token);
-            setEmail(decodedToken.email); // Set the email state
-            setRole(decodedToken.role)
-            console.log(role)
+            setUser(decodedToken.user); // Set the email state
+
+            console.log(user)
         }
     }, [isAuthenticated, navigate, cookies]);
 
-    return {email, role}; // Return the email state
+    return user; // Return the email state
 }
