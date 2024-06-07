@@ -34,13 +34,15 @@ function NavBar() {
                 </div>
                 <div className={`w-full md:flex md:w-auto ${isMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
                     <ul className="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-                        <CustomLink to="/opdracht">Opdrachten</CustomLink>
+
+                        <CustomLink to="/userWorkshops">Docent workshops</CustomLink>
                         {user.role === 'admin' && (
                             <>
+                                <CustomLink to="/opdracht">Opdrachten</CustomLink>
                                 <CustomLink to="/users">Docenten</CustomLink>
                                 <CustomLink to="/customers">Klanten</CustomLink>
                                 <CustomLink to="/werklocatie">Locaties</CustomLink>
-                        <CustomLink to="/workshops">Workshops</CustomLink>
+                        <CustomLink to="/workshop-info">Workshop Info</CustomLink>
                         <CustomLink to="/mailTemplates">Mail Templates</CustomLink>
                             </>
                         )}

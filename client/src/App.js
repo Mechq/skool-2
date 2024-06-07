@@ -12,6 +12,7 @@ import Register from './pages/register';
 import User from './pages/user';
 import Users from './pages/users';
 import PageSecurity from "./PageSecurity";
+import UserWorkshops from "./pages/UserWorkshops";
 
 
 function App() {
@@ -44,7 +45,7 @@ function App() {
             <div className="container mx-auto flex-grow py-4">
                 <Routes>
                     <>
-                        <Route path="/workshops" element={
+                        <Route path="/workshop-info" element={
                             <PrivateRoute roleRequired="admin">
                                 <Workshop />
                             </PrivateRoute>
@@ -75,7 +76,9 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/opdracht" element={<Commission />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/userWorkshops" element={<UserWorkshops />} />
                     <Route path='/user' element={<User />} />
+
                 </Routes>
             </div>
         </div>
