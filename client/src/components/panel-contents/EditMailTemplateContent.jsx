@@ -90,7 +90,7 @@ function EditMailTemplatePanelContent({ mailTemplateId, setShowSidePanel }) {
 
     return (
         <div className="px-6">
-            <header className="pt-4 pb-4 font-bold text-lg">Mail template aanmaken</header>
+            <header className="pt-4 pb-4 font-bold text-lg">Mail template bewerken</header>
             <form>
                 <div className="mb-6">
                     <label htmlFor="templateName" className="block mb-2 text-sm font-medium text-gray-900">Template naam</label>
@@ -104,22 +104,19 @@ function EditMailTemplatePanelContent({ mailTemplateId, setShowSidePanel }) {
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                            placeholder="Bevestiging {workshop} op {executionDate}" required/>
                 </div>
-                <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50" style={{ marginBottom: '3rem' }}>
-                    <div>
-                        <h1 style={{ textAlign: "center" }}>Mail Details</h1>
-                        <div style={{ display: "grid", justifyContent: "center"}}>
-                            <ReactQuill
-                                theme="snow"
-                                modules={modules}
-                                formats={formats}
-                                placeholder="Beste {firstName}..."
-                                onChange={handleProcedureContentChange}
-                                value={content}
-                                style={{ height: "220px" }}
-                            />
-                        </div>
-                    </div>
-                </div>
+                <div className="mb-6">
+    <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900">Inhoud</label>
+   
+        <ReactQuill className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            theme="snow"
+            modules={modules}
+            formats={formats}
+            placeholder="Beste {firstName}..."
+            onChange={handleProcedureContentChange}
+            value={content}
+        />
+    
+</div>
                 <button type="submit" onClick={handleSubmit}
                         className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
                     Submit
