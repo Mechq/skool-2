@@ -189,6 +189,35 @@ const workshopService = {
                     }
                 }
             });
+        },
+
+        getWorkshopCommission: (callback) => {
+            logger.info('getting workshop commission');
+
+            let sql = ' SELECT w.*, c.* FROM workshop w JOIN workshopRound wr ON w.id = wr.workshopId JOIN round r ON wr.roundId = r.id JOIN commission c ON r.commissionId = c.id;';
+
+            database.query(sql, (error, results, fields) => {
+                if (error) {
+                    logger.error('Error getting workshop commission', error);
+                    callback(error, null);
+
+                } else {
+                    if (results.length > 0) {
+                        logger.info('Workshop commission fetched successfully', results);
+                        callback(null, {
+                            status: 200,
+                            message: 'Workshop commission fetched successfully',
+                            data: results,
+                        });
+                    } else {
+                        logger.warn('No workshop commission found');
+                        callback({
+                            status: 404,
+                            message: 'Workshop commission not found',
+                        }, null);
+                    }
+                }
+            });
         }
 };
 
