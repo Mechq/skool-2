@@ -58,7 +58,7 @@ export default function Login() {
                 <div className="w-full bg-white rounded-lg shadow light:border light:bg-gray-800 light:border-gray-700">
                     <div className="p-6 space-y-4 sm:space-y-6">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl light:text-white">
-                            Log in
+                            Inloggen
                         </h1>
                         {error && <p className="text-red-500">{error}</p>}
                         <form className="space-y-4 sm:space-y-6" onSubmit={handleLogin}>

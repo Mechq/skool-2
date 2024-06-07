@@ -191,7 +191,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .then(response => response.json())
                 .then(data => {
                     setLocations(Array.isArray(data.data) ? data.data : []);
-                    console.log("Fetched locationssss:", locations);
+                    console.log("Fetched locations:", locations);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -383,7 +383,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 </div>
 
                 <button type="submit" onClick={handleSubmit}
-                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Submit
+                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Opslaan
                 </button>
 
 
@@ -431,7 +431,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                         <ul>
                             <li onClick={() => handleOptionClick("Pauze")}>Pauze toevoegen</li>
                             <li onClick={() => handleOptionClick("Afsluiting")}>Afsluiting toevoegen</li>
-                            <li onClick={() => handleOptionClick("Warming up")}>Warmingup toevoegen</li>
+                            <li onClick={() => handleOptionClick("Warming up")}>Warming-up toevoegen</li>
                             <li onClick={() => handleOptionClick("Workshopronde")}>Workshopronde toevoegen</li>
                         </ul>
                     </div>
