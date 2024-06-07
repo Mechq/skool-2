@@ -62,14 +62,33 @@ export default function WorkshopList({
         setWorkshopToDeleteName(name);
         setShowModal(true);
     };
+    
 
     const handleModalClose = () => {
         setShowModal(false);
         setShowDetailsModal(false);
     };
 
-    const handleModalSave = (editedType) => {
-        setShowModal(false);
+    const handleModalSave = () => {
+        // Make an API call to delete the workshop
+        fetch(`/api/workshop/${workshopToDeleteId}`, {
+            method: 'DELETE'
+        })
+        .then(res => {
+            if (res.ok) {
+                // If deletion is successful, close the modal and update the state
+                setShowModal(false);
+                // Reset the workshopToDeleteId and workshopToDeleteName
+                setWorkshopToDeleteId(null);
+                setWorkshopToDeleteName(null);
+                // Update the state to reflect the deletion
+                const updatedWorkshops = workshops.filter(workshop => workshop.id !== workshopToDeleteId);
+                setWorkshops(updatedWorkshops);
+            } else {
+                throw new Error('Failed to delete workshop');
+            }
+        })
+        .catch(error => console.error('Error deleting workshop:', error));
     };
 
     const formatDate = (date) => {
@@ -100,23 +119,29 @@ export default function WorkshopList({
                     <span>{category}</span>
                     <svg data-accordion-icon className={`w-3 h-3 ${isAccordionOpen[index] ? 'rotate-180' : ''} shrink-0`} aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                               d="M9 5 5 1 1 5"/>
                     </svg>
                 </button>
             </h2>
             <div id={`accordion-collapse-body-${index}`} className={`${isAccordionOpen[index] ? '' : 'hidden'}`} aria-labelledby={`accordion-collapse-heading-${index}`}>
                 <div className="p-5 border border-b-0 border-gray-200 light:border-gray-700 light:bg-gray-900">
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mr-6 ml-6">
+                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                         {categorizedWorkshops[category].length > 0 && (
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
+                                <colgroup>
+                                    <col style={{ width: '25%' }} />
+                                    <col style={{ width: '25%' }} />
+                                    <col style={{ width: '25%' }} />
+                                    <col style={{ width: '25%' }} />
+                                </colgroup>
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                                 <tr>
                                     <th className="px-6 py-3">Workshop Naam</th>
                                     <th className="px-6 py-3">Materialen</th>
                                     <th className="px-6 py-3">Categorie</th>
                                     <th className="px-6 py-3">Bewerken</th>
-                                    <th></th>
+                                    <th className="px-6 py-3">Verwijderen</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -127,19 +152,19 @@ export default function WorkshopList({
                                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
                                             {"Workshop " + workshop.name}
                                         </td>
-
+    
                                         <td className="px-6 py-4">{workshop.materials}</td>
                                         <td className="px-6 py-4">{workshop.category}</td>
-
+    
                                         <td className="px-6 py-4">
                                             <a href="#" onClick={(e) => {
                                                 editWorkshop(workshop.id, e);
                                             }}
                                                className="font-medium text-[#f49700] light:text-[#f49700] hover:underline">Bewerken</a>
                                         </td>
-                                        <td className="px-">
+                                        <td className="px-6 py-4">
                                             <a href="#" onClick={(e) => handleDeleteClick(workshop.id, workshop.name, e)}>
-                                                <svg className="w-5 h-5 mx-2 text-danger hover:text-red-600" aria-hidden="true"
+                                                <svg className="w-5 h-5 text-danger hover:text-red-600" aria-hidden="true"
                                                      xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                                      viewBox="0 0 24 24">
                                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
@@ -163,7 +188,7 @@ export default function WorkshopList({
                                 />
                             </div>
                         )}
-
+    
                         {showDetailsModal && (
                             <div>
                                 <WorkshopDetailsModalScreen
@@ -178,6 +203,7 @@ export default function WorkshopList({
             </div>
         </div>
     );
+    
 
     return (
         <div id="accordion-collapse" data-accordion="collapse">
