@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Routes, useLocation} from 'react-router-dom';
+import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/home';
 import Customers from './pages/customers';
@@ -12,6 +12,7 @@ import Register from './pages/register';
 import User from './pages/user';
 import Users from './pages/users';
 import PageSecurity from "./PageSecurity";
+
 
 function App() {
     const location = useLocation();
@@ -26,34 +27,55 @@ function App() {
         }
     }, [isLoginPage, isRegisterPage]);
 
-
+    function PrivateRoute({ children, roleRequired }) {
+        const { email, role } = PageSecurity();
+        if (role !== null) {
+            if (role !== roleRequired) {
+                console.log(role, 'should be', roleRequired)
+                return <Navigate to="/"/>;
+            }
+        }
+        return children;
+    }
 
     return (
         <div className="flex flex-col min-h-screen">
-            {!(isLoginPage || isRegisterPage) && <NavBar/>}
+            {!(isLoginPage || isRegisterPage) && <NavBar />}
             <div className="container mx-auto flex-grow py-4">
                 <Routes>
-
-                        <>
-                            <Route path="/workshops" element={<Workshop />} />
-                            <Route path="/mailTemplates" element={<MailTemplates />} />
-                            <Route path="/users" element={<Users />} />
-                            <Route path="/werklocatie" element={<Worklocation />} />
-                            <Route path="/customers" element={<Customers />} />
-                        </>
-
+                    <>
+                        <Route path="/workshops" element={
+                            <PrivateRoute roleRequired="admin">
+                                <Workshop />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/mailTemplates" element={
+                            <PrivateRoute roleRequired="admin">
+                                <MailTemplates />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/users" element={
+                            <PrivateRoute roleRequired="admin">
+                                <Users />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/werklocatie" element={
+                            <PrivateRoute roleRequired="admin">
+                                <Worklocation />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/customers" element={
+                            <PrivateRoute roleRequired="admin">
+                                <Customers />
+                            </PrivateRoute>
+                        } />
+                    </>
                     <Route path="*" element={<h1>Not Found</h1>} />
                     <Route path="/" element={<Home />} />
-
                     <Route path="/register" element={<Register />} />
-                    {/*<Route path="/workshops" element={<Workshop />} />*/}
-                    {/*<Route path="/mailTemplates" element={<MailTemplates />} />*/}
                     <Route path="/opdracht" element={<Commission />} />
-                    {/*<Route path="/werklocatie" element={<Worklocation />} />*/}
-                    {/*<Route path="/customers" element={<Customers />} />*/}
                     <Route path="/login" element={<Login />} />
                     <Route path='/user' element={<User />} />
-                    {/*<Route path="/users" element={<Users />} />*/}
                 </Routes>
             </div>
         </div>
