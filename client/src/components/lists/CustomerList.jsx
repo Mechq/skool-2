@@ -40,7 +40,7 @@ const editCustomer = (id) => {
           <tr>
             <th className="px-6 py-3">Klant Naam</th>
             <th className="px-6 py-3">Email</th>
-            <th className="px-6 py-3">Telefoon nummer</th>
+            <th className="px-6 py-3">Telefoonnummer</th>
             <th className="px-6 py-3"></th>
             <th className="px-6 py-3">Bewerken</th>
           </tr>
