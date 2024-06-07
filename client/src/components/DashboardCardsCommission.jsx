@@ -94,11 +94,7 @@ import React, { useState, useEffect } from 'react';
 import PageSecurity from "../PageSecurity";
 
 function DashboardCardsCommission() {
-    const userEmail = PageSecurity();
-
-    if (userEmail === null) {
-        return null;
-    }
+    
 
     const [commissions, setCommissions] = useState([]);
 
@@ -116,6 +112,12 @@ function DashboardCardsCommission() {
 
         fetch(); // Call the fetchCommissions function when the component is mounted
     }, []); // Empty dependency array ensures useEffect runs only once on mount
+
+    const user = PageSecurity();
+
+    if (user === null) {
+        return null;
+    }
 
     return (
         <div className="area">
