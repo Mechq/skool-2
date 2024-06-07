@@ -4,11 +4,12 @@ import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWork
 import PageSecurity from "../PageSecurity";
 import UserProfile from "../components/lists/UserProfile";
 import ProfileWorkshopList from "../components/lists/ProfileWorkshopList";
+import {Navigate} from "react-router-dom";
 
 function User() {
     const [isOpen, setIsOpen] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
-    const [userData, setUser] = useState({});
+    const [userData, setUserData] = useState({});
     const [rotateSpan, setRotateSpan] = useState(false);
     const [workshopId, setWorkshopId] = useState(null);
     const [workshops, setWorkshops] = useState([]);
@@ -17,44 +18,37 @@ function User() {
 
     const user = PageSecurity();
 
+    // useEffect(() => {
+    //     if (isAuthenticated === false) {
+    //         Navigate('/login');
+    //     }
+    // }, [isAuthenticated]);
+
     useEffect(() => {
-        if (user) {
-            fetch(`/api/user/email/${user.email}`)
-                .then(res => res.json())
-                .then(data => {
-                    setUser(data.data);
-                    console.log("Fetched profile: ", data.data);
-                    // Set loading to false once data is fetched
+        if (user && user.email) {
+            Promise.all([
+                fetch(`/api/user/email/${user.email}`).then(res => res.json()),
+                fetch(`/api/workshop`).then(res => res.json()),
+                fetch(`/api/teacherWorkshopQualification/${user.id}`).then(res => res.json())
+            ])
+                .then(([userData, workshopsData, qualifiedWorkshopsData]) => {
+                    setUserData(userData.data);
+                    setWorkshops(workshopsData.data);
+                    setQualifiedWorkshops(qualifiedWorkshopsData.data);
                     setLoading(false);
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
-                    // Also set loading to false in case of error
                     setLoading(false);
                 });
-
-            fetch(`/api/workshop`)
-                .then(res => res.json())
-                .then(data => {
-                    setWorkshops(data.data);
-                    console.log("Fetched workshops: ", data.data);
-                })
-                .catch(error => console.error('Error fetching data:', error));
-
-            fetch(`/api/teacherWorkshopQualification/${user.id}`)
-                .then(res => res.json())
-                .then(data => {
-                    setQualifiedWorkshops(data.data);
-                    console.log("Fetched workshops: ", data.data);
-                })
-                .catch(error => console.error('Error fetching data:', error));
         }
-    }, [user.email, user.id]);
+    }, [user]);
 
     if (loading) {
         return <div>Loading...</div>;
     }
-    if (user.email === null) {
+
+    if (!user || !user.email) {
         return null;
     }
 
