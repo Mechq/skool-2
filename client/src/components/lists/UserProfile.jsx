@@ -24,7 +24,7 @@ export default function UserProfile({ user, editUser }) {
         };
     
         fetchLanguages();
-    }, [user.id]);
+    }, []);
     
 
     const calculate_age = (dob) => {
