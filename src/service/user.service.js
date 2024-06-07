@@ -119,7 +119,7 @@ const userService = {
                 return;
             }
 
-            const query = 'SELECT * FROM user ORDER BY firstName';
+            const query = `SELECT * FROM user WHERE role = 'teacher' ORDER BY firstName`;
 
             logger.debug('query', query);
 
