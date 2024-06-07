@@ -66,9 +66,32 @@ export default function WorkshopList({
     }
 
     return (
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg mr-6 ml-6">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
+
+
+
+
+
+        <div id="accordion-collapse" data-accordion="collapse">
+            <h2 id="accordion-collapse-heading-1">
+                <button type="button"
+                        className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                        data-accordion-target="#accordion-collapse-body-1" aria-expanded="true"
+                        aria-controls="accordion-collapse-body-1">
+                    <span>Categorie 1</span>
+                    <svg data-accordion-icon className="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 5 5 1 1 5"/>
+                    </svg>
+                </button>
+            </h2>
+
+            <div id="accordion-collapse-body-1" className="hidden" aria-labelledby="accordion-collapse-heading-1">
+                <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg mr-6 ml-6">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                     <tr>
                         <th className="px-6 py-3">Workshop Naam</th>
                         <th className="px-6 py-3">Materialen</th>
@@ -76,8 +99,8 @@ export default function WorkshopList({
                         <th className="px-6 py-3">Bewerken</th>
                         <th></th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {workshops.map(workshop => (
                         <tr key={workshop.id}
                             className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700 hover:cursor-pointer"
@@ -108,30 +131,34 @@ export default function WorkshopList({
                             </td>
                         </tr>
                     ))}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-            {showModal && (
-                <div>
-                    <DeleteConfirmationModalScreen
-                        onClose={handleModalClose}
-                        onSave={handleModalSave}
-                        workshopId={workshopToDeleteId}
-                        workshopName={workshopToDeleteName}
-                    />
+                {showModal && (
+                    <div>
+                        <DeleteConfirmationModalScreen
+                            onClose={handleModalClose}
+                            onSave={handleModalSave}
+                            workshopId={workshopToDeleteId}
+                            workshopName={workshopToDeleteName}
+                        />
+                    </div>
+                )}
+
+                {showDetailsModal && (
+                    <div>
+                        <WorkshopDetailsModalScreen
+                            onClose={handleModalClose}
+                            onSave={handleModalSave}
+                            workshopId={selectedWorkshopId}
+                        />
+                    </div>
+                )}
+            </div>
                 </div>
-            )}
 
-            {showDetailsModal && (
-                <div>
-                    <WorkshopDetailsModalScreen
-                        onClose={handleModalClose}
-                        onSave={handleModalSave}
-                        workshopId={selectedWorkshopId}
-                    />
-                </div>
-            )}
-
+            </div>
         </div>
-    );
+    )
+        ;
 }
