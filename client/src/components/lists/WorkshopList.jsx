@@ -17,7 +17,7 @@ export default function WorkshopList({
     const [workshopToDeleteName, setWorkshopToDeleteName] = useState(null);
     const [selectedWorkshopId, setSelectedWorkshopId] = useState(null);
     const [selectedWorkshopName, setSelectedWorkshopName] = useState(null);
-    const [isAccordionOpen, setIsAccordionOpen] = useState(true); // State to manage accordion open/close
+    const [isAccordionOpen, setIsAccordionOpen] = useState([true, false, false, false, false, false]); // State to manage accordion open/close
 
     useEffect(() => {
         fetch('/api/workshop')
@@ -68,28 +68,27 @@ export default function WorkshopList({
         return new Date(date).toLocaleDateString("nl-NL", options);
     }
 
-    const toggleAccordion = () => {
-        setIsAccordionOpen(!isAccordionOpen);
+    const toggleAccordion = (index) => {
+        setIsAccordionOpen(prevState => prevState.map((isOpen, i) => i === index ? !isOpen : isOpen));
     };
 
-    return (
-        <div id="accordion-collapse" data-accordion="collapse">
-            <h2 id="accordion-collapse-heading-1">
+    const renderAccordion = (category, index) => (
+        <div key={index}>
+            <h2 id={`accordion-collapse-heading-${index}`}>
                 <button type="button"
                         className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
-                        onClick={toggleAccordion} // Add click handler here
-                        aria-expanded={isAccordionOpen}
-                        aria-controls="accordion-collapse-body-1">
-                    <span>Categorie 1</span>
-                    <svg data-accordion-icon className={`w-3 h-3 ${isAccordionOpen ? 'rotate-180' : ''} shrink-0`} aria-hidden="true"
+                        onClick={() => toggleAccordion(index)}
+                        aria-expanded={isAccordionOpen[index]}
+                        aria-controls={`accordion-collapse-body-${index}`}>
+                    <span>{`Categorie ${category}`}</span>
+                    <svg data-accordion-icon className={`w-3 h-3 ${isAccordionOpen[index] ? 'rotate-180' : ''} shrink-0`} aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M9 5 5 1 1 5"/>
                     </svg>
                 </button>
             </h2>
-
-            <div id="accordion-collapse-body-1" className={`${isAccordionOpen ? '' : 'hidden'}`} aria-labelledby="accordion-collapse-heading-1">
+            <div id={`accordion-collapse-body-${index}`} className={`${isAccordionOpen[index] ? '' : 'hidden'}`} aria-labelledby={`accordion-collapse-heading-${index}`}>
                 <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mr-6 ml-6">
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
@@ -159,6 +158,12 @@ export default function WorkshopList({
                     </div>
                 </div>
             </div>
+        </div>
+    );
+
+    return (
+        <div id="accordion-collapse" data-accordion="collapse">
+            {['1', '2', '3', '4', '5', '6'].map((category, index) => renderAccordion(category, index))}
         </div>
     );
 }
