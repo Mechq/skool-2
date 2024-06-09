@@ -7,8 +7,6 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
     const [kvkNumberValid, setKvkNumberValid] = useState(true);
     const [btwNumberValid, setBtwNumberValid] = useState(true);
     const [ibanValid, setIbanValid] = useState(true);
-    const [hasDriversLicenseValid, setHasDriversLicenseValid] = useState(true);
-    const [hasCarValid, setHasCarValid] = useState(true);
 
     const ibanRegexes = {
         NL: /^NL\d{2}[A-Z]{4}\d{10}$/,
@@ -22,22 +20,8 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
         if (!kvkNumber) setKvkNumberValid(false);
         if (!btwNumber) setBtwNumberValid(false);
         if (!iban) setIbanValid(false);
-        if (!hasDriversLicense) setHasDriversLicenseValid(false);
-        if (!hasCar) setHasCarValid(false);
 
-        console.log(kvkNumber, btwNumber, iban, hasDriversLicense, hasCar)
-
-        if (kvkNumber) {
-            kvkNumber.trim();
-        }
-        if (btwNumber) {
-            btwNumber.trim();
-        }
-        if (iban) {
-            iban.trim();
-        }
-
-        if (!kvkNumber || !btwNumber || !iban || !hasDriversLicense || !hasCar) return;
+        if (!kvkNumber || !btwNumber || !iban) return;
 
         if (btwNumber.length !== 14) {
             setBtwNumberValid(false);
@@ -51,8 +35,6 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
             setIbanValid(false);
             return;
         }
-
-        console.log(kvkNumber, btwNumber, iban, hasDriversLicense, hasCar)
 
         setFormData({
             ...formData,
@@ -73,8 +55,7 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
 
                 <div className="grid gap-4 mb-4 grid-cols-2">
                     <div>
-                        <label htmlFor="btwNumber"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">BTW Nummer</label>
+                        <label htmlFor="btwNumber" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">BTW Nummer</label>
                         <input type="text" name="btwNumber" id="btwNumber"
                                className={`bg-gray-50 border ${btwNumberValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                placeholder="123456789" required=""
@@ -84,8 +65,7 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
                         }}/>
                     </div>
                     <div>
-                        <label htmlFor="kvkNumber"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">KVK Nummer</label>
+                        <label htmlFor="kvkNumber" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">KVK Nummer</label>
                         <input type="text" name="kvkNumber" id="kvkNumber"
                                className={`bg-gray-50 border ${kvkNumberValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                placeholder="12345678" required=""
@@ -95,35 +75,40 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
                         }}/>
                     </div>
                 </div>
+
                 <div className="grid gap-4 mb-4 grid-cols-2">
-                    <div>
-                        <label htmlFor="hasDriversLicense"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Heeft u een rijbewijs?</label>
-                        <input type="text" name="hasDriversLicense" id="hasDriversLicense"
-                               className={`bg-gray-50 border ${hasDriversLicenseValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="1" required=""
-                               value={hasDriversLicense} onChange={(e) => {
-                            setFormData({ ...formData, hasDriversLicense: e.target.value })
-                            setHasDriversLicenseValid(true);
-                        }}/>
+                    <div className="flex items-center">
+                        <label className="inline-flex tems-center flex-grow">
+                            <span className="text-sm font-medium text-gray-900 mr-4 light:text-white">Heeft u een rijbewijs?</span>
+                            <input
+                                type="checkbox"
+                                name="hasDriversLicense"
+                                id="hasDriversLicense"
+                                className="form-checkbox ml-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                checked={hasDriversLicense}
+                                onChange={(e) => setFormData({ ...formData, hasDriversLicense: e.target.checked })}
+                            />
+                        </label>
                     </div>
-                    <div>
-                        <label htmlFor="hasCar"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Heeft u een auto?</label>
-                        <input type="text" name="hasCar" id="hasCar"
-                               className={`bg-gray-50 border ${hasCarValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="1" required=""
-                               value={hasCar} onChange={(e) => {
-                            setFormData({ ...formData, hasCar: e.target.value })
-                            setHasCarValid(true);
-                        }}/>
+                    <div className="flex items-center">
+                        <label className="inline-flex items-center flex-grow">
+                            <span className="text-sm font-medium text-gray-900 mr-4 light:text-white">Heeft u een auto?</span>
+                            <input
+                                type="checkbox"
+                                name="hasCar"
+                                id="hasCar"
+                                className="form-checkbox ml-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                checked={hasCar}
+                                onChange={(e) => setFormData({ ...formData, hasCar: e.target.checked })}
+                            />
+                        </label>
                     </div>
                 </div>
 
+
                 <div className="grid gap-4 mb-4">
                     <div>
-                        <label htmlFor="iban"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">IBAN</label>
+                        <label htmlFor="iban" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">IBAN</label>
                         <input type="text" name="iban" id="iban"
                                className={`bg-gray-50 border ${ibanValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                placeholder="NL02ABNA0123456789" required=""
@@ -134,14 +119,8 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
                     </div>
                 </div>
 
-
-                <button onClick={(stepBack)}
-                        className="text-white mr-3 bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Terug
-                </button>
-                <button type="submit"
-                        className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">
-                    Volgende stap
-                </button>
+                <button onClick={(stepBack)} className="text-white mr-3 bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Terug</button>
+                <button type="submit" className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Volgende stap</button>
             </form>
         </section>
     )
