@@ -22,7 +22,7 @@ const userService = {
                 }
 
                 const sql = "INSERT INTO user (`id`, `email`, `password`, `street`, `houseNumber`, `postalCode`, `city`, `birthDate`, `btwNumber`, `kvkNumber`, `IBAN`, `role`, `firstName`, `lastName`, `phoneNumber`, `creationDate`, `hasDriversLicense`, `hasCar`, `country`, `hourlyRate`, `isZZPer`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                const values = [user.id, user.email, hash, user.streetName, user.houseNumber, user.postalCode, user.city, user.birthDate, user.btwNumber, user.kvkNumber, user.iban, 'teacher', user.firstName, user.lastName, user.phoneNumber, new Date(), user.hasDriversLicense, user.hasCar, user.country,'45', true];
+                const values = [user.id, user.email, hash, user.streetName, user.houseNumber, user.postalCode, user.city, user.birthDate, user.btwNumber, user.kvkNumber, user.iban, 'teacher', user.firstName, user.lastName, user.phoneNumber, new Date(), user.hasDriversLicense, user.hasCar, user.country,'45', user.isZZPer];
 
                 connection.query(sql, values, (err, result) => {
                     connection.release();

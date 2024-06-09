@@ -23,6 +23,7 @@ const RegistrationFlow = () => {
         kvkNumber: '',
         hasDriversLicense: false,
         hasCar: false,
+        isZZPer: true,
         iban: ''
     });
     const [postRequest, setPostRequest] = useState(false);
