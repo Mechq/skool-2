@@ -100,8 +100,13 @@
                 firstName: firstName,
                 lastName: lastName,
                 phoneNumber: phoneNumber,
-                email: email,
                 birthDate: birthDate,
+                streetName: streetName,
+                houseNumber: houseNumber,
+                postalCode: postalCode,
+                city: city,
+                country: country,
+                email: email,
                 password: password
             });
 

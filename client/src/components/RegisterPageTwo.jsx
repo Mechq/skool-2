@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => {
-
     const { kvkNumber, btwNumber, hasDriversLicense, hasCar, iban } = formData;
 
     const [kvkNumberValid, setKvkNumberValid] = useState(true);
@@ -13,7 +12,7 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
         BE: /^BE\d{14}$/,
         DE: /^DE\d{2}\d{8}\d{10}$/,
         FR: /^FR\d{2}\d{10}\d{11}\d{2}$/,
-    }
+    };
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -38,15 +37,15 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
 
         setFormData({
             ...formData,
-            btwNumber: btwNumber,
-            kvkNumber: kvkNumber,
-            hasDriversLicense: hasDriversLicense,
-            hasCar: hasCar,
-            iban: iban
+            btwNumber,
+            kvkNumber,
+            hasDriversLicense,
+            hasCar,
+            iban
         });
 
         createAccount();
-    }
+    };
 
     return (
         <section className='px-6 py-8 mx-6'>

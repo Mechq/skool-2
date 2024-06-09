@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AccountCreation from "../components/RegisterPageOne";
 import PersonalDetails from "../components/RegisterPageTwo";
@@ -8,21 +8,24 @@ const RegistrationFlow = () => {
     const navigate = useNavigate();
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
-        phoneNumber: "",
-        birthDate: "",
-        email: "",
-        password: "",
-        street: "",
-        houseNumber: "",
-        postalCode: "",
-        city: "",
-        kvkNumber: "",
-        btwNumber: "",
-        iban: "",
-        workshops: ""
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        birthDate: '',
+        streetName: '',
+        houseNumber: '',
+        postalCode: '',
+        city: '',
+        country: '',
+        email: '',
+        password: '',
+        btwNumber: '',
+        kvkNumber: '',
+        hasDriversLicense: false,
+        hasCar: false,
+        iban: ''
     });
+    const [postRequest, setPostRequest] = useState(false);
 
     useEffect(() => {
         const location = {
@@ -31,13 +34,13 @@ const RegistrationFlow = () => {
             hash: `#step${step}` // Use a unique identifier for each step
         };
         navigate(location);
-    }, [step]);
+    }, [step, navigate]);
 
     const handleBackButtonClick = () => {
         if (step > 1) {
             setStep(step - 1);
         } else {
-            navigate('/login')
+            navigate('/login');
         }
     };
 
@@ -48,21 +51,19 @@ const RegistrationFlow = () => {
         };
     }, [step]);
 
-
-
     const nextStep = () => {
-        console.log("returned data: ", formData); // changed to comma instead of plus
         setStep(step + 1);
     };
 
     const createAccount = () => {
+        setPostRequest(true);
         setStep(step + 1);
         console.log(formData);
     };
 
     const stepBack = () => {
         setStep(step - 1);
-    }
+    };
 
     return (
         <div className="flex justify-center items-center h-screen overflow-auto">
@@ -112,7 +113,7 @@ const RegistrationFlow = () => {
                         {step === 2 &&
                             <PersonalDetails formData={formData} setFormData={setFormData} createAccount={createAccount}
                                              stepBack={stepBack}/>}
-                        {step === 3 && <AccountConfirmation formData={formData}/>}
+                        {step === 3 && <AccountConfirmation formData={formData} postRequest={postRequest}/>}
                     </div>
                 </div>
             </section>
