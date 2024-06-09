@@ -74,7 +74,7 @@
             setShow(state);
         };
 
-        const handleRegister = (e) => {
+        const handleRegister = async (e) => {
             e.preventDefault();
 
             if (!firstName) setFirstNameValid(false);
@@ -94,6 +94,20 @@
             if (!firstName || !lastName || !phoneNumber || !birthDate || !streetName || !houseNumber || !postalCode || !city || !country || !email || !password) return;
 
             console.log(firstName, lastName, phoneNumber, birthDate, email, password, streetName, houseNumber, postalCode, city, country)
+
+            try {
+                const response = await fetch(`/api/user/email/${email}`);
+                if (response.status === 200) {
+                    // Email exists, prevent form submission
+                    setEmailValid(false); // Set email validity to false to display error
+                    return; // Stop further execution
+                }
+            } catch (error) {
+                // Handle error if request fails
+                console.error('Error checking email existence:', error);
+                // Optionally, you can display an error message to the user here
+            }
+
 
             setFormData({
                 ...formData,

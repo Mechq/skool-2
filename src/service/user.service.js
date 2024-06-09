@@ -287,7 +287,7 @@ const userService = {
     },
 
     getByEmail: (email, callback) => {
-        logger.info('retrieving user by email', email);
+        logger.info('Retrieving user by email', email);
 
         database.getConnection(function (err, connection) {
             if (err) {
@@ -298,30 +298,34 @@ const userService = {
 
             const query = 'SELECT * FROM user WHERE email = ?';
 
-            logger.debug('query', query);
+            logger.debug('Query:', query);
 
-            connection.query(
-                query,
-                [email],
-                function (error, results, fields) {
-                    connection.release();
+            connection.query(query, [email], function (error, results, fields) {
+                connection.release();
 
-                    if (error) {
-                        logger.error('Error retrieving user by email', error);
-                        callback(error, null);
+                if (error) {
+                    logger.error('Error retrieving user by email', error);
+                    callback(error, null);
+                } else {
+                    if (results.length === 0) {
+                        // No user found with the given email
+                        const notFoundError = new Error('User not found');
+                        notFoundError.statusCode = 404;
+                        logger.error('User not found with email:', email);
+                        callback(notFoundError, null);
                     } else {
-                        logger.trace('user retrieved', results);
-
+                        logger.trace('User retrieved:', results[0]);
                         callback(null, {
                             status: 200,
-                            message: 'user retrieved',
+                            message: 'User retrieved',
                             data: results[0],
                         });
                     }
                 }
-            )
+            });
         });
     }
+
 };
 
 module.exports = userService;
