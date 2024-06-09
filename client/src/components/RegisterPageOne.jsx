@@ -5,7 +5,7 @@
 
     const dateOptions = {
         title: " ",
-        autoHide: false,
+        autoHide: true,
         todayBtn: false,
         clearBtn: false,
         clearBtnText: "",
@@ -22,10 +22,6 @@
             inputIcon: "",
             selected: "bg-brand-orange",
         },
-        icons: {
-            prev: () => <span>Vorige</span>,
-            next: () => <span>Volgende</span>,
-        },
         datepickerClassNames: "top-12",
         defaultDate: false,
         language: "nl",
@@ -38,7 +34,7 @@
             day: "numeric",
             month: "long",
             year: "numeric"
-        }
+        },
     }
 
     const AccountCreation = ({ formData, setFormData, nextStep }) => {
