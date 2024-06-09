@@ -48,7 +48,7 @@ export default function Login() {
 
     return (
         <section
-            className="w-full h-full flex items-center justify-center bg-gray-50 light:bg-gray-900 fixed top-0 left-0">
+            className="w-full h-full flex items-center justify-center  light:bg-gray-900 fixed top-0 left-0">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto sm:max-w-lg">
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 light:text-white">
                     <img className="w-40 h-13 mr-2"
