@@ -1,4 +1,6 @@
     import React, { useState } from 'react';
+    import { useNavigate } from 'react-router-dom';
+
     import Datepicker from "tailwind-datepicker-react";
 
     const dateOptions = {
@@ -40,23 +42,8 @@
     }
 
     const AccountCreation = ({ formData, setFormData, nextStep }) => {
-        // const [firstName, setFirstName] = useState("");
-        // const [surName, setSurName] = useState("");
-        // const [phoneNr, setPhoneNr] = useState("");
-        // const [birthDate, setBirthDate] = useState("");
-        //
-        // const [streetName, setStreetName] = useState("");
-        // const [houseNumber, setHouseNumber] = useState("");
-        // const [postalCode, setPostalCode] = useState("");
-        // const [city, setCity] = useState("");
-        // const [country, setCountry] = useState("");
-        //
-        // const [email, setEmail] = useState("");
-        // const [password, setPassword] = useState("");
-
         const { firstName, lastName, phoneNumber, birthDate, email, password, streetName, houseNumber, postalCode, city, country } = formData;
-
-
+        const navigate = useNavigate();
 
         const [firstNameValid, setFirstNameValid] = useState(true);
         const [surNameValid, setSurNameValid] = useState(true);
@@ -133,7 +120,7 @@
                                    className={`bg-gray-50 border ${firstNameValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                    placeholder="voornaam" required=""
                                    value={firstName} onChange={(e) => {
-                                setFormData({ ...formData, firstName: e.target.value })
+                                setFormData({...formData, firstName: e.target.value})
                                 setFirstNameValid(true);
                             }}/>
                         </div>
@@ -144,7 +131,7 @@
                                    className={`bg-gray-50 border ${surNameValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                    placeholder="achternaam" required=""
                                    value={lastName} onChange={(e) => {
-                                setFormData({ ...formData, lastName: e.target.value })
+                                setFormData({...formData, lastName: e.target.value})
                                 setSurNameValid(true);
                             }}/>
                         </div>
@@ -157,14 +144,15 @@
                                    className={`bg-gray-50 border ${phoneNrValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                    placeholder="0612345678" required=""
                                    value={phoneNumber} onChange={(e) => {
-                                setFormData({ ...formData, phoneNumber: e.target.value })
+                                setFormData({...formData, phoneNumber: e.target.value})
                                 setPhoneNrValid(true);
                             }}/>
                         </div>
                         <div>
                             <label htmlFor="birthDate"
                                    className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Geboortedatum</label>
-                            <Datepicker options={dateOptions} onChange={handleChange} show={show} setShow={handleClose}/>
+                            <Datepicker options={dateOptions} onChange={handleChange} show={show}
+                                        setShow={handleClose}/>
                         </div>
                     </div>
 
@@ -177,7 +165,7 @@
                                    className={`bg-gray-50 border ${streetNameValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                    placeholder="straat" required=""
                                    value={streetName} onChange={(e) => {
-                                setFormData({ ...formData, streetName: e.target.value })
+                                setFormData({...formData, streetName: e.target.value})
                                 setStreetNameValid(true);
                             }}/>
                         </div>
@@ -189,7 +177,7 @@
                                        className={`bg-gray-50 border ${houseNumberValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                        placeholder="0" required=""
                                        value={houseNumber} onChange={(e) => {
-                                    setFormData({ ...formData, houseNumber: e.target.value })
+                                    setFormData({...formData, houseNumber: e.target.value})
                                     setHouseNumberValid(true);
                                 }}/>
                             </div>
@@ -200,7 +188,7 @@
                                        className={`bg-gray-50 border ${postalCodeValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                        placeholder="1234AB" required=""
                                        value={postalCode} onChange={(e) => {
-                                    setFormData({ ...formData, postalCode: e.target.value })
+                                    setFormData({...formData, postalCode: e.target.value})
                                     setPostalCodeValid(true);
                                 }}/>
                             </div>
@@ -216,7 +204,7 @@
                                    className={`bg-gray-50 border ${cityValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                    placeholder="gilze" required=""
                                    value={city} onChange={(e) => {
-                                setFormData({ ...formData, city: e.target.value })
+                                setFormData({...formData, city: e.target.value})
                                 setCityValid(true);
                             }}/>
                         </div>
@@ -227,7 +215,7 @@
                                    className={`bg-gray-50 border ${countryValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                    placeholder="nederland" required=""
                                    value={country} onChange={(e) => {
-                                setFormData({ ...formData, country: e.target.value })
+                                setFormData({...formData, country: e.target.value})
                                 setCountryValid(true);
                             }}/>
                         </div>
@@ -242,7 +230,7 @@
                                    className={`bg-gray-50 border ${emailValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                    placeholder="name@bedrijf.com" required=""
                                    value={email} onChange={(e) => {
-                                setFormData({ ...formData, email: e.target.value })
+                                setFormData({...formData, email: e.target.value})
                                 setEmailValid(true);
                             }}/>
                         </div>
@@ -255,11 +243,16 @@
                                    className={`bg-gray-50 border ${passwordValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                    placeholder="•••••••••" required=""
                                    value={password} onChange={(e) => {
-                                setFormData({ ...formData, password: e.target.value })
+                                setFormData({...formData, password: e.target.value})
                                 setPasswordValid(true);
                             }}/>
                         </div>
                     </div>
+
+                    <button
+                                    onClick={() => navigate('/login')}
+                                    className="text-white mr-3 bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Terug
+                    </button>
                     <button type="submit"
                             className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">
                         Volgende stap

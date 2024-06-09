@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import AccountCreation from "../components/RegisterAccountCreation";
-import PersonalDetails from "../components/RegisterPersonalDetails";
+import React, {useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import AccountCreation from "../components/RegisterPageOne";
+import PersonalDetails from "../components/RegisterPageTwo";
 import AccountConfirmation from '../components/RegisterConfirmation';
 
 const RegistrationFlow = () => {
+    const navigate = useNavigate();
     const [step, setStep] = useState(1);
-    const postRequest = true;
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -22,6 +23,32 @@ const RegistrationFlow = () => {
         iban: "",
         workshops: ""
     });
+
+    useEffect(() => {
+        const location = {
+            pathname: window.location.pathname,
+            search: window.location.search,
+            hash: `#step${step}` // Use a unique identifier for each step
+        };
+        navigate(location);
+    }, [step]);
+
+    const handleBackButtonClick = () => {
+        if (step > 1) {
+            setStep(step - 1);
+        } else {
+            navigate('/login')
+        }
+    };
+
+    useEffect(() => {
+        window.onpopstate = handleBackButtonClick;
+        return () => {
+            window.onpopstate = null; // Cleanup when the component unmounts
+        };
+    }, [step]);
+
+
 
     const nextStep = () => {
         console.log("returned data: ", formData); // changed to comma instead of plus
