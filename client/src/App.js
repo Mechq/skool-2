@@ -26,33 +26,48 @@ function App() {
     }, [isLoginPage, isRegisterPage]);
 
 
+    const fetchUserData = async (token) => {
+        const response = await fetch('/api/verifyToken', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return await response.json();
+    };
+
+    React.useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetchUserData(token)
+                .then(data => {
+                    if (data.status === 'Success') {
+                        console.log('User data:', data);
+                    } else {
+                        console.error('Error fetching user data:', data);
+                    }
+                })
+                .catch(error => console.error('Error fetching user data:', error));
+        }
+    });
+
 
     return (
         <div className="flex flex-col min-h-screen">
             {!(isLoginPage || isRegisterPage) && <NavBar/>}
             <div className="container mx-auto flex-grow py-4">
                 <Routes>
-
-                        <>
-                            <Route path="/workshops" element={<Workshop />} />
-                            <Route path="/mailTemplates" element={<MailTemplates />} />
-                            <Route path="/users" element={<Users />} />
-                            <Route path="/werklocatie" element={<Worklocation />} />
-                            <Route path="/customers" element={<Customers />} />
-                        </>
+                    <Route path="/workshops" element={<Workshop />} />
+                    <Route path="/mailTemplates" element={<MailTemplates />} />
+                    <Route path="/users" element={<Users />} />
+                    <Route path="/werklocatie" element={<Worklocation />} />
+                    <Route path="/customers" element={<Customers />} />
 
                     <Route path="*" element={<h1>Not Found</h1>} />
                     <Route path="/" element={<Home />} />
-
                     <Route path="/register" element={<Register />} />
-                    {/*<Route path="/workshops" element={<Workshop />} />*/}
-                    {/*<Route path="/mailTemplates" element={<MailTemplates />} />*/}
                     <Route path="/opdracht" element={<Commission />} />
-                    {/*<Route path="/werklocatie" element={<Worklocation />} />*/}
-                    {/*<Route path="/customers" element={<Customers />} />*/}
                     <Route path="/login" element={<Login />} />
                     <Route path='/user' element={<User />} />
-                    {/*<Route path="/users" element={<Users />} />*/}
                 </Routes>
             </div>
         </div>

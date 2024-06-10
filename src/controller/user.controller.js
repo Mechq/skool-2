@@ -1,6 +1,5 @@
 const userService = require('../service/user.service');
 const logger = require('../util/logger');
-const cookieParser = require('cookie-parser');
 
 const userController = {
     register: (req, res, next) => {
@@ -33,17 +32,18 @@ const userController = {
             }
 
             if (result.status === 'Success') {
-                res.cookie('token', result.token, {
-                    httpOnly: false,
-                    secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'strict'
+                // Do not set the cookie here, just return the token
+                res.json({
+                    status: 'Success',
+                    message: 'Login successful',
+                    token: result.token
                 });
-                res.json({ status: 'Success', message: 'Login successful' });
             } else {
                 res.status(401).json(result);
             }
         });
     },
+
     getById: (req, res, next) => {
         const id = req.params.id;
 
@@ -68,7 +68,7 @@ const userController = {
         });
     },
 
-    getAllUsers: (req, res) => {
+    getAllUsers: (req, res, next) => {  // Added 'next' here
         logger.info('retrieving users');
 
         userService.getAll((error, success) => {
@@ -138,7 +138,6 @@ const userController = {
             }
         });
     }
-   
 };
 
 module.exports = userController;

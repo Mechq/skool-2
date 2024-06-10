@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
     const [emailValid, setEmailValid] = useState(true);
     const [passwordValid, setPasswordValid] = useState(true);
     const [error, setError] = useState("");
@@ -32,7 +31,9 @@ export default function Login() {
             .then(data => {
                 if (data.status === 'Success') {
                     console.log('Login voltooid', data);
-                    // Handle successful login (e.g., store the token, redirect, etc.)
+                    // Store the token in local storage
+                    localStorage.setItem('token', data.token);
+                    // Handle successful login (e.g., redirect)
                     setEmail("");
                     setPassword("");
                     window.location.href = "/";
