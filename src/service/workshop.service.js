@@ -194,8 +194,21 @@ const workshopService = {
         getWorkshopCommission: (callback) => {
             logger.info('getting workshop commission');
 
-            let sql = ' SELECT w.*, c.* FROM workshop w JOIN workshopRound wr ON w.id = wr.workshopId JOIN round r ON wr.roundId = r.id JOIN commission c ON r.commissionId = c.id;';
-
+            let sql = `
+        SELECT 
+            w.id AS workshopId, 
+            c.id AS commissionId, 
+            w.*, 
+            c.* 
+        FROM 
+            workshop w 
+        JOIN 
+            workshopRound wr ON w.id = wr.workshopId 
+        JOIN 
+            round r ON wr.roundId = r.id 
+        JOIN 
+            commission c ON r.commissionId = c.id;
+    `;
             database.query(sql, (error, results, fields) => {
                 if (error) {
                     logger.error('Error getting workshop commission', error);

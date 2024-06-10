@@ -1,9 +1,27 @@
 import React, { useEffect, useState } from "react";
 import UserWorkshopCard from "../UserWorkshopCard";
+import UserWorkshopDetailsModalScreen from "../modal-screens/UserWorkshopDetailsModalScreen";
 
 
 export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
     const [commissions, setCommissions] = useState([]);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
+    const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+    const [selectedCommission, setSelectedCommission] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+
+
+    const handleDetailsClick = (workshop, commission, e) => {
+        e.preventDefault();
+        setSelectedWorkshop(workshop);
+        setSelectedCommission(commission);
+        setShowDetailsModal(true);
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        setShowDetailsModal(false);
+    };
 
     useEffect(() => {
         fetch('/api/workshop/commission')
@@ -29,8 +47,17 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
+    const getCommission = (commissionId) => {
+        const commission = commissions.find(c => c.id === commissionId);
+        if (commission) {
+            return commission;
+        }
+        return 'Unknown Commission';
+    }
+
     const getCommissionDate = (commissionId) => {
         const commission = commissions.find(c => c.id === commissionId);
+        console.log("commission", commission)
         if (commission) {
             const date = new Date(commission.date);
             return date.toLocaleDateString('nl-NL', {
@@ -44,12 +71,27 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
 
     return (
         <>
+
+            {showDetailsModal && (
+                <div>
+                    <UserWorkshopDetailsModalScreen
+                        onClose={handleModalClose}
+                        workshop={selectedWorkshop}
+                        commission={selectedCommission}
+                    />
+                </div>
+            )}
+
             {userWorkshops.map((userWorkshop) => (
+                <div
+                    onClick={(e) => handleDetailsClick(userWorkshop, getCommission(userWorkshop.commissionId), e)}
+                >
                 <UserWorkshopCard
                     key={userWorkshop.unique}
                     userWorkshop={userWorkshop}
-                    commissionDate={getCommissionDate(userWorkshop.id)} // Assuming id corresponds to commission id
+                    commissionDate={getCommissionDate(userWorkshop.commissionId)} // Assuming id corresponds to commission id
                 />
+                </div>
             ))}
         </>
     );
