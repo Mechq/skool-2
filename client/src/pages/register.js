@@ -24,7 +24,9 @@ const RegistrationFlow = () => {
         hasDriversLicense: false,
         hasCar: false,
         isZZPer: true,
-        iban: ''
+        iban: '',
+        languages: [],
+        userLanguages: []
     });
     const [postRequest, setPostRequest] = useState(false);
 
@@ -59,7 +61,14 @@ const RegistrationFlow = () => {
     const createAccount = () => {
         setPostRequest(true);
         setStep(step + 1);
-        console.log(formData);
+
+        const userLanguageIndices = formData.userLanguages.map(language => formData.languages.indexOf(language) + 1);
+        const postData = {
+            ...formData,
+            userLanguages: userLanguageIndices
+        };
+
+        console.log(postData);
     };
 
     const stepBack = () => {

@@ -1,13 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => {
-    const { kvkNumber, btwNumber, hasDriversLicense, hasCar, isZZPer, iban } = formData;
-
-
+    const { kvkNumber, btwNumber, hasDriversLicense, hasCar, isZZPer, iban, userLanguages } = formData;
 
     const [kvkNumberValid, setKvkNumberValid] = useState(true);
     const [btwNumberValid, setBtwNumberValid] = useState(true);
     const [ibanValid, setIbanValid] = useState(true);
+
+    const [languages, setLanguages] = useState([]);
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        const fetchLanguages = async () => {
+            try {
+                const response = await fetch('/api/language');
+                const data = await response.json();
+                if (response.ok) {
+                    setLanguages(data.data.map(lang => lang.name));
+                    console.log('Languages fetched:', languages);
+                } else {
+                    console.error('Failed to fetch languages:', data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching languages:', error);
+            }
+        };
+
+        fetchLanguages();
+
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target) && event.target.type !== 'checkbox') {
+                setIsDropdownVisible(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const ibanRegexes = {
         NL: /^NL\d{2}[A-Z]{4}\d{10}$/,
@@ -17,7 +50,6 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
     };
 
     const btwNumberRegex = /^NL\d{9}B\d{2}$/;
-
     const kvkNumberRegex = /^\d{8}$/;
 
     const handleRegister = (e) => {
@@ -58,15 +90,36 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
             hasDriversLicense,
             hasCar,
             isZZPer,
-            iban
+            iban,
+            userLanguages: userLanguages.map(language => languages.indexOf(language) + 1)
         });
 
         createAccount();
     };
 
+    const handleDropdownClick = (e) => {
+        e.stopPropagation();
+        setIsDropdownVisible(!isDropdownVisible);
+    };
+
+    const handleCheckboxClick = (e, language) => {
+        e.stopPropagation();
+        const isChecked = e.target.checked;
+        setFormData(prevState => ({
+            ...prevState,
+            userLanguages: isChecked ?
+                [...prevState.userLanguages, language] :
+                prevState.userLanguages.filter(lang => lang !== language)
+        }));
+
+        // Keep the dropdown open when interacting with checkboxes
+        setIsDropdownVisible(true);
+    };
+
+
     return (
         <section className='px-6 py-8 mx-6'>
-            <form onSubmit={handleRegister}>
+            <form onSubmit={handleRegister} className="relative">
                 <h3 className="mb-4 text-lg font-medium leading-none text-gray-900 light:text-white">Registreren</h3>
 
                 <div className="grid gap-4 mb-4 grid-cols-2">
@@ -109,60 +162,66 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
                     </div>
                 </div>
 
-                <div className="grid gap-4 mb-4 grid-cols-3">
-                    <div className="flex items-center">
-                        <label className="inline-flex tems-center flex-grow">
-                            <span className="text-sm font-medium text-gray-900 mr-4 light:text-white">Heeft u een rijbewijs?</span>
-                            <input
-                                type="checkbox"
-                                name="hasDriversLicense"
-                                id="hasDriversLicense"
-                                className="form-checkbox ml-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                                checked={hasDriversLicense}
-                                onChange={(e) => setFormData({...formData, hasDriversLicense: e.target.checked})}
-                            />
-                        </label>
-                    </div>
-                    <div className="flex items-center">
-                        <label className="inline-flex items-center flex-grow">
-                            <span
-                                className="text-sm font-medium text-gray-900 mr-4 light:text-white">Heeft u een auto?</span>
-                            <input
-                                type="checkbox"
-                                name="hasCar"
-                                id="hasCar"
-                                className="form-checkbox ml-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                                checked={hasCar}
-                                onChange={(e) => setFormData({...formData, hasCar: e.target.checked})}
-                            />
-                        </label>
-                    </div>
-                    <div className="flex items-center">
-                        <label className="inline-flex items-center flex-grow">
-                            <span
-                                className="text-sm font-medium text-gray-900 mr-4 light:text-white">Bent u een ZZP'er</span>
-                            <input
-                                type="checkbox"
-                                name="isZZPer"
-                                id="isZZPer"
-                                className="form-checkbox ml-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                                checked={isZZPer}
-                                onChange={(e) => setFormData({...formData, isZZPer: e.target.checked})}
-                            />
-                        </label>
-                    </div>
+                <div className="grid gap-4 mb-4 relative">
+                    <button
+                        type="button"
+
+                        type="button"
+                        id="dropdownCheckboxButton"
+                        onClick={handleDropdownClick}
+                        className="text-white bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800 relative"
+                    >
+                        Welke talen spreekt u?
+                        <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                  d="m1 1 4 4 4-4"/>
+                        </svg>
+                        {isDropdownVisible && (
+                            <div
+                                ref={dropdownRef}
+                                className="absolute top-full left-0 mt-2 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow light:bg-gray-700 light:divide-gray-600 transition-all duration-300 transform
+                                opacity-100 scale-100"
+                            >
+                                <ul className="p-3 space-y-3 text-sm text-gray-700 light:text-gray-200"
+                                    aria-labelledby="dropdownCheckboxButton">
+                                    {languages.map((language, index) => (
+                                        <li key={index}>
+                                            <div className="flex items-center">
+                                                <input
+                                                    id={`checkbox-item-${index}`}
+                                                    type="checkbox"
+                                                    value={language}
+                                                    checked={userLanguages.includes(language)}
+                                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                                    onChange={(e) => handleCheckboxClick(e, language)}
+                                                />
+                                                <label htmlFor={`checkbox-item-${index}`}
+                                                       className="ms-2 text-sm font-medium text-gray-900 light:text-gray-300">{language}</label>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </button>
                 </div>
 
-                <button onClick={(stepBack)}
-                        className="text-white mr-3 bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Terug
+                <button
+                    onClick={stepBack}
+                    className="text-white mr-3 bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange"
+                >
+                    Terug
                 </button>
-                <button type="submit"
-                        className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Volgende
-                    stap
+                <button
+                    type="submit"
+                    className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange"
+                >
+                    Volgende stap
                 </button>
             </form>
         </section>
-    )
-}
+    );
+};
 
 export default PersonalDetails;
