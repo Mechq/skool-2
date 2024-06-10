@@ -20,15 +20,6 @@ const userRoutes = require ("./src/routes/user.routes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Route error handler
-app.use((req, res, next) => {
-    next({
-        status: 404,
-        message: 'Route not found',
-        data: {}
-    });
-});
-
 app.use(express.json());
 
 app.use(cookieParser());
@@ -61,6 +52,14 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
+// Route error handler
+app.use((req, res, next) => {
+    next({
+        status: 404,
+        message: 'Route not found',
+        data: {}
+    });
+});
 
 // Express error handler
 app.use((error, req, res, next) => {
