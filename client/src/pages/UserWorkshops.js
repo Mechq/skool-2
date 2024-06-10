@@ -9,11 +9,11 @@ const [userWorkshops, setUserWorkshops] = useState([]);
 
 
     useEffect(() => {
-        fetch('/api/userWorkshop')
+        fetch('/api/workshop/commission')
             .then(res => res.json())
             .then(data => {
                 setUserWorkshops(data.data);
-                console.log("Fetched teachers: ", data.data);
+                console.log("Fetched workshops: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
