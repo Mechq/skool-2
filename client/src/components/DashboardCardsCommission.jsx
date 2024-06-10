@@ -1,121 +1,23 @@
-// import React from 'react';
-// import PageSecurity from "../PageSecurity";
-
-// function DashboardCardsCommission() {
-
-//     const userEmail = PageSecurity();
-//     if (userEmail === null) {
-//         return null;
-//     } else {
-//         console.log('Email:', userEmail)
-//     }
-
-//     return (
-        
-// <div class="area">
-
-
-// 	<div class="w-1/2 px-4 lg:w-1/3">
-// 		<div class="bg-white shadow-lg rounded-lg overflow-hidden my-6 grid grid-cols-[auto,1fr]">
-// 			<div class="bg-gray-100 px-5 py-2   grid items-end justify-center __col h-full">
-// 				<a href="#" class="text-blue-600 font-medium hover:text-blue-800">Learn more</a>
-// 			</div>
-// 			<div class="p-6">
-// 				<h2 class="text-xl font-semibold text-gray-800 mb-4">Fast Performance</h2>
-// 				<p class="text-gray-600">Suspendisse tincidunt metus vitae libero auctor, at aliquam purus. Morbi sit
-// 					amet lectus non sapien aliquet rutrum.</p>
-// 			</div>
-// 		</div>
-// 	</div>
-
-
-// 	<div class="w-1/2 px-4 lg:w-1/3">
-// 		<div class="bg-white shadow-lg rounded-lg overflow-hidden my-6 grid grid-cols-[auto,1fr]">
-// 			<div class="bg-gray-100 px-5 py-2   grid items-end justify-center __col h-full">
-// 				<a href="#" class="text-blue-600 font-medium hover:text-blue-800">Learn more</a>
-// 			</div>
-// 			<div class="p-6">
-// 				<h2 class="text-xl font-semibold text-gray-800 mb-4">Elegance</h2>
-// 				<p class="text-gray-600">Suspendisse tincidunt metus vitae libero auctor, at aliquam purus. Morbi sit
-// 					amet lectus non sapien aliquet rutrum.</p>
-// 			</div>
-// 		</div>
-// 	</div>
-
-
-
-// 	<div class="w-1/2 px-4 lg:w-1/3">
-// 		<div class="bg-white shadow-lg rounded-lg overflow-hidden my-6 grid grid-cols-[auto,1fr]">
-// 			<div class="bg-gray-100 px-5 py-2   grid items-end justify-center __col h-full">
-// 				<a href="#" class="text-blue-600 font-medium hover:text-blue-800">Learn more</a>
-// 			</div>
-// 			<div class="p-6">
-// 				<h2 class="text-xl font-semibold text-gray-800 mb-4">Fast Performance</h2>
-// 				<p class="text-gray-600">Suspendisse tincidunt metus vitae libero auctor, at aliquam purus. Morbi sit
-// 					amet lectus non sapien aliquet rutrum.</p>
-// 			</div>
-// 		</div>
-// 	</div>
-
-
-
-// 	<div class="w-1/2 px-4 lg:w-1/3">
-// 		<div class="bg-white shadow-lg rounded-lg overflow-hidden my-6 grid grid-cols-[auto,1fr]">
-// 			<div class="bg-gray-100 px-5 py-2   grid items-end justify-center __col h-full">
-// 				<a href="#" class="text-blue-600 font-medium hover:text-blue-800">Learn more</a>
-// 			</div>
-// 			<div class="p-6">
-// 				<h2 class="text-xl font-semibold text-gray-800 mb-4">Spacial Diversity</h2>
-// 				<p class="text-gray-600">Suspendisse tincidunt metus vitae libero auctor, at aliquam purus. Morbi sit
-// 					amet lectus non sapien aliquet rutrum.</p>
-// 			</div>
-// 		</div>
-// 	</div>
-// 	{/* <ul class="circles">
-// 		<li></li>
-// 		<li></li>
-// 		<li></li>
-// 		<li></li>
-// 		<li></li>
-// 		<li></li>
-// 		<li></li>
-// 		<li></li>
-// 		<li></li>
-// 		<li></li>
-// 	</ul> */}
-// </div>
-
-//     );
-// }
-
-// export default DashboardCardsCommission;
-
 import React, { useState, useEffect } from 'react';
 import PageSecurity from "../PageSecurity";
 
-function DashboardCardsCommission() {
+function DashboardCardsCommission( {teacherId}) {
     const userEmail = PageSecurity();
+    const [commissions, setCommissions] = useState([]);
+
+    useEffect(() => {
+        fetch(`/api/dashboard/${teacherId}`)
+            .then(res => res.json())
+            .then(data => {
+                setCommissions(data.data);
+                console.log("Fetched commissions: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
 
     if (userEmail === null) {
         return null;
     }
-
-    const [commissions, setCommissions] = useState([]);
-
-    useEffect(() => {
-        // Here we fetch the commissions from the database
-        async function fetch() {
-            try {
-                const response = await fetch('/api/commissions'); // Replace '/api/commissions' with the correct API endpoint URL
-                const data = await response.json();
-                setCommissions(data); // Set the commissions with the data from the database
-            } catch (error) {
-                console.error('Error fetching commissions:', error);
-            }
-        }
-
-        fetch(); // Call the fetchCommissions function when the component is mounted
-    }, []); // Empty dependency array ensures useEffect runs only once on mount
 
     return (
         <div className="area">
@@ -142,4 +44,3 @@ function DashboardCardsCommission() {
 }
 
 export default DashboardCardsCommission;
-
