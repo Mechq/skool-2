@@ -3,20 +3,23 @@ import PageSecurity from "../PageSecurity";
 import DashboardCardsCommission from '../components/DashboardCardsCommission';
 
 function Home() {
-    const [teacherId, setTeacherId] = useState("");
+    const [teacherId, setTeacherId] = useState();
     const userEmail = PageSecurity();
+    const [disableUseEffect, setDisableUseEffect] = useState(false);
     
     // Ensure that the useEffect is not called conditionally
     useEffect(() => {
         const email = userEmail.email;
         console.log("User email: ", email);
-        if (userEmail !== null) {
+        if (userEmail !== null && !disableUseEffect) {
             fetch(`/api/user/email/${email}`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log("Fetched data: ", data);
-                    setTeacherId(data.data.id);
+                    console.log("Fetched data: ", data.data);
                     console.log("Fetched teacherId: ", data.data.id);
+                    setTeacherId(data.data.id);
+                    console.log("TeacherId: ", teacherId);
+                    setDisableUseEffect(true);
                 })
                 .catch(error => console.error('Error fetching data:', error));
         }
