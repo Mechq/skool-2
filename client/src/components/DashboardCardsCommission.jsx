@@ -5,7 +5,6 @@ import DashboardCardsCommissionDetailsModal from "./modal-screens/DashboardCards
 function DashboardCardsCommission({ teacherId }) {
     const userEmail = PageSecurity();
     const [commissions, setCommissions] = useState([]);
-    const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedCommission, setSelectedCommission] = useState(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const teacherEmail = userEmail ? userEmail.email : null;
@@ -17,16 +16,14 @@ function DashboardCardsCommission({ teacherId }) {
         return description;
     };
 
-    const handleDetailsClick = (workshop, commission, e) => {
+    const handleDetailsClick = (commission, e) => {
         e.preventDefault();
-        setSelectedWorkshop(workshop);
         setSelectedCommission(commission);
         setShowDetailsModal(true);
     };
 
     const handleModalClose = () => {
         setShowDetailsModal(false);
-        setSelectedWorkshop(null);
         setSelectedCommission(null);
     };
 
@@ -56,11 +53,10 @@ function DashboardCardsCommission({ teacherId }) {
 
     return (
         <div className="area">
-            {showDetailsModal && selectedWorkshop && selectedCommission && (
+            {showDetailsModal && selectedCommission && (
                 <div>
                     <DashboardCardsCommissionDetailsModal
                         onClose={handleModalClose}
-                        workshop={selectedWorkshop}
                         commission={selectedCommission}
                     />
                 </div>
@@ -74,7 +70,7 @@ function DashboardCardsCommission({ teacherId }) {
                             <a 
                                 href="#" 
                                 className="text-blue-600 font-medium hover:text-blue-800" 
-                                onClick={(e) => handleDetailsClick(commission, getCommission(commission.id), e)}
+                                onClick={(e) => handleDetailsClick(commission, e)}
                             >
                                 Meer informatie
                             </a>

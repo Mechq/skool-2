@@ -27,12 +27,13 @@ export default function WorkshopDetailsModalScreen({ onClose, userId }) {
                         <div className="p-6 space-y-4 sm:space-y-6">
                             <span className="close text-xl cursor-pointer" onClick={onClose}>&times;</span>
                             <h1 className="text-xl font-medium m-0 p-0" style={{ marginTop: 0 }}><strong>{workshop.name}</strong></h1>
+                            <h2 className=""><strong>Titel:</strong> <br /> {commission.id}</h2>
                             <h2 className=""><strong>Naam:</strong> <br />
-                                {workshop.name}</h2>
+                                {commission.name}</h2>
                             <h2 className=""><strong>Details:</strong> <br />
-                                {workshop.description}</h2>
-                                <h2 className=""><strong>Materialen:</strong> <br />
-                                {workshop.materials}</h2>
+                                {commission.details}</h2>
+                                <h2 className=""><strong>Datum:</strong> <br />
+                                {commission.date}</h2>
                         </div>
                     </div>
                 </div>
