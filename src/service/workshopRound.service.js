@@ -11,39 +11,48 @@ const workshopRound = {
         callback(err, null);
         return;
       }
+      const { commissionId } = workshopRound;
 
-      const { amountOfTeachers, amountOfStudents } = workshopRound;
-
-      const values = [workshopId, roundId, amountOfStudents, amountOfTeachers];
+      const values = [workshopId, roundId];
 
       // TODO: Implement the query to insert correct data
       const query =
-        "INSERT INTO workshopRound (workshopId, roundId, amountOfStudents, amountOfTeachers) VALUES (?, ?, ?,?)";
+          "INSERT INTO workshopRound (workshopId, roundId) VALUES (?,?)";
 
       logger.debug("query", query);
 
       connection.query(query, values, function (error, results, fields) {
-        connection.release();
-
         if (error) {
-          // TODO: Implement correct logging for possible error cases
-          logger.error("Error creating workshop for round", error);
-          callback(error, null);
-        } else {
-          // Get the last inserted id for logging
-          // const commissionId = results.insertId;
-          logger.trace("workshop for round created", roundId);
-
-          // const commissionDataWithId = {...commission, Id: commissionId};
-          callback(null, {
-            status: 200,
-            message: "workshop for round created",
-            data: results,
-          });
+          if (error.code === 'ER_DUP_ENTRY') {
+            logger.warn("Duplicate entry key error:", error);
+          } else {
+            logger.error("Error creating workshop for round", error);
+            callback(error, null);
+            connection.release();
+            return;
+          }
         }
+
+        // Add to userWorkshop
+        connection.query(`INSERT INTO commissionWorkshop (workshopId, commissionId) VALUES(?, ?)`, [workshopId, commissionId], function (error, results2, fields) {
+          if (error) {
+            logger.error("Error creating userWorkshop entry", error);
+            callback(error, null);
+          } else {
+            logger.trace("userWorkshop entry created");
+            callback(null, {
+              status: 200,
+              message: "workshop for round created",
+              data: results
+            });
+          }
+          connection.release();
+        });
       });
     });
   },
+
+
 
   getWorkshopsRoundById: (roundId, callback) => {
     logger.info("Get all workshops from round", roundId);
@@ -95,9 +104,9 @@ const workshopRound = {
     });
   },
 
-  editWorkshopRoundWorkshop: (workshopId, roundId, workshopRound, callback) => {
+  editWorkshopRoundWorkshop: (workshopId, commissionId, workshopRound, callback) => {
     logger.info('workshopId', workshopId);
-    logger.info('roundId', roundId);
+    logger.info('roundId', commissionId);
     logger.info("Editing workshop for round", workshopRound);
 
     database.getConnection(function (err, connection) {
@@ -109,7 +118,7 @@ const workshopRound = {
 
       const { amountOfTeachers, amountOfStudents } = workshopRound;
       const values = [];
-      let sql = "UPDATE workshopRound SET ";
+      let sql = "UPDATE commissionWorkshop SET ";
 
       if (amountOfTeachers !== undefined) {
         sql += "amountOfTeachers = ?, ";
@@ -124,8 +133,8 @@ const workshopRound = {
       // Remove the trailing comma and space
       sql = sql.slice(0, -2);
 
-      sql += " WHERE workshopId = ? AND roundId = ?";
-      values.push(workshopId, roundId);
+      sql += " WHERE workshopId = ? AND commissionId = ?";
+      values.push(workshopId, commissionId);
 
       logger.debug("sql", sql);
       logger.debug("values", values);

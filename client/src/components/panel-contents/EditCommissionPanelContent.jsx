@@ -462,6 +462,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 <WorkshopRoundWorkshopEditModal
                     roundType={editedRoundType}
                     roundId={editedRoundId} // Pass the parent workshop round ID as the round ID
+                    commissionId={commissionId} // Pass the commission ID
                     workshopId={editedWorkshopId} // Pass the workshop ID
                     onClose={handleModalClose}
                     onSave={handleModalSave}

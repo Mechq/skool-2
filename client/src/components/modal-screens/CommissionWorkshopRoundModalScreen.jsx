@@ -9,6 +9,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
     const [startTime, setStartTime] = useState('')
     const [order, setOrder] = useState('')
     const [endTime, setEndTime] = useState('')
+    const [commissionId, setCommissionId] = useState('')
 
 
     const [validDuration, setValidDuration] = useState(false);
@@ -31,6 +32,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                 setDuration(data.data.duration);
                 setStartTime(data.data.startTime);
                 setEndTime(data.data.endTime);
+                setCommissionId(data.data.commissionId);
                 console.log("Fetched workshops: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
@@ -120,8 +122,8 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                                 },
                                 body: JSON.stringify({
                                     workshopId: selectedWorkshopId,
-                                    roundId: roundId
-                                    //TODO add amountOfStudents and amountOfTeachers
+                                    roundId: roundId,
+                                    commissionId: commissionId
                                 }),
                             })
                                 .then(response => response.json())

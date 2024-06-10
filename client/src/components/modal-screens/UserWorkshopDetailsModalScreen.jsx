@@ -82,7 +82,7 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                             </div>
                             <div className="flex justify-center">
                                 <button
-                                    className="bg-brand-orange text-white font-bold py-4 px-8 rounded focus:outline-none focus:shadow-outline m-5 mt-8"
+                                    className="bg-brand-orange text-white font-bold py-4 px-8 rounded focus:outline-none hover:bg-hover-brand-orange focus:shadow-outline m-5 mt-8"
                                 >
                                     Aanmelden
                                 </button>
