@@ -56,7 +56,7 @@ function User() {
     //     return null;
     // }
 
-    console.log("User firstnae: ", user.firstName);
+    // console.log("User firstnae: ", user.firstName);
 
     const editUser = () => {
         setIsOpen(true);

@@ -14,7 +14,7 @@ export default function CommissionList({    isOpen,
         fetch('/api/commission')
             .then(res => res.json())
             .then(data => {
-                console.log("Fetched commissions: ", data.data);
+                // console.log("Fetched commissions: ", data.data);
                 setCommissions(data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
@@ -24,7 +24,7 @@ export default function CommissionList({    isOpen,
         fetch(`/api/customer`)
             .then(res => res.json())
             .then(data => {
-                console.log("Fetched customers: ", data.data);
+                // console.log("Fetched customers: ", data.data);
                 setCustomers(data.data);
             })
             .catch(error => console.error('Error fetching data:', error));

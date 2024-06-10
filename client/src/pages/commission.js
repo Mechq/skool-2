@@ -18,7 +18,7 @@ export default function Commission() {
             .then(res => res.json())
             .then(data => {
                 setCommissions(data.data);
-                console.log("Fetched commissions: ", data.data);
+                // console.log("Fetched commissions: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);

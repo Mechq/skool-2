@@ -10,7 +10,6 @@ export default function UserProfile({user, editUser}) {
         {
             age--;
         }
-        console.log(age);
         return age;
     }
 
