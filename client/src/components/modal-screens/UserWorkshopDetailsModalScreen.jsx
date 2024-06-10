@@ -36,7 +36,6 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                         </h1>
                     </div>
                 </section>
-                <div className="w-full max-w-4xl">
                     <div className="w-full max-w-4xl">
                         <div
                             className="bg-white shadow light:border light:bg-gray-800 light:border-gray-700 rounded-none">
@@ -81,10 +80,16 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                                     </>
                                 )}
                             </div>
+                            <div className="flex justify-center">
+                                <button
+                                    className="bg-brand-orange text-white font-bold py-4 px-8 rounded focus:outline-none focus:shadow-outline m-5 mt-8"
+                                >
+                                    Aanmelden
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                </div>
+                    </div>
 
 
             </section>
