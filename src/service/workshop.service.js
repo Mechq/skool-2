@@ -296,7 +296,7 @@ const workshopService = {
         logger.info('getting enrollments');
 
         let sql = `
-               SELECT COUNT(*) AS amountOfEnrollments FROM enrollment WHERE commissionWorkshopId = (SELECT id FROM commissionWorkshop WHERE commissionId = ? AND workshopId = ?);
+               SELECT * FROM enrollment WHERE commissionWorkshopId = (SELECT id FROM commissionWorkshop WHERE commissionId = ? AND workshopId = ?);
 
             `;
         database.query(sql, [commissionId, workshopId] ,(error, results, fields) => {
@@ -310,7 +310,7 @@ const workshopService = {
                 callback(null, {
                     status: 200,
                     message: 'Enrollments fetched successfully',
-                    data: results[0],
+                    data: results,
                 });
             }
         });

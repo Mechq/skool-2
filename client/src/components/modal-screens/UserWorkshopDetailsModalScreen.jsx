@@ -8,7 +8,7 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
     const [workshopRound, setWorkshopRound] = useState({});
     const [customer, setCustomer] = useState({});
     const [location, setLocation] = useState({});
-    const [enrollmentsCount, setEnrollmentsCount] = useState(0);
+    const [enrollments, setEnrollments] = useState([]);
 
     const user = PageSecurity();
 
@@ -50,15 +50,15 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
             })
             .catch(error => console.error('Error fetching location data:', error));
 
-        const fetchEnrollments = fetch(`/api/workshop/enrollment/count/${workshop.workshopId}/${commission.id}`)
+        const fetchEnrollments = fetch(`/api/workshop/enrollment/${workshop.workshopId}/${commission.id}`)
             .then(res => res.json())
             .then(data => {
-                setEnrollmentsCount(data.data.amountOfEnrollments);
-                console.log("Fetched count: ", data.data);
+                setEnrollments(data.data);
+                console.log("Fetched enrollments: ", data.data);
             })
             .catch(error => console.error('Error fetching location data:', error));
 
-        Promise.all([fetchWorkshopRound, fetchCustomer, fetchLocation])
+        Promise.all([fetchWorkshopRound, fetchCustomer, fetchLocation, fetchEnrollments])
             .then(() => {
                 console.log('All data fetched successfully');
             })
@@ -66,18 +66,34 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                 console.error('Error in fetching one or more resources:', error);
             });
     }, []);
-let buttonText = "Aanmelden";
-    if (workshopRound && workshopRound.amountOfTeachers < enrollmentsCount) {
-        console.log("No more teachers allowed");
-        buttonText = "Wachtrij";
-    }
-
 
     if (!user) {
         return null;
     }
-    console.log(user)
+    // console.log(user)
     const userId = user.id;
+
+
+    let buttonText = "";
+
+
+    if (workshopRound && workshopRound.amountOfTeachers <= enrollments.length) {
+        // console.log("No more teachers allowed");
+        buttonText = "Wachtrij";
+    }
+    else if (workshopRound && workshopRound.amountOfTeachers > enrollments.length) {
+        // console.log("Workshop full");
+        buttonText = "Aanmelden";
+    }
+    enrollments.map((enrollment) => {
+        if (enrollment.userId === userId) {
+            console.log("User already enrolled");
+            buttonText = "Afmelden";
+        }
+        else {
+            console.log("User not enrolled");
+        }
+    })
 
     const handleSubmit = (e) => {
         e.preventDefault();
