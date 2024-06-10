@@ -1,58 +1,14 @@
-// import React, { useState, useEffect } from 'react';
-// import PageSecurity from "../PageSecurity";
-
-// function DashboardCardsCommission( {teacherId}) {
-//     const userEmail = PageSecurity();
-//     const [commissions, setCommissions] = useState([]);
-//     teacherId = parseInt(teacherId);   
-
-//     useEffect(() => {
-//         fetch(`/api/dashboard/${teacherId}`)
-//             .then(res => res.json())
-//             .then(data => {
-//                 setCommissions(data.data);
-//                 console.log("Fetched commissions: ", data.data);
-//             })
-//             .catch(error => console.error('Error fetching data:', error));
-//     }, []);
-
-//     if (userEmail === null) {
-//         return null;
-//     }
-
-//     return (
-//         <div className="area">
-//             {commissions.map((commission, index) => (
-//                 <div key={index} className="w-1/2 px-4 lg:w-1/3">
-//                     <div className="bg-white shadow-lg rounded-lg overflow-hidden my-6 grid grid-cols-[auto,1fr]">
-//                         <div className="bg-gray-100 px-5 py-2 grid items-end justify-center __col h-full">
-//                             <a href="#" className="text-blue-600 font-medium hover:text-blue-800">Meer informatie</a>
-//                         </div>
-//                         <div className="p-6">
-//                             <h2 className="text-xl font-semibold text-gray-800 mb-4">{commission.title}</h2>
-//                             <p className="text-gray-600">{commission.description}</p>
-//                         </div>
-//                     </div>
-//                 </div>
-//             ))}
-//             <ul className="circles">
-//                 {Array.from({ length: commissions.length }).map((_, index) => (
-//                     <li key={index}></li>
-//                 ))}
-//             </ul>
-//         </div>
-//     );
-// }
-
-// export default DashboardCardsCommission;
-
 import React, { useState, useEffect } from 'react';
 import PageSecurity from "../PageSecurity";
+import DashboardCardsCommissionDetailsModal from "./modal-screens/DashboardCardsCommissionDetails";
 
 function DashboardCardsCommission({ teacherId }) {
     const userEmail = PageSecurity();
     const [commissions, setCommissions] = useState([]);
-    const teacherEmail = userEmail.email;
+    const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+    const [selectedCommission, setSelectedCommission] = useState(null);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
+    const teacherEmail = userEmail ? userEmail.email : null;
 
     const truncateDescription = (description, maxLength) => {
         if (description.length > maxLength) {
@@ -61,13 +17,24 @@ function DashboardCardsCommission({ teacherId }) {
         return description;
     };
 
+    const handleDetailsClick = (workshop, commission, e) => {
+        e.preventDefault();
+        setSelectedWorkshop(workshop);
+        setSelectedCommission(commission);
+        setShowDetailsModal(true);
+    };
+
+    const handleModalClose = () => {
+        setShowDetailsModal(false);
+        setSelectedWorkshop(null);
+        setSelectedCommission(null);
+    };
+
     useEffect(() => {
-        // Ensure userEmail and teacherId are not null before making the API call
-        if (teacherEmail !== null && teacherId !== null) {
+        if (teacherEmail && teacherId !== null) {
             fetch(`/api/dashboard/${teacherId}`)
                 .then(res => res.json())
                 .then(data => {
-                    // Ensure data.data is an array before setting commissions
                     if (Array.isArray(data.data)) {
                         setCommissions(data.data);
                         console.log("Fetched commissions: ", data.data);
@@ -77,31 +44,40 @@ function DashboardCardsCommission({ teacherId }) {
                 })
                 .catch(error => console.error('Error fetching data:', error));
         }
-    }, [teacherEmail, teacherId]); // Include userEmail and teacherId as dependencies
+    }, [teacherEmail, teacherId]);
 
-    // Check if userEmail is null and return null if so
     if (userEmail === null) {
         return null;
     }
 
+    const getCommission = (commissionId) => {
+        return commissions.find(commission => commission.id === commissionId);
+    };
+
     return (
         <div className="area">
+            {showDetailsModal && selectedWorkshop && selectedCommission && (
+                <div>
+                    <DashboardCardsCommissionDetailsModal
+                        onClose={handleModalClose}
+                        workshop={selectedWorkshop}
+                        commission={selectedCommission}
+                    />
+                </div>
+            )}
+
             {commissions.map((commission, index) => (
                 <div key={index} className="w-1/2 px-4 lg:w-1/3">
                     <div className="bg-white shadow-lg rounded-lg overflow-hidden my-6 grid grid-cols-[auto,1fr]">
                         <div className="bg-gray-100 px-5 py-2 grid items-end justify-center __col h-full">
                             <h2 className="text-xl font-semibold text-gray-800 mb-4">{commission.name}</h2>
-                            <a href="#" className="text-blue-600 font-medium hover:text-blue-800">Meer informatie</a>
-                        </div>
-                        <div className="p-6">
-                            <h2 className="text-xl font-semibold text-gray-800 mb-4">{commission.title}</h2>
-                            <p className="text-gray-600">{truncateDescription(commission.description, 100)}</p>
-                        </div>
-                    </div>
-                    <div className="bg-white shadow-lg rounded-lg overflow-hidden my-6 grid grid-cols-[auto,1fr]">
-                        <div className="bg-gray-100 px-5 py-2 grid items-end justify-center __col h-full">
-                            <h2 className="text-xl font-semibold text-gray-800 mb-4">{commission.name}</h2>
-                            <a href="#" className="text-blue-600 font-medium hover:text-blue-800">Meer informatie</a>
+                            <a 
+                                href="#" 
+                                className="text-blue-600 font-medium hover:text-blue-800" 
+                                onClick={(e) => handleDetailsClick(commission, getCommission(commission.id), e)}
+                            >
+                                Meer informatie
+                            </a>
                         </div>
                         <div className="p-6">
                             <h2 className="text-xl font-semibold text-gray-800 mb-4">{commission.title}</h2>
@@ -110,6 +86,7 @@ function DashboardCardsCommission({ teacherId }) {
                     </div>
                 </div>
             ))}
+
             <ul className="circles">
                 {Array.from({ length: commissions.length }).map((_, index) => (
                     <li key={index}></li>
