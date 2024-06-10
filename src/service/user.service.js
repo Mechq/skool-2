@@ -22,8 +22,8 @@ const userService = {
                 }
                 user.role = "teacher";
 
-                const sql = "INSERT INTO user (`email`, `password`, `firstName`, `lastName`, `phoneNumber`, `birthDate`, `street`, `houseNumber`, `postalCode`, `city`, `kvkNumber`, `btwNumber`, `iban`, `role`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                const values = [user.email, hash, user.firstName, user.lastName, user.phoneNumber, user.birthDate, user.street, user.houseNumber, user.postalCode, user.city, user.kvkNumber, user.btwNumber, user.iban, user.role];
+                const sql = "INSERT INTO user (`id`, `email`, `password`, `street`, `houseNumber`, `postalCode`, `city`, `birthDate`, `btwNumber`, `kvkNumber`, `IBAN`, `role`, `firstName`, `lastName`, `phoneNumber`, `creationDate`, `hasDriversLicense`, `hasCar`, `country`, `hourlyRate`, `isZZPer`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                const values = [user.id, user.email, hash, user.streetName, user.houseNumber, user.postalCode, user.city, user.birthDate, user.btwNumber, user.kvkNumber, user.iban, 'teacher', user.firstName, user.lastName, user.phoneNumber, new Date(), user.hasDriversLicense, user.hasCar, user.country,'45', user.isZZPer];
 
                 connection.query(sql, values, (err, result) => {
                     connection.release();
@@ -43,6 +43,8 @@ const userService = {
         });
     },
 
+
+
     login: (email, password, callback) => {
         database.getConnection((err, connection) => {
             if (err) {
@@ -52,11 +54,13 @@ const userService = {
             }
 
             const sql = "SELECT * FROM user WHERE email = ?";
-            let user = {};
+            let role = '';
 
             connection.query(
                 sql, email,
                 function (error, results, fields) {
+                    connection.release();
+
                     if (error) {
                         logger.error('Error retrieving role', error);
                         callback(error, null);
@@ -67,28 +71,29 @@ const userService = {
                     user = results[0];
                     logger.debug('userData: ', user)
                     logger.debug('user role: ', user.role)
-
-                    connection.query(sql, [email], (err, results) => {
-                        connection.release();
-                        if (err) {
-                            logger.error('Error executing query', err);
-                            callback(err, null);
-                            return;
-                        }
-
-                        if (results.length === 0) {
-                            callback(null, {
-                                status: 'Error',
-                                message: 'Verkeerde Email of Wachtwoord'
-                            });
-                            return;
-                        }
-
-                        bcrypt.compare(password.toString(), results[0].password, (err, response) => {
+                    role = results[0].role;
+                        // set jwt token
+                        connection.query(sql, [email], (err, results) => {
+                            connection.release();
                             if (err) {
+                                logger.error('Error executing query', err);
                                 callback(err, null);
                                 return;
                             }
+
+                            if (results.length === 0) {
+                                callback(null, {
+                                    status: 'Error',
+                                    message: 'Verkeerde Email of Wachtwoord'
+                                });
+                                return;
+                            }
+
+                            bcrypt.compare(password.toString(), results[0].password, (err, response) => {
+                                if (err) {
+                                    callback(err, null);
+                                    return;
+                                }
 
                             if (response) {
                                 logger.debug('Login successful', { email: user.email });
@@ -121,7 +126,7 @@ const userService = {
                 return;
             }
 
-            const query = `SELECT * FROM user WHERE role = 'teacher' ORDER BY firstName`;
+            const query = 'SELECT * FROM user ORDER BY firstName';
 
             logger.debug('query', query);
 
@@ -214,12 +219,13 @@ const userService = {
             }
 
             sql = sql.slice(0, -2);
+
             sql += ' WHERE id = ?';
 
             values.push(id);
-
-            logger.debug('query', sql);
+            logger.debug('query', query);
             logger.debug('values', values);
+
 
             connection.query(
                 sql,
@@ -243,7 +249,6 @@ const userService = {
             );
         });
     },
-
     getById: (id, callback) => {
         logger.info('retrieving user', id);
 
@@ -282,7 +287,7 @@ const userService = {
     },
 
     getByEmail: (email, callback) => {
-        logger.info('retrieving user by email', email);
+        logger.info('Retrieving user by email', email);
 
         database.getConnection(function (err, connection) {
             if (err) {
@@ -293,66 +298,35 @@ const userService = {
 
             const query = 'SELECT * FROM user WHERE email = ?';
 
-            logger.debug('query', query);
+            logger.debug('Query:', query);
 
-            connection.query(
-                query,
-                [email],
-                function (error, results, fields) {
-                    connection.release();
+            connection.query(query, [email], function (error, results, fields) {
+                connection.release();
 
-                    if (error) {
-                        logger.error('Error retrieving user by email', error);
-                        callback(error, null);
+                if (error) {
+                    logger.error('Error retrieving user by email', error);
+                    callback(error, null);
+                } else {
+                    if (results.length === 0) {
+                        // No user found with the given email
+                        const notFoundError = new Error('User not found');
+                        notFoundError.statusCode = 404;
+                        logger.error('User not found with email:', email);
+                        callback(notFoundError, null);
                     } else {
-                        logger.trace('user retrieved', results);
-
+                        logger.trace('User retrieved:', results[0]);
                         callback(null, {
                             status: 200,
-                            message: 'user retrieved',
+                            message: 'User retrieved',
                             data: results[0],
                         });
                     }
                 }
-            );
-        });
-    },
-
-    getLanguages: (id, callback) => {
-        logger.info('retrieving languages of user', id);
-
-        database.getConnection(function (err, connection) {
-            if (err) {
-                logger.error('Error retrieving languages of user', err);
-                callback(err, null);
-                return;
-            }
-
-            const query = 'SELECT * FROM language WHERE id IN (SELECT languageId FROM userLanguageQualification WHERE userId = ?);';
-
-            logger.debug('query', query);
-
-            connection.query(
-                query,
-                [id],
-                function (error, results, fields) {
-                    connection.release();
-
-                    if (error) {
-                        logger.error('Error retrieving languages of user', error);
-                        callback(error, null);
-                    } else {
-                        logger.trace('languages retrieved', results);
-                        callback(null, {
-                            status: 200,
-                            message: 'languages retrieved',
-                            data: results,
-                        });
-                    }
                 }
-            );
+            )
         });
     }
+
 };
 
 module.exports = userService;
