@@ -24,6 +24,7 @@ function validateWorkshop(req, res, next) {
 }
 
 router.post("/api/workshop", validateWorkshop, workshopController.createWorkshop);
+router.post("/api/workshop/commission/:workshopId/:commissionId", workshopController.createEnrollment);
 router.get("/api/workshop", workshopController.getAllWorkshops);
 router.get("/api/workshop/commission", workshopController.getWorkshopCommission);
 router.get("/api/workshop/commission/:workshopId/:commissionId", workshopController.getWorkshopCommissionById);

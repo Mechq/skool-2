@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { AiTwotoneCalendar } from "react-icons/ai";
+import PageSecurity from "../../PageSecurity";
 
 
 export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission }) {
@@ -7,6 +8,10 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
     const [workshopRound, setWorkshopRound] = useState({});
 const [customer, setCustomer] = useState({});
 const [location, setLocation] = useState({});
+
+    const user = PageSecurity();
+
+
 
     const formatDate = (date) => {
         const formattedDate = new Date(date);
@@ -50,6 +55,28 @@ const [location, setLocation] = useState({});
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
+    if (!user) {
+        return null;
+    }
+    console.log(user)
+    const userId = user.id;
+
+const handleSubmit = (e) => {
+        e.preventDefault();
+        fetch(`/api/workshop/commission/${workshop.workshopId}/${commission.id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userId),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Success:", data);
+                onClose();
+            })
+            .catch((error) => console.error("Error:", error));
+}
 
     return (
         <>
@@ -131,7 +158,9 @@ const [location, setLocation] = useState({});
 
                                 )}
                             </div>
-                            <div className="flex justify-center">
+                            <div className="flex justify-center"
+                            onClick={handleSubmit}
+                            >
                                 <button
                                     className="bg-brand-orange text-white font-bold py-4 px-8 rounded focus:outline-none hover:bg-hover-brand-orange focus:shadow-outline m-5 mt-8"
                                 >
