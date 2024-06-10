@@ -1,95 +1,98 @@
-import React, { useState, useEffect } from 'react';
-import PageSecurity from "../PageSecurity";
-import DashboardCardsCommissionDetailsModal from "./modal-screens/DashboardCardsCommissionDetails";
+import React, { useEffect, useState } from "react";
+import UserCommissionCard from "./UserCommissionCard";
+import DashboardCardsCommissionDetails from "./modal-screens/DashboardCardsCommissionDetails";
 
-function DashboardCardsCommission({ teacherId }) {
-    const userEmail = PageSecurity();
+
+export default function DashboardCardsCommission({ userWorkshops, setUserWorkshops }) {
     const [commissions, setCommissions] = useState([]);
-    const [selectedCommission, setSelectedCommission] = useState(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
-    const teacherEmail = userEmail ? userEmail.email : null;
+    const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+    const [selectedCommission, setSelectedCommission] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
-    const truncateDescription = (description, maxLength) => {
-        if (description.length > maxLength) {
-            return description.slice(0, maxLength) + '...';
-        }
-        return description;
-    };
 
-    const handleDetailsClick = (commission, e) => {
+    const handleDetailsClick = (workshop, commission, e) => {
         e.preventDefault();
+        setSelectedWorkshop(workshop);
         setSelectedCommission(commission);
         setShowDetailsModal(true);
     };
 
     const handleModalClose = () => {
+        setShowModal(false);
         setShowDetailsModal(false);
-        setSelectedCommission(null);
     };
 
     useEffect(() => {
-        if (teacherEmail && teacherId !== null) {
-            fetch(`/api/dashboard/${teacherId}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (Array.isArray(data.data)) {
-                        setCommissions(data.data);
-                        console.log("Fetched commissions: ", data.data);
-                    } else {
-                        console.error('Error: Data fetched is not an array', data);
-                    }
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
-    }, [teacherEmail, teacherId]);
+        fetch('/api/workshop/commission')
+            .then(res => res.json())
+            .then(data => {
+                const workshopsWithUniqueKey = data.data.map((workshop, index) => ({
+                    ...workshop,
+                    unique: index + 1 // Incremented number starting from 1
+                }));
+                setUserWorkshops(workshopsWithUniqueKey);
+                console.log("Fetched workshops: ", workshopsWithUniqueKey);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, [setUserWorkshops]);
 
-    if (userEmail === null) {
-        return null;
-    }
+    useEffect(() => {
+        fetch('/api/commission/')
+            .then(res => res.json())
+            .then(data => {
+                setCommissions(data.data);
+                console.log("Fetched commissions: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
 
     const getCommission = (commissionId) => {
-        return commissions.find(commission => commission.id === commissionId);
+        const commission = commissions.find(c => c.id === commissionId);
+        if (commission) {
+            return commission;
+        }
+        return 'Unknown Commission';
+    }
+
+    const getCommissionDate = (commissionId) => {
+        const commission = commissions.find(c => c.id === commissionId);
+        console.log("commission", commission)
+        if (commission) {
+            const date = new Date(commission.date);
+            return date.toLocaleDateString('nl-NL', {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+            });
+        }
+        return 'Unknown Date';
     };
 
     return (
-        <div className="area">
-            {showDetailsModal && selectedCommission && (
+        <>
+
+            {showDetailsModal && (
                 <div>
-                    <DashboardCardsCommissionDetailsModal
+                    <DashboardCardsCommissionDetails
                         onClose={handleModalClose}
+                        workshop={selectedWorkshop}
                         commission={selectedCommission}
                     />
                 </div>
             )}
 
-            {commissions.map((commission, index) => (
-                <div key={index} className="w-1/2 px-4 lg:w-1/3">
-                    <div className="bg-white shadow-lg rounded-lg overflow-hidden my-6 grid grid-cols-[auto,1fr]">
-                        <div className="bg-gray-100 px-5 py-2 grid items-end justify-center __col h-full">
-                            <h2 className="text-xl font-semibold text-gray-800 mb-4">{commission.name}</h2>
-                            <a 
-                                href="#" 
-                                className="text-blue-600 font-medium hover:text-blue-800" 
-                                onClick={(e) => handleDetailsClick(commission, e)}
-                            >
-                                Meer informatie
-                            </a>
-                        </div>
-                        <div className="p-6">
-                            <h2 className="text-xl font-semibold text-gray-800 mb-4">{commission.title}</h2>
-                            <p className="text-gray-600">{truncateDescription(commission.description, 100)}</p>
-                        </div>
-                    </div>
+            {userWorkshops.map((userWorkshop) => (
+                <div
+                    onClick={(e) => handleDetailsClick(userWorkshop, getCommission(userWorkshop.commissionId), e)}
+                >
+                <UserCommissionCard
+                    key={userWorkshop.unique}
+                    userWorkshop={userWorkshop}
+                    commissionDate={getCommissionDate(userWorkshop.commissionId)} // Assuming id corresponds to commission id
+                />
                 </div>
             ))}
-
-            <ul className="circles">
-                {Array.from({ length: commissions.length }).map((_, index) => (
-                    <li key={index}></li>
-                ))}
-            </ul>
-        </div>
+        </>
     );
 }
-
-export default DashboardCardsCommission;
