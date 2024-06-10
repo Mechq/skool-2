@@ -1,17 +1,12 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
+import { AiTwotoneCalendar } from "react-icons/ai";
+
 
 export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission }) {
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);
     const [workshopRound, setWorkshopRound] = useState({});
-
-    const getWorkshopRound = () => {
-        fetch(`/api/workshop/${workshop.id}`)
-            .then(res => res.json())
-            .then(data => {
-                setWorkshopRound(data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }
+const [customer, setCustomer] = useState({});
+const [location, setLocation] = useState({});
 
     const formatDate = (date) => {
         const formattedDate = new Date(date);
@@ -21,6 +16,41 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                 day: 'numeric',
             });
     };
+    useEffect(() => {
+        console.log("workshop", workshop)
+        console.log("commission", commission)
+        fetch(`/api/workshop/commission/${workshop.workshopId}/${commission.id}`)
+            .then(res => res.json())
+            .then(data => {
+                setWorkshopRound(data.data);
+                console.log("Fetched workshop round: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
+
+    useEffect(() => {
+
+        fetch(`/api/customer/${commission.customerId}`)
+            .then(res => res.json())
+            .then(data => {
+                setCustomer(data.data);
+                console.log("Fetched customer: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
+
+    useEffect(() => {
+
+        fetch(`/api/location/${commission.locationId}`)
+            .then(res => res.json())
+            .then(data => {
+                setLocation(data.data);
+                console.log("Fetched location: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
+
+
     return (
         <>
             <div className="fixed inset-0 z-10 bg-gray-900 bg-opacity-15" onClick={onClose}/>
@@ -69,15 +99,36 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                                     </>
                                 ) : (
                                     <>
-                                        <h1 className=""><strong>Klant naam:</strong> <br/>
-                                            {commission.customerId}</h1>
-                                        <h2 className=""><strong>Datum:</strong> <br/>
-                                            {formatDate(commission.date)}</h2>
-                                        <h2 className=""><strong>Doelgroep:</strong> <br/>
-                                            {workshop.targetAudience}</h2>
-                                        <h2 className=""><strong>Docenten:</strong> <br/>
-                                            {workshop.amountOfTeachers}</h2>
+                                        <div className="md:w-full px-4 mb-4">
+                                            <h1 className="font-bold text-4xl mb-2">{customer.name}</h1>
+                                            <div
+                                                className="flex items-center"> {/* Adding a flex container for alignment */}
+                                                <AiTwotoneCalendar className="mr-2"/>
+                                                <p>{formatDate(commission.date)}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col md:flex-row">
+                                            {/* Commission Data */}
+                                            <div className="md:w-1/2 px-4 mb-4">
+                                                <h1 className="font-bold text-lg">Opdracht Informatie</h1>
+                                                <p><strong>Details:</strong> {workshop.details}</p>
+                                                <p><strong>Doelgroep:</strong> {workshop.targetAudience}</p>
+                                                <p><strong>Docenten:</strong> {workshopRound.amountOfTeachers}</p>
+                                                <p><strong>Leerlingen:</strong> {workshopRound.amountOfStudents}</p>
+                                            </div>
+
+                                            {/* Location Data */}
+                                            <div className="md:w-1/2 px-4 mb-4">
+                                                <h1 className="font-bold text-lg">Locatie Informatie</h1>
+                                                <p><strong>Naam:</strong> {location.name}</p>
+                                                <p>
+                                                    <strong>Adres:</strong> {location.street} {location.houseNumber}, {location.city} {location.postalCode}
+                                                </p>
+                                            </div>
+                                        </div>
                                     </>
+
+
                                 )}
                             </div>
                             <div className="flex justify-center">
