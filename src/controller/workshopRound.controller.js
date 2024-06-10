@@ -89,13 +89,13 @@ let workshopRoundController = {
   editWorkshopRoundWorkshop: (req, res, next) => {
     const workshopRoundWorkshop = req.body;
     const workshopId = req.params.workshopId;
-    const roundId = req.params.roundId;
+    const commissionId = req.params.commissionId;
 
     logger.info("editing workshop for round", workshopRoundWorkshop);
 
     workshopRoundService.editWorkshopRoundWorkshop(
       workshopId,
-      roundId,
+      commissionId,
       workshopRoundWorkshop,
       (error, success) => {
         if (error) {

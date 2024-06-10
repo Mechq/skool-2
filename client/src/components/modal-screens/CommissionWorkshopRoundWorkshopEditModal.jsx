@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../../styles/ModalScreen.css";
 import {use} from "chai";
 
-export default function CommissionWorkshopRoundWorkshopEditModal({ roundType, roundId, workshopId, onClose, onSave, onEdit }) {
+export default function CommissionWorkshopRoundWorkshopEditModal({ roundType, roundId, commissionId, workshopId, onClose, onSave, onEdit }) {
     const [editedRound, setEditedRound] = useState(roundType);
     const [amountOfStudents, setAmountOfStudents] = useState('')
     const [amountOfTeachers, setAmountOfTeachers] = useState('')
@@ -13,7 +13,7 @@ export default function CommissionWorkshopRoundWorkshopEditModal({ roundType, ro
 
 
     useEffect(() => {
-        fetch(`/api/workshopRound/${workshopId}/${roundId}`)
+        fetch(`/api/workshop/commission/${workshopId}/${commissionId}`)
             .then(res => res.json())
             .then(data => {
                 console.log("Fetched workshop round: ", data.data);
@@ -38,7 +38,7 @@ console.log("amountOfStudents", amountOfStudents)
 
         };
 
-        fetch(`/api/workshopRound/${workshopId}/${roundId}`, { // add api route
+        fetch(`/api/workshopRound/${workshopId}/${commissionId}`, { // add api route
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -68,7 +68,7 @@ console.log("amountOfStudents", amountOfStudents)
                         <input
                             type="text"
                             value={amountOfStudents}
-                            placeholder="Leerlingen"
+                            placeholder={amountOfStudents}
                             onChange={(e) => {
                                 setAmountOfStudents(e.target.value);
                                 setValidAmountOfStudents(true);  // Reset validation state
@@ -78,7 +78,7 @@ console.log("amountOfStudents", amountOfStudents)
                         <input
                             type="text"
                             value={amountOfTeachers}
-                            placeholder="Docenten"
+                            placeholder={amountOfTeachers}
                             onChange={(e) => {
                                 setAmountOfTeachers(e.target.value);
                                 setValidAmountOfTeachers(true);  // Reset validation state
