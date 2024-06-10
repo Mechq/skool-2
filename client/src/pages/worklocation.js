@@ -23,7 +23,7 @@ function Worklocation() {
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
 
-    const userEmail = PageSecurity();
+    const user = PageSecurity();
 
 
     return (

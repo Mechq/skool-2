@@ -8,6 +8,7 @@ export default function PageSecurity() {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
     const [email, setEmail] = useState(null); // Add this line
     const [role, setRole] = useState(null)
+    const[user, setUser] = useState(null)
     const navigate = useNavigate();
     const cookies = new Cookies();
 
@@ -36,11 +37,16 @@ export default function PageSecurity() {
         } else if (isAuthenticated === true) {
             const token = cookies.get('token');
             const decodedToken = jwtDecode(token);
-            setEmail(decodedToken.email); // Set the email state
-            setRole(decodedToken.role)
-            console.log(role)
-        }
-    }, [isAuthenticated, navigate, cookies]);
+            setEmail(decodedToken.user.email); // Set the email state
+            setRole(decodedToken.user.role)
 
-    return {email, role}; // Return the email state
+            // Only update user state if decodedToken.user is different from current user state
+            if (JSON.stringify(user) !== JSON.stringify(decodedToken.user)) {
+                setUser(decodedToken.user);
+            }
+            console.log(user)
+        }
+    }, [isAuthenticated, navigate, cookies, user]);
+
+    return user; // Return the email state
 }

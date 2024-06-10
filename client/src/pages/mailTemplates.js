@@ -23,7 +23,7 @@ export default function MailTemplates() {
             .catch(error => console.error('Error fetching data:', error));
     }, [isOpen]);
 
-    const userEmail = PageSecurity();
+    const user = PageSecurity();
 
 
     return (

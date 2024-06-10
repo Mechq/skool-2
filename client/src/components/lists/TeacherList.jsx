@@ -39,7 +39,7 @@ export default function TeacherList({
                     <tr>
                         <th className="px-6 py-3">Docent Naam</th>
                         <th className="px-6 py-3">Email</th>
-                        <th className="px-6 py-3">Telefoon nummer</th>
+                        <th className="px-6 py-3">Telefoonnummer</th>
                         <th className="px-6 py-3">Geboortedatum</th>
                         <th className="px-6 py-3">Bewerken</th>
                     </tr>
