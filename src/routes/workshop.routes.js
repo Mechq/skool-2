@@ -28,7 +28,7 @@ router.post("/api/workshop/commission/:workshopId/:commissionId", workshopContro
 router.get("/api/workshop", workshopController.getAllWorkshops);
 router.get("/api/workshop/commission", workshopController.getWorkshopCommission);
 router.get("/api/workshop/commission/:workshopId/:commissionId", workshopController.getWorkshopCommissionById);
-router.get("/api/workshop/enrollment/count/:workshopId/:commissionId", workshopController.getEnrollmentCount);
+router.get("/api/workshop/enrollment/:workshopId/:commissionId", workshopController.getEnrollmentCount);
 router.put("/api/workshop/:id", workshopController.update);
 router.get("/api/workshop/:id", workshopController.getWorkshopById);
 router.delete("/api/workshop/:id", workshopController.deleteWorkshop);
