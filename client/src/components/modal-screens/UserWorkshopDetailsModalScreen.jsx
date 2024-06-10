@@ -6,8 +6,9 @@ import PageSecurity from "../../PageSecurity";
 export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission }) {
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);
     const [workshopRound, setWorkshopRound] = useState({});
-const [customer, setCustomer] = useState({});
-const [location, setLocation] = useState({});
+    const [customer, setCustomer] = useState({});
+    const [location, setLocation] = useState({});
+    const [enrollmentsCount, setEnrollmentsCount] = useState(0);
 
     const user = PageSecurity();
 
@@ -22,38 +23,55 @@ const [location, setLocation] = useState({});
             });
     };
     useEffect(() => {
-        console.log("workshop", workshop)
-        console.log("commission", commission)
-        fetch(`/api/workshop/commission/${workshop.workshopId}/${commission.id}`)
+        console.log("workshop", workshop);
+        console.log("commission", commission);
+
+        const fetchWorkshopRound = fetch(`/api/workshop/commission/${workshop.workshopId}/${commission.id}`)
             .then(res => res.json())
             .then(data => {
                 setWorkshopRound(data.data);
                 console.log("Fetched workshop round: ", data.data);
             })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+            .catch(error => console.error('Error fetching workshop round data:', error));
 
-    useEffect(() => {
-
-        fetch(`/api/customer/${commission.customerId}`)
+        const fetchCustomer = fetch(`/api/customer/${commission.customerId}`)
             .then(res => res.json())
             .then(data => {
                 setCustomer(data.data);
                 console.log("Fetched customer: ", data.data);
             })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+            .catch(error => console.error('Error fetching customer data:', error));
 
-    useEffect(() => {
-
-        fetch(`/api/location/${commission.locationId}`)
+        const fetchLocation = fetch(`/api/location/${commission.locationId}`)
             .then(res => res.json())
             .then(data => {
                 setLocation(data.data);
                 console.log("Fetched location: ", data.data);
             })
-            .catch(error => console.error('Error fetching data:', error));
+            .catch(error => console.error('Error fetching location data:', error));
+
+        const fetchEnrollments = fetch(`/api/workshop/enrollment/count/${workshop.workshopId}/${commission.id}`)
+            .then(res => res.json())
+            .then(data => {
+                setEnrollmentsCount(data.data.amountOfEnrollments);
+                console.log("Fetched count: ", data.data);
+            })
+            .catch(error => console.error('Error fetching location data:', error));
+
+        Promise.all([fetchWorkshopRound, fetchCustomer, fetchLocation])
+            .then(() => {
+                console.log('All data fetched successfully');
+            })
+            .catch(error => {
+                console.error('Error in fetching one or more resources:', error);
+            });
     }, []);
+let buttonText = "Aanmelden";
+    if (workshopRound && workshopRound.amountOfTeachers < enrollmentsCount) {
+        console.log("No more teachers allowed");
+        buttonText = "Wachtrij";
+    }
+
 
     if (!user) {
         return null;
@@ -61,22 +79,36 @@ const [location, setLocation] = useState({});
     console.log(user)
     const userId = user.id;
 
-const handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
+
+        console.log('Submitting form...');
+        console.log("userId", userId);
+        console.log("workshopId", workshop.workshopId);
+        console.log("commissionId", commission.id);
+
         fetch(`/api/workshop/commission/${workshop.workshopId}/${commission.id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(userId),
+            body: JSON.stringify({ userId }),  // Send userId as part of an object
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json().then((error) => {
+                        throw new Error(error.message);
+                    });
+                }
+                return response.json();
+            })
             .then((data) => {
                 console.log("Success:", data);
                 onClose();
             })
             .catch((error) => console.error("Error:", error));
-}
+    };
+
 
     return (
         <>
@@ -164,7 +196,7 @@ const handleSubmit = (e) => {
                                 <button
                                     className="bg-brand-orange text-white font-bold py-4 px-8 rounded focus:outline-none hover:bg-hover-brand-orange focus:shadow-outline m-5 mt-8"
                                 >
-                                    Aanmelden
+                                    {buttonText}
                                 </button>
                             </div>
                         </div>
