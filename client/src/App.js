@@ -11,7 +11,6 @@ import Login from './pages/login';
 import Register from './pages/register';
 import User from './pages/user';
 import Users from './pages/users';
-import PageSecurity from "./PageSecurity";
 
 function App() {
     const location = useLocation();

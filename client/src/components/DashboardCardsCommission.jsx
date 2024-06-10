@@ -1,5 +1,4 @@
 // import React, { useState, useEffect } from 'react';
-// import PageSecurity from "../PageSecurity";
 
 // function DashboardCardsCommission( {teacherId}) {
 //     const userEmail = PageSecurity();
@@ -47,35 +46,33 @@
 // export default DashboardCardsCommission;
 
 import React, { useState, useEffect } from 'react';
-import PageSecurity from "../PageSecurity";
 
 function DashboardCardsCommission({ teacherId }) {
-    const userEmail = PageSecurity();
     const [commissions, setCommissions] = useState([]);
-    const teacherEmail = userEmail.email;
-
-    useEffect(() => {
-        // Ensure userEmail and teacherId are not null before making the API call
-        if (teacherEmail !== null && teacherId !== null) {
-            fetch(`/api/dashboard/${teacherId}`)
-                .then(res => res.json())
-                .then(data => {
-                    // Ensure data.data is an array before setting commissions
-                    if (Array.isArray(data.data)) {
-                        setCommissions(data.data);
-                        console.log("Fetched commissions: ", data.data);
-                    } else {
-                        console.error('Error: Data fetched is not an array', data);
-                    }
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
-    }, [teacherEmail, teacherId]); // Include userEmail and teacherId as dependencies
-
-    // Check if userEmail is null and return null if so
-    if (userEmail === null) {
-        return null;
-    }
+    // const teacherEmail = userEmail.email;
+    //
+    // useEffect(() => {
+    //     // Ensure userEmail and teacherId are not null before making the API call
+    //     if (teacherEmail !== null && teacherId !== null) {
+    //         fetch(`/api/dashboard/${teacherId}`)
+    //             .then(res => res.json())
+    //             .then(data => {
+    //                 // Ensure data.data is an array before setting commissions
+    //                 if (Array.isArray(data.data)) {
+    //                     setCommissions(data.data);
+    //                     console.log("Fetched commissions: ", data.data);
+    //                 } else {
+    //                     console.error('Error: Data fetched is not an array', data);
+    //                 }
+    //             })
+    //             .catch(error => console.error('Error fetching data:', error));
+    //     }
+    // }, [teacherEmail, teacherId]); // Include userEmail and teacherId as dependencies
+    //
+    // // Check if userEmail is null and return null if so
+    // if (userEmail === null) {
+    //     return null;
+    // }
 
     return (
         <div className="area">

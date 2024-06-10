@@ -4,7 +4,6 @@ import CreateWorkLocationContent from "../components/panel-contents/CreateWorkLo
 import CreateButton from "../components/CreateButton";
 import WorkLocationList from "../components/lists/WorkLocationList";
 import EditPanelWorkLocationContent from "../components/panel-contents/EditWorkLocationContent";
-import PageSecurity from "../PageSecurity";
 
 function Worklocation() {
     const [isOpen, setIsOpen] = useState(false);
