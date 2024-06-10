@@ -23,6 +23,30 @@ let languageController = {
                 });
             }
         });
+    },
+
+    setLanguages: (req, res, next) => {
+        const userEmail = req.params.userEmail;
+        const languages = req.body.languages;
+        logger.info('setting languages', languages, userEmail);
+
+        languageService.setLanguages(languages, userEmail, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(201).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 }
 
