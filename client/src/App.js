@@ -11,6 +11,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import User from './pages/user';
 import Users from './pages/users';
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
     const location = useLocation();
@@ -56,18 +57,17 @@ function App() {
             {!(isLoginPage || isRegisterPage) && <NavBar/>}
             <div className="container mx-auto flex-grow py-4">
                 <Routes>
-                    <Route path="/workshops" element={<Workshop />} />
-                    <Route path="/mailTemplates" element={<MailTemplates />} />
-                    <Route path="/users" element={<Users />} />
-                    <Route path="/werklocatie" element={<Worklocation />} />
-                    <Route path="/customers" element={<Customers />} />
-
+                    <Route path="/workshops" element={<ProtectedRoute access="admin"><Workshop /></ProtectedRoute>} />
+                    <Route path="/mailTemplates" element={<ProtectedRoute access="admin"><MailTemplates /></ProtectedRoute>} />
+                    <Route path="/users" element={<ProtectedRoute access="admin"><Users /></ProtectedRoute>} />
+                    <Route path="/werklocatie" element={<ProtectedRoute access="admin"><Worklocation /></ProtectedRoute>} />
+                    <Route path="/customers" element={<ProtectedRoute access="admin"><Customers /></ProtectedRoute>} />
                     <Route path="*" element={<h1>Not Found</h1>} />
                     <Route path="/" element={<Home />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/opdracht" element={<Commission />} />
+                    <Route path="/opdracht" element={<ProtectedRoute access="everyone"><Commission /></ProtectedRoute>} />
                     <Route path="/login" element={<Login />} />
-                    <Route path='/user' element={<User />} />
+                    <Route path="/user" element={<ProtectedRoute access="everyone"><User /></ProtectedRoute>} />
                 </Routes>
             </div>
         </div>
