@@ -29,6 +29,7 @@ function App() {
 
     function PrivateRoute({ children, roleRequired }) {
         const user = PageSecurity();
+        console.log(user)
         if (user !== null) {
             if (user.role !== roleRequired) {
                 console.log(user.role, 'should be', roleRequired)

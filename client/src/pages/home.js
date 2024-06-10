@@ -7,7 +7,7 @@ function Home() {
     if (user === null) {
         return null;
     } else {
-        console.log('Email:', user.email)
+        // console.log('Email:', user.email)
     }
 
     return (

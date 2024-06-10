@@ -37,7 +37,7 @@ export default function PageSecurity() {
             const decodedToken = jwtDecode(token);
             setUser(decodedToken.user); // Set the email state
 
-            console.log(user)
+            // console.log(user)
         }
     }, [isAuthenticated, navigate, cookies]);
 
