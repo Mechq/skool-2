@@ -261,7 +261,7 @@ const workshopService = {
      logger.info('creating enrollment');
     let commissionWorkshopId = null;
      let sql = `
-               INSERT INTO enrollment (commissionWorkshopId, userId) VALUES (?, ?);
+               INSERT INTO enrollment (userId, commissionWorkshopId) VALUES (?, ?);
 
             `;
      database.query(`SELECT id FROM commissionWorkshop WHERE commissionId = ? AND workshopId = ?`, [commissionId, workshopId] ,(error, results, fields) => {
@@ -274,7 +274,7 @@ const workshopService = {
                 commissionWorkshopId = results[0].id;
                 logger.debug(commissionWorkshopId)
              logger.debug(userId.userId)
-                database.query(sql, [commissionWorkshopId, userId.userId] ,(error, results, fields) => {
+                database.query(sql, [userId.userId, commissionWorkshopId] ,(error, results, fields) => {
                     if (error) {
                         logger.error('Error creating enrollment', error);
                         callback(error, null);
@@ -291,7 +291,30 @@ const workshopService = {
 );
              }
      });
- }
+ },
+    getEnrollments: (commissionId, workshopId, callback) => {
+        logger.info('getting enrollments');
+
+        let sql = `
+               SELECT COUNT(*) AS amountOfEnrollments FROM enrollment WHERE commissionWorkshopId = (SELECT id FROM commissionWorkshop WHERE commissionId = ? AND workshopId = ?);
+
+            `;
+        database.query(sql, [commissionId, workshopId] ,(error, results, fields) => {
+            if (error) {
+                logger.error('Error getting enrollments', error);
+                callback(error, null);
+
+            }
+            else {
+                logger.info('Enrollments fetched successfully', results);
+                callback(null, {
+                    status: 200,
+                    message: 'Enrollments fetched successfully',
+                    data: results[0],
+                });
+            }
+        });
+    }
 };
 
 module.exports = workshopService;
