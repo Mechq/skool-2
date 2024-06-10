@@ -195,7 +195,48 @@ const commissionService = {
                     }
                 }
             });
-        }
+        },
+    getStartAndEndTime: (commissionId, callback) => {
+        logger.info('getting start and end time by commission id', commissionId);
+
+        // Single query to get the startTime and endTime
+        let sql = `
+        SELECT time FROM (
+            SELECT startTime AS time FROM round WHERE commissionId = ? ORDER BY "order" LIMIT 1
+        ) AS start
+        UNION ALL
+        SELECT time FROM (
+            SELECT endTime AS time FROM round WHERE commissionId = ? ORDER BY "order" DESC LIMIT 1
+        ) AS end;
+    `;
+
+        database.query(sql, [commissionId, commissionId], (error, results) => {
+            if (error) {
+                logger.error('Error getting start and end time', error);
+                return callback(error, null);
+            }
+
+            if (results.length < 2) {
+                logger.warn('No commission found with id', commissionId);
+                return callback({
+                    status: 404,
+                    message: 'Commission not found',
+                }, null);
+            }
+
+            const startTime = results[0]?.time;
+            const endTime = results[1]?.time;
+
+            logger.info('Start and end time fetched successfully', { startTime, endTime });
+
+            callback(null, {
+                status: 200,
+                message: 'Start and end time fetched successfully',
+                data: { startTime, endTime },
+            });
+        });
+    }
+
 
 };
 
