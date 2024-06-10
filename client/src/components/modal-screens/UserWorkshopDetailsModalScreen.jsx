@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { AiTwotoneCalendar } from "react-icons/ai";
+import {AiTwotoneCalendar, AiTwotoneClockCircle} from "react-icons/ai";
 import PageSecurity from "../../PageSecurity";
 
 
@@ -9,6 +9,7 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
     const [customer, setCustomer] = useState({});
     const [location, setLocation] = useState({});
     const [enrollments, setEnrollments] = useState([]);
+    const [times, setTimes] = useState({});
 
     const user = PageSecurity();
 
@@ -58,7 +59,16 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
             })
             .catch(error => console.error('Error fetching location data:', error));
 
-        Promise.all([fetchWorkshopRound, fetchCustomer, fetchLocation, fetchEnrollments])
+        const fetchTimes = fetch(`/api/commission/time/${commission.id}`)
+            .then(res => res.json())
+            .then(data => {
+                setTimes(data.data);
+                console.log("Fetched enrollments: ", data.data);
+            })
+            .catch(error => console.error('Error fetching location data:', error));
+
+
+        Promise.all([fetchWorkshopRound, fetchCustomer, fetchLocation, fetchEnrollments, fetchTimes])
             .then(() => {
                 console.log('All data fetched successfully');
             })
@@ -180,6 +190,11 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                                                 className="flex items-center"> {/* Adding a flex container for alignment */}
                                                 <AiTwotoneCalendar className="mr-2"/>
                                                 <p>{formatDate(commission.date)}</p>
+                                            </div>
+                                            <div
+                                                className="flex items-center"> {/* Adding a flex container for alignment */}
+                                                <AiTwotoneClockCircle  className="mr-2"/>
+                                                <p>{times.startTime} - {times.endTime}</p>
                                             </div>
                                         </div>
                                         <div className="flex flex-col md:flex-row">
