@@ -167,6 +167,31 @@ let workshopController = {
                 });
             }
         });
+    },
+    createEnrollment: (req, res, next) => {
+        const workshopId = req.params.workshopId;
+        const commissionId = req.params.commissionId;
+        const userId = req.body;
+
+        logger.info("creating enrollment", workshopId, commissionId, userId);
+
+        workshopService.createEnrollment(workshopId, commissionId, userId, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 };
 

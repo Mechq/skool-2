@@ -256,7 +256,42 @@ const workshopService = {
                 }
             }
         });
-    }
+    },
+ createEnrollment: (workshopId, commissionId, userId, callback) => {
+     logger.info('creating enrollment');
+    let commissionWorkshopId = null;
+     let sql = `
+               INSERT INTO enrollment (commissionWorkshopId, userId) VALUES (?, ?);
+
+            `;
+     database.query(`SELECT id FROM commissionWorkshop WHERE commissionId = ? AND workshopId = ?`, [commissionId, workshopId] ,(error, results, fields) => {
+         if (error) {
+             logger.error('Error creating enrollment', error);
+             callback(error, null);
+
+         }
+         else {
+                commissionWorkshopId = results[0].id;
+                logger.debug(commissionWorkshopId)
+             logger.debug(userId.userId)
+                database.query(sql, [commissionWorkshopId, userId.userId] ,(error, results, fields) => {
+                    if (error) {
+                        logger.error('Error creating enrollment', error);
+                        callback(error, null);
+
+                    } else {
+                        logger.info('Enrollment created successfully');
+                        callback(null, {
+                            status: 200,
+                            message: 'Enrollment created successfully',
+                            data: results,
+                        });
+                    }
+                }
+);
+             }
+     });
+ }
 };
 
 module.exports = workshopService;
