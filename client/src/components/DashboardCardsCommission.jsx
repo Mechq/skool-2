@@ -54,6 +54,13 @@ function DashboardCardsCommission({ teacherId }) {
     const [commissions, setCommissions] = useState([]);
     const teacherEmail = userEmail.email;
 
+    const truncateDescription = (description, maxLength) => {
+        if (description.length > maxLength) {
+            return description.slice(0, maxLength) + '...';
+        }
+        return description;
+    };
+
     useEffect(() => {
         // Ensure userEmail and teacherId are not null before making the API call
         if (teacherEmail !== null && teacherId !== null) {
@@ -83,11 +90,22 @@ function DashboardCardsCommission({ teacherId }) {
                 <div key={index} className="w-1/2 px-4 lg:w-1/3">
                     <div className="bg-white shadow-lg rounded-lg overflow-hidden my-6 grid grid-cols-[auto,1fr]">
                         <div className="bg-gray-100 px-5 py-2 grid items-end justify-center __col h-full">
+                            <h2 className="text-xl font-semibold text-gray-800 mb-4">{commission.name}</h2>
                             <a href="#" className="text-blue-600 font-medium hover:text-blue-800">Meer informatie</a>
                         </div>
                         <div className="p-6">
                             <h2 className="text-xl font-semibold text-gray-800 mb-4">{commission.title}</h2>
-                            <p className="text-gray-600">{commission.description}</p>
+                            <p className="text-gray-600">{truncateDescription(commission.description, 100)}</p>
+                        </div>
+                    </div>
+                    <div className="bg-white shadow-lg rounded-lg overflow-hidden my-6 grid grid-cols-[auto,1fr]">
+                        <div className="bg-gray-100 px-5 py-2 grid items-end justify-center __col h-full">
+                            <h2 className="text-xl font-semibold text-gray-800 mb-4">{commission.name}</h2>
+                            <a href="#" className="text-blue-600 font-medium hover:text-blue-800">Meer informatie</a>
+                        </div>
+                        <div className="p-6">
+                            <h2 className="text-xl font-semibold text-gray-800 mb-4">{commission.title}</h2>
+                            <p className="text-gray-600">{truncateDescription(commission.description, 100)}</p>
                         </div>
                     </div>
                 </div>
