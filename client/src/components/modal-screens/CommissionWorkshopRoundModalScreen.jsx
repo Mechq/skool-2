@@ -9,7 +9,8 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
     const [startTime, setStartTime] = useState('')
     const [order, setOrder] = useState('')
     const [endTime, setEndTime] = useState('')
-
+    const [commissionId, setCommissionId] = useState('')
+    const [initSelectedWorkshops, setInitSelectedWorkshops] = useState([])
 
     const [validDuration, setValidDuration] = useState(false);
     const [validStartTime, setValidStartTime] = useState(false);
@@ -31,6 +32,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                 setDuration(data.data.duration);
                 setStartTime(data.data.startTime);
                 setEndTime(data.data.endTime);
+                setCommissionId(data.data.commissionId);
                 console.log("Fetched workshops: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
@@ -43,6 +45,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
             .then(data => {
                 const selectedWorkshopIds = data.data.map(workshop => workshop.id);
                 setSelectedWorkshops(selectedWorkshopIds);
+                setInitSelectedWorkshops(selectedWorkshopIds);
                 console.log("Fetched selected workshops: ", selectedWorkshopIds);
             })
             .catch(error => console.error('Error fetching data:', error));
@@ -120,8 +123,8 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                                 },
                                 body: JSON.stringify({
                                     workshopId: selectedWorkshopId,
-                                    roundId: roundId
-                                    //TODO add amountOfStudents and amountOfTeachers
+                                    roundId: roundId,
+                                    commissionId: commissionId
                                 }),
                             })
                                 .then(response => response.json())
@@ -144,6 +147,26 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                     .catch(error => console.error('Delete Error:', error));
             })
             .catch(error => console.error('PUT Error:', error));
+
+
+        console.log("initSelectedWorkshops", initSelectedWorkshops)
+        console.log("selectedWorkshops", selectedWorkshops)
+        // init = [44,23]
+        // selected = [44,23, 12]
+        //
+        initSelectedWorkshops.forEach(initSelectedWorkshopId => {
+            if (!selectedWorkshops.includes(initSelectedWorkshopId)) {
+                console.log("deleting workshop", initSelectedWorkshopId)
+                fetch(`/api/workshopRound/${initSelectedWorkshopId}/${commissionId}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        })
     };
 
 

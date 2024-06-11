@@ -89,13 +89,13 @@ let workshopRoundController = {
   editWorkshopRoundWorkshop: (req, res, next) => {
     const workshopRoundWorkshop = req.body;
     const workshopId = req.params.workshopId;
-    const roundId = req.params.roundId;
+    const commissionId = req.params.commissionId;
 
     logger.info("editing workshop for round", workshopRoundWorkshop);
 
     workshopRoundService.editWorkshopRoundWorkshop(
       workshopId,
-      roundId,
+      commissionId,
       workshopRoundWorkshop,
       (error, success) => {
         if (error) {
@@ -126,6 +126,34 @@ let workshopRoundController = {
     workshopRoundService.getWorkshopRoundWorkshopById(
       workshopId,
       roundId,
+      (error, success) => {
+        if (error) {
+          return next({
+            status: error.status,
+            message: error.message,
+            data: {},
+          });
+        }
+
+        if (success) {
+          res.status(200).json({
+            status: success.status,
+            message: success.message,
+            data: success.data,
+          });
+        }
+      }
+    );
+  },
+  deleteWorkshopCommission: (req, res, next) => {
+    const commissionId = req.params.commissionId;
+    const workshopId = req.params.workshopId;
+
+    logger.info("deleting by commission", commissionId, " and workshop", workshopId);
+
+    workshopRoundService.deleteWorkshopCommission(
+      workshopId,
+      commissionId,
       (error, success) => {
         if (error) {
           return next({

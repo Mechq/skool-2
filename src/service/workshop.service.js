@@ -189,7 +189,132 @@ const workshopService = {
                     }
                 }
             });
-        }
+        },
+
+        getWorkshopCommission: (callback) => {
+            logger.info('getting workshop commission');
+
+            let sql = `
+                SELECT  w.id AS workshopId,
+                          c.id AS commissionId,
+                          w.*,
+                          c.*
+                FROM workshop w
+                         JOIN commissionWorkshop cw ON w.id = cw.workshopId
+                         JOIN commission c ON cw.commissionId = c.id;
+
+            `;
+            database.query(sql, (error, results, fields) => {
+                if (error) {
+                    logger.error('Error getting workshop commission', error);
+                    callback(error, null);
+
+                } else {
+                    if (results.length > 0) {
+                        logger.info('Workshop commission fetched successfully', results);
+                        callback(null, {
+                            status: 200,
+                            message: 'Workshop commission fetched successfully',
+                            data: results,
+                        });
+                    } else {
+                        logger.warn('No workshop commission found');
+                        callback({
+                            status: 404,
+                            message: 'Workshop commission not found',
+                        }, null);
+                    }
+                }
+            });
+        },
+    getWorkshopCommissionById: (workshopId, commissionId, callback) => {
+        logger.info('getting workshop commission');
+
+        let sql = `
+               SELECT * FROM commissionWorkshop WHERE workshopId = ? AND commissionId = ?;
+
+            `;
+        database.query(sql, [workshopId, commissionId] ,(error, results, fields) => {
+            if (error) {
+                logger.error('Error getting workshop commission', error);
+                callback(error, null);
+
+            } else {
+                if (results.length > 0) {
+                    logger.info('Workshop commission fetched successfully', results);
+                    callback(null, {
+                        status: 200,
+                        message: 'Workshop commission fetched successfully',
+                        data: results[0],
+                    });
+                } else {
+                    logger.warn('No workshop commission found');
+                    callback({
+                        status: 404,
+                        message: 'Workshop commission not found',
+                    }, null);
+                }
+            }
+        });
+    },
+ createEnrollment: (workshopId, commissionId, userId, callback) => {
+     logger.info('creating enrollment');
+    let commissionWorkshopId = null;
+     let sql = `
+               INSERT INTO enrollment (userId, commissionWorkshopId) VALUES (?, ?);
+
+            `;
+     database.query(`SELECT id FROM commissionWorkshop WHERE commissionId = ? AND workshopId = ?`, [commissionId, workshopId] ,(error, results, fields) => {
+         if (error) {
+             logger.error('Error creating enrollment', error);
+             callback(error, null);
+
+         }
+         else {
+                commissionWorkshopId = results[0].id;
+                logger.debug(commissionWorkshopId)
+             logger.debug(userId.userId)
+                database.query(sql, [userId.userId, commissionWorkshopId] ,(error, results, fields) => {
+                    if (error) {
+                        logger.error('Error creating enrollment', error);
+                        callback(error, null);
+
+                    } else {
+                        logger.info('Enrollment created successfully');
+                        callback(null, {
+                            status: 200,
+                            message: 'Enrollment created successfully',
+                            data: results,
+                        });
+                    }
+                }
+);
+             }
+     });
+ },
+    getEnrollments: (commissionId, workshopId, callback) => {
+        logger.info('getting enrollments');
+
+        let sql = `
+               SELECT * FROM enrollment WHERE commissionWorkshopId = (SELECT id FROM commissionWorkshop WHERE commissionId = ? AND workshopId = ?);
+
+            `;
+        database.query(sql, [commissionId, workshopId] ,(error, results, fields) => {
+            if (error) {
+                logger.error('Error getting enrollments', error);
+                callback(error, null);
+
+            }
+            else {
+                logger.info('Enrollments fetched successfully', results);
+                callback(null, {
+                    status: 200,
+                    message: 'Enrollments fetched successfully',
+                    data: results,
+                });
+            }
+        });
+    }
 };
 
 module.exports = workshopService;
