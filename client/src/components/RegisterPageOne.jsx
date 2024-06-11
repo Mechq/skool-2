@@ -94,23 +94,47 @@
 
             console.log(firstName, lastName, phoneNumber, birthDate, email, streetName, houseNumber, postalCode, city, country)
 
+            // try {
+            //     const response = await fetch(`/api/user/email/${email}`, {
+            //         method: 'GET',
+            //     });
+            //     if (response.status === 200) {
+            //         // Email exists, prevent form submission
+            //         console.log(response)
+            //         console.log('Email already exists');
+            //         setEmailValid(false); // Set email validity to false to display error
+            //         return; // Stop further execution
+            //     }
+            // } catch (error) {
+            //     // Handle error if request fails
+            //     console.error('Error checking email existence:', error);
+            //     // Optionally, you can display an error message to the user here
+            // }
+
             try {
                 const response = await fetch(`/api/user/email/${email}`, {
                     method: 'GET',
                 });
-                if (response.status === 200) {
-                    // Email exists, prevent form submission
-                    console.log(response)
-                    console.log('Email already exists');
-                    setEmailValid(false); // Set email validity to false to display error
-                    return; // Stop further execution
+        
+                // Log the response status and body
+                console.log('Response status:', response.status);
+                const responseBody = await response.json();
+                console.log('Response body:', responseBody);
+        
+                if (responseBody.status === 200) {
+                        // Email exists, prevent form submission
+                        console.log('Email already exists');
+                        setEmailValid(false); // Set email validity to false to display error
+                        return; // Stop further execution
+                } else {
+                    // Handle other status codes
+                    console.error('Unexpected response status:', response.status);
                 }
             } catch (error) {
                 // Handle error if request fails
                 console.error('Error checking email existence:', error);
                 // Optionally, you can display an error message to the user here
             }
-
 
             setFormData({
                 ...formData,
