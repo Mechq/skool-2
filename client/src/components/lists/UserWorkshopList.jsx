@@ -9,7 +9,7 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedCommission, setSelectedCommission] = useState(null);
     const [showModal, setShowModal] = useState(false);
-
+;
 
     const handleDetailsClick = (workshop, commission, e) => {
         e.preventDefault();
