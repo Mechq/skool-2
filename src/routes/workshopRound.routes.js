@@ -8,5 +8,5 @@ router.get("/api/workshopRound/workshop/:roundId", workshopRoundController.getWo
 router.delete("/api/workshopRound/workshop/:roundId", workshopRoundController.deleteWorkshopRoundWorkshopsByRoundId);
 router.put('/api/workshopRound/:workshopId/:commissionId', workshopRoundController.editWorkshopRoundWorkshop)
 router.get('/api/workshopRound/:workshopId/:roundId', workshopRoundController.getWorkshopRoundWorkshopById)
-
+router.delete('/api/workshopRound/:workshopId/:commissionId', workshopRoundController.deleteWorkshopCommission)
 module.exports = router;
