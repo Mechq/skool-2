@@ -8,7 +8,6 @@ export default function PageSecurity() {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
     const [email, setEmail] = useState(null); // Add this line
     const [role, setRole] = useState(null)
-    const[user, setUser] = useState(null)
     const navigate = useNavigate();
     const cookies = new Cookies();
 
@@ -39,14 +38,10 @@ export default function PageSecurity() {
             const decodedToken = jwtDecode(token);
             setEmail(decodedToken.user.email); // Set the email state
             setRole(decodedToken.user.role)
-
-            // Only update user state if decodedToken.user is different from current user state
-            if (JSON.stringify(user) !== JSON.stringify(decodedToken.user)) {
-                setUser(decodedToken.user);
-            }
-            console.log(user)
+            console.log(role)
+            console.log(decodedToken)
         }
-    }, [isAuthenticated, navigate, cookies, user]);
+    }, [isAuthenticated, navigate]);
 
-    return user; // Return the email state
+    return {email, role}; // Return the email state
 }

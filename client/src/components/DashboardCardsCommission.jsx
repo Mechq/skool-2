@@ -86,11 +86,11 @@ export default function DashboardCardsCommission({ userWorkshops, setUserWorksho
                 <div
                     onClick={(e) => handleDetailsClick(userWorkshop, getCommission(userWorkshop.commissionId), e)}
                 >
-                <UserCommissionCard
-                    key={userWorkshop.unique}
-                    userWorkshop={userWorkshop}
-                    commissionDate={getCommissionDate(userWorkshop.commissionId)} // Assuming id corresponds to commission id
-                />
+                    <UserCommissionCard
+                        key={userWorkshop.unique}
+                        userWorkshop={userWorkshop}
+                        commissionDate={getCommissionDate(userWorkshop.commissionId)} // Assuming id corresponds to commission id
+                    />
                 </div>
             ))}
         </>

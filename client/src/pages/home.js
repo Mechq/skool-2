@@ -7,7 +7,6 @@ function Home() {
     const userEmail = PageSecurity();
     const [disableUseEffect, setDisableUseEffect] = useState(false);
 
-    // Ensure that the useEffect is not called conditionally
     useEffect(() => {
         const email = userEmail.email;
         console.log("User email: ", email);
