@@ -35,6 +35,33 @@ export default function EnrollmentList({
     return acc;
   }, {});
 
+  const handleSubmit = (status, enrollment) => {
+    console.log("Submitting enrollment status:", status);
+    console.log("Enrollment:", enrollment);
+    fetch(`/api/enrollment/${enrollment.enrollmentId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        // Refresh enrollments after successful update
+        fetch('/api/enrollment')
+          .then(res => res.json())
+          .then(data => {
+            setEnrollments(data.data);
+            console.log("Fetched enrollments: ", data.data);
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      })
+      .catch((error) => console.error("Error updating enrollment:", error));
+  };
+  
+
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       {Object.keys(groupedEnrollments).map((groupKey) => (
@@ -60,8 +87,8 @@ export default function EnrollmentList({
                   </td>
                   <td className="px-6 py-4 text-right">
                     {/* Placeholder for accept/reject buttons */}
-                    <button className="bg-green-500 text-white px-2 py-1 rounded mr-2">Accept</button>
-                    <button className="bg-red-500 text-white px-2 py-1 rounded">Reject</button>
+                    <button onClick={() => handleSubmit("geaccepteerd", enrollment)} className="bg-green-500 text-white px-2 py-1 rounded mr-2">Accept</button>
+                    <button onClick={() => handleSubmit("geweigerd", enrollment)} className="bg-red-500 text-white px-2 py-1 rounded">Reject</button>
                   </td>
                 </tr>
               ))}
