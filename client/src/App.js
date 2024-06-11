@@ -63,7 +63,7 @@ function App() {
                     <Route path="/werklocatie" element={<ProtectedRoute access="admin"><Worklocation /></ProtectedRoute>} />
                     <Route path="/customers" element={<ProtectedRoute access="admin"><Customers /></ProtectedRoute>} />
                     <Route path="*" element={<h1>Not Found</h1>} />
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<ProtectedRoute access="everyone"><Home /></ProtectedRoute>} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/opdracht" element={<ProtectedRoute access="everyone"><Commission /></ProtectedRoute>} />
                     <Route path="/login" element={<Login />} />
