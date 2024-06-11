@@ -49,6 +49,30 @@ let teacherWorkshopQualification = {
             }
         });
 
+    },
+    delete: (req, res, next) => {
+        const userId = req.params.userId;
+        const workshopIds = req.body.workshops;
+        logger.info('deleting teacherWorkshopQualification');
+
+        teacherWorkshopQualificationService.delete(userId,workshopIds, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(201).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
+
     }
 
 };

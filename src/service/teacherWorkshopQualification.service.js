@@ -103,6 +103,44 @@ const teacherWorkshopQualificationService = {
             );
         });
     },
+    delete: (userId, workshopId, callback) => {
+        logger.info("delete teacherWorkshopQualification");
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error("Error deleting teacherWorkshopQualification", err);
+                callback(err, null);
+                return;
+            }
+
+            // Create a list of question marks for parameterized query
+            let placeholders = workshopId.map(() => '?').join(',');
+            // Flatten userId and workshopId array into a single array for query parameters
+            let queryParams = [userId, ...workshopId];
+
+            let sql = `DELETE FROM teacherWorkshopQualification WHERE userId = ? AND workshopId IN (${placeholders})`;
+
+            connection.query(
+                sql,
+                queryParams,
+                function (error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+                        logger.error("Error deleting teacherWorkshopQualification", error);
+                        callback(error, null);
+                    } else {
+                        callback(null, {
+                            status: 200,
+                            message: "teacherWorkshopQualification deleted successfully",
+                            data: results,
+                        });
+                    }
+                }
+            );
+        });
+    }
+
 };
 
 module.exports = teacherWorkshopQualificationService;
