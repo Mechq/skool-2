@@ -116,7 +116,6 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
         setIsDropdownVisible(true);
     };
 
-
     return (
         <section className='px-6 py-8 mx-6'>
             <form onSubmit={handleRegister} className="relative">
@@ -124,100 +123,128 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
 
                 <div className="grid gap-4 mb-4 grid-cols-2">
                     <div>
-                        <label htmlFor="btwNumber"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">BTW
-                            Nummer</label>
+                        <label htmlFor="btwNumber" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
+                            BTW Nummer
+                        </label>
                         <input type="text" name="btwNumber" id="btwNumber"
                                className={`bg-gray-50 border ${btwNumberValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                placeholder="123456789" required=""
                                value={btwNumber} onChange={(e) => {
-                            setFormData({...formData, btwNumber: e.target.value})
+                            setFormData({...formData, btwNumber: e.target.value});
                             setBtwNumberValid(true);
                         }}/>
                     </div>
                     <div>
-                        <label htmlFor="kvkNumber"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">KVK
-                            Nummer</label>
+                        <label htmlFor="kvkNumber" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
+                            KVK Nummer
+                        </label>
                         <input type="text" name="kvkNumber" id="kvkNumber"
                                className={`bg-gray-50 border ${kvkNumberValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                placeholder="12345678" required=""
                                value={kvkNumber} onChange={(e) => {
-                            setFormData({...formData, kvkNumber: e.target.value})
+                            setFormData({...formData, kvkNumber: e.target.value});
                             setKvkNumberValid(true);
                         }}/>
                     </div>
                 </div>
                 <div className="grid gap-4 mb-4">
                     <div>
-                        <label htmlFor="iban"
-                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">IBAN</label>
+                        <label htmlFor="iban" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
+                            IBAN
+                        </label>
                         <input type="text" name="iban" id="iban"
                                className={`bg-gray-50 border ${ibanValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                placeholder="NL02ABNA0123456789" required=""
                                value={iban} onChange={(e) => {
-                            setFormData({...formData, iban: e.target.value})
+                            setFormData({...formData, iban: e.target.value});
                             setIbanValid(true);
                         }}/>
                     </div>
                 </div>
 
-                <div className="grid gap-4 mb-4 relative">
-                    <button
-                        type="button"
+                <h3 className="mb-2 block text-sm font-medium text-gray-900 light:text-white">Vervoer & Soort Werknemer</h3>
+                <ul className="items-center w-full mb-4 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex light:bg-gray-700 light:border-gray-600 light:text-white">
+                    <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r light:border-gray-600">
+                        <div className="flex items-center ps-3">
+                            <input id="driversLicense-checkbox-list" type="checkbox" value=""
+                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                   checked={hasDriversLicense}
+                                   onChange={() => setFormData({...formData, hasDriversLicense: !hasDriversLicense})}
+                            />
+                            <label htmlFor="driversLicense-checkbox-list"
+                                   className="w-full py-3 ms-2 text-sm font-medium text-gray-900 light:text-gray-300">Ik
+                                heb een rijbewijs</label>
+                        </div>
+                    </li>
+                    <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r light:border-gray-600">
+                        <div className="flex items-center ps-3">
+                            <input id="car-checkbox-list" type="checkbox" value=""
+                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                   checked={hasCar}
+                                   onChange={() => setFormData({...formData, hasCar: !hasCar})}
+                            />
+                            <label htmlFor="car-checkbox-list"
+                                   className="w-full py-3 ms-2 text-sm font-medium text-gray-900 light:text-gray-300">Ik
+                                heb een auto</label>
+                        </div>
+                    </li>
+                    <li className="w-full light:border-gray-600">
+                        <div className="flex items-center ps-3">
+                            <input id="zzp-checkbox-list" type="checkbox" value=""
+                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                   checked={isZZPer}
+                                   onChange={() => setFormData({...formData, isZZPer: !isZZPer})}
+                            />
+                            <label htmlFor="zzp-checkbox-list"
+                                   className="w-full py-3 ms-2 text-sm font-medium text-gray-900 light:text-gray-300">Ik
+                                ben een ZZP'er</label>
+                        </div>
+                    </li>
+                </ul>
 
+                <h3 className="mb-2 block text-sm font-medium text-gray-900 light:text-white">Spreektalen</h3>
+                <div className="relative mb-4">
+                    <button
+                        className="w-full text-black bg-white hover:bg-gray-100 border border-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center light:bg-gray-800 light:hover:bg-gray-700 light:focus:ring-gray-700 light:border-gray-600"
                         type="button"
-                        id="dropdownCheckboxButton"
                         onClick={handleDropdownClick}
-                        className="text-white bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800 relative"
                     >
-                        Welke talen spreekt u?
+                        Selecteer talen
                         <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                              fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                   d="m1 1 4 4 4-4"/>
                         </svg>
-                        {isDropdownVisible && (
-                            <div
-                                ref={dropdownRef}
-                                className="absolute top-full left-0 mt-2 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow light:bg-gray-700 light:divide-gray-600 transition-all duration-300 transform
-                                opacity-100 scale-100"
-                            >
-                                <ul className="p-3 space-y-3 text-sm text-gray-700 light:text-gray-200"
-                                    aria-labelledby="dropdownCheckboxButton">
-                                    {languages.map((language, index) => (
-                                        <li key={index}>
-                                            <div className="flex items-center">
-                                                <input
-                                                    id={`checkbox-item-${index}`}
-                                                    type="checkbox"
-                                                    value={language}
-                                                    checked={userLanguages.includes(language)}
-                                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
-                                                    onChange={(e) => handleCheckboxClick(e, language)}
-                                                />
-                                                <label htmlFor={`checkbox-item-${index}`}
-                                                       className="ms-2 text-sm font-medium text-gray-900 light:text-gray-300">{language}</label>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
                     </button>
+                    {isDropdownVisible && (
+                        <div ref={dropdownRef}
+                             className="absolute w-full bg-white border border-gray-300 rounded-lg shadow-md p-4 z-10 light:bg-gray-700 light:border-gray-600">
+                            <ul>
+                                {languages.map(language => (
+                                    <li key={language}>
+                                        <label
+                                            className="flex items-center p-2 rounded hover:bg-gray-100 light:hover:bg-gray-600">
+                                            <input type="checkbox"
+                                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                                   checked={userLanguages.includes(language)}
+                                                   onChange={(e) => handleCheckboxClick(e, language)}
+                                            />
+                                            <span className="ml-2 text-gray-700 light:text-gray-300">{language}</span>
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
 
-                <button
-                    onClick={stepBack}
-                    className="text-white mr-3 bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange"
-                >
+                <button type="button" onClick={stepBack}
+                        className="mb-2 mr-2 text-white bg-brand-orange hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
                     Terug
                 </button>
-                <button
-                    type="submit"
-                    className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange"
-                >
-                    Volgende stap
+                <button type="submit"
+                        className="mb-2 text-white bg-brand-orange hover:bg-brand-orange-light focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                    Registreer
                 </button>
             </form>
         </section>
