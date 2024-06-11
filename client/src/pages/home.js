@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DashboardCardsCommission from '../components/DashboardCardsCommission';
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 function Home() {
     const [disableUseEffect, setDisableUseEffect] = useState(false);
@@ -8,7 +8,7 @@ function Home() {
     const [loading, setLoading] = useState(true);
     const [commissions, setCommissions] = useState([]);
     const [userWorkshops, setUserWorkshops] = useState([]);
-
+    const [times, setTimes] = useState([]);
 
     const getEarliestDate = (items) => {
         if (!items || items.length === 0) {
@@ -28,6 +28,16 @@ function Home() {
         return new Date(date).toLocaleDateString("nl-NL", options);
     }
 
+    const fetchTimes = async (commissionId) => {
+        try {
+            const res = await fetch(`/api/commission/time/${commissionId}`);
+            const data = await res.json();
+            setTimes(data.data);
+            console.log("Fetched enrollments: ", data.data);
+        } catch (error) {
+            console.error('Error fetching location data:', error);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,19 +46,22 @@ function Home() {
                 if (token) {
                     const decodedToken = jwtDecode(token);
                     setUser(decodedToken);
-                    // console.log("User: ", decodedToken.id)
+
                     const res = await fetch(`/api/dashboard/${decodedToken.id}`);
                     const commissionDataRes = await fetch('/api/commission/');
-                    if (!res.ok) {
+                    if (!res.ok || !commissionDataRes.ok) {
                         throw new Error('Failed to fetch data');
                     }
+                    
                     const data = await res.json();
                     const commissionData = await commissionDataRes.json();
                     setCommissions(commissionData.data);
-
                     setUserWorkshops(data.data);
+
+                    if (data.data && data.data.length > 0) {
+                        await fetchTimes(data.data[0].commissionId);
+                    }
                     console.log("Fetched workshops: ", data.data);
-                    console.log(userWorkshops); // Print fetched data after setting state
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -60,11 +73,6 @@ function Home() {
         fetchData();
     }, []);
 
-
-
-
-
-
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -73,8 +81,7 @@ function Home() {
         <>
             <div className='bg-white rounded-lg shadow-lg p-6 mb-8 text-center'>
                 <h1 className='text-2xl font-bold mb-4'>
-                    {console.log(userWorkshops)}
-                    Welkom <span className='text-brand-orange'>{user.firstName}</span>, je volgende workshop is gepland op <span className='text-brand-orange'>{formatDate(getEarliestDate(userWorkshops))}</span>
+                    Welkom <span className='text-brand-orange'>{user.firstName}</span>, je volgende workshop is gepland op <span className='text-brand-orange'>{formatDate(getEarliestDate(userWorkshops))} om {times.startTime}</span>
                 </h1>
             </div>
             <div className='flex'>
