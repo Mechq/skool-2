@@ -25,6 +25,7 @@ router.get("/api/user", userController.getAllUsers);
 router.put("/api/user/:id", userController.updateUser);
 router.get("/api/user/:id", userController.getById);
 router.get("/api/user/email/:email", userController.getByEmail);
-router.get('/api/user/language/:id', userController.getLanguages)
+router.get('/api/user/language/:id', userController.getLanguages);
+router.get('/api/user/language/:id', userController.getLanguages); 
 
 module.exports = router;
