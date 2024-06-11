@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AiTwotoneCalendar, AiTwotoneClockCircle} from "react-icons/ai";
 import PageSecurity from "../../PageSecurity";
+import {jwtDecode} from "jwt-decode";
 
 
 export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission }) {
@@ -10,9 +11,25 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
     const [location, setLocation] = useState({});
     const [enrollments, setEnrollments] = useState([]);
     const [times, setTimes] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
 
-    const user = PageSecurity();
+    useEffect(() => {
+        const fetchData = async () => {
+            let decodedToken;
+            const token = localStorage.getItem('token');
+            if (token) {
+                decodedToken = jwtDecode(token);
+                setUser(decodedToken);
+            }
 
+
+                setLoading(false);
+
+        };
+
+        fetchData();
+    }, []);
 
 
     const formatDate = (date) => {
@@ -135,6 +152,9 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
             .catch((error) => console.error("Error:", error));
     };
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <>

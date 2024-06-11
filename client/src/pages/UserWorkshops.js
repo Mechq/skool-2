@@ -18,8 +18,6 @@ const [userWorkshops, setUserWorkshops] = useState([]);
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
-    const user = PageSecurity();
-
     return (
         <div>
             <UserWorkshopList
