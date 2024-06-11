@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import Datepicker from "tailwind-datepicker-react"
 import "../../styles/optionsRoundCreate.css"
 import RoundEditModal from "../modal-screens/CommissionRoundModalScreen";
@@ -44,12 +44,12 @@ const dateOptions = {
     }
 }
 
-export default function EditCommissionPanelContent({ setShowSidePanel, commissionId }) {
+export default function EditCommissionPanelContent({setShowSidePanel, commissionId}) {
     const [customerId, setCustomerId] = useState("");
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
     const [selectedCustomerName, setSelectedCustomerName] = useState("");
-    const[selectedCustomerId, setSelectedCustomerId] = useState("");
+    const [selectedCustomerId, setSelectedCustomerId] = useState("");
     const [customers, setCustomers] = useState([]);
     const [locationName, setLocationName] = useState("");
     const [roundIds, setRoundIds] = useState([]);
@@ -62,8 +62,8 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     const [editingRoundType, setEditingRoundType] = useState("");
     const [editedRoundType, setEditedRoundType] = useState("");
     const [date, setDate] = useState("");
-    const[startTimes, setStartTimes] = useState([]);
-    const[endTimes, setEndTimes] = useState([]);
+    const [startTimes, setStartTimes] = useState([]);
+    const [endTimes, setEndTimes] = useState([]);
     const [orders, setOrders] = useState([]);
     const optionsRef = useRef(null);
     const [locations, setLocations] = useState([]); // Locations state
@@ -98,7 +98,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .catch((error) => console.error("Error fetching commission:", error));
         }
     }, [commissionId]);
-
 
 
     const fetchRoundData = () => {
@@ -148,9 +147,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .then((res) => res.json())
                 .then((response) => {
                     const customer = response.data
-                        setSelectedCustomerName(customer.name || "");
-                        setSelectedCustomerId(customer.id || "");
-                        console.log("Fetched selected commissions customer:", customer)
+                    setSelectedCustomerName(customer.name || "");
+                    setSelectedCustomerId(customer.id || "");
+                    console.log("Fetched selected commissions customer:", customer)
                 })
                 .catch((error) => console.error("Error fetching customer:", error));
         }
@@ -226,13 +225,13 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
 
         if (!customerId || !details || !targetAudience) return;
         console.log("Submitting commission");
-            const commission = {
-                customerId,
-                details,
-                targetAudience,
-                locationId: selectedLocationId,
-                date
-            };
+        const commission = {
+            customerId,
+            details,
+            targetAudience,
+            locationId: selectedLocationId,
+            date
+        };
 
         fetch(`/api/commission/${commissionId}`, {
             method: "PUT",
@@ -258,18 +257,16 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         console.log("Adding round of type", option);
         setShowOptions(false);
         let order = 0
-        if(orders.length > 0){
+        if (orders.length > 0) {
             order = orders[orders.length - 1] + 1
         }
         let latestEndTime = ''
-        fetch(`/api/round/endTime/${commissionId}`, {
-
-        })
+        fetch(`/api/round/endTime/${commissionId}`, {})
             .then((response) => response.json())
             .then((data) => {
                 latestEndTime = data.data.endTime || '';
 
-                const requestBody = JSON.stringify({ type: option, order, startTime: latestEndTime});
+                const requestBody = JSON.stringify({type: option, order, startTime: latestEndTime});
 
                 fetch(`/api/round/${commissionId}`, {
                     method: "POST",
@@ -320,6 +317,13 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         fetchRoundData();
     };
 
+    let c =1
+
+    const addC = ( ) => {
+        const d = c
+        c++
+        return d
+    }
     return (
         <div className="px-6">
 
@@ -389,16 +393,16 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
 
             </form>
             <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
-            <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+            {/*bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
     focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400
-    light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
+    light:text-white light:focus:ring-blue-500 light:focus:border-blue-500*/}
+            <div className="">
                 <ul>
                     {types.map((type, index) => (
-                        <li key={index} className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer"
+                        <li key={index} className="bg-gray-50 hover:bg-gray-200 mb-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500 hover:cursor-pointer"
                             onClick={() => editRound(type, roundIds[index])}>
-                <span>
-                    {type} - Tijd {startTimes[index]} - {endTimes[index]}
-                </span>
+                        <span>
+<strong className="text-sm"> {type} {type === "Workshopronde" &&  addC()} </strong>  |  {startTimes[index]} - {endTimes[index]}                        </span>
                             {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
                                 <ul className="pl-4 mt-2">
                                     {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
