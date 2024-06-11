@@ -3,13 +3,16 @@
 
     import Datepicker from "tailwind-datepicker-react";
 
+    let maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() - 18);
+
     const dateOptions = {
         title: " ",
         autoHide: true,
         todayBtn: false,
         clearBtn: false,
         clearBtnText: "",
-        maxDate: new Date("2030-01-01"),
+        maxDate: maxDate,
         minDate: new Date("1900-01-01"),
         theme: {
             background: "bg-white",
@@ -23,7 +26,7 @@
             selected: "bg-brand-orange",
         },
         datepickerClassNames: "top-12",
-        defaultDate: false,
+        defaultDate: maxDate,
         language: "nl",
         disabledDates: [],
         weekDays: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
