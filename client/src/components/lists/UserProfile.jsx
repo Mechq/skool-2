@@ -2,17 +2,24 @@ import React, { useEffect, useState } from "react";
 import Dropdown from "../Dropdown"; // Make sure the path is correct
 
 export default function UserProfile({ user, editUser }) {
-    const [languages, setLanguages] = useState([]);
+    const [languages, setLanguages] = useState("");
 
     useEffect(() => {
         const fetchLanguages = async () => {
+            if (!user || !user.id) {
+                console.error("User or user ID is missing");
+                return;
+            }
+
             try {
                 const response = await fetch(`/api/user/language/${user.id}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch: ${response.statusText}`);
+                }
                 const result = await response.json();
                 if (result.status === 200) {
-                    // Extract language names from the data array
+                    console.log(result.data);
                     const languageNames = result.data.map(language => language.name);
-                    // Join language names with commas
                     const languagesString = languageNames.join(', ');
                     setLanguages(languagesString);
                 } else {
@@ -22,9 +29,9 @@ export default function UserProfile({ user, editUser }) {
                 console.error("Error fetching languages:", error);
             }
         };
-    
+
         fetchLanguages();
-    }, [user.id]);
+    }, [user]);
     
 
     const calculate_age = (dob) => {
@@ -112,7 +119,7 @@ export default function UserProfile({ user, editUser }) {
                                 </div>
                                 <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt className="text-sm font-medium text-gray-500">
-                                        Taal
+                                        {languages.includes(',') ? 'Talen' : 'Taal'}
                                     </dt>
                                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 flex justify-between items-center">
                                         {languages}

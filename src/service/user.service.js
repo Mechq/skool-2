@@ -318,24 +318,24 @@ const userService = {
 
     getLanguages: (id, callback) => {
         logger.info('retrieving languages of user', id);
-    
+
         database.getConnection(function (err, connection) {
             if (err) {
                 logger.error('Error retrieving languages of user', err);
                 callback(err, null);
                 return;
             }
-    
+
             const query = 'SELECT * FROM language WHERE id IN (SELECT languageId FROM userLanguageQualification WHERE userId = ?)';
-    
+
             logger.debug('query', query);
-    
+
             connection.query(
                 query,
                 [id],
                 function (error, results, fields) {
                     connection.release();
-    
+
                     if (error) {
                         logger.error('Error retrieving languages of user', error);
                         callback(error, null);
@@ -351,7 +351,6 @@ const userService = {
             );
         });
     }
-    
 };
 
 module.exports = userService;
