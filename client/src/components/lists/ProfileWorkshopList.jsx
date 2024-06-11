@@ -23,6 +23,12 @@ export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshop
         console.log('Updating workshops for user:', user.id);
         console.log('Selected workshops:', selectedWorkshops);
 
+        // Determine unselected workshops
+        const unselectedWorkshops = workshops
+            .filter(workshop => !selectedWorkshops.includes(workshop.id))
+            .map(workshop => workshop.id);
+
+        // Send request to update selected workshops
         fetch(`/api/teacherWorkshopQualification/${user.id}`, {
             method: 'POST',
             headers: {
@@ -37,6 +43,24 @@ export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshop
             })
             .catch((error) => {
                 console.error('Error:', error);
+                // Optionally, handle errors here
+            });
+
+        // Send request to delete unselected workshops
+        fetch(`/api/teacherWorkshopQualification/${user.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ workshops: unselectedWorkshops }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Unselected Workshops Deleted:', data);
+                // Optionally, you can handle success here, like showing a success message
+            })
+            .catch((error) => {
+                console.error('Error deleting unselected workshops:', error);
                 // Optionally, handle errors here
             });
     };

@@ -18,7 +18,7 @@ function NavBar() {
     }
 
     return (
-        <nav className="bg-white text-black border-b border-gray-200 px-2 sm:px-4 py-2.5 shadow">
+        <nav className="bg-white text-black border-b border-gray-200 px-2 sm:px-6 py-2.5 shadow">
             <div className="container mx-auto flex flex-wrap justify-between items-center">
                 <Link to="/" className="flex items-center">
                     <img src="https://skoolworkshop.nl/wp-content/uploads/2020/06/Skool-Workshop_Logo-200x65.png"
