@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import UserCommissionCard from "./UserCommissionCard";
 import DashboardCardsCommissionDetails from "./modal-screens/DashboardCardsCommissionDetails";
+import UserWorkshopDetailsModalScreen from "./modal-screens/UserWorkshopDetailsModalScreen";
 
-export default function DashboardCardsCommission({ user }) {
+export default function DashboardCardsCommission({ user, userWorkshops, setUserWorkshops }) {
     const [commissions, setCommissions] = useState([]);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedCommission, setSelectedCommission] = useState(null);
-    const [userWorkshops, setUserWorkshops] = useState([]);
     const [loading, setLoading] = useState(true);
     const [workshopCommission, setWorkshopCommission] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     const handleDetailsClick = (workshop, commission, e) => {
         e.preventDefault();
@@ -19,35 +20,29 @@ export default function DashboardCardsCommission({ user }) {
     };
 
     const handleModalClose = () => {
+        setShowModal(false);
         setShowDetailsModal(false);
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [workshopsRes, commissionsRes, workshopCommissionRes] = await Promise.all([
-                    fetch(`/api/dashboard/${user.id}`),
+                const [, commissionsRes, workshopCommissionRes] = await Promise.all([
                     fetch('/api/commission/'),
-                    fetch('/api/workshop/commission')
                 ]);
 
-                const workshopsData = await workshopsRes.json();
                 const commissionsData = await commissionsRes.json();
-                const workshopCommissionData = await workshopCommissionRes.json();
 
-                const workshopsWithUniqueKey = workshopsData.data.map((workshop, index) => ({
+                const workshopsWithUniqueKey = userWorkshops.data.map((workshop, index) => ({
                     ...workshop,
                     unique: index + 1 // Incremented number starting from 1
                 }));
 
                 setUserWorkshops(workshopsWithUniqueKey);
-                console.log("Fetched workshops: ", workshopsWithUniqueKey);
 
                 setCommissions(commissionsData.data);
-                console.log("Fetched commissions: ", commissionsData.data);
 
-                setWorkshopCommission(workshopCommissionData.data);
-                console.log("Fetched workshopCommission: ", workshopCommissionData.data);
+                setUserWorkshops(workshopsWithUniqueKey);
 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -57,17 +52,16 @@ export default function DashboardCardsCommission({ user }) {
         };
 
         fetchData();
-    }, [user.id]);
+    }, [user.id, setUserWorkshops]);
 
     const getCommission = (commissionId) => {
-        console.log("workshopCommission", workshopCommission)
         const commission = workshopCommission.find(c => c.commissionId === commissionId);
         return commission ? commission : 'Unknown Commission';
     }
 
     const getCommissionDate = (commissionId) => {
-        console.log("workshopCommission")
-        const commission = workshopCommission.find(c => c.commissionId === commissionId);
+        console.log("commissionId", commissionId)
+        const commission = userWorkshops.find(c => c.commissionId === commissionId);
         if (commission) {
             const date = new Date(commission.date);
             return date.toLocaleDateString('nl-NL', {
@@ -86,15 +80,13 @@ export default function DashboardCardsCommission({ user }) {
     return (
         <>
             {showDetailsModal && (
-                <DashboardCardsCommissionDetails
-                    user={user}
+                <UserWorkshopDetailsModalScreen
                     onClose={handleModalClose}
                     workshop={selectedWorkshop}
                     commission={selectedCommission}
                 />
             )}
-
-            {userWorkshops.map((userWorkshop) => (
+            {userWorkshops && userWorkshops.map((userWorkshop) => ( // Check if userWorkshops is defined
                 <div
                     key={userWorkshop.unique}
                     onClick={(e) => handleDetailsClick(userWorkshop, getCommission(userWorkshop.commissionId), e)}
@@ -103,8 +95,10 @@ export default function DashboardCardsCommission({ user }) {
                     <UserCommissionCard
                         onClose={handleModalClose}
                         userWorkshop={userWorkshop}
-                        commissionDate={getCommissionDate(userWorkshop.commissionId)}
+                        commissionDate={getCommissionDate(userWorkshop.id)}
+
                     />
+                    {console.log("userWorkshop", userWorkshop)}
                 </div>
             ))}
         </>
