@@ -50,20 +50,24 @@ function Home() {
 
     return (
         <>
-        <div className='bg-white rounded-lg shadow-lg p-6 mb-8 text-center'>
-            
-        <h1 className='text-2xl font-bold mb-4'>
-    Welkom <span className='text-brand-orange'>{user.firstName}</span>, je volgende workshop is gepland op <span className='text-brand-orange'>{getCommissionDate(userWorkshop.commissionId)}</span>
-</h1>
-
-        </div>
-        <div className='block mb-2 text-sm font-medium text-gray-900 pl-6'>
-            <h1 pd-><strong>Inschrijvingen</strong></h1>
-            <DashboardCardsCommission user={user} />
-        </div>
-
+            <div className='bg-white rounded-lg shadow-lg p-6 mb-8 text-center'>
+                <h1 className='text-2xl font-bold mb-4'>
+                    Welkom <span className='text-brand-orange'>{user.firstName}</span>, je volgende workshop is gepland op <span className='text-brand-orange'>{getCommissionDate(userWorkshop.commissionId)}</span>
+                </h1>
+            </div>
+            <div className='flex'>
+                <div className='block mb-2 text-sm font-medium text-gray-900 pl-24 flex-1'>
+                    <h1 className='text-2xl mb-4 pd-6'><strong>Inschrijvingen</strong></h1> 
+                    <DashboardCardsCommission user={user} />
+                </div>
+                <div className='block mb-2 text-sm font-medium text-gray-900 text-right pr-24 flex-1'>
+                    <h1 className='text-2xl mb-4 pd-6'><strong>Openstaand</strong></h1> 
+                </div>
+            </div>
         </>
     );
+    
+    
 }
 
 export default Home;

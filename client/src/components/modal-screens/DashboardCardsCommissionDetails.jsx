@@ -126,7 +126,7 @@ export default function UserWorkshopDetailsModalScreen({ user, onClose, workshop
 
     return (
         <>
-            <div className="fixed inset-0 z-10 bg-gray-900 bg-opacity-15" onClick={onClose}/>
+            <div className="fixed inset-0 z-10 bg-gray-900 bg-opacity-15 m-4" onClick={onClose}/>
 
             <section className="w-full flex flex-col items-center justify-center fixed top-0 left-0 z-20 mt-20">
                 <section
