@@ -5,8 +5,6 @@ import {jwtDecode} from "jwt-decode";
 
 
 export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission }) {
-    console.log("workshop", workshop)
-    console.log("commission", commission)
 
 
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);

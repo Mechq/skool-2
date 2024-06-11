@@ -10,6 +10,7 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
     const [loading, setLoading] = useState(true);
     const [workshopCommission, setWorkshopCommission] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const[acceptedWorkshops, setAcceptedWorkshops] = useState([]);
 
     const handleDetailsClick = (workshop, commission, e) => {
         e.preventDefault();
@@ -23,67 +24,69 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
         setShowDetailsModal(false);
     };
 
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const [, commissionsRes] = await Promise.all([
+    //                 fetch('/api/commission/'),
+    //             ]);
+    //
+    //             const commissionsData = await commissionsRes.json();
+    //
+    //             const workshopsWithUniqueKey = userWorkshops.data.map((workshop, index) => ({
+    //                 ...workshop,
+    //                 unique: index + 1 // Incremented number starting from 1
+    //             }));
+    //
+    //             setUserWorkshops(workshopsWithUniqueKey);
+    //
+    //             setCommissions(commissionsData.data);
+    //
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+    //
+    //     fetchData();
+    //
+    //
+    // }, [user.id, setUserWorkshops]);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const res = await fetch('/api/workshop/commission');
+    //             if (!res.ok) {
+    //                 throw new Error('Failed to fetch data');
+    //             }
+    //             const data = await res.json();
+    //             setWorkshopCommission(data.data);
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         }
+    //     };
+    //
+    //     fetchData();
+    // }, []);
+
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [, commissionsRes] = await Promise.all([
-                    fetch('/api/commission/'),
-                ]);
-
-                const commissionsData = await commissionsRes.json();
-
-                const workshopsWithUniqueKey = userWorkshops.data.map((workshop, index) => ({
-                    ...workshop,
-                    unique: index + 1 // Incremented number starting from 1
-                }));
-
-                setUserWorkshops(workshopsWithUniqueKey);
-
-                setCommissions(commissionsData.data);
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
+        console.log('userWorkshops', userWorkshops);
+        if (userWorkshops) {
+            const accepted = userWorkshops.filter((workshop) => workshop.status === 'geaccepteerd');
+            setAcceptedWorkshops(accepted);
+            setLoading(false);
+        }
+    }, [userWorkshops]);
 
 
-    }, [user.id, setUserWorkshops]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await fetch('/api/workshop/commission');
-                if (!res.ok) {
-                    throw new Error('Failed to fetch data');
-                }
-                const data = await res.json();
-                setWorkshopCommission(data.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-
-
-    const getCommission = (commissionId) => {
-        const commission = workshopCommission.find(c => c.commissionId === commissionId);
-        return commission ? commission : 'Unknown Commission';
-    }
-
-    const getCommissionDate = (commissionId) => {
-
-        // Find the commission by commissionId
-        const commission = workshopCommission.find(c => c.commissionId === commissionId);
-
-        if (commission) {
-            const date = new Date(commission.date);
+    const formatDate = (commissionDate) => {
+        if (commissionDate) {
+            const date = new Date(
+                typeof commissionDate === 'string' ? commissionDate : commissionDate.date
+            );
             return date.toLocaleDateString('nl-NL', {
                 year: 'numeric',
                 month: 'numeric',
@@ -109,15 +112,16 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
                     commission={selectedCommission}
                 />
             )}
-            {userWorkshops && userWorkshops.map((userWorkshop) => ( // Check if userWorkshops is defined
+            {acceptedWorkshops && acceptedWorkshops.map((acceptedUserWorkshop) => ( // Check if userWorkshops is defined
+
                 <div
-                    key={userWorkshop.unique}
-                    onClick={(e) => handleDetailsClick(userWorkshop, getCommission(userWorkshop.commissionId), e)}
+                    key={acceptedUserWorkshop.enrollmentId}
+                    onClick={(e) => handleDetailsClick(acceptedUserWorkshop,acceptedUserWorkshop.commissionId, e)}
                 >
                     <UserCommissionCard
                         onClose={handleModalClose}
-                        userWorkshop={userWorkshop}
-                        commissionDate={getCommissionDate(userWorkshop.commissionId)}
+                        userWorkshop={acceptedUserWorkshop}
+                        commissionDate={formatDate(acceptedUserWorkshop.date)}
 
                     />
                 </div>

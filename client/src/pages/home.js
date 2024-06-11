@@ -12,13 +12,9 @@ function Home() {
 
     const getEarliestDate = (items) => {
         if (!items || items.length === 0) {
-            return null; // Return null if the list is empty or not provided
+            return null;
         }
-
-        // Parse the dates and sort the items by date
         const sortedItems = items.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-        // Return the earliest date
         return sortedItems[0].date;
     };
 
@@ -33,9 +29,8 @@ function Home() {
             const res = await fetch(`/api/commission/time/${commissionId}`);
             const data = await res.json();
             setTimes(data.data);
-            console.log("Fetched enrollments: ", data.data);
         } catch (error) {
-            console.error('Error fetching location data:', error);
+            console.error('Error fetching time data:', error);
         }
     };
 
@@ -61,7 +56,6 @@ function Home() {
                     if (data.data && data.data.length > 0) {
                         await fetchTimes(data.data[0].commissionId);
                     }
-                    console.log("Fetched workshops: ", data.data);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
