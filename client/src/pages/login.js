@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
     const [emailValid, setEmailValid] = useState(true);
     const [passwordValid, setPasswordValid] = useState(true);
     const [error, setError] = useState("");
@@ -32,7 +31,9 @@ export default function Login() {
             .then(data => {
                 if (data.status === 'Success') {
                     console.log('Login voltooid', data);
-                    // Handle successful login (e.g., store the token, redirect, etc.)
+                    // Store the token in local storage
+                    localStorage.setItem('token', data.token);
+                    // Handle successful login (e.g., redirect)
                     setEmail("");
                     setPassword("");
                     window.location.href = "/";
@@ -48,10 +49,10 @@ export default function Login() {
 
     return (
         <section
-            className="w-full h-full flex items-center justify-center bg-gray-50 light:bg-gray-900 fixed top-0 left-0">
+            className="w-full h-full flex items-center justify-center  light:bg-gray-900 fixed top-0 left-0">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto sm:max-w-lg">
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 light:text-white">
-                    <img className="w-40 h-16 mr-2"
+                    <img className="w-40 h-13 mr-2"
                          src="https://skoolworkshop.nl/wp-content/uploads/2020/06/Skool-Workshop_Logo-200x65.png"
                          alt="logo"/>
                 </a>

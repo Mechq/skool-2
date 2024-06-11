@@ -4,7 +4,6 @@ import CreatePanelContent from "../components/panel-contents/CreatePanelContent"
 import SidePanel from "../components/SidePanel";
 import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
 import CreateButton from "../components/CreateButton";
-import PageSecurity from "../PageSecurity";
 
 export default function Users() {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -22,8 +21,6 @@ export default function Users() {
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
-
-    const user = PageSecurity();
 
     return (
         <div>

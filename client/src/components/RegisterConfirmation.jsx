@@ -5,31 +5,56 @@ export default function AccountConfirmation({ formData, postRequest }) {
 
     useEffect(() => {
         if (postRequest && !hasPosted) {
-            const createDatabaseAccount = async (formData) => {
-                try {
-                    const response = await fetch('/api/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formData),
+            const createDatabaseAccount = (formData) => {
+                fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw response;
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        setHasPosted(true); // Mark the post request as completed
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
                     });
+            };
 
-                    if (!response.ok) {
-                        throw response;
-                    }
-
-                    const data = await response.json();
-                    console.log('Success:', data);
-                    setHasPosted(true); // Mark the post request as completed
-                } catch (error) {
-                    console.error('Error:', error);
-                }
+            const createUserLanguageQualifications = (formData) => {
+                fetch(`/api/language/${formData.email}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ "languages": formData.userLanguages }),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw response;
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        setHasPosted(true); // Mark the post request as completed
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             };
 
             createDatabaseAccount(formData);
+            createUserLanguageQualifications(formData);
         }
-    }, [postRequest, hasPosted, formData]); // Dependency array includes hasPosted
+    }, [postRequest, hasPosted, formData]);
 
     return (
         <>

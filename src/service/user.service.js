@@ -20,7 +20,7 @@ const userService = {
                     callback(err, null);
                     return;
                 }
-                user.role = "teacher";
+                user.role = "teacher"
 
                 const sql = "INSERT INTO user (`email`, `password`, `firstName`, `lastName`, `phoneNumber`, `birthDate`, `street`, `houseNumber`, `postalCode`, `city`, `kvkNumber`, `btwNumber`, `iban`, `role`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 const values = [user.email, hash, user.firstName, user.lastName, user.phoneNumber, user.birthDate, user.street, user.houseNumber, user.postalCode, user.city, user.kvkNumber, user.btwNumber, user.iban, user.role];
@@ -52,67 +52,59 @@ const userService = {
             }
 
             const sql = "SELECT * FROM user WHERE email = ?";
-            let user = {};
 
-            connection.query(
-                sql, email,
-                function (error, results, fields) {
-                    if (error) {
-                        logger.error('Error retrieving role', error);
-                        callback(error, null);
+            connection.query(sql, [email], (err, results) => {
+                if (err) {
+                    connection.release();
+                    logger.error('Error executing query', err);
+                    callback(err, null);
+                    return;
+                }
+
+                if (results.length === 0) {
+                    connection.release();
+                    callback(null, {
+                        status: 'Error',
+                        message: 'Verkeerde Email of Wachtwoord'
+                    });
+                    return;
+                }
+
+                const user = results[0];
+
+                bcrypt.compare(password.toString(), user.password, (err, response) => {
+                    if (err) {
+                        connection.release();
+                        callback(err, null);
                         return;
                     }
-                    logger.trace('role retrieved', results);
 
-                    user = results[0];
-                    logger.debug('userData: ', user)
-                    logger.debug('user role: ', user.role)
-
-                    connection.query(sql, [email], (err, results) => {
+                    if (response) {
+                        logger.debug('Login successful', {email: email});
+                        // Include the entire user object in the token payload
+                        const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '24h'});
                         connection.release();
-                        if (err) {
-                            logger.error('Error executing query', err);
-                            callback(err, null);
-                            return;
-                        }
-
-                        if (results.length === 0) {
-                            callback(null, {
-                                status: 'Error',
-                                message: 'Verkeerde Email of Wachtwoord'
-                            });
-                            return;
-                        }
-
-                        bcrypt.compare(password.toString(), results[0].password, (err, response) => {
-                            if (err) {
-                                callback(err, null);
-                                return;
-                            }
-
-                            if (response) {
-                                logger.debug('Login successful', { email: user.email });
-                                const token = jwt.sign({ user: user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
-                                callback(null, {
-                                    status: 'Success',
-                                    message: 'Login successful',
-                                    token: token
-                                });
-                            } else {
-                                callback(null, {
-                                    status: 'Error',
-                                    message: 'Verkeerde Email of Wachtwoord'
-                                });
-                            }
+                        callback(null, {
+                            status: 'Success',
+                            message: 'Login successful',
+                            token: token
                         });
-                    });
-                }
-            );
+                    } else {
+                        connection.release();
+                        callback(null, {
+                            status: 'Error',
+                            message: 'Verkeerde Email of Wachtwoord'
+                        });
+                    }
+                });
+            });
+
+
         });
     },
 
     getAll: (callback) => {
-        logger.info('Retrieving all users');
+        logger.info('Retrieving all users')
 
         database.getConnection((err, connection) => {
             if (err) {
@@ -143,7 +135,7 @@ const userService = {
                         });
                     }
                 }
-            );
+            )
         });
     },
 
@@ -161,7 +153,7 @@ const userService = {
             const values = [];
 
             if (user.email) {
-                sql += 'email = ?, ';
+                sql += 'e = ?, ';
                 values.push(user.email);
             }
             if (user.password) {
@@ -214,15 +206,16 @@ const userService = {
             }
 
             sql = sql.slice(0, -2);
+
             sql += ' WHERE id = ?';
 
             values.push(id);
-
-            logger.debug('query', sql);
+            logger.debug('query', query);
             logger.debug('values', values);
 
+
             connection.query(
-                sql,
+                query,
                 values,
                 function (error, results, fields) {
                     connection.release();
@@ -240,10 +233,9 @@ const userService = {
                         });
                     }
                 }
-            );
+            )
         });
     },
-
     getById: (id, callback) => {
         logger.info('retrieving user', id);
 
@@ -277,7 +269,7 @@ const userService = {
                         });
                     }
                 }
-            );
+            )
         });
     },
 
@@ -304,49 +296,19 @@ const userService = {
                     if (error) {
                         logger.error('Error retrieving user by email', error);
                         callback(error, null);
+                    } else if (results.length === 0) {
+                        logger.trace('No user found with the provided email');
+                        callback(null, {
+                            status: 404,
+                            message: 'No user found',
+                            data: null,
+                        });
                     } else {
                         logger.trace('user retrieved', results);
-
                         callback(null, {
                             status: 200,
                             message: 'user retrieved',
                             data: results[0],
-                        });
-                    }
-                }
-            );
-        });
-    },
-
-    getLanguages: (id, callback) => {
-        logger.info('retrieving languages of user', id);
-
-        database.getConnection(function (err, connection) {
-            if (err) {
-                logger.error('Error retrieving languages of user', err);
-                callback(err, null);
-                return;
-            }
-
-            const query = 'SELECT * FROM language WHERE id IN (SELECT languageId FROM userLanguageQualification WHERE userId = ?);';
-
-            logger.debug('query', query);
-
-            connection.query(
-                query,
-                [id],
-                function (error, results, fields) {
-                    connection.release();
-
-                    if (error) {
-                        logger.error('Error retrieving languages of user', error);
-                        callback(error, null);
-                    } else {
-                        logger.trace('languages retrieved', results);
-                        callback(null, {
-                            status: 200,
-                            message: 'languages retrieved',
-                            data: results,
                         });
                     }
                 }

@@ -4,7 +4,6 @@ import SidePanel from "../components/SidePanel";
 import CommissionPanelContent from "../components/panel-contents/CommissionPanelContent";
 import CreateButton from "../components/CreateButton";
 import EditCommissionPanelContent from "../components/panel-contents/EditCommissionPanelContent";
-import PageSecurity from "../PageSecurity";
 
 export default function Commission() {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -19,13 +18,10 @@ export default function Commission() {
             .then(res => res.json())
             .then(data => {
                 setCommissions(data.data);
-                console.log("Fetched commissions: ", data.data);
+                // console.log("Fetched commissions: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
-
-    const user = PageSecurity();
-
 
     return (
         <>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
+import {Route, Routes, useLocation} from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/home';
 import Customers from './pages/customers';
@@ -11,9 +11,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import User from './pages/user';
 import Users from './pages/users';
-import PageSecurity from "./PageSecurity";
-import UserWorkshops from "./pages/UserWorkshops";
-
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
     const location = useLocation();
@@ -28,57 +26,48 @@ function App() {
         }
     }, [isLoginPage, isRegisterPage]);
 
-    function PrivateRoute({ children, roleRequired }) {
-        const user = PageSecurity();
-        if (user !== null) {
-            if (user.role !== roleRequired) {
-                console.log(user.role, 'should be', roleRequired)
-                return <Navigate to="/"/>;
+
+    const fetchUserData = async (token) => {
+        const response = await fetch('/api/verifyToken', {
+            headers: {
+                'Authorization': `Bearer ${token}`
             }
+        });
+        return await response.json();
+    };
+
+    React.useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            fetchUserData(token)
+                .then(data => {
+                    if (data.status === 'Success') {
+                        console.log('User data:', data);
+                    } else {
+                        console.error('Error fetching user data:', data);
+                    }
+                })
+                .catch(error => console.error('Error fetching user data:', error));
         }
-        return children;
-    }
+    });
+
 
     return (
         <div className="flex flex-col min-h-screen">
-            {!(isLoginPage || isRegisterPage) && <NavBar />}
+            {!(isLoginPage || isRegisterPage) && <NavBar/>}
             <div className="container mx-auto flex-grow py-4">
                 <Routes>
-                    <>
-                        <Route path="/workshop-info" element={
-                            <PrivateRoute roleRequired="admin">
-                                <Workshop />
-                            </PrivateRoute>
-                        } />
-                        <Route path="/mailTemplates" element={
-                            <PrivateRoute roleRequired="admin">
-                                <MailTemplates />
-                            </PrivateRoute>
-                        } />
-                        <Route path="/users" element={
-                            <PrivateRoute roleRequired="admin">
-                                <Users />
-                            </PrivateRoute>
-                        } />
-                        <Route path="/werklocatie" element={
-                            <PrivateRoute roleRequired="admin">
-                                <Worklocation />
-                            </PrivateRoute>
-                        } />
-                        <Route path="/customers" element={
-                            <PrivateRoute roleRequired="admin">
-                                <Customers />
-                            </PrivateRoute>
-                        } />
-                    </>
+                    <Route path="/workshops" element={<ProtectedRoute access="admin"><Workshop /></ProtectedRoute>} />
+                    <Route path="/mailTemplates" element={<ProtectedRoute access="admin"><MailTemplates /></ProtectedRoute>} />
+                    <Route path="/users" element={<ProtectedRoute access="admin"><Users /></ProtectedRoute>} />
+                    <Route path="/werklocatie" element={<ProtectedRoute access="admin"><Worklocation /></ProtectedRoute>} />
+                    <Route path="/customers" element={<ProtectedRoute access="admin"><Customers /></ProtectedRoute>} />
                     <Route path="*" element={<h1>Not Found</h1>} />
                     <Route path="/" element={<Home />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/opdracht" element={<Commission />} />
+                    <Route path="/opdracht" element={<ProtectedRoute access="everyone"><Commission /></ProtectedRoute>} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/userWorkshops" element={<UserWorkshops />} />
-                    <Route path='/user' element={<User />} />
-
+                    <Route path="/user" element={<ProtectedRoute access="everyone"><User /></ProtectedRoute>} />
                 </Routes>
             </div>
         </div>

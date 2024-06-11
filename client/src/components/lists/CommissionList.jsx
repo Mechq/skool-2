@@ -14,7 +14,7 @@ export default function CommissionList({    isOpen,
         fetch('/api/commission')
             .then(res => res.json())
             .then(data => {
-                console.log("Fetched commissions: ", data.data);
+                // console.log("Fetched commissions: ", data.data);
                 setCommissions(data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
@@ -24,7 +24,7 @@ export default function CommissionList({    isOpen,
         fetch(`/api/customer`)
             .then(res => res.json())
             .then(data => {
-                console.log("Fetched customers: ", data.data);
+                // console.log("Fetched customers: ", data.data);
                 setCustomers(data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
@@ -48,7 +48,7 @@ export default function CommissionList({    isOpen,
     };
 
     return (
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg mr-6 ml-6">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                 <tr>
