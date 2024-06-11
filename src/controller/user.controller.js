@@ -137,6 +137,30 @@ const userController = {
                 });
             }
         });
+    },
+
+    getLanguages: (req, res, next) => {
+        const id = req.params.id;
+
+        logger.info('retrieving languages of user', id);
+
+        userService.getLanguages(id, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 };
 
