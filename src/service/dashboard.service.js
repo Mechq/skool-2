@@ -32,35 +32,6 @@ const dashboardService = {
         });
     },
 
-    deleteEnrollmentById: (id, callback) => {
-        logger.info('delete enrollment by id:', id);
-
-        database.getConnection(function (err, connection) {
-            if (err) {
-                logger.error('Error deleting enrollment', err);
-                callback(err, null);
-                return;
-            }
-
-            connection.query('DELETE FROM enrollment WHERE id = ?', [id], 
-            function(error, results, fields) {
-                connection.release();
-
-                if (error) {
-                    logger.error('Error deleting enrollment', error);
-                    callback(error, null);
-                    return;
-                }
-
-                callback(null, {
-                    status: 200,
-                    message: `Enrollment with id ${id} deleted`,
-                    data: results,
-                });
-            });
-        });
-    },
-
     deleteEnrollmentById: (id, userId, callback) => {
         logger.info('deleting commission by id:', id);
 

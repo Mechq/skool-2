@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import UserCommissionCard from "./UserCommissionCard";
-import DashboardCardsCommissionDetails from "./modal-screens/DashboardCardsCommissionDetails";
 import UserWorkshopDetailsModalScreen from "./modal-screens/UserWorkshopDetailsModalScreen";
 
 export default function DashboardCardsCommission({ user, userWorkshops, setUserWorkshops }) {
@@ -70,8 +69,6 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
 
         fetchData();
     }, []);
-    if (workshopCommission){
-        console.log("allWorkshopCommissionsData", workshopCommission)}
 
 
 
@@ -81,16 +78,12 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
     }
 
     const getCommissionDate = (commissionId) => {
-        console.log("commissionId:", commissionId);
-        console.log("workshopCommission:", workshopCommission);
 
         // Find the commission by commissionId
         const commission = workshopCommission.find(c => c.commissionId === commissionId);
-        console.log("Found commission:", commission);
 
         if (commission) {
             const date = new Date(commission.date);
-            console.log("Commission date:", date);
             return date.toLocaleDateString('nl-NL', {
                 year: 'numeric',
                 month: 'numeric',
@@ -127,7 +120,6 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
                         commissionDate={getCommissionDate(userWorkshop.commissionId)}
 
                     />
-                    {console.log("userWorkshop", userWorkshop)}
                 </div>
             ))}
         </>
