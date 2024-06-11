@@ -81,7 +81,7 @@ export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshop
         <div key={index}>
             <h2 id={`accordion-collapse-heading-${index}`}>
                 <button type="button"
-                        className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 light:focus:ring-gray-800 light:border-gray-700 light:text-gray-400 hover:bg-gray-100 light:hover:bg-gray-800 gap-3"
+                        className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border-t border-l border-r border-gray-200 focus:ring-4 focus:ring-gray-200 light:focus:ring-gray-800 light:border-gray-700 light:text-gray-400 hover:bg-gray-100 light:hover:bg-gray-800 gap-3"
                         onClick={() => toggleAccordion(index)}
                         aria-expanded={isAccordionOpen[index]}
                         aria-controls={`accordion-collapse-body-${index}`}>
@@ -94,15 +94,14 @@ export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshop
                 </button>
             </h2>
             <div id={`accordion-collapse-body-${index}`} className={`${isAccordionOpen[index] ? '' : 'hidden'}`} aria-labelledby={`accordion-collapse-heading-${index}`}>
-                <div className="p-5 border border-b-0 border-gray-200 light:border-gray-700 light:bg-gray-900">
+                <div className="p-5 border-t border-l border-r border-gray-200 light:border-gray-700 light:bg-gray-900">
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                         {categorizedWorkshops[category].length > 0 && (
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
                                 <colgroup>
-                                    <col style={{ width: '25%' }} />
-                                    <col style={{ width: '25%' }} />
-                                    <col style={{ width: '25%' }} />
-                                    <col style={{ width: '25%' }} />
+                                    <col style={{ width: '50%' }} />
+                                    <col style={{ width: '30%' }} />
+                                    <col style={{ width: '20%' }} />
                                 </colgroup>
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                                 <tr>
@@ -141,10 +140,21 @@ export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshop
 
     return (
         <>
+            <div className="justify-center">
+                <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-t-lg">
+                    <div className="px-4 py-5 sm:px-6">
+                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                            Workshops
+                        </h3>
+                        <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                            Welke workshops kan ik aanbieden?
+                        </p>
+                    </div>
+                </div>
+            </div>
             <div id="accordion-collapse" data-accordion="collapse">
                 {categories.map((category, index) => renderAccordion(category, index))}
             </div>
-
             <button
                 onClick={handleUpdate}
                 className="bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-white mt-4"
