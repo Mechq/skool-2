@@ -30,6 +30,42 @@ let enrollmentService = {
               }
             );
           });
+    },
+
+    updateEnrollment: (id, data, callback) => {
+
+        const {
+          status
+        } = data
+
+        logger.info("updating enrollment", id, status)
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+              logger.error("Error updating enrollment", err);
+              callback(err, null);
+              return;
+            }
+      
+            connection.query(
+              `UPDATE enrollment SET status = ? WHERE id = ?`,
+              [status, id],
+              function (error, results, fields) {
+                connection.release();
+      
+                if (error) {
+                  logger.error("Error updating enrollment", error);
+                  callback(error, null);
+                } else {
+                  callback(null, {
+                    status: 200,
+                    message: `Enrollment ${id} updated`,
+                    data: results,
+                  });
+                }
+              }
+            );
+          });
     }
 }
 
