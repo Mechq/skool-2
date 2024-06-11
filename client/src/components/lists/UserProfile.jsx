@@ -4,6 +4,7 @@ import Dropdown from "../Dropdown"; // Make sure the path is correct
 export default function UserProfile({user, editUser}) {
     const [languages, setLanguages] = useState("");
 
+    console.log('usuer', user);
     useEffect(() => {
         const fetchLanguages = async () => {
             if (!user || !user.id) {
@@ -180,7 +181,7 @@ export default function UserProfile({user, editUser}) {
                             </div>
                             <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt className="text-sm font-medium text-gray-500">
-                                    Heeft u een rijbewijs?
+                                    Bezit rijbewijs
                                 </dt>
                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     <input
@@ -194,7 +195,7 @@ export default function UserProfile({user, editUser}) {
                             </div>
                             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt className="text-sm font-medium text-gray-500">
-                                    Heeft u een auto?
+                                    Bezit auto
                                 </dt>
                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     <input
