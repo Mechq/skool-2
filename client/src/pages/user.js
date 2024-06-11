@@ -3,6 +3,7 @@ import SidePanel from "../components/SidePanel";
 import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
 import UserProfile from "../components/lists/UserProfile";
 import ProfileWorkshopList from "../components/lists/ProfileWorkshopList";
+import {jwtDecode} from "jwt-decode";
 
 function User() {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -13,50 +14,38 @@ function User() {
     const [workshops, setWorkshops] = useState([]);
     const [qualifiedWorkshops, setQualifiedWorkshops] = useState([]);
     const [loading, setLoading] = useState(true);
-    //
-    // useEffect(() => {
-    //     if (email) {
-    //         fetch(`/api/user/email/${email}`)
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 setUser(data.data);
-    //                 console.log("Fetched profile: ", data.data);
-    //                 // Set loading to false once data is fetched
-    //                 setLoading(false);
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error fetching data:', error);
-    //                 // Also set loading to false in case of error
-    //                 setLoading(false);
-    //             });
-    //
-    //         fetch(`/api/workshop`)
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 setWorkshops(data.data);
-    //                 console.log("Fetched workshops: ", data.data);
-    //             })
-    //             .catch(error => console.error('Error fetching data:', error));
-    //
-    //         fetch(`/api/teacherWorkshopQualification/${user.id}`)
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 setQualifiedWorkshops(data.data);
-    //                 console.log("Fetched workshops: ", data.data);
-    //             })
-    //             .catch(error => console.error('Error fetching data:', error));
-    //
-    //
-    //     }
-    // }, [email, user.id]);
-    // if (loading) {
-    //     return <div>Loading...</div>;
-    // }
-    // if (email === null) {
-    //     return null;
-    // }
 
-    // console.log("User firstnae: ", user.firstName);
+    useEffect(() => {
+
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            setUser(decodedToken);
+        }
+
+        fetch(`/api/workshop`)
+            .then(res => res.json())
+            .then(data => {
+                setWorkshops(data.data);
+                console.log("Fetched workshops: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+        fetch(`/api/teacherWorkshopQualification/${user.id}`)
+            .then(res => res.json())
+            .then(data => {
+                setQualifiedWorkshops(data.data);
+                console.log("Fetched workshops: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+
+        setLoading(false);
+    }, [user.id]);
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    console.log("User firstnae: ", user.firstName);
 
     const editUser = () => {
         setIsOpen(true);

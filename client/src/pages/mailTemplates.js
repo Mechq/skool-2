@@ -22,9 +22,6 @@ export default function MailTemplates() {
             .catch(error => console.error('Error fetching data:', error));
     }, [isOpen]);
 
-    const userEmail = PageSecurity();
-
-
     return (
         <div>
             <SidePanel isOpen={isOpen}
