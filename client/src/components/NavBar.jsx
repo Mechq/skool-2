@@ -46,6 +46,7 @@ function NavBar() {
                         <CustomLink to="/werklocatie" userRole={userRole}>Locaties</CustomLink>
                         <CustomLink to="/workshops" userRole={userRole}>Workshops</CustomLink>
                         <CustomLink to="/mailTemplates" userRole={userRole}>Mail Templates</CustomLink>
+                        <CustomLink to="/userWorkshops" userRole={userRole}>Aanmelden</CustomLink>
                         <CustomLink to="/user" userRole={userRole}>
                             <div
                                 className="relative w-8 h-8 overflow-hidden bg-brand-orange-light rounded-full light::bg-gray-600 hover:ring-2 hover:ring-brand-orange ring-offset-2">

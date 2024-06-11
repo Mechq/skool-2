@@ -59,7 +59,36 @@ const dashboardService = {
                 });
             });
         });
-    }
+    },
+
+    deleteEnrollmentById: (id, userId, callback) => {
+        logger.info('deleting commission by id:', id);
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error deleting commission', err);
+                callback(err, null);
+                return;
+            }
+
+            connection.query('DELETE FROM enrollment WHERE commissionWorkshopId = ? AND userId = ?', [id, userId], 
+            function(error, results, fields) {
+                connection.release();
+
+                if (error) {
+                    logger.error('Error deleting commission', error);
+                    callback(error, null);
+                    return;
+                }
+
+                else {callback(null, {
+                    status: 200,
+                    message: 'commission deleted',
+                    data: {},
+                });}
+            });
+        });
+    },
 };
 
 module.exports = dashboardService;

@@ -5,6 +5,7 @@ export default function AccountConfirmation({ formData, postRequest }) {
 
     useEffect(() => {
         if (postRequest && !hasPosted) {
+            console.log('Posting data:', JSON.stringify(formData));
             const createDatabaseAccount = (formData) => {
                 fetch('/api/register', {
                     method: 'POST',

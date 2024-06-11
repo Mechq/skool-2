@@ -27,11 +27,12 @@ let dashboardController = {
     },
 
     deleteEnrollmentById: (req, res, next) => {
-        const enrollmentId = req.params.enrollmentId;
+        const commissionWorkshopId = req.params.commissionWorkshopId;
+        const userId = req.params.userId;
 
-        logger.info("deleting enrollment by id", enrollmentId);
+        logger.info("deleting commission by id", commissionWorkshopId, userId);
 
-        dashboardService.deleteEnrollmentById(enrollmentId, (error, success) => {
+        dashboardService.deleteEnrollmentById(commissionWorkshopId, userId, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,
@@ -48,7 +49,7 @@ let dashboardController = {
                 });
             }
         });
-    }
+    },
 
 };
 

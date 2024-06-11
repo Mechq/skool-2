@@ -9,7 +9,7 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedCommission, setSelectedCommission] = useState(null);
     const [showModal, setShowModal] = useState(false);
-
+;
 
     const handleDetailsClick = (workshop, commission, e) => {
         e.preventDefault();
@@ -50,23 +50,25 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
     const getCommission = (commissionId) => {
         const commission = commissions.find(c => c.id === commissionId);
         if (commission) {
+            console.log("commission", commission)
             return commission;
         }
         return 'Unknown Commission';
     }
 
+    const getCommissionName = (commissionId) => {
+        console.log("commissionId", commissionId)
+        return getCommission(commissionId).details;
+    }
+
     const getCommissionDate = (commissionId) => {
-        const commission = commissions.find(c => c.id === commissionId);
-        console.log("commission", commission)
-        if (commission) {
+       const commission = getCommission(commissionId)
             const date = new Date(commission.date);
             return date.toLocaleDateString('nl-NL', {
                 year: 'numeric',
                 month: 'numeric',
                 day: 'numeric',
             });
-        }
-        return 'Unknown Date';
     };
 
     return (
@@ -87,6 +89,7 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
                     onClick={(e) => handleDetailsClick(userWorkshop, getCommission(userWorkshop.commissionId), e)}
                 >
                 <UserWorkshopCard
+                    commissionName={getCommissionName(userWorkshop.commissionId)}
                     key={userWorkshop.unique}
                     userWorkshop={userWorkshop}
                     commissionDate={getCommissionDate(userWorkshop.commissionId)} // Assuming id corresponds to commission id

@@ -22,8 +22,8 @@ const userService = {
                 }
                 user.role = "teacher"
 
-                const sql = "INSERT INTO user (`email`, `password`, `firstName`, `lastName`, `phoneNumber`, `birthDate`, `street`, `houseNumber`, `postalCode`, `city`, `kvkNumber`, `btwNumber`, `iban`, `role`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                const values = [user.email, hash, user.firstName, user.lastName, user.phoneNumber, user.birthDate, user.street, user.houseNumber, user.postalCode, user.city, user.kvkNumber, user.btwNumber, user.iban, user.role];
+                const sql = "INSERT INTO user (`email`, `password`, `firstName`, `lastName`, `phoneNumber`, `birthDate`, `street`, `houseNumber`, `postalCode`, `city`, `country`,`kvkNumber`, `btwNumber`, `iban`, `role`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                const values = [user.email, hash, user.firstName, user.lastName, user.phoneNumber, user.birthDate, user.streetName, user.houseNumber, user.postalCode, user.city, user.country, user.kvkNumber, user.btwNumber, user.iban, user.role];
 
                 connection.query(sql, values, (err, result) => {
                     connection.release();
@@ -309,6 +309,42 @@ const userService = {
                             status: 200,
                             message: 'user retrieved',
                             data: results[0],
+                        });
+                    }
+                }
+            );
+        });
+    },
+
+    getLanguages: (id, callback) => {
+        logger.info('retrieving languages of user', id);
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error retrieving languages of user', err);
+                callback(err, null);
+                return;
+            }
+
+            const query = 'SELECT * FROM language WHERE id IN (SELECT languageId FROM userLanguageQualification WHERE userId = ?)';
+
+            logger.debug('query', query);
+
+            connection.query(
+                query,
+                [id],
+                function (error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+                        logger.error('Error retrieving languages of user', error);
+                        callback(error, null);
+                    } else {
+                        logger.trace('languages retrieved', results);
+                        callback(null, {
+                            status: 200,
+                            message: 'languages retrieved',
+                            data: results,
                         });
                     }
                 }

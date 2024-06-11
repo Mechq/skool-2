@@ -12,6 +12,7 @@ import Register from './pages/register';
 import User from './pages/user';
 import Users from './pages/users';
 import ProtectedRoute from "./ProtectedRoute";
+import UserWorkshops from "./pages/UserWorkshops";
 
 function App() {
     const location = useLocation();
@@ -63,11 +64,12 @@ function App() {
                     <Route path="/werklocatie" element={<ProtectedRoute access="admin"><Worklocation /></ProtectedRoute>} />
                     <Route path="/customers" element={<ProtectedRoute access="admin"><Customers /></ProtectedRoute>} />
                     <Route path="*" element={<h1>Not Found</h1>} />
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<ProtectedRoute access="everyone"><Home /></ProtectedRoute>} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/opdracht" element={<ProtectedRoute access="everyone"><Commission /></ProtectedRoute>} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/user" element={<ProtectedRoute access="everyone"><User /></ProtectedRoute>} />
+                    <Route path="/userWorkshops" element={<ProtectedRoute access="everyone"><UserWorkshops /></ProtectedRoute>} />
                 </Routes>
             </div>
         </div>
