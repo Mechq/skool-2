@@ -296,9 +296,15 @@ const userService = {
                     if (error) {
                         logger.error('Error retrieving user by email', error);
                         callback(error, null);
+                    } else if (results.length === 0) {
+                        logger.trace('No user found with the provided email');
+                        callback(null, {
+                            status: 404,
+                            message: 'No user found',
+                            data: null,
+                        });
                     } else {
                         logger.trace('user retrieved', results);
-
                         callback(null, {
                             status: 200,
                             message: 'user retrieved',
@@ -306,7 +312,7 @@ const userService = {
                         });
                     }
                 }
-            )
+            );
         });
     }
 };

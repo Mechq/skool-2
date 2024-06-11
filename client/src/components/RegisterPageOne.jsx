@@ -92,12 +92,16 @@
 
             if (!firstName || !lastName || !phoneNumber || !birthDate || !streetName || !houseNumber || !postalCode || !city || !country || !email || !password) return;
 
-            console.log(firstName, lastName, phoneNumber, birthDate, email, password, streetName, houseNumber, postalCode, city, country)
+            console.log(firstName, lastName, phoneNumber, birthDate, email, streetName, houseNumber, postalCode, city, country)
 
             try {
-                const response = await fetch(`/api/user/email/${email}`);
+                const response = await fetch(`/api/user/email/${email}`, {
+                    method: 'GET',
+                });
                 if (response.status === 200) {
                     // Email exists, prevent form submission
+                    console.log(response)
+                    console.log('Email already exists');
                     setEmailValid(false); // Set email validity to false to display error
                     return; // Stop further execution
                 }
@@ -256,7 +260,7 @@
                     <div className="grid gap-4 mb-4">
                         <div>
                             <label htmlFor="password"
-                                   className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Password</label>
+                                   className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Wachtwoord</label>
                             <input type="password" name="password" id="password"
                                    className={`bg-gray-50 border ${passwordValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
                                    placeholder="•••••••••" required=""
