@@ -3,14 +3,14 @@ import UserCommissionCard from "./UserCommissionCard";
 import DashboardCardsCommissionDetails from "./modal-screens/DashboardCardsCommissionDetails";
 
 
-export default function DashboardCardsCommission({ userWorkshops, setUserWorkshops }) {
+export default function DashboardCardsCommission({ user }) {
     const [commissions, setCommissions] = useState([]);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedCommission, setSelectedCommission] = useState(null);
     const [showModal, setShowModal] = useState(false);
-
-
+    const [userWorkshops, setUserWorkshops] = useState([]);
+    const [loading, setLoading] = useState(true);
     const handleDetailsClick = (workshop, commission, e) => {
         e.preventDefault();
         setSelectedWorkshop(workshop);
@@ -24,28 +24,36 @@ export default function DashboardCardsCommission({ userWorkshops, setUserWorksho
     };
 
     useEffect(() => {
-        fetch('/api/workshop/commission')
-            .then(res => res.json())
-            .then(data => {
-                const workshopsWithUniqueKey = data.data.map((workshop, index) => ({
+        const fetchData = async () => {
+            try {
+                const [workshopsRes, commissionsRes] = await Promise.all([
+                    fetch(`/api/dashboard/${user.id}`),
+                    fetch('/api/commission')
+                ]);
+
+                const workshopsData = await workshopsRes.json();
+                const commissionsData = await commissionsRes.json();
+
+                const workshopsWithUniqueKey = workshopsData.data.map((workshop, index) => ({
                     ...workshop,
                     unique: index + 1 // Incremented number starting from 1
                 }));
+
                 setUserWorkshops(workshopsWithUniqueKey);
                 console.log("Fetched workshops: ", workshopsWithUniqueKey);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, [setUserWorkshops]);
 
-    useEffect(() => {
-        fetch('/api/commission/')
-            .then(res => res.json())
-            .then(data => {
-                setCommissions(data.data);
-                console.log("Fetched commissions: ", data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+                setCommissions(commissionsData.data);
+                console.log("Fetched commissions: ", commissionsData.data);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [user.id, setUserWorkshops, setCommissions]);
 
     const getCommission = (commissionId) => {
         const commission = commissions.find(c => c.id === commissionId);
@@ -56,6 +64,7 @@ export default function DashboardCardsCommission({ userWorkshops, setUserWorksho
     }
 
     const getCommissionDate = (commissionId) => {
+        console.log("commissionId", commissionId)
         const commission = commissions.find(c => c.id === commissionId);
         console.log("commission", commission)
         if (commission) {
@@ -69,6 +78,9 @@ export default function DashboardCardsCommission({ userWorkshops, setUserWorksho
         return 'Unknown Date';
     };
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
     return (
         <>
 

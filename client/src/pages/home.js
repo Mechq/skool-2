@@ -1,40 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import PageSecurity from "../PageSecurity";
 import DashboardCardsCommission from '../components/DashboardCardsCommission';
+import {jwtDecode} from "jwt-decode";
 
 function Home() {
-    const [teacherId, setTeacherId] = useState();
-    const userEmail = PageSecurity();
     const [disableUseEffect, setDisableUseEffect] = useState(false);
+    const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const email = userEmail.email;
-        console.log("User email: ", email);
-        if (userEmail !== null && !disableUseEffect) {
-            fetch(`/api/user/email/${email}`)
-                .then(res => res.json())
-                .then(data => {
-                    console.log("Fetched data: ", data.data);
-                    console.log("Fetched teacherId: ", data.data.id);
-                    setTeacherId(data.data.id);
-                    console.log("TeacherId: ", teacherId);
-                    setDisableUseEffect(true);
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
-    }, [userEmail]);
+        const fetchData = async () => {
+            let decodedToken;
+            const token = localStorage.getItem('token');
+            if (token) {
+                decodedToken = jwtDecode(token);
+                setUser(decodedToken);
+            }
+            setLoading(false);
 
-    // Early return logic after all hooks have been called
-    if (userEmail === null) {
-        return null;
-    } else {
-        console.log('Email:', userEmail)
+        }
+        fetchData();
+    }, []);
+
+
+
+    if (loading) {
+        return <div>Loading...</div>;
     }
 
     return (
         <div className='block mb-2 text-sm font-medium text-gray-900'>
             <h1><strong>Inschrijvingen</strong></h1>
-            <DashboardCardsCommission teacherId={teacherId} />
+            <DashboardCardsCommission user={user} />
         </div>
     );
 }
