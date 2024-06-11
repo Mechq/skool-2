@@ -3,14 +3,12 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import PageSecurity from "../../PageSecurity";
 
 
-export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission }) {
+export default function UserWorkshopDetailsModalScreen({ user, onClose, workshop, commission }) {
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);
     const [workshopRound, setWorkshopRound] = useState({});
     const [customer, setCustomer] = useState({});
     const [location, setLocation] = useState({});
     const [enrollments, setEnrollments] = useState([]);
-
-    const user = PageSecurity();
 
 
 
