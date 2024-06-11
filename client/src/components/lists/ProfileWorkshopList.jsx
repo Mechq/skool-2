@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 
-export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshops }) {
+export default function ProfileWorkshopList({user, workshops, qualifiedWorkshops}) {
     const [selectedWorkshops, setSelectedWorkshops] = useState([]);
     const [isAccordionOpen, setIsAccordionOpen] = useState([false, false, false, false, false, false]);
 
@@ -35,7 +35,7 @@ export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshop
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ workshops: selectedWorkshops }),
+            body: JSON.stringify({workshops: selectedWorkshops}),
         })
             .then(response => response.json())
             .then(data => {
@@ -53,7 +53,7 @@ export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshop
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ workshops: unselectedWorkshops }),
+            body: JSON.stringify({workshops: unselectedWorkshops}),
         })
             .then(response => response.json())
             .then(data => {
@@ -77,33 +77,37 @@ export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshop
         return acc;
     }, {});
 
-    const renderAccordion = (category, index) => (
+    const renderAccordion = (category, index, totalCategories) => (
         <div key={index}>
             <h2 id={`accordion-collapse-heading-${index}`}>
                 <button type="button"
-                        className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border-t border-l border-r border-gray-200 focus:ring-4 focus:ring-gray-200 light:focus:ring-gray-800 light:border-gray-700 light:text-gray-400 hover:bg-gray-100 light:hover:bg-gray-800 gap-3"
+                        className={`flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border ${index === totalCategories - 1 ? '' : 'border-b-0'} border-gray-200 focus:ring-4 focus:ring-gray-200 light:focus:ring-gray-800 light:border-gray-700 light:text-gray-400 hover:bg-gray-100 light:hover:bg-gray-800 gap-3`}
                         onClick={() => toggleAccordion(index)}
                         aria-expanded={isAccordionOpen[index]}
                         aria-controls={`accordion-collapse-body-${index}`}>
                     <span>{category}</span>
-                    <svg data-accordion-icon className={`w-3 h-3 ${isAccordionOpen[index] ? 'rotate-180' : ''} shrink-0`} aria-hidden="true"
+                    <svg data-accordion-icon
+                         className={`w-3 h-3 ${isAccordionOpen[index] ? 'rotate-180' : ''} shrink-0`} aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                               d="M9 5 5 1 1 5"/>
                     </svg>
                 </button>
             </h2>
-            <div id={`accordion-collapse-body-${index}`} className={`${isAccordionOpen[index] ? '' : 'hidden'}`} aria-labelledby={`accordion-collapse-heading-${index}`}>
-                <div className="p-5 border-t border-l border-r border-gray-200 light:border-gray-700 light:bg-gray-900">
+            <div id={`accordion-collapse-body-${index}`} className={`${isAccordionOpen[index] ? '' : 'hidden'}`}
+                 aria-labelledby={`accordion-collapse-heading-${index}`}>
+                <div className={`p-5 border  border-gray-200 light:border-gray-700 light:bg-gray-900 ${index === totalCategories - 1 ? '' : 'border-b-0'}`}>
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                         {categorizedWorkshops[category].length > 0 && (
-                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
+                            <table
+                                className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
                                 <colgroup>
-                                    <col style={{ width: '50%' }} />
-                                    <col style={{ width: '30%' }} />
-                                    <col style={{ width: '20%' }} />
+                                    <col style={{width: '50%'}}/>
+                                    <col style={{width: '30%'}}/>
+                                    <col style={{width: '20%'}}/>
                                 </colgroup>
-                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
+                                <thead
+                                    className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                                 <tr>
                                     <th className="px-6 py-3">Workshop Naam</th>
                                     <th className="px-6 py-3">Categorie</th>
@@ -140,20 +144,22 @@ export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshop
 
     return (
         <>
-            <div className="justify-center">
-                <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-t-lg">
-                    <div className="px-4 py-5 sm:px-6">
-                        <h3 className="text-lg leading-6 font-medium text-gray-900">
-                            Workshops
-                        </h3>
-                        <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                            Welke workshops kan ik aanbieden?
-                        </p>
+            <div className={'shadow sm:rounded-lg'}>
+                <div className="justify-center">
+                    <div className="bg-white max-w-2xl  overflow-hidden sm:rounded-t-lg">
+                        <div className="px-4 py-5 sm:px-6">
+                            <h3 className="text-lg leading-6 font-medium text-gray-900">
+                                Workshops
+                            </h3>
+                            <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                                Welke workshops kan ik aanbieden?
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="accordion-collapse" data-accordion="collapse">
-                {categories.map((category, index) => renderAccordion(category, index))}
+                <div id="accordion-collapse" data-accordion="collapse">
+                    {categories.map((category, index) => renderAccordion(category, index, categories.length))}
+                </div>
             </div>
             <button
                 onClick={handleUpdate}
@@ -162,5 +168,7 @@ export default function ProfileWorkshopList({ user, workshops, qualifiedWorkshop
                 Opslaan
             </button>
         </>
+
+
     );
 }
