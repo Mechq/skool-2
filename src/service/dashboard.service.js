@@ -13,7 +13,7 @@ const dashboardService = {
                 return;
             }
 
-            connection.query(`SELECT c.*, w.* FROM enrollment e JOIN commissionWorkshop cw ON e.commissionWorkshopId = cw.id JOIN commission c ON cw.commissionId = c.id JOIN workshop w ON cw.workshopId = w.id WHERE e.userId = ?;`, [id], 
+            connection.query(`SELECT c.id AS commissionId, c.*, w.* FROM enrollment e JOIN commissionWorkshop cw ON e.commissionWorkshopId = cw.id JOIN commission c ON cw.commissionId = c.id JOIN workshop w ON cw.workshopId = w.id WHERE e.userId = ?;`, [id],
             function(error, results, fields) {
                 connection.release();
 
