@@ -116,6 +116,7 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
         if (enrollment.userId === userId) {
             console.log("User already enrolled");
             buttonText = "Afmelden";
+            
         }
         else {
             console.log("User not enrolled");
@@ -129,7 +130,28 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
         console.log("userId", userId);
         console.log("workshopId", workshop.workshopId);
         console.log("commissionId", commission.id);
-
+        if (buttonText === "Afmelden") {
+            fetch(`/api/enrollment/${workshopRound.id}/${userId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((response) => {   
+                    if (!response.ok) {
+                        return response.json().then((error) => {
+                            throw new Error(error.message);
+                        });
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log("Success:", data);
+                    onClose();
+                })
+                .catch((error) => console.error("Error:", error));
+        }
+        else if (buttonText === "Aanmelden" || buttonText === "Wachtrij") {
         fetch(`/api/workshop/commission/${workshop.workshopId}/${commission.id}`, {
             method: "POST",
             headers: {
@@ -150,6 +172,7 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                 onClose();
             })
             .catch((error) => console.error("Error:", error));
+        }
     };
 
     if (loading) {
