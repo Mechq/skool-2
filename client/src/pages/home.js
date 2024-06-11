@@ -15,11 +15,13 @@ function Home() {
             if (token) {
                 decodedToken = jwtDecode(token);
                 setUser(decodedToken);
+
             }
             setLoading(false);
 
         }
         fetchData();
+        console.log("Decoded token: ", user);
     }, []);
 
 
@@ -27,13 +29,25 @@ function Home() {
     if (loading) {
         return <div>Loading...</div>;
     }
+else {
+        return (
+            <>
+                <div className='bg-white rounded-lg shadow-lg p-6 mb-8 text-center'>
 
-    return (
-        <div className='block mb-2 text-sm font-medium text-gray-900'>
-            <h1><strong>Inschrijvingen</strong></h1>
-            <DashboardCardsCommission user={user} />
-        </div>
-    );
+                    <h1 className='text-2xl font-bold mb-4'>
+                        Welkom <span className='text-brand-orange'>{user.name}</span>, je volgende workshop is gepland
+                        op <span className='text-brand-orange'>{user?.nextWorkshopDate}</span>
+                    </h1>
+
+                </div>
+                <div className='block mb-2 text-sm font-medium text-gray-900 pl-6'>
+                    <h1 pd-><strong>Inschrijvingen</strong></h1>
+                    <DashboardCardsCommission user={user}/>
+                </div>
+
+            </>
+        );
+    }
 }
 
 export default Home;
