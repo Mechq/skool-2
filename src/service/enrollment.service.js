@@ -13,7 +13,7 @@ let enrollmentService = {
             }
       
             connection.query(
-              "SELECT u.firstName, u.lastName, c.details, c.date, cus.name AS customer, w.name AS workshopName FROM enrollment AS e JOIN user AS u ON e.userId = u.id JOIN commissionWorkshop AS cw ON e.commissionWorkshopId = cw.id JOIN commission AS c ON cw.commissionId = c.id JOIN customer AS cus ON c.customerId = cus.id JOIN workshop AS w ON cw.workshopId = w.id;",
+              "SELECT e.commissionWorkshopId, e.id AS enrollmentId, u.firstName, u.lastName, c.details, c.date, cus.name AS customer, w.name AS workshopName FROM enrollment AS e JOIN user AS u ON e.userId = u.id JOIN commissionWorkshop AS cw ON e.commissionWorkshopId = cw.id JOIN commission AS c ON cw.commissionId = c.id JOIN customer AS cus ON c.customerId = cus.id JOIN workshop AS w ON cw.workshopId = w.id ORDER BY e.commissionWorkshopId;",
               function (error, results, fields) {
                 connection.release();
       
