@@ -108,24 +108,41 @@ export default function WorkshopList({
         return acc;
     }, {});
 
-    const renderAccordion = (category, index) => (
+    const renderAccordion = (category, index, totalCategories) => (
         <div key={index}>
             <h2 id={`accordion-collapse-heading-${index}`}>
-                <button type="button"
-                        className="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 light:focus:ring-gray-800 light:border-gray-700 light:text-gray-400 hover:bg-gray-100 light:hover:bg-gray-800 gap-3"
-                        onClick={() => toggleAccordion(index)}
-                        aria-expanded={isAccordionOpen[index]}
-                        aria-controls={`accordion-collapse-body-${index}`}>
+                <button
+                    type="button"
+                    className={`flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border ${index === 0 ? 'rounded-t-xl' : ''} ${index === totalCategories - 1 ? '' : 'border-b-0'} border-gray-200 focus:ring-4 focus:ring-gray-200 light:focus:ring-gray-800 light:border-gray-700 light:text-gray-400 hover:bg-gray-100 light:hover:bg-gray-800 gap-3`}
+                    onClick={() => toggleAccordion(index)}
+                    aria-expanded={isAccordionOpen[index]}
+                    aria-controls={`accordion-collapse-body-${index}`}
+                >
                     <span>{category}</span>
-                    <svg data-accordion-icon className={`w-3 h-3 ${isAccordionOpen[index] ? 'rotate-180' : ''} shrink-0`} aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                              d="M9 5 5 1 1 5"/>
+                    <svg
+                        data-accordion-icon
+                        className={`w-3 h-3 ${isAccordionOpen[index] ? 'rotate-180' : ''} shrink-0`}
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 10 6"
+                    >
+                        <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M9 5 5 1 1 5"
+                        />
                     </svg>
                 </button>
             </h2>
-            <div id={`accordion-collapse-body-${index}`} className={`${isAccordionOpen[index] ? '' : 'hidden'}`} aria-labelledby={`accordion-collapse-heading-${index}`}>
-                <div className="p-5 border border-b-0 border-gray-200 light:border-gray-700 light:bg-gray-900">
+            <div
+                id={`accordion-collapse-body-${index}`}
+                className={`${isAccordionOpen[index] ? '' : 'hidden'}`}
+                aria-labelledby={`accordion-collapse-heading-${index}`}
+            >
+                <div className={`p-5 border  border-gray-200 light:border-gray-700 light:bg-gray-900 ${index === totalCategories - 1 ? '' : 'border-b-0'}`}>
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                         {categorizedWorkshops[category].length > 0 && (
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
@@ -145,31 +162,46 @@ export default function WorkshopList({
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {categorizedWorkshops[category].map(workshop => (
-                                    <tr key={workshop.id}
+                                {categorizedWorkshops[category].map((workshop) => (
+                                    <tr
+                                        key={workshop.id}
                                         className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700 hover:cursor-pointer"
-                                        onClick={(e) => handleDetailsClick(workshop.id, workshop.name, e)}>
+                                        onClick={(e) => handleDetailsClick(workshop.id, workshop.name, e)}
+                                    >
                                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
-                                            {"Workshop " + workshop.name}
+                                            {'Workshop ' + workshop.name}
                                         </td>
-    
                                         <td className="px-6 py-4">{workshop.materials}</td>
                                         <td className="px-6 py-4">{workshop.category}</td>
-    
                                         <td className="px-6 py-4">
-                                            <a href="#" onClick={(e) => {
-                                                editWorkshop(workshop.id, e);
-                                            }}
-                                               className="font-medium text-[#f49700] light:text-[#f49700] hover:underline">Bewerken</a>
+                                            <a
+                                                href="#"
+                                                onClick={(e) => {
+                                                    editWorkshop(workshop.id, e);
+                                                }}
+                                                className="font-medium text-[#f49700] light:text-[#f49700] hover:underline"
+                                            >
+                                                Bewerken
+                                            </a>
                                         </td>
                                         <td className="px-6 py-4">
                                             <a href="#" onClick={(e) => handleDeleteClick(workshop.id, workshop.name, e)}>
-                                                <svg className="w-5 h-5 text-danger hover:text-red-600" aria-hidden="true"
-                                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                                     viewBox="0 0 24 24">
-                                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
-                                                          strokeWidth="2"
-                                                          d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
+                                                <svg
+                                                    className="w-5 h-5 text-danger hover:text-red-600"
+                                                    aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="24"
+                                                    height="24"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        stroke="currentColor"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                                                    />
                                                 </svg>
                                             </a>
                                         </td>
@@ -188,7 +220,6 @@ export default function WorkshopList({
                                 />
                             </div>
                         )}
-    
                         {showDetailsModal && (
                             <div>
                                 <WorkshopDetailsModalScreen
@@ -203,11 +234,12 @@ export default function WorkshopList({
             </div>
         </div>
     );
-    
+
+
 
     return (
         <div id="accordion-collapse" data-accordion="collapse">
-            {categories.map((category, index) => renderAccordion(category, index))}
+            {categories.map((category, index) => renderAccordion(category, index , categories.length))}
         </div>
     );
 }
