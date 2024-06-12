@@ -30,6 +30,7 @@ export default function InviteTeacherModalScreen({ onClose, onSave, commissionWo
         .then(response => {
             if (response.ok) {
                 console.log('Invite sent successfully');
+                onClose(); // Close the modal
                 // Handle success scenario
             } else {
                 console.error('Failed to send invite');
@@ -41,6 +42,7 @@ export default function InviteTeacherModalScreen({ onClose, onSave, commissionWo
             // Handle error scenario
         });
     };
+    
     
     
     const formatDate = (date) => {

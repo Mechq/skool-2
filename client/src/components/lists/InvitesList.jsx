@@ -17,6 +17,11 @@ export default function TeacherList({
             .catch(error => console.error('Error fetching data:', error));
     }, []); 
 
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
+        const options = {year: 'numeric', month: 'long', day: 'numeric'};
+        return new Date(dateString).toLocaleDateString("nl-NL", options);
+    };
     
 
     return (
@@ -32,6 +37,19 @@ export default function TeacherList({
                     </tr>
                 </thead>
                 <tbody>
+                    {invites.map((invite) => (
+                        <tr
+                        key={invite.inviteId}
+                        className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700"
+                        >
+                        <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
+                            {invite.customerName}
+                        </td>
+                        <td className="px-6 py-4">{invite.workshopName}</td>
+                        <td className="px-6 py-4">{invite.locationName}</td>
+                        <td className="px-6 py-4">{formatDate(invite.date)}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
