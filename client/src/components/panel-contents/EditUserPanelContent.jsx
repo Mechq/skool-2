@@ -253,7 +253,7 @@ export default function EditUserPanelContent({userId, setShowSidePanel}) {
 
                     <button type="submit"
                             className="text-white mt-4 bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-                        Submit
+                        Opslaan
                     </button>
                 </form>
             </div>
