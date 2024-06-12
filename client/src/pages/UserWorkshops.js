@@ -3,10 +3,24 @@ import TeacherList from "../components/lists/TeacherList";
 
 import PageSecurity from "../PageSecurity";
 import UserWorkshopList from "../components/lists/UserWorkshopList";
+import {jwtDecode} from "jwt-decode";
 
 export default function UserWorkshops() {
 const [userWorkshops, setUserWorkshops] = useState([]);
+    const [user, setUser] = useState({});
 
+
+    useEffect(() => {
+        const fetchData = async () => {
+            let decodedToken;
+            const token = localStorage.getItem('token');
+            if (token) {
+                decodedToken = jwtDecode(token);
+                setUser(decodedToken);
+            }
+        }
+        fetchData()
+    }, [])
 
     useEffect(() => {
         fetch('/api/workshop/commission')
@@ -23,6 +37,7 @@ const [userWorkshops, setUserWorkshops] = useState([]);
             <UserWorkshopList
                 userWorkshops={userWorkshops}
                 setUserWorkshops={setUserWorkshops}
+                user = {user}
             />
         </div>
     );

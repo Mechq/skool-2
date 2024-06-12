@@ -258,7 +258,83 @@ const commissionService = {
                 }
             }
         });
-    }
+    },
+
+    getDuration: (callback) => {
+        logger.info('getting start and end times for all commissions');
+
+        // Single query to get the startTime and endTime for all commissions
+        let sql = `
+    SELECT 
+    r1.commissionId, 
+    r1.startTime AS startTime, 
+    r2.endTime AS endTime
+FROM 
+    (SELECT commissionId, MIN("order") AS minOrder FROM round GROUP BY commissionId) AS minOrderTable
+JOIN 
+    round r1 ON minOrderTable.commissionId = r1.commissionId AND minOrderTable.minOrder = r1."order"
+JOIN 
+    (SELECT commissionId, MAX("order") AS maxOrder FROM round GROUP BY commissionId) AS maxOrderTable
+ON 
+    minOrderTable.commissionId = maxOrderTable.commissionId
+JOIN 
+    round r2 ON maxOrderTable.commissionId = r2.commissionId AND maxOrderTable.maxOrder = r2."order";
+`;
+
+        database.query(sql, (error, results) => {
+            if (error) {
+                logger.error('Error getting start and end times for all commissions', error);
+                return callback(error, null);
+            }
+
+            if (results.length === 0) {
+                logger.warn('No commissions found');
+                return callback({
+                    status: 404,
+                    message: 'No commissions found',
+                }, null);
+            }
+
+            // Function to format duration in milliseconds to HH:MM
+            const formatDuration = (duration) => {
+                const hours = Math.floor(duration / (1000 * 60 * 60));
+                const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+                return `${hours}h ${minutes}m`;
+            };
+
+            // Calculate the duration for each commission
+            const commissionsWithDurations = results.map((result) => {
+                const [startHour, startMinute] = result.startTime.split(':').map(Number);
+                const [endHour, endMinute] = result.endTime.split(':').map(Number);
+
+                const startDate = new Date();
+                startDate.setHours(startHour, startMinute, 0, 0);
+
+                const endDate = new Date();
+                endDate.setHours(endHour, endMinute, 0, 0);
+
+                const durationMin = (endDate - startDate) / 60000;
+                const formattedDuration = formatDuration(endDate - startDate);
+
+                return {
+                    ...result,
+                    durationMin,
+                    formattedDuration
+                };
+            });
+
+            logger.info('Start and end times fetched successfully for all commissions', commissionsWithDurations);
+
+            callback(null, {
+                status: 200,
+                message: 'Start and end times fetched successfully for all commissions',
+                data: commissionsWithDurations,
+            });
+        });
+    },
+
+
+
 
 
 };
