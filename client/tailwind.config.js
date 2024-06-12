@@ -8,8 +8,8 @@ module.exports = {
         'brand-orange': '#F49700',
         'brand-orange-light': '#ffe3ab',
         'brand-orange-hover': '#F4A22C',
-        'custom-blue': 'blue',
-        'custom-red': 'red'
+        'custom-blue': 'rgb(59, 130, 246)',
+        'custom-red': 'rgb(220, 38, 38)'
       },
     },
   },
