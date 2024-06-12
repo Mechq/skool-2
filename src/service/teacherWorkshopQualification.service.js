@@ -139,6 +139,41 @@ const teacherWorkshopQualificationService = {
                 }
             );
         });
+    },
+
+    getAllByWorkshopId: (id, callback) => {
+        logger.info("retrieving teacherWorkshopQualification");
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error("Error getting teacherWorkshopQualification", err);
+                callback(err, null);
+                return;
+            }
+
+            connection.query(
+                "SELECT id, firstName, lastName from user WHERE id IN (SELECT userId FROM teacherWorkshopQualification WHERE workshopId = ?)",
+                [id],
+                function (error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+                        logger.error(
+                            "Error getting teacherWorkshopQualification",
+                            error
+                        );
+                        callback(error, null);
+                    } else {
+                        callback(null, {
+                            status: 200,
+                            message: `${results.length} teacherWorkshopQualification retrieved`,
+                            data: results,
+                        });
+                    }
+                }
+            );
+        });
+    
     }
 
 };

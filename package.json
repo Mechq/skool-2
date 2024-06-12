@@ -52,6 +52,7 @@
     "react-quilljs": "^2.0.0",
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
+    "react-select": "^5.8.0",
     "stream-browserify": "^3.0.0",
     "tailwind-datepicker-react": "^1.4.3",
     "tailwindcss-important": "^1.0.0",

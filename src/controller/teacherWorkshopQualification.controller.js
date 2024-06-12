@@ -73,6 +73,30 @@ let teacherWorkshopQualification = {
             }
         });
 
+    },
+
+    getAllByWorkshopId: (req, res, next) => {
+        const id = req.params.workshopId;
+        logger.info('retrieving teacherWorkshopQualification');
+
+        teacherWorkshopQualificationService.getAllByWorkshopId(id, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
+    
     }
 
 };

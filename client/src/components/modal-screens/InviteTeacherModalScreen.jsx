@@ -2,35 +2,27 @@ import React, { useEffect, useState } from "react";
 
 export default function InviteTeacherModalScreen({ onClose, onSave, commissionWorkshop }) {
     const [users, setUsers] = useState([]);
+    const [selectedTeacher, setSelectedTeacher] = useState("");
 
     useEffect(() => {
         fetch('/api/user')
         .then(res => res.json())
         .then(data => {
             console.log("Fetched users: ", data.data);
-            
             setUsers(data.data);
         })
     }, [])
 
     const handleInvite = () => {
-        // fetch(`/api/workshop/${workshopId}`, {
-        //     method: 'DELETE',
-        // })
-        //     .then(() => {
-        //         console.log('Workshop deleted');
-        //         onSave();
-        //     })
-        //     .catch((error) => console.error("Error:", error));
+        // Handle invite logic here
     };
 
     const formatDate = (date) => {
         if (!date) return "";
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(date).toLocaleDateString("nl-NL", options);
-      }
+    }
 
-    console.log("commissionWorkshop", commissionWorkshop.commissionWorkshopId);
     return (
         <>
             <div className="fixed inset-0 z-10 bg-gray-900 bg-opacity-15" onClick={onClose} />
@@ -44,7 +36,15 @@ export default function InviteTeacherModalScreen({ onClose, onSave, commissionWo
                                 {'Datum: ' + formatDate(commissionWorkshop.date)}
                                 <br />
                                 {'Klant: ' + commissionWorkshop.customerName}
-                                </h2>
+                            </h2>
+
+                            <label htmlFor="teacherSelect" className="block mb-2">Selecteer docent:</label>
+                            <select id="teacherSelect" className="w-full mb-4" value={selectedTeacher} onChange={(e) => setSelectedTeacher(e.target.value)}>
+                                <option value="">Selecteer een docent</option>
+                                {users.map(user => (
+                                    <option key={user.id} value={user.id}>{user.firstName} {user.lastName}</option>
+                                ))}
+                            </select>
 
                             <button type="delete" onClick={handleInvite}
                                     className="w-full text-white bg-custom-red hover:bg-primary-700 focus:ring-4 :outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800">
