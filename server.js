@@ -11,11 +11,12 @@ const locationRoutes = require("./src/routes/location.routes");
 const indexRoutes = require("./src/routes/index.routes");
 const customerRoutes = require ("./src/routes/customer.routes");
 const roundRoutes = require("./src/routes/round.routes");
-const workshopRoundRoutes = require("./src/routes/workshopRound.routes")    
+const workshopRoundRoutes = require("./src/routes/workshopRound.routes")     
 const languageRoutes = require("./src/routes/language.routes");
 const teacherWorkshopQualificationRoutes = require("./src/routes/teacherWorkshopQualification.routes");
 const enrollmentRoutes = require("./src/routes/enrollment.routes");
 const dashboardRoutes = require("./src/routes/dashboard.routes");
+const inviteRoutes = require("./src/routes/invite.routes");
 
 const userRoutes = require ("./src/routes/user.routes");
 
@@ -46,6 +47,7 @@ app.use(workshopRoundRoutes);
 app.use(languageRoutes);
 app.use(enrollmentRoutes);
 app.use(teacherWorkshopQualificationRoutes);
+app.use(inviteRoutes);
 app.use(dashboardRoutes);
 
 // Serve static files from the React app
