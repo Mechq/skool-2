@@ -113,8 +113,8 @@ export default function CreateCustomerPanelContent({setCustomers, setShowSidePan
     };
 
     return (
-        <div>
-            <h1 className='side-panel-title'>Maak een klant aan</h1>
+        <div className="px-6">
+            <header className="pt-4 pb-4 font-bold text-lg">Maak een klant aan</header>
             <div className='side-panel-content'>
             <form>
                 <div className="mb-6">
@@ -124,7 +124,7 @@ export default function CreateCustomerPanelContent({setCustomers, setShowSidePan
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="Naam" required/>
                 </div>
-                <div className="grid gap-6 mb-6 md:grid-cols-2">
+                <div className="grid gap-6 mb-6 md:grid-cols-2 ">
                     <div>
                         <label htmlFor="locationName"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Locatie naam</label>

@@ -79,8 +79,8 @@ function EditCustomerPanelContent({ customerId, setShowSidePanel }) {
     };
 
     return (
-        <div>
-            <h1 className='side-panel-title'>Bewerk klant</h1>
+        <div className="px-6">
+            <header className="pt-4 pb-4 font-bold text-lg">Bewerk klant</header>
             <div className='side-panel-content'>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-6">
