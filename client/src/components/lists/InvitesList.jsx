@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export default function TeacherList({
+export default function InvitesList({
     setInviteId,
     invites,
     setInvites,
@@ -15,7 +15,7 @@ export default function TeacherList({
                 console.log("Fetched invites: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, []); 
+    }, []); // <-- Empty dependency array ensures useEffect runs only on component mount
 
     const formatDate = (dateString) => {
         if (!dateString) return "";
@@ -23,8 +23,48 @@ export default function TeacherList({
         return new Date(dateString).toLocaleDateString("nl-NL", options);
     };
     
-    const handleAccept = (inviteId) => {
-        // Logic to accept invite
+    const handleAccept = (status, invite, userId) => {
+        console.log("Submitting invite status:", status);
+        console.log("Invite:", invite);
+        fetch(`/api/invite/${invite.inviteId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ status }),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            // Fetch updated invites after accepting
+            fetch(`/api/invite/user/${user.id}`)
+                .then(res => res.json())
+                .then(data => {
+                    setInvites(data.data);
+                    console.log("Fetched invites: ", data.data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        })
+        .catch((error) => console.error("Error updating invite:", error));
+
+        fetch('/api/enrollment', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userId: userId,
+                commissionWorkshopId: invite.commissionWorkshopId,
+            }),
+        
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+        })
+        .catch((error) => console.error("Error updating invite:", error));
+        
+
     };
 
     const handleReject = (inviteId) => {
@@ -56,7 +96,7 @@ export default function TeacherList({
                         <td className="px-6 py-4">{invite.locationName}</td>
                         <td className="px-6 py-4">{formatDate(invite.date)}</td>
                         <td className="px-6 py-4">
-                            <button className="bg-custom-blue hover:bg-custom-blue text-white font-bold py-2 px-4 mr-2 rounded" onClick={() => handleAccept(invite.inviteId)}>
+                            <button className="bg-custom-blue hover:bg-custom-blue text-white font-bold py-2 px-4 mr-2 rounded"  onClick={() => handleAccept("geaccepteerd", invite, user.id)}>
                                 Accepteren
                             </button>
                             <button className="bg-custom-red hover:bg-custom-red text-white font-bold py-2 px-4 rounded" onClick={() => handleReject(invite.inviteId)}>

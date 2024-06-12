@@ -47,6 +47,30 @@ let inviteController = {
                 });
             }
         });
+    },
+
+    updateInvite: (req, res, next) => {
+        const inviteId = req.params.inviteId;
+        const status = req.body.status;
+        logger.info("updating invite", inviteId, status);
+
+        inviteService.updateInvite(inviteId, status, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 }
 

@@ -41,9 +41,10 @@ export function Customers() {
             
             
         <InvitesList
-    setInviteId={setInviteId}
+            setInviteId={setInviteId}
             invites={invites}
-user={user}
+            user={user}
+            setInvites={setInvites}
         />
         </div>
     );

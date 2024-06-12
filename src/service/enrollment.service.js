@@ -66,9 +66,44 @@ let enrollmentService = {
               }
             );
           });
-    }
+    },
 
-    // show only
+    createEnrollment: (data, callback) => {
+        const {
+          userId,
+          commissionWorkshopId,
+          status
+        } = data
+
+        logger.info("creating enrollment", userId, commissionWorkshopId, status)
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+              logger.error("Error creating enrollment", err);
+              callback(err, null);
+              return;
+            }
+      
+            connection.query(
+              `INSERT INTO enrollment (userId, commissionWorkshopId, status) VALUES (?, ?, 'geaccepteerd')`,
+              [userId, commissionWorkshopId, status],
+              function (error, results, fields) {
+                connection.release();
+      
+                if (error) {
+                  logger.error("Error creating enrollment", error);
+                  callback(error, null);
+                } else {
+                  callback(null, {
+                    status: 201,
+                    message: `Enrollment created`,
+                    data: results,
+                  });
+                }
+              }
+            );
+          });
+    }
 }
 
 module.exports = enrollmentService;

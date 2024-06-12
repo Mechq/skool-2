@@ -5,5 +5,6 @@ const enrollmentController = require("../controller/enrollment.controller");
 
 router.get('/api/enrollment/', enrollmentController.getAllEnrollments);
 router.put('/api/enrollment/:id', enrollmentController.updateEnrollment);
+router.post('/api/enrollment/', enrollmentController.createEnrollment);
 
 module.exports = router;

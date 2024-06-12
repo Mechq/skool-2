@@ -45,7 +45,30 @@ let enrollmentController = {
                 });
             }
         });
+    },
+
+    createEnrollment: (req, res, next) => {
+        logger.info("creating enrollment");
+
+        enrollmentService.createEnrollment(req.body, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(201).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
+
 }
 
 module.exports = enrollmentController;
