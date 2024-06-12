@@ -4,10 +4,13 @@ export default function InviteTeacherModalScreen({ onClose, onSave, commissionWo
     const [users, setUsers] = useState([]);
     const [selectedTeacher, setSelectedTeacher] = useState("");
 
+    console.log('commissionWorkshop', commissionWorkshop);
+
     useEffect(() => {
-        fetch('/api/user')
+        fetch(`/api/teacherWorkshopQualification/workshop/${commissionWorkshop.workshopId}`)
         .then(res => res.json())
         .then(data => {
+            console.log(commissionWorkshop.workshopId)
             console.log("Fetched users: ", data.data);
             setUsers(data.data);
         })
