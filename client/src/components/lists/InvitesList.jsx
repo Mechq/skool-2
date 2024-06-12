@@ -23,6 +23,13 @@ export default function TeacherList({
         return new Date(dateString).toLocaleDateString("nl-NL", options);
     };
     
+    const handleAccept = (inviteId) => {
+        // Logic to accept invite
+    };
+
+    const handleReject = (inviteId) => {
+        // Logic to reject invite
+    };
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -48,6 +55,14 @@ export default function TeacherList({
                         <td className="px-6 py-4">{invite.workshopName}</td>
                         <td className="px-6 py-4">{invite.locationName}</td>
                         <td className="px-6 py-4">{formatDate(invite.date)}</td>
+                        <td className="px-6 py-4">
+                            <button className="bg-custom-blue hover:bg-custom-blue text-white font-bold py-2 px-4 mr-2 rounded" onClick={() => handleAccept(invite.inviteId)}>
+                                Accepteren
+                            </button>
+                            <button className="bg-custom-red hover:bg-custom-red text-white font-bold py-2 px-4 rounded" onClick={() => handleReject(invite.inviteId)}>
+                                Weigeren
+                            </button>
+                        </td>
                         </tr>
                     ))}
                 </tbody>
