@@ -22,6 +22,8 @@ export default function Users() {
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
 
+
+
     return (
         <div>
             <SidePanel isOpen={isOpen}

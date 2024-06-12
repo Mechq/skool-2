@@ -152,13 +152,21 @@ const userService = {
             let sql = 'UPDATE user SET ';
             const values = [];
 
+            if (user.firstName) {
+                sql += 'firstName = ?, ';
+                values.push(user.firstName);
+            }
+            if (user.lastName) {
+                sql += 'lastName = ?, ';
+                values.push(user.lastName);
+            }
             if (user.email) {
-                sql += 'e = ?, ';
+                sql += 'email = ?, ';
                 values.push(user.email);
             }
-            if (user.password) {
-                sql += 'password = ?, ';
-                values.push(user.password);
+            if (user.phoneNumber) {
+                sql += 'phoneNumber = ?, ';
+                values.push(user.phoneNumber);
             }
             if (user.street) {
                 sql += 'street = ?, ';
@@ -176,42 +184,47 @@ const userService = {
                 sql += 'city = ?, ';
                 values.push(user.city);
             }
-            if (user.birthDate) {
-                sql += 'birthDate = ?, ';
-                values.push(user.birthDate);
+            if (user.country) {
+                sql += 'country = ?, ';
+                values.push(user.country);
             }
-            if (user.btwNumber) {
-                sql += 'btwNumber = ?, ';
-                values.push(user.btwNumber);
+            if (user.hasDriversLicense !== undefined) {
+                sql += 'hasDriversLicense = ?, ';
+                values.push(user.hasDriversLicense);
+            }
+            if (user.hasCar !== undefined) {
+                sql += 'hasCar = ?, ';
+                values.push(user.hasCar);
+            }
+            if (user.isZZPer !== undefined) {
+                sql += 'isZZPer = ?, ';
+                values.push(user.isZZPer);
+            }
+            if (user.hourlyRate) {
+                sql += 'hourlyRate = ?, ';
+                values.push(user.hourlyRate);
+            }
+            if (user.iban) {
+                sql += 'iban = ?, ';
+                values.push(user.iban);
             }
             if (user.kvkNumber) {
-                sql += 'kvkNumber = ?, ';
-                values.push(user.kvkNumber);
+                sql += 'kvk = ?, ';
+                values.push(user.kvk);
             }
-            if (user.IBAN) {
-                sql += 'IBAN = ?, ';
-                values.push(user.IBAN);
-            }
-            if (user.role) {
-                sql += 'role = ?, ';
-                values.push(user.role);
-            }
-            if (user.firstName) {
-                sql += 'firstName = ?, ';
-                values.push(user.firstName);
-            }
-            if (user.lastName) {
-                sql += 'lastName = ?, ';
-                values.push(user.lastName);
+            if (user.btwNumber) {
+                sql += 'btw = ?, ';
+                values.push(user.btw);
             }
 
+            // Remove trailing comma and space
             sql = sql.slice(0, -2);
 
             sql += ' WHERE id = ?';
-
             values.push(id);
-            logger.debug('values', values);
 
+            logger.debug('SQL:', sql);
+            logger.debug('Values:', values);
 
             connection.query(
                 sql,
@@ -223,18 +236,19 @@ const userService = {
                         logger.error('Error updating user', error);
                         callback(error, null);
                     } else {
-                        logger.trace('user updated', results);
+                        logger.trace('User updated', results);
 
                         callback(null, {
                             status: 200,
-                            message: 'user updated',
+                            message: 'User updated',
                             data: results,
                         });
                     }
                 }
-            )
+            );
         });
     },
+
     getById: (id, callback) => {
         logger.info('retrieving user', id);
 
