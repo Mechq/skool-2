@@ -4,6 +4,7 @@ export default function TeacherList({
     setInviteId,
     invites,
     setInvites,
+    user
 }) {
 
     useEffect(() => {
@@ -31,23 +32,6 @@ export default function TeacherList({
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map(user => (
-                        <tr key={user.id}
-                            className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700">
-                            <td className="px-6 py-4">{user.workshop}</td>
-                            <td className="px-6 py-4">{user.firstName + ' ' + user.lastName}</td>
-                            <td className="px-6 py-4">{user.email}</td>
-                            <td className="px-6 py-4">{user.phoneNumber}</td>
-                            <td className="px-6 py-4">{formatDate(user.birthDate)}</td>
-                            <td className="px-6 py-4">
-                                <a href="#" onClick={(e) => {
-                                    e.preventDefault();
-                                    editTeacher(user.id);
-                                }}
-                                   className="font-medium text-[#f49700] light:text-[#f49700] hover:underline">Bewerken</a>
-                            </td>
-                        </tr>
-                    ))}
                 </tbody>
             </table>
         </div>

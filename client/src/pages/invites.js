@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import InvitesList from "../components/lists/InvitesList";
+import InvitesList from "../components/lists/InvitesList";
 import {jwtDecode} from "jwt-decode";
 
 
@@ -18,37 +18,35 @@ export function Customers() {
 
                 console.log(user);
             }
+            console.log("decodedToken: ", decodedToken)
+            try {
+                const res = await fetch(`/api/invite/user/${decodedToken.id}`);
+                const data = await res.json();
+                setInvites(data.data);
+                console.log("Fetched invites: ", data.data);
+            }
+            catch (error) {
+                console.error('Error fetching data:', error);
+            }
+
 
         };
 
         fetchData();
     }, []);
 
-    useEffect(() => {
-        fetch(`/api/invite/user/${user.id}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(user.id)
-                setInvites(data.data);
-                console.log("Fetched invites: ", data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
 
-    // return (
-    //     <div>
+    return (
+        <div>
             
             
-    //         <CustomerList customers={customers}
-    //                       setIsOpen={setIsOpen}
-    //                       isOpen={isOpen}
-    //                       setSidePanelContent={setSidePanelContent}
-    //                       setCustomerId={setCustomerId}
-    //                       setRotateSpan={setRotateSpan}
-    //                       setCustomers={setCustomers}
-    //                       />
-    //     </div>
-    // );
+        <InvitesList
+    setInviteId={setInviteId}
+            invites={invites}
+user={user}
+        />
+        </div>
+    );
 }
 
 export default Customers;
