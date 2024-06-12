@@ -14,12 +14,12 @@ function SidePanel({isOpen, setIsOpen, rotateSpan, setRotateSpan, children}) {
             >
                 <section
                     className={
-                        "w-screen max-w-lg right-0 absolute bg-white h-full shadow-xl delay-400 duration-500 ease-in-out transform " +
+                        "w-screen max-w-xl right-0 absolute bg-white h-full shadow-xl delay-400 duration-500 ease-in-out transform " +
                         (isOpen ? "translate-x-0 " : "translate-x-full")
                     }
                 >
                     <article
-                        className="relative w-screen max-w-lg pb-10 flex flex-col space-y-6 overflow-y-scroll h-full">
+                        className="relative w-screen max-w-xl pb-10 flex flex-col space-y-6 overflow-y-scroll h-full">
                         {children}
                     </article>
                 </section>

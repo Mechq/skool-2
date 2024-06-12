@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import TeacherList from "../components/lists/TeacherList";
 import CreatePanelContent from "../components/panel-contents/CreatePanelContent";
 import SidePanel from "../components/SidePanel";
-import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
+import EditUserPanelContent from "../components/panel-contents/EditUserPanelContent";
 import CreateButton from "../components/CreateButton";
 
 export default function Users() {
@@ -24,22 +24,20 @@ export default function Users() {
 
     return (
         <div>
-            <CreateButton
-                setShowSidePanel={setIsOpen}
-                showSidePanel={isOpen}
-                setSidePanelContent={setSidePanelContent}
-                rotateSpan={rotateSpan}
-                setRotateSpan={setRotateSpan}
-            />
-
             <SidePanel isOpen={isOpen}
                        setIsOpen={setIsOpen}
                        rotateSpan={rotateSpan}
                        setRotateSpan={setRotateSpan}>
+                <CreateButton
+                    setShowSidePanel={setIsOpen}
+                    showSidePanel={isOpen}
+                    setSidePanelContent={setSidePanelContent}
+                    rotateSpan={rotateSpan}
+                    setRotateSpan={setRotateSpan}/>
                 {sidePanelContent === "create" &&
                     <CreatePanelContent setUsers={setUsers} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditPanelWorkshopContent userId={userId} setShowSidePanel={setIsOpen}/>}
+                    <EditUserPanelContent userId={userId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
             <TeacherList
                 setIsOpen={setIsOpen}

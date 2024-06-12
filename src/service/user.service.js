@@ -210,12 +210,11 @@ const userService = {
             sql += ' WHERE id = ?';
 
             values.push(id);
-            logger.debug('query', query);
             logger.debug('values', values);
 
 
             connection.query(
-                query,
+                sql,
                 values,
                 function (error, results, fields) {
                     connection.release();
