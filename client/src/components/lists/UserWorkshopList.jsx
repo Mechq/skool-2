@@ -3,12 +3,13 @@ import UserWorkshopCard from "../UserWorkshopCard";
 import UserWorkshopDetailsModalScreen from "../modal-screens/UserWorkshopDetailsModalScreen";
 
 
-export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
+export default function UserWorkshopList({ userWorkshops, setUserWorkshops, user }) {
     const [commissions, setCommissions] = useState([]);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedCommission, setSelectedCommission] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [durations, setDurations] = useState([]);
 ;
 
     const handleDetailsClick = (workshop, commission, e) => {
@@ -50,17 +51,26 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
+    useEffect(() => {
+            fetch('/api/commission/durations')
+            .then(res => res.json())
+            .then(data => {
+                setDurations(data.data);
+                console.log("Fetched durations: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        }, []
+    )
+
     const getCommission = (commissionId) => {
         const commission = commissions.find(c => c.id === commissionId);
         if (commission) {
-            console.log("commission", commission)
             return commission;
         }
         return 'Unknown Commission';
     }
 
     const getCommissionName = (commissionId) => {
-        console.log("commissionId", commissionId)
         return getCommission(commissionId).details;
     }
 
@@ -73,10 +83,25 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
                 day: 'numeric',
             });
     };
+    const getCommissionTime = (commissionId) => {
+        if (durations.length > 0) {
+            const durationData = durations.find(c => c.commissionId === commissionId)
+            console.log(durationData)
+            return durationData
 
+        }
+        return 'Unknown Time';
+    }
+
+    const getCommissionPay = (commissionId) => {
+        const minutes = getCommissionTime(commissionId).durationMin
+        console.log("pay:" + user.hourlyRate * minutes / 60)
+        return user.hourlyRate * minutes / 60
+
+
+    }
     return (
         <>
-
             {showDetailsModal && (
                 <div>
                     <UserWorkshopDetailsModalScreen
@@ -88,18 +113,35 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
                 </div>
             )}
 
-            {userWorkshops.map((userWorkshop) => (
-                <div
-                    onClick={(e) => handleDetailsClick(userWorkshop, getCommission(userWorkshop.commissionId), e)}
-                >
-                <UserWorkshopCard
-                    commissionName={getCommissionName(userWorkshop.commissionId)}
-                    key={userWorkshop.unique}
-                    userWorkshop={userWorkshop}
-                    commissionDate={getCommissionDate(userWorkshop.commissionId)} // Assuming id corresponds to commission id
-                />
-                </div>
-            ))}
+            <div className="flex flex-col items-center">
+                {userWorkshops.map((userWorkshop) => (
+                    <div
+                        key={userWorkshop.unique}
+                        className="w-full max-w-2xl p-4"
+                    >
+                        <div
+                            className="cursor-pointer"
+                            onClick={(e) =>
+                                handleDetailsClick(
+                                    userWorkshop,
+                                    getCommission(userWorkshop.commissionId),
+                                    e
+                                )
+                            }
+                        >
+                            <UserWorkshopCard
+                                commissionName={getCommissionName(userWorkshop.commissionId)}
+                                userWorkshop={userWorkshop}
+                                commissionDate={getCommissionDate(userWorkshop.commissionId)}
+                                commissionTime={getCommissionTime(userWorkshop.commissionId).formattedDuration}
+                                commissionPay={getCommissionPay(userWorkshop.commissionId)}
+                            />
+                        </div>
+                    </div>
+                ))}
+            </div>
         </>
     );
+
+
 }
