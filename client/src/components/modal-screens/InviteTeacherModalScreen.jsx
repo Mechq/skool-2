@@ -17,9 +17,10 @@ export default function InviteTeacherModalScreen({ onClose, onSave, commissionWo
     }, [])
 
     const handleInvite = () => {
-        // Handle invite logic here
+        console.log('selectedTeacherId:', selectedTeacher);
+        const selectedTeacherName = users.find(user => user.id === selectedTeacher);
     };
-
+    
     const formatDate = (date) => {
         if (!date) return "";
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -50,9 +51,10 @@ export default function InviteTeacherModalScreen({ onClose, onSave, commissionWo
                             </select>
 
                             <button type="delete" onClick={handleInvite}
-                                    className="w-full text-white bg-custom-red hover:bg-primary-700 focus:ring-4 :outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800">
-                                Verwijderen
+                                className="w-full text-white bg-brand-orange hover:bg-primary-700 focus:ring-4 :outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800">
+                                Uitnodigen
                             </button>
+
                         </div>
                     </div>
                 </div>
