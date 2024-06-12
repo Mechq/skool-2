@@ -24,52 +24,6 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
         setShowDetailsModal(false);
     };
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const [, commissionsRes] = await Promise.all([
-    //                 fetch('/api/commission/'),
-    //             ]);
-    //
-    //             const commissionsData = await commissionsRes.json();
-    //
-    //             const workshopsWithUniqueKey = userWorkshops.data.map((workshop, index) => ({
-    //                 ...workshop,
-    //                 unique: index + 1 // Incremented number starting from 1
-    //             }));
-    //
-    //             setUserWorkshops(workshopsWithUniqueKey);
-    //
-    //             setCommissions(commissionsData.data);
-    //
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-    //
-    //     fetchData();
-    //
-    //
-    // }, [user.id, setUserWorkshops]);
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const res = await fetch('/api/workshop/commission');
-    //             if (!res.ok) {
-    //                 throw new Error('Failed to fetch data');
-    //             }
-    //             const data = await res.json();
-    //             setWorkshopCommission(data.data);
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
-    //
-    //     fetchData();
-    // }, []);
 
 
     useEffect(() => {
@@ -103,6 +57,22 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
         return <div>Loading...</div>;
     }
 
+    const getCommission = (commissionId) => {
+        const commission = userWorkshops.find(c => c.commissionId === commissionId);
+        if (commission) {
+            console.log("commission", commission)
+            return {
+                id: commission.commissionId,
+                date: commission.date,
+                materials: commission.materials,
+                targetAudience: commission.targetAudience,
+                locationId: commission.locationId,
+                details: commission.details,
+                customerId: commission.customerId,
+            };
+        }
+        return 'Unknown Commission';
+    }
     return (
         <>
             {showDetailsModal && (
@@ -116,7 +86,7 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
 
                 <div
                     key={acceptedUserWorkshop.enrollmentId}
-                    onClick={(e) => handleDetailsClick(acceptedUserWorkshop,acceptedUserWorkshop.commissionId, e)}
+                    onClick={(e) => handleDetailsClick(acceptedUserWorkshop,getCommission(acceptedUserWorkshop.commissionId), e)}
                 >
                     <UserCommissionCard
                         onClose={handleModalClose}
