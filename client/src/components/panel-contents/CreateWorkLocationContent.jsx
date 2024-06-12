@@ -6,6 +6,7 @@ export default function CreateWorkLocationContent({setWorkLocations, setShowSide
     const [houseNumber, setHouseNumber] = useState("");
     const [city, setCity] = useState("");
     const [postalCode, setPostalCode] = useState("");
+    const [description, setDescription] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -15,7 +16,8 @@ export default function CreateWorkLocationContent({setWorkLocations, setShowSide
             street: street,
             houseNumber: parseInt(houseNumber),
             city: city,
-            postalCode: postalCode
+            postalCode: postalCode,
+            description: description
         };
 
         fetch('/api/location', {
@@ -33,6 +35,7 @@ export default function CreateWorkLocationContent({setWorkLocations, setShowSide
                 setHouseNumber('');
                 setCity('');
                 setPostalCode('');
+                setDescription('');
 
                 fetch('/api/location')
                     .then(res => res.json())
@@ -89,6 +92,17 @@ export default function CreateWorkLocationContent({setWorkLocations, setShowSide
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                                placeholder="Roelofarendsveen" required/>
                     </div>
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="description"
+                        className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Beschrijving locatie</label>
+                    <textarea id="description" 
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        rows="2"
+                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                        placeholder="Beschrijving...">
+                    </textarea>
                 </div>
                 <button type="submit" onClick={handleSubmit}
                         className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Opslaan
