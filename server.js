@@ -14,6 +14,7 @@ const roundRoutes = require("./src/routes/round.routes");
 const workshopRoundRoutes = require("./src/routes/workshopRound.routes")    
 const languageRoutes = require("./src/routes/language.routes");
 const teacherWorkshopQualificationRoutes = require("./src/routes/teacherWorkshopQualification.routes");
+const enrollmentRoutes = require("./src/routes/enrollment.routes");
 const dashboardRoutes = require("./src/routes/dashboard.routes");
 
 const userRoutes = require ("./src/routes/user.routes");
@@ -43,6 +44,7 @@ app.use(userRoutes);
 app.use(roundRoutes);
 app.use(workshopRoundRoutes);
 app.use(languageRoutes);
+app.use(enrollmentRoutes);
 app.use(teacherWorkshopQualificationRoutes);
 app.use(dashboardRoutes);
 

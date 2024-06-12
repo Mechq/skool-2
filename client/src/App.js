@@ -13,6 +13,7 @@ import User from './pages/user';
 import Users from './pages/users';
 import ProtectedRoute from "./ProtectedRoute";
 import UserWorkshops from "./pages/UserWorkshops";
+import TeacherEnrollments from "./pages/teacherEnrollments";
 
 function App() {
     const location = useLocation();
@@ -63,6 +64,7 @@ function App() {
                     <Route path="/users" element={<ProtectedRoute access="admin"><Users /></ProtectedRoute>} />
                     <Route path="/werklocatie" element={<ProtectedRoute access="admin"><Worklocation /></ProtectedRoute>} />
                     <Route path="/customers" element={<ProtectedRoute access="admin"><Customers /></ProtectedRoute>} />
+                    <Route path="/teacherEnrollments" element={<ProtectedRoute access="admin"><TeacherEnrollments /></ProtectedRoute>} />
                     <Route path="*" element={<h1>Not Found</h1>} />
                     <Route path="/" element={<ProtectedRoute access="everyone"><Home /></ProtectedRoute>} />
                     <Route path="/register" element={<Register />} />
