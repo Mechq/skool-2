@@ -93,7 +93,38 @@ let inviteService = {
               }
             );
           });
-    }	
+    },
+
+    deleteInvite: (inviteId, callback) => {
+        logger.info("deleting invite", inviteId);
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+              logger.error("Error deleting invite", err);
+              callback(err, null);
+              return;
+            }
+      
+            connection.query(
+              `DELETE FROM invite WHERE id = ?`,
+              [inviteId],
+              function (error, results, fields) {
+                connection.release();
+      
+                if (error) {
+                  logger.error("Error deleting invite", error);
+                  callback(error, null);
+                } else {
+                  callback(null, {
+                    status: 200,
+                    message: `Invite ${inviteId} deleted`,
+                    data: results,
+                  });
+                }
+              }
+            );
+          });
+    }
 }
 
 module.exports = inviteService;

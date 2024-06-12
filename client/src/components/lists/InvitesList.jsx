@@ -68,7 +68,25 @@ export default function InvitesList({
     };
 
     const handleReject = (inviteId) => {
-        // Logic to reject invite
+        console.log("Rejecting invite:", inviteId);
+        fetch(`/api/invite/${inviteId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            fetch(`/api/invite/user/${user.id}`)
+                .then(res => res.json())
+                .then(data => {
+                    setInvites(data.data);
+                    console.log("Fetched invites: ", data.data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        })
+        .catch((error) => console.error("Error updating invite:", error));
     };
 
     return (
