@@ -239,7 +239,7 @@ const commissionService = {
     },
 
     deleteCommission: (id, callback) => {
-        logger.info('deleting commission', commissionId);
+        logger.info('deleting commission', id);
 
         let sql = 'DELETE FROM commission WHERE id = ?';
 

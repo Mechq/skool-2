@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import DeleteCommissionModalScreen from "../modal-screens/DeleteCommissionModalScreen";
 
 export default function CommissionList({    isOpen,
                                            setIsOpen,
@@ -9,6 +10,10 @@ export default function CommissionList({    isOpen,
                                            setCommissions
 }) {
     const [customers, setCustomers] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
+    const [commissionToDeleteId, setCommisionToDeleteId] = useState(null);
+    const [commissionToDeleteName, setCommisionToDeleteName] = useState(null);
 
     useEffect(() => {
         fetch('/api/commission')
@@ -47,6 +52,41 @@ export default function CommissionList({    isOpen,
         setRotateSpan(true);
     };
 
+    const handleDeleteClick = (id, name, e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setCommisionToDeleteId(id);
+        setCommisionToDeleteName(name);
+        setShowModal(true);
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        setShowDetailsModal(false);
+    };
+
+    const handleModalSave = () => {
+        // Make an API call to delete the workshop
+        fetch(`/api/commission/${commissionToDeleteId}`, {
+            method: 'DELETE'
+        })
+            .then(res => {
+                if (res.ok) {
+                    // If deletion is successful, close the modal and update the state
+                    setShowModal(false);
+                    // Reset the workshopToDeleteId and workshopToDeleteName
+                    setCommisionToDeleteId(null);
+                    setCommisionToDeleteName(null);
+                    // Update the state to reflect the deletion
+                    const updatedCommissions = commissions.filter(commission => commission.id !== commissionToDeleteId);
+                    setCommissions(updatedCommissions);
+                } else {
+                    throw new Error('Failed to delete workshop');
+                }
+            })
+            .catch(error => console.error('Error deleting workshop:', error));
+    };
+
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
@@ -57,6 +97,7 @@ export default function CommissionList({    isOpen,
                     <th className="px-6 py-3">Doelgroep</th>
                     <th className="px-6 py-3">Datum</th>
                     <th className="px-6 py-3">Bewerken</th>
+                    <th className="px-6 py-3">Verwijderen</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -72,13 +113,46 @@ export default function CommissionList({    isOpen,
                                 <td className="px-6 py-4">{commission.targetAudience}</td>
                                 <td className="px-6 py-4">{formatDate(commission.date) || ''}</td>
                                 <td className="px-6 py-4">
-                                    <button className="font-medium text-[#f49700] light:text-[#f49700] hover:underline" onClick={() => editCommission(commission.id)}>Bewerken</button>
+                                    <button className="font-medium text-[#f49700] light:text-[#f49700] hover:underline"
+                                            onClick={() => editCommission(commission.id)}>Bewerken
+                                    </button>
+                                </td>
+                                <td className="px-6 py-4">
+                                    <a href="#" onClick={(e) => handleDeleteClick(commission.id, commission.name, e)}>
+                                        <svg
+                                            className="w-5 h-5 text-danger hover:text-red-600"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                                            />
+                                        </svg>
+                                    </a>
                                 </td>
                             </tr>
                         );
                     })}
                 </tbody>
             </table>
+            {showModal && (
+                <div>
+                    <DeleteCommissionModalScreen
+                        onClose={handleModalClose}
+                        onSave={handleModalSave}
+                        commissionId={commissionToDeleteId}
+                        commissionName={commissionToDeleteName}
+                    />
+                </div>
+            )}
         </div>
     );
 }

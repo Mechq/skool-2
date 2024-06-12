@@ -8,5 +8,5 @@ router.get("/api/commission/:id", commissionController.getCommissionById);
 router.put("/api/commission/:id", commissionController.update);
 router.get("/api/commission/customer/:commissionId", commissionController.getCustomer);
 router.get("/api/commission/time/:commissionId", commissionController.getStartAndEndTime);
-router.delete("/api/commission/:commissionId", commissionController.deleteCommission);
+router.delete("/api/commission/:id", commissionController.deleteCommission);
 module.exports = router;
