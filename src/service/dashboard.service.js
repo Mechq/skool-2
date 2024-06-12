@@ -12,20 +12,31 @@ const dashboardService = {
                 callback(err, null);
                 return;
             }
-
-            connection.query(`SELECT c.*, w.* FROM commission c JOIN userWorkshop uw ON c.id = uw.commissionId JOIN workshop w ON w.id = uw.workshopId WHERE uw.userId = ?`, [id], 
+            connection.query(`SELECT e.id AS enrollmentId,
+       cw.id AS commissionWorkshopId,
+       c.id AS commissionId,
+       w.id AS workshopId,
+       e.*, 
+       cw.*, 
+       c.*, 
+       w.*
+FROM enrollment e
+JOIN commissionWorkshop cw ON e.commissionWorkshopId = cw.id
+JOIN commission c ON cw.commissionId = c.id
+JOIN workshop w ON cw.workshopId = w.id
+WHERE e.userId = ? ORDER BY c.date;`, [id],
             function(error, results, fields) {
                 connection.release();
 
                 if (error) {
-                    logger.error('Error getting workshops', error);
+                    logger.error('Error getting commissions and workshops', error);
                     callback(error, null);
                     return;
                 }
 
                 callback(null, {
                     status: 200,
-                    message: `${results.length} workshops retrieved`,
+                    message: `${results.length} workshops and commissions retrieved`,
                     data: results,
                 });
             });

@@ -18,6 +18,9 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
         setShowDetailsModal(true);
     };
 
+    const onRefresh = () => {
+    }
+
     const handleModalClose = () => {
         setShowModal(false);
         setShowDetailsModal(false);
@@ -80,6 +83,7 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops }) {
                         onClose={handleModalClose}
                         workshop={selectedWorkshop}
                         commission={selectedCommission}
+                        onRefresh={onRefresh}
                     />
                 </div>
             )}

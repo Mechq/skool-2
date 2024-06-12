@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DeleteConfirmationModalScreen from "../modal-screens/DeleteConfirmationModalScreen";
-import WorkshopDetailsModalScreen from "../modal-screens/WorkshopDetailsModalScreen";
+import UserWorkshopDetailsModalScreen from "../modal-screens/UserWorkshopDetailsModalScreen";
 
 export default function WorkshopList({
     isOpen,
@@ -222,7 +222,7 @@ export default function WorkshopList({
                         )}
                         {showDetailsModal && (
                             <div>
-                                <WorkshopDetailsModalScreen
+                                <UserWorkshopDetailsModalScreen
                                     onClose={handleModalClose}
                                     onSave={handleModalSave}
                                     workshopId={selectedWorkshopId}

@@ -46,6 +46,7 @@ function User() {
         };
 
         fetchData();
+        console.log("User: ", user)
     }, []);
 
     if (loading) {
@@ -61,6 +62,7 @@ function User() {
         <>
             <div className="grid grid-cols-2 gap-4">
                 <div>
+                    {console.log("User: ", user)}
                     <UserProfile
                         user={user}
                         editUser={editUser}
