@@ -73,6 +73,11 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
         }
         return 'Unknown Commission';
     }
+    const refreshPage = () => {
+        window.location.reload();
+    };
+
+
     return (
         <>
             {showDetailsModal && (
@@ -80,6 +85,7 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
                     onClose={handleModalClose}
                     workshop={selectedWorkshop}
                     commission={selectedCommission}
+                    onRefresh={refreshPage}
                 />
             )}
             {acceptedWorkshops && acceptedWorkshops.map((acceptedUserWorkshop) => ( // Check if userWorkshops is defined

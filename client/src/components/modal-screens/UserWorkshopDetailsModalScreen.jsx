@@ -4,7 +4,7 @@ import PageSecurity from "../../PageSecurity";
 import {jwtDecode} from "jwt-decode";
 
 
-export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission }) {
+export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission, onRefresh }) {
 
 
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);
@@ -172,6 +172,7 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
             })
             .catch((error) => console.error("Error:", error));
         }
+        onRefresh();
     };
 
     if (loading) {
