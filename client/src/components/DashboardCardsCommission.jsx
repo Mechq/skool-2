@@ -3,14 +3,12 @@ import UserCommissionCard from "./UserCommissionCard";
 import UserWorkshopDetailsModalScreen from "./modal-screens/UserWorkshopDetailsModalScreen";
 
 export default function DashboardCardsCommission({ user, userWorkshops, setUserWorkshops }) {
+    console.log("UserWorkshops: ", userWorkshops)
     const [commissions, setCommissions] = useState([]);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedCommission, setSelectedCommission] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [workshopCommission, setWorkshopCommission] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const[acceptedWorkshops, setAcceptedWorkshops] = useState([]);
 
     const handleDetailsClick = (workshop, commission, e) => {
         e.preventDefault();
@@ -23,18 +21,6 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
         setShowModal(false);
         setShowDetailsModal(false);
     };
-
-
-
-    useEffect(() => {
-        console.log('userWorkshops', userWorkshops);
-        if (userWorkshops) {
-            const accepted = userWorkshops.filter((workshop) => workshop.status === 'geaccepteerd');
-            const limitedAccepted = accepted.slice(0, 5);
-            setAcceptedWorkshops(limitedAccepted);
-            setLoading(false);
-        }
-    }, [userWorkshops]);
 
 
     const formatDate = (commissionDate) => {
@@ -52,11 +38,6 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
         return 'Unknown Date';
     };
 
-
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     const getCommission = (commissionId) => {
         const commission = userWorkshops.find(c => c.commissionId === commissionId);
@@ -89,16 +70,16 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
                     onRefresh={refreshPage}
                 />
             )}
-            {acceptedWorkshops && acceptedWorkshops.map((acceptedUserWorkshop) => ( // Check if userWorkshops is defined
+            {userWorkshops && userWorkshops.map((userWorkshop) => ( // Check if userWorkshops is defined
 
                 <div
-                    key={acceptedUserWorkshop.enrollmentId}
-                    onClick={(e) => handleDetailsClick(acceptedUserWorkshop,getCommission(acceptedUserWorkshop.commissionId), e)}
+                    key={userWorkshop.enrollmentId}
+                    onClick={(e) => handleDetailsClick(userWorkshop,getCommission(userWorkshop.commissionId), e)}
                 >
                     <UserCommissionCard
                         onClose={handleModalClose}
-                        userWorkshop={acceptedUserWorkshop}
-                        commissionDate={formatDate(acceptedUserWorkshop.date)}
+                        userWorkshop={userWorkshop}
+                        commissionDate={formatDate(userWorkshop.date)}
 
                     />
                 </div>
