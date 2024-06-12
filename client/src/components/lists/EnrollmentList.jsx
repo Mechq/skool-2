@@ -87,8 +87,8 @@ export default function EnrollmentList({
                   </td>
                   <td className="px-6 py-4 text-right">
                     {/* Placeholder for accept/reject buttons */}
-                    <button onClick={() => handleSubmit("geaccepteerd", enrollment)} className="bg-green-500 text-white px-2 py-1 rounded mr-2">Accept</button>
-                    <button onClick={() => handleSubmit("geweigerd", enrollment)} className="bg-red-500 text-white px-2 py-1 rounded">Reject</button>
+                    <button onClick={() => handleSubmit("geaccepteerd", enrollment)} className="bg-custom-blue text-white px-2 py-1 rounded mr-2">Accept</button>
+                    <button onClick={() => handleSubmit("geweigerd", enrollment)} className="bg-custom-red text-white px-2 py-1 rounded">Reject</button>
                   </td>
                 </tr>
               ))}

@@ -25,7 +25,7 @@ export default function DeleteConfirmationModalScreen({ onClose, onSave, worksho
                             <h2 className="">Weet u zeker dat u de workshop <br />
                                 '<strong>{workshopName}</strong>' wilt verwijderen?</h2>
                             <button type="delete" onClick={handleDelete}
-                                    className="w-full text-white bg-red-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800">
+                                    className="w-full text-white bg-custom-red hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800">
                                 Verwijderen
                             </button>
                         </div>
