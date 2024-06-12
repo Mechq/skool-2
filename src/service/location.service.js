@@ -130,6 +130,14 @@ const locationService = {
       sql += "postalCode = ?, ";
       values.push(location.postalCode);
     }
+    if (location.customerId) {
+      sql += "customerId = ?, ";
+      values.push(location.customerId);
+    }
+    if (location.description) {
+      sql += "description = ?, ";
+      values.push(location.description);
+    }
 
     // Remove the trailing comma and space
     sql = sql.slice(0, -2);

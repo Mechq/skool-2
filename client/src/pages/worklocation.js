@@ -35,7 +35,7 @@ function Worklocation() {
                 {sidePanelContent === "create" &&
                     <CreateWorkLocationContent setWorkLocations={setWorkLocations} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditPanelWorkLocationContent locationId={workLocationId} setShowSidePanel={setIsOpen}/>}
+                    <EditPanelWorkLocationContent setWorkLocations={setWorkLocations} locationId={workLocationId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
             <WorkLocationList
                 setShowSidePanel={setIsOpen}
