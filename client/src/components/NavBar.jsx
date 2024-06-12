@@ -40,12 +40,13 @@ function NavBar() {
                 </div>
                 <div className={`w-full md:flex md:w-auto ${isMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
                     <ul className="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+                        <CustomLink to="/commissionWorkshops" userRole={userRole}>Workshops</CustomLink>
                         <CustomLink to="/opdracht" userRole={userRole}>Opdrachten</CustomLink>
                         <CustomLink to="/users" userRole={userRole}>Docenten</CustomLink>
                         <CustomLink to="/customers" userRole={userRole}>Klanten</CustomLink>
                         <CustomLink to="/werklocatie" userRole={userRole}>Locaties</CustomLink>
                         <CustomLink to="/teacherEnrollments" userRole={userRole}>Inschrijvingen</CustomLink>
-                        <CustomLink to="/workshops" userRole={userRole}>Workshops</CustomLink>
+                        <CustomLink to="/workshops" userRole={userRole}>Workshop Templates</CustomLink>
                         <CustomLink to="/mailTemplates" userRole={userRole}>Mail Templates</CustomLink>
                         <CustomLink to="/userWorkshops" userRole={userRole}>Aanmelden</CustomLink>
                         <CustomLink to="/user" userRole={userRole}>
