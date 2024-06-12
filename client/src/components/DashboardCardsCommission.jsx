@@ -30,7 +30,8 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
         console.log('userWorkshops', userWorkshops);
         if (userWorkshops) {
             const accepted = userWorkshops.filter((workshop) => workshop.status === 'geaccepteerd');
-            setAcceptedWorkshops(accepted);
+            const limitedAccepted = accepted.slice(0, 5);
+            setAcceptedWorkshops(limitedAccepted);
             setLoading(false);
         }
     }, [userWorkshops]);

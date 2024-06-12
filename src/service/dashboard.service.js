@@ -24,7 +24,7 @@ FROM enrollment e
 JOIN commissionWorkshop cw ON e.commissionWorkshopId = cw.id
 JOIN commission c ON cw.commissionId = c.id
 JOIN workshop w ON cw.workshopId = w.id
-WHERE e.userId = ?;`, [id],
+WHERE e.userId = ? ORDER BY c.date;`, [id],
             function(error, results, fields) {
                 connection.release();
 
