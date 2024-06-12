@@ -18,8 +18,30 @@ export default function InviteTeacherModalScreen({ onClose, onSave, commissionWo
 
     const handleInvite = () => {
         console.log('selectedTeacherId:', selectedTeacher);
-        const selectedTeacherName = users.find(user => user.id === selectedTeacher);
+        const selectedTeacherObj = users.find(user => user.id === selectedTeacher);
+        console.log('commissionWorkshop: ', commissionWorkshop);
+    
+        fetch(`/api/invite/workshop/${commissionWorkshop.commissionWorkshopId}/user/${selectedTeacher}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Invite sent successfully');
+                // Handle success scenario
+            } else {
+                console.error('Failed to send invite');
+                // Handle failure scenario
+            }
+        })
+        .catch(error => {
+            console.error('Error sending invite:', error);
+            // Handle error scenario
+        });
     };
+    
     
     const formatDate = (date) => {
         if (!date) return "";
