@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import DeleteConfirmationModalScreen from "../modal-screens/DeleteConfirmationModalScreen";
 import UserWorkshopDetailsModalScreen from "../modal-screens/UserWorkshopDetailsModalScreen";
 
 export default function WorkshopList({
-    isOpen,
-    setIsOpen,
-    setSidePanelContent,
-    setWorkshopId,
-    workshops,
-    setRotateSpan,
-    setWorkshops
-}) {
+                                         isOpen,
+                                         setIsOpen,
+                                         setSidePanelContent,
+                                         setWorkshopId,
+                                         workshops,
+                                         setRotateSpan,
+                                         setWorkshops
+                                     }) {
     const [showModal, setShowModal] = useState(false);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [workshopToDeleteId, setWorkshopToDeleteId] = useState(null);
@@ -62,7 +62,7 @@ export default function WorkshopList({
         setWorkshopToDeleteName(name);
         setShowModal(true);
     };
-    
+
 
     const handleModalClose = () => {
         setShowModal(false);
@@ -74,26 +74,26 @@ export default function WorkshopList({
         fetch(`/api/workshop/${workshopToDeleteId}`, {
             method: 'DELETE'
         })
-        .then(res => {
-            if (res.ok) {
-                // If deletion is successful, close the modal and update the state
-                setShowModal(false);
-                // Reset the workshopToDeleteId and workshopToDeleteName
-                setWorkshopToDeleteId(null);
-                setWorkshopToDeleteName(null);
-                // Update the state to reflect the deletion
-                const updatedWorkshops = workshops.filter(workshop => workshop.id !== workshopToDeleteId);
-                setWorkshops(updatedWorkshops);
-            } else {
-                throw new Error('Failed to delete workshop');
-            }
-        })
-        .catch(error => console.error('Error deleting workshop:', error));
+            .then(res => {
+                if (res.ok) {
+                    // If deletion is successful, close the modal and update the state
+                    setShowModal(false);
+                    // Reset the workshopToDeleteId and workshopToDeleteName
+                    setWorkshopToDeleteId(null);
+                    setWorkshopToDeleteName(null);
+                    // Update the state to reflect the deletion
+                    const updatedWorkshops = workshops.filter(workshop => workshop.id !== workshopToDeleteId);
+                    setWorkshops(updatedWorkshops);
+                } else {
+                    throw new Error('Failed to delete workshop');
+                }
+            })
+            .catch(error => console.error('Error deleting workshop:', error));
     };
 
     const formatDate = (date) => {
         if (!date) return "";
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const options = {year: 'numeric', month: 'long', day: 'numeric'};
         return new Date(date).toLocaleDateString("nl-NL", options);
     }
 
@@ -142,17 +142,20 @@ export default function WorkshopList({
                 className={`${isAccordionOpen[index] ? '' : 'hidden'}`}
                 aria-labelledby={`accordion-collapse-heading-${index}`}
             >
-                <div className={`p-5 border  border-gray-200 light:border-gray-700 light:bg-gray-900 ${index === totalCategories - 1 ? '' : 'border-b-0'}`}>
+                <div
+                    className={`p-5 border  border-gray-200 light:border-gray-700 light:bg-gray-900 ${index === totalCategories - 1 ? '' : 'border-b-0'}`}>
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                         {categorizedWorkshops[category].length > 0 && (
-                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
+                            <table
+                                className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
                                 <colgroup>
-                                    <col style={{ width: '25%' }} />
-                                    <col style={{ width: '25%' }} />
-                                    <col style={{ width: '25%' }} />
-                                    <col style={{ width: '25%' }} />
+                                    <col style={{width: '25%'}}/>
+                                    <col style={{width: '25%'}}/>
+                                    <col style={{width: '25%'}}/>
+                                    <col style={{width: '25%'}}/>
                                 </colgroup>
-                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
+                                <thead
+                                    className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                                 <tr>
                                     <th className="px-6 py-3">Workshop Naam</th>
                                     <th className="px-6 py-3">Materialen</th>
@@ -184,8 +187,9 @@ export default function WorkshopList({
                                                 Bewerken
                                             </a>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <a href="#" onClick={(e) => handleDeleteClick(workshop.id, workshop.name, e)}>
+                                        <td className="px-6 py-4 flex justify-center">
+                                            <a href="#"
+                                               onClick={(e) => handleDeleteClick(workshop.id, workshop.name, e)}>
                                                 <svg
                                                     className="w-5 h-5 text-danger hover:text-red-600"
                                                     aria-hidden="true"
@@ -234,7 +238,6 @@ export default function WorkshopList({
             </div>
         </div>
     );
-
 
 
     return (

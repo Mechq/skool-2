@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import DeleteCommissionModalScreen from "../modal-screens/DeleteCommissionModalScreen";
 
-export default function CommissionList({    isOpen,
+export default function CommissionList({
+                                           isOpen,
                                            setIsOpen,
                                            setSidePanelContent,
                                            setCommissionId,
@@ -40,7 +41,7 @@ export default function CommissionList({    isOpen,
 
     const formatDate = (dateString) => {
         if (!dateString) return "";
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const options = {year: 'numeric', month: 'long', day: 'numeric'};
         return new Date(dateString).toLocaleDateString("nl-NL", options);
     };
 
@@ -98,7 +99,7 @@ export default function CommissionList({    isOpen,
                     <th className="px-6 py-3">Doelgroep</th>
                     <th className="px-6 py-3">Datum</th>
                     <th className="px-6 py-3">Bewerken</th>
-                    <th className="px-6 py-3">Verwijderen</th>
+                    <th className="px-6 py-3 flex justify-center">Verwijderen</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -118,7 +119,7 @@ export default function CommissionList({    isOpen,
                                         onClick={() => editCommission(commission.id)}>Bewerken
                                 </button>
                             </td>
-                            <td className="px-6 py-4">
+                            <td className="px-6 py-4 flex justify-center">
                                 <a href="#" onClick={(e) => handleDeleteClick(commission.id, commission.date, e)}>
                                     <svg
                                         className="w-5 h-5 text-danger hover:text-red-600"
