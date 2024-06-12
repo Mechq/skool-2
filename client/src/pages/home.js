@@ -9,6 +9,8 @@ function Home() {
     const [commissions, setCommissions] = useState([]);
     const [userWorkshops, setUserWorkshops] = useState([]);
     const [times, setTimes] = useState([]);
+    const[acceptedWorkshops, setAcceptedWorkshops] = useState([]);
+    const[signedUpWorkshops, setSignedUpWorkshops] = useState([]);
 
     const getEarliestDate = (items) => {
         if (!items || items.length === 0) {
@@ -67,6 +69,19 @@ function Home() {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        console.log('userWorkshops', userWorkshops);
+        if (userWorkshops) {
+            const accepted = userWorkshops.filter((workshop) => workshop.status === 'geaccepteerd');
+            const signedUp = userWorkshops.filter((workshop) => workshop.status === 'aangemeld');
+            console.log(signedUp)
+            const limitedAccepted = accepted.slice(0, 5);
+            setAcceptedWorkshops(limitedAccepted);
+            setSignedUpWorkshops(signedUp);
+            setLoading(false);
+        }
+    }, [userWorkshops]);
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -82,11 +97,14 @@ function Home() {
                 <div className='block mb-2 text-sm font-medium text-gray-900 pl-24 flex-1'>
                     <h1 className='text-2xl mb-4 pd-6'><strong>Inschrijvingen</strong></h1>
                     <DashboardCardsCommission user={user}
-                                              userWorkshops={userWorkshops}
-                                              setUserWorkshops={setUserWorkshops}/>
+                                              userWorkshops={acceptedWorkshops}
+                                              setUserWorkshops={setAcceptedWorkshops}/>
                 </div>
-                <div className='block mb-2 text-sm font-medium text-gray-900 text-right pr-24 flex-1'>
+                <div className='block mb-2 text-sm font-medium text-gray-900     pr-24 flex-1'>
                     <h1 className='text-2xl mb-4 pd-6'><strong>Openstaand</strong></h1>
+                    <DashboardCardsCommission user={user}
+                                              userWorkshops={signedUpWorkshops}
+                                              setUserWorkshops={setSignedUpWorkshops}/>
                 </div>
             </div>
         </>
