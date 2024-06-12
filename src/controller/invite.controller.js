@@ -24,6 +24,29 @@ let inviteController = {
                 });
             }
         });
+    },
+
+    getInvites: (req, res, next) => {
+        const userId = req.params.userid;
+        logger.info("fetching invites for user", userId);
+
+        inviteService.getInvites(userId, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 }
 
