@@ -21,6 +21,7 @@ function App() {
     const location = useLocation();
     const isLoginPage = location.pathname === "/login";
     const isRegisterPage = location.pathname === "/register";
+    const [user, setUser] = React.useState(null);
 
     React.useEffect(() => {
         if (isLoginPage || isRegisterPage) {
@@ -47,6 +48,7 @@ function App() {
                 .then(data => {
                     if (data.status === 'Success') {
                         console.log('User data:', data);
+                        setUser(data.data)
                     } else {
                         console.error('Error fetching user data:', data);
                     }

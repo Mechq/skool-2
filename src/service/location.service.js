@@ -12,12 +12,12 @@ const locationService = {
         return;
       }
 
-      const { name, street, houseNumber, city, postalCode, customerId } = location;
+      const { name, street, houseNumber, city, postalCode, customerId, description } = location;
 
-      const values = [name, street, houseNumber, city, postalCode, customerId];
+      const values = [name, street, houseNumber, city, postalCode, customerId, description];
       console.log(values);
       const query =
-        "INSERT INTO location (name, street, houseNumber, city, postalCode, customerId) VALUES (?, ?, ?, ?, ?, ?)";
+        "INSERT INTO location (name, street, houseNumber, city, postalCode, customerId, description) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
       logger.debug("query", query);
 
@@ -129,6 +129,14 @@ const locationService = {
     if (location.postalCode) {
       sql += "postalCode = ?, ";
       values.push(location.postalCode);
+    }
+    if (location.customerId) {
+      sql += "customerId = ?, ";
+      values.push(location.customerId);
+    }
+    if (location.description) {
+      sql += "description = ?, ";
+      values.push(location.description);
     }
 
     // Remove the trailing comma and space

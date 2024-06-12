@@ -73,7 +73,7 @@ export default function EnrollmentList({
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
               <tr>
                 <th className="px-6 py-3">Naam</th>
-                <th className="px-6 py-3 text-right">Accepteren/weigeren</th>
+                <th className="px-6 py-3 text-right">Actie</th>
               </tr>
             </thead>
             <tbody>

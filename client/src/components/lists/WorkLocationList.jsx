@@ -35,8 +35,9 @@ const [customers, setCustomers] = useState([]);
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                 <tr>
-                    <th className="px-6 py-3">Locatie Naam</th>
+                    <th className="px-6 py-3">Werklocatie Naam</th>
                     <th className="px-6 py-3">Adres</th>
+                    <th className="px-6 py-3">Overige info locatie</th>
                     <th className="px-6 py-3">Klant</th>
                     <th className="px-6 py-3">Bewerken</th>
                 </tr>
@@ -51,6 +52,7 @@ const [customers, setCustomers] = useState([]);
                             {Worklocation.name}
                         </td>
                         <td className="px-6 py-4">{Worklocation.street + ' ' + Worklocation.houseNumber + ', ' + Worklocation.city + ' ' + Worklocation.postalCode}</td>
+                        <td className="px-6 py-4">{Worklocation.description}</td>
                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
                             {customer ? customer.name : ' '}
                         </td>
