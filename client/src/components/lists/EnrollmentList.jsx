@@ -24,7 +24,6 @@ export default function EnrollmentList({
     return new Date(date).toLocaleDateString("nl-NL", options);
   };
 
-  // Group enrollments by commissionWorkshopId
   const groupedEnrollments = enrollments.reduce((acc, enrollment) => {
     const { date, workshopName, customer } = enrollment;
     const groupKey = `${formatDate(date)}: ${customer} - ${workshopName}`;
@@ -48,7 +47,6 @@ export default function EnrollmentList({
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        // Refresh enrollments after successful update
         fetch('/api/enrollment')
           .then(res => res.json())
           .then(data => {
@@ -59,8 +57,6 @@ export default function EnrollmentList({
       })
       .catch((error) => console.error("Error updating enrollment:", error));
   };
-  
-
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -73,7 +69,7 @@ export default function EnrollmentList({
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
               <tr>
                 <th className="px-6 py-3">Naam</th>
-                <th className="px-6 py-3 text-right">Accepteren/weigeren</th>
+                <th className="px-6 py-3 text-center">Actie</th>
               </tr>
             </thead>
             <tbody>
@@ -86,9 +82,12 @@ export default function EnrollmentList({
                     {enrollment.firstName + ' ' + enrollment.lastName}
                   </td>
                   <td className="px-6 py-4 text-right">
-                    {/* Placeholder for accept/reject buttons */}
-                    <button onClick={() => handleSubmit("geaccepteerd", enrollment)} className="bg-custom-blue text-white px-2 py-1 rounded mr-2">Accept</button>
-                    <button onClick={() => handleSubmit("geweigerd", enrollment)} className="bg-custom-red text-white px-2 py-1 rounded">Reject</button>
+                    <div className="flex flex-col items-center">
+                      <div className="flex space-x-2">
+                        <button onClick={() => handleSubmit("geaccepteerd", enrollment)} className="bg-custom-blue text-white px-2 py-1 rounded">Accepteren</button>
+                        <button onClick={() => handleSubmit("geweigerd", enrollment)} className="bg-custom-red text-white px-2 py-1 rounded">Weigeren</button>
+                      </div>
+                    </div>
                   </td>
                 </tr>
               ))}
