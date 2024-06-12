@@ -1,3 +1,4 @@
+const { deleteCommission } = require('../controller/commission.controller');
 const database = require('../database/database.connection');
 const logger = require('../util/logger');
 
@@ -234,6 +235,28 @@ const commissionService = {
                 message: 'Start and end time fetched successfully',
                 data: { startTime, endTime },
             });
+        });
+    },
+
+    deleteCommission: (id, callback) => {
+        logger.info('deleting commission', commissionId);
+
+        let sql = 'DELETE FROM commission WHERE id = ?';
+
+        database.query(sql, [id], (error, results, fields) => {
+            if (error) {
+                logger.error('Error deleting commission', error);
+                callback(error, null);
+
+            } else {
+                if (results.affectedRows > 0) {
+                    logger.info('commission deleted successfully');
+                    callback(null, 'commission deleted successfully');
+                } else {
+                    logger.info('No commission found with the provided ID');
+                    callback(null, 'No commission found with the provided ID');
+                }
+            }
         });
     }
 
