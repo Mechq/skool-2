@@ -24,6 +24,8 @@ export function CommissionWorkshops() {
                           setCommissionWorkshopId={setCommissionWorkshopId}
                           setCommissionWorkshops={setCommissionWorkshops}
                           />
+
+
         </div>
     );
 }

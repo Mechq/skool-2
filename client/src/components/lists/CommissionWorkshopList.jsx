@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import InviteTeacherModalScreen from "../modal-screens/InviteTeacherModalScreen";
 
 export default function CommissionWorkshopList({
   setCommissionWorkshopId,
   commissionWorkshops,
   setCommissionWorkshops,
 }) {
+
+  const [commissionWorkshop, setCommissionWorkshop] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch('/api/commissionWorkshop')
@@ -14,7 +18,12 @@ export default function CommissionWorkshopList({
             console.log("Fetched workshops: ", data.data);
         })
         .catch(error => console.error('Error fetching data:', error));
-}, []);
+  }, []);
+
+  const inviteTeacher = (commissionWorkshop) => {
+    setCommissionWorkshop(commissionWorkshop);
+    setShowModal(true);
+  };
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -45,12 +54,30 @@ export default function CommissionWorkshopList({
               </td>
               <td className="px-6 py-4">{commissionWorkshop.customerName}</td>
               <td className="px-6 py-4">{commissionWorkshop.workshopName}</td>
-              <td className="px-6 py-4">{commissionWorkshop.teacherFirstName + ' ' + commissionWorkshop.teacherLastName}</td>
-              <td className="px-6 py-4"></td>
+              <td className="px-6 py-4">{commissionWorkshop.teacherName}</td>
+              <td className="px-6 py-4">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    inviteTeacher(commissionWorkshop);
+                  }}
+                  className="font-medium text-[#f49700] light:text-[#f49700] hover:underline"
+                >
+                  Docent uitnodigen
+                </a>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {showModal && (
+        <InviteTeacherModalScreen
+          onClose={() => setShowModal(false)}
+          commissionWorkshop={commissionWorkshop}
+        />
+      )}
     </div>
   );
 }
