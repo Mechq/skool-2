@@ -43,7 +43,7 @@ function NavBar() {
                         <CustomLink to="/opdracht" userRole={userRole}>Opdrachten</CustomLink>
                         <CustomLink to="/users" userRole={userRole}>Docenten</CustomLink>
                         <CustomLink to="/customers" userRole={userRole}>Klanten</CustomLink>
-                        <CustomLink to="/werklocatie" userRole={userRole}>Locaties</CustomLink>
+                        <CustomLink to="/werklocatie" userRole={userRole}>Werklocaties</CustomLink>
                         <CustomLink to="/teacherEnrollments" userRole={userRole}>Inschrijvingen</CustomLink>
                         <CustomLink to="/workshops" userRole={userRole}>Workshops</CustomLink>
                         <CustomLink to="/mailTemplates" userRole={userRole}>Mail Templates</CustomLink>
