@@ -314,6 +314,26 @@ const workshopService = {
                 });
             }
         });
+    },
+
+    getAllCommissionWorkshops: (callback) => {
+        logger.info('getting all commission workshops');
+
+        const sql = `SELECT c.date, c.customerId, cust.name AS customerName, w.name AS workshopName, u.firstName AS teacherFirstName, u.lastName AS teacherLastName, cw.id AS commissionWorkshopId FROM commission AS c JOIN commissionWorkshop AS cw ON c.id = cw.commissionId JOIN customer AS cust ON c.customerId = cust.id JOIN workshop AS w ON cw.workshopId = w.id JOIN enrollment AS e ON cw.id = e.commissionWorkshopId JOIN user AS u ON e.userId = u.id WHERE e.status = 'geaccepteerd'`;
+    
+        database.query(sql, (error, results, fields) => {
+            if (error) {
+                logger.error('Error getting commission workshops', error);
+                callback(error, null);
+            } else {
+                logger.info('Commission workshops fetched successfully', results);
+                callback(null, {
+                    status: 200,
+                    message: 'Commission workshops fetched successfully',
+                    data: results,
+                });
+            }
+        });
     }
 };
 

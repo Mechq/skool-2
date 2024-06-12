@@ -6,7 +6,7 @@ export function CommissionWorkshops() {
     const [CommissionWorkshops, setcommissionWorkshops] = useState([]);
 
     useEffect(() => {
-        fetch('/api/commissionWorkshop')
+        fetch('/api/workshop/commission')
             .then(res => res.json())
             .then(data => {
                 setcommissionWorkshops(data.data);

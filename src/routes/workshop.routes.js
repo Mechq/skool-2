@@ -32,5 +32,6 @@ router.get("/api/workshop/enrollment/:workshopId/:commissionId", workshopControl
 router.put("/api/workshop/:id", workshopController.update);
 router.get("/api/workshop/:id", workshopController.getWorkshopById);
 router.delete("/api/workshop/:id", workshopController.deleteWorkshop);
+router.get("/api/commissionWorkshop", workshopController.getAllCommissionWorkshops);
 
 module.exports = router;
