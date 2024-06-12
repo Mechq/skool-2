@@ -100,10 +100,8 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops, user
 
 
     }
-
     return (
         <>
-
             {showDetailsModal && (
                 <div>
                     <UserWorkshopDetailsModalScreen
@@ -115,20 +113,35 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops, user
                 </div>
             )}
 
-            {userWorkshops.map((userWorkshop) => (
-                <div
-                    onClick={(e) => handleDetailsClick(userWorkshop, getCommission(userWorkshop.commissionId), e)}
-                >
-                <UserWorkshopCard
-                    commissionName={getCommissionName(userWorkshop.commissionId)}
-                    key={userWorkshop.unique}
-                    userWorkshop={userWorkshop}
-                    commissionDate={getCommissionDate(userWorkshop.commissionId)}
-                    commissionTime={getCommissionTime(userWorkshop.commissionId).formattedDuration}
-                    commissionPay={getCommissionPay(userWorkshop.commissionId)}
-                />
-                </div>
-            ))}
+            <div className="flex flex-col items-center">
+                {userWorkshops.map((userWorkshop) => (
+                    <div
+                        key={userWorkshop.unique}
+                        className="w-full max-w-2xl p-4"
+                    >
+                        <div
+                            className="cursor-pointer"
+                            onClick={(e) =>
+                                handleDetailsClick(
+                                    userWorkshop,
+                                    getCommission(userWorkshop.commissionId),
+                                    e
+                                )
+                            }
+                        >
+                            <UserWorkshopCard
+                                commissionName={getCommissionName(userWorkshop.commissionId)}
+                                userWorkshop={userWorkshop}
+                                commissionDate={getCommissionDate(userWorkshop.commissionId)}
+                                commissionTime={getCommissionTime(userWorkshop.commissionId).formattedDuration}
+                                commissionPay={getCommissionPay(userWorkshop.commissionId)}
+                            />
+                        </div>
+                    </div>
+                ))}
+            </div>
         </>
     );
+
+
 }
