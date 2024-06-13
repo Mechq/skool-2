@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import List_mailTemplates from "../components/mailTemplates/List_mailTemplates";
 import SidePanel from "../components/SidePanel";
-import MailTemplateContent from "../components/mailTemplates/MailTemplateContent";
 import CreateButton from "../components/CreateButton";
 import EditMailTemplateContent from "../components/mailTemplates/EditPanelContent_mailTemplates";
 
@@ -34,8 +33,6 @@ export default function MailTemplates() {
                     setSidePanelContent={setSidePanelContent}
                     rotateSpan={rotateSpan}
                     setRotateSpan={setRotateSpan}/>
-                {sidePanelContent === "create" &&
-                    <MailTemplateContent setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
                     <EditMailTemplateContent mailTemplateId={mailTemplateId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
