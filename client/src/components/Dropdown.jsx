@@ -1,22 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
-function Dropdown({ buttonText, options }) {
+function Dropdown({buttonText, options}) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-    // Toggle dropdown open state
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
 
-    // Close dropdown if clicked outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setIsOpen(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
@@ -31,8 +28,10 @@ function Dropdown({ buttonText, options }) {
                 type="button"
             >
                 {buttonText}
-                <svg className="w-2.5 h-2.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                <svg className="w-2.5 h-2.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 10 6">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                          d="m1 1 4 4 4-4"/>
                 </svg>
             </button>
             {isOpen && (
@@ -40,7 +39,8 @@ function Dropdown({ buttonText, options }) {
                     <ul className="p-3 space-y-1 text-sm text-gray-700 light:text-gray-200">
                         {options.map((option, index) => (
                             <li key={index}>
-                                <div className="flex items-center p-2 rounded hover:bg-gray-100 light:hover:bg-gray-600">
+                                <div
+                                    className="flex items-center p-2 rounded hover:bg-gray-100 light:hover:bg-gray-600">
                                     <input
                                         id={`checkbox-item-${index}`}
                                         type="checkbox"

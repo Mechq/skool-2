@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useState} from "react";
 import UserCommissionCard from "./UserCommissionCard";
 import UserWorkshopDetailsModalScreen from "./modal-screens/UserWorkshopDetailsModalScreen";
 
-export default function DashboardCardsCommission({ user, userWorkshops, setUserWorkshops }) {
-    console.log("UserWorkshops: ", userWorkshops)
-    const [commissions, setCommissions] = useState([]);
+export default function DashboardCardsCommission({userWorkshops}) {
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedCommission, setSelectedCommission] = useState(null);
@@ -21,7 +19,6 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
         setShowModal(false);
         setShowDetailsModal(false);
     };
-
 
     const formatDate = (commissionDate) => {
         if (commissionDate) {
@@ -42,7 +39,6 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
     const getCommission = (commissionId) => {
         const commission = userWorkshops.find(c => c.commissionId === commissionId);
         if (commission) {
-            console.log("commission", commission)
             return {
                 id: commission.commissionId,
                 date: commission.date,
@@ -59,7 +55,6 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
         window.location.reload();
     };
 
-
     return (
         <>
             {showDetailsModal && (
@@ -70,17 +65,15 @@ export default function DashboardCardsCommission({ user, userWorkshops, setUserW
                     onRefresh={refreshPage}
                 />
             )}
-            {userWorkshops && userWorkshops.map((userWorkshop) => ( // Check if userWorkshops is defined
-
+            {userWorkshops && userWorkshops.map((userWorkshop) => (
                 <div
                     key={userWorkshop.enrollmentId}
-                    onClick={(e) => handleDetailsClick(userWorkshop,getCommission(userWorkshop.commissionId), e)}
+                    onClick={(e) => handleDetailsClick(userWorkshop, getCommission(userWorkshop.commissionId), e)}
                 >
                     <UserCommissionCard
                         onClose={handleModalClose}
                         userWorkshop={userWorkshop}
                         commissionDate={formatDate(userWorkshop.date)}
-
                     />
                 </div>
             ))}

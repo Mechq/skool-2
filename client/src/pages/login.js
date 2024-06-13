@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -30,10 +30,7 @@ export default function Login() {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'Success') {
-                    console.log('Login voltooid', data);
-                    // Store the token in local storage
                     localStorage.setItem('token', data.token);
-                    // Handle successful login (e.g., redirect)
                     setEmail("");
                     setPassword("");
                     window.location.href = "/";

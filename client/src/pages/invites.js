@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import InvitesList from "../components/lists/InvitesList";
 import {jwtDecode} from "jwt-decode";
 
@@ -15,37 +15,30 @@ export function Customers() {
             if (token) {
                 decodedToken = jwtDecode(token);
                 setUser(decodedToken);
-
-                console.log(user);
             }
-            console.log("decodedToken: ", decodedToken)
             try {
                 const res = await fetch(`/api/invite/user/${decodedToken.id}`);
                 const data = await res.json();
                 setInvites(data.data);
-                console.log("Fetched invites: ", data.data);
-            }
-            catch (error) {
+            } catch (error) {
                 console.error('Error fetching data:', error);
             }
 
 
         };
 
-        fetchData();
-    }, []);
+        fetchData().then();
+    });
 
 
     return (
         <div>
-            
-            
-        <InvitesList
-            setInviteId={setInviteId}
-            invites={invites}
-            user={user}
-            setInvites={setInvites}
-        />
+            <InvitesList
+                setInviteId={setInviteId}
+                invites={invites}
+                user={user}
+                setInvites={setInvites}
+            />
         </div>
     );
 }

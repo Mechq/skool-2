@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import CommissionWorkshopList from "../components/lists/CommissionWorkshopList";
 
 export function CommissionWorkshops() {
@@ -11,7 +11,6 @@ export function CommissionWorkshops() {
             .then(res => res.json())
             .then(data => {
                 setCommissionWorkshops(data.data);
-                console.log("Fetched commissionWorkshops: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
@@ -19,13 +18,11 @@ export function CommissionWorkshops() {
     return (
         <div>
             <CommissionWorkshopList commissionWorkshops={commissionWorkshops}
-                          setIsOpen={setIsOpen}
-                          isOpen={isOpen}
-                          setCommissionWorkshopId={setCommissionWorkshopId}
-                          setCommissionWorkshops={setCommissionWorkshops}
-                          />
-
-
+                                    setIsOpen={setIsOpen}
+                                    isOpen={isOpen}
+                                    setCommissionWorkshopId={setCommissionWorkshopId}
+                                    setCommissionWorkshops={setCommissionWorkshops}
+            />
         </div>
     );
 }

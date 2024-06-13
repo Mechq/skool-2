@@ -18,7 +18,6 @@ export default function Commission() {
             .then(res => res.json())
             .then(data => {
                 setCommissions(data.data);
-                // console.log("Fetched commissions: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
@@ -43,7 +42,7 @@ export default function Commission() {
             <SidePanel isOpen={isOpen}
                        setIsOpen={setIsOpen}
                        rotateSpan={rotateSpan}
-                setRotateSpan={rotateSpan}>
+                       setRotateSpan={rotateSpan}>
                 {sidePanelContent === "create" &&
                     <CommissionPanelContent setCommissions={setCommissions} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&

@@ -17,7 +17,6 @@ export function Customers() {
             .then(res => res.json())
             .then(data => {
                 setCustomers(data.data);
-                console.log("Fetched customers: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
