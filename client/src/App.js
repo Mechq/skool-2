@@ -63,21 +63,32 @@ function App() {
             {!(isLoginPage || isRegisterPage) && <Navbar/>}
             <div className="container mx-auto flex-grow py-4">
                 <Routes>
-                    <Route path="/workshops" element={<ProtectedRoute access="admin"><WorkshopTemplates /></ProtectedRoute>} />
-                    <Route path="/mailTemplates" element={<ProtectedRoute access="admin"><MailTemplates /></ProtectedRoute>} />
-                    <Route path="/users" element={<ProtectedRoute access="admin"><Teachers /></ProtectedRoute>} />
-                    <Route path="/werklocatie" element={<ProtectedRoute access="admin"><Worklocation /></ProtectedRoute>} />
-                    <Route path="/customers" element={<ProtectedRoute access="admin"><Customers /></ProtectedRoute>} />
-                    <Route path="/teacherEnrollments" element={<ProtectedRoute access="admin"><TeacherEnrollments /></ProtectedRoute>} />
-                    <Route path="*" element={<h1>Not Found</h1>} />
-                    <Route path="/" element={<ProtectedRoute access="everyone"><Home /></ProtectedRoute>} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/opdracht" element={<ProtectedRoute access="everyone"><Commissions /></ProtectedRoute>} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/user" element={<ProtectedRoute access="everyone"><Profile /></ProtectedRoute>} />
-                    <Route path="/userWorkshops" element={<ProtectedRoute access="everyone"><OpenWorkshops /></ProtectedRoute>} />
-                    <Route path="/commissionWorkshops" element={<ProtectedRoute access="admin"><Workshops /></ProtectedRoute>} />
-                    <Route path='/invites' element={<ProtectedRoute access="everyone"><Invites /></ProtectedRoute>} />
+                    <Route path="*" element={<h1>Not Found</h1>}/>
+                    <Route path="/" element={<ProtectedRoute access="everyone"><Home/></ProtectedRoute>}/>
+
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/registreren" element={<Register/>}/>
+
+                    <Route path="/workshop-templates"
+                           element={<ProtectedRoute access="admin"><WorkshopTemplates/></ProtectedRoute>}/>
+                    <Route path="/mail-templates"
+                           element={<ProtectedRoute access="admin"><MailTemplates/></ProtectedRoute>}/>
+                    <Route path="/workshop-docenten"
+                           element={<ProtectedRoute access="admin"><Teachers/></ProtectedRoute>}/>
+                    <Route path="/werklocaties"
+                           element={<ProtectedRoute access="admin"><Worklocation/></ProtectedRoute>}/>
+                    <Route path="/klanten" element={<ProtectedRoute access="admin"><Customers/></ProtectedRoute>}/>
+                    <Route path="/inschrijvingen"
+                           element={<ProtectedRoute access="admin"><TeacherEnrollments/></ProtectedRoute>}/>
+                    <Route path="/workshops" element={<ProtectedRoute access="admin"><Workshops/></ProtectedRoute>}/>
+
+                    <Route path="/opdrachten"
+                           element={<ProtectedRoute access="admin"><Commissions/></ProtectedRoute>}/>
+                    <Route path="/profiel" element={<ProtectedRoute access="everyone"><Profile/></ProtectedRoute>}/>
+                    <Route path="/openstaande-workshops"
+                           element={<ProtectedRoute access="everyone"><OpenWorkshops/></ProtectedRoute>}/>
+                    <Route path='/uitnodigingen'
+                           element={<ProtectedRoute access="teacher"><Invites/></ProtectedRoute>}/>
                 </Routes>
             </div>
         </div>

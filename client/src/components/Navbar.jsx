@@ -41,17 +41,17 @@ function Navbar() {
                 </div>
                 <div className={`w-full md:flex md:w-auto ${isMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
                     <ul className="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-                        <CustomLink to="/commissionWorkshops" userRole={userRole}>Workshops</CustomLink>
-                        <CustomLink to="/opdracht" userRole={userRole}>Opdrachten</CustomLink>
-                        <CustomLink to="/users" userRole={userRole}>Workshopdocenten</CustomLink>
-                        <CustomLink to="/customers" userRole={userRole}>Klanten</CustomLink>
-                        <CustomLink to="/werklocatie" userRole={userRole}>Werklocaties</CustomLink>
-                        <CustomLink to="/teacherEnrollments" userRole={userRole}>Inschrijvingen</CustomLink>
-                        <CustomLink to="/workshops" userRole={userRole}>Workshop Templates</CustomLink>
-                        <CustomLink to="/mailTemplates" userRole={userRole}>Mail Templates</CustomLink>
-                        <CustomLink to="/userWorkshops" userRole={userRole}>Aanmelden</CustomLink>
-                        <CustomLink to="/invites" userRole={userRole}>Uitnodigingen</CustomLink>
-                        <CustomLink to="/user" userRole={userRole}>
+                        <CustomLink to="/workshops" userRole={userRole}>Workshops</CustomLink>
+                        <CustomLink to="/opdrachten" userRole={userRole}>Opdrachten</CustomLink>
+                        <CustomLink to="/workshop-docenten" userRole={userRole}>Workshopdocenten</CustomLink>
+                        <CustomLink to="/klanten" userRole={userRole}>Klanten</CustomLink>
+                        <CustomLink to="/werklocaties" userRole={userRole}>Werklocaties</CustomLink>
+                        <CustomLink to="/inschrijvingen" userRole={userRole}>Inschrijvingen</CustomLink>
+                        <CustomLink to="/workshop-templates" userRole={userRole}>Workshop Templates</CustomLink>
+                        <CustomLink to="/mail-templates" userRole={userRole}>Mail Templates</CustomLink>
+                        <CustomLink to="/openstaande-workshops" userRole={userRole}>Aanmelden</CustomLink>
+                        <CustomLink to="/uitnodigingen" userRole={userRole}>Uitnodigingen</CustomLink>
+                        <CustomLink to="/profiel" userRole={userRole}>
                             <div className="flex items-center">
                                 <div className="relative w-8 h-8 overflow-hidden bg-brand-orange-light rounded-full light:bg-gray-600 hover:ring-2 hover:ring-brand-orange ring-offset-2">
                                     <svg className="absolute w-10 h-10 text-brand-orange -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -72,17 +72,20 @@ function CustomLink({to, children, userRole}) {
     const resolvedPath = useResolvedPath(to);
     const isActive = useMatch({path: resolvedPath.pathname, end: true});
 
-    // Add logic to determine whether to display the navigation item based on user's role
     const allowedRoles = {
-        '/opdracht': ['admin', 'teacher'],
-        '/users': ['admin'],
-        '/customers': ['admin'],
-        '/werklocatie': ['admin'],
+        '/workshop-templates': ['admin'],
+        '/mail-templates': ['admin'],
+        '/workshop-docenten': ['admin'],
+        '/werklocaties': ['admin'],
+        '/klanten': ['admin'],
+        '/inschrijvingen': ['admin'],
         '/workshops': ['admin'],
-        '/mailTemplates': ['admin']
+        '/opdrachten': ['admin'],
+        '/profiel': ['admin', 'teacher'],
+        '/openstaande-workshops': ['admin', 'teacher'],
+        '/uitnodigingen': ['teacher']
     };
 
-    // If the user's role is not in the allowed roles for this route, return null
     if (allowedRoles[resolvedPath.pathname] && !allowedRoles[resolvedPath.pathname].includes(userRole)) {
         return null;
     }
