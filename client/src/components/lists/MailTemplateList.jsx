@@ -15,12 +15,6 @@ export default function MailTemplateList({
         setRotateSpan(true);
     };
 
-    const formatDate = (date) => {
-        if (!date) return "";
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(date).toLocaleDateString("nl-NL", options);
-    }
-
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
@@ -33,7 +27,7 @@ export default function MailTemplateList({
                 </tr>
                 </thead>
                 <tbody>
-                {mailTemplates.map((template, index) => (
+                {mailTemplates.map((template) => (
                     <tr key={template.id}
                         className={`odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700`}>
                         <th scope="row"

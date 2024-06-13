@@ -1,30 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import EnrollmentList from "../components/lists/EnrollmentList";
 
 export default function Workshop() {
-  const [isOpen, setIsOpen] = React.useState(false);
-    const [enrollmentId, setEnrollmentId] = useState(null);
-  const [enrollments, setEnrollments] = useState([]);
+    const [isOpen, setIsOpen] = React.useState(false);
+    const [enrollments, setEnrollments] = useState([]);
 
-  useEffect(() => {
-    fetch("/api/enrollment")
-      .then((res) => res.json())
-      .then((data) => {
-        setEnrollments(data.data);
-        console.log("Fetched enrollments: ", data.data);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [setIsOpen]);
+    useEffect(() => {
+        fetch("/api/enrollment")
+            .then((res) => res.json())
+            .then((data) => {
+                setEnrollments(data.data);
+                console.log("Fetched enrollments: ", data.data);
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+    }, [setIsOpen]);
 
-  return (
-    <div>
-      <EnrollmentList
-        setIsOpen={setIsOpen}
-        isOpen={isOpen}
-        setEnrollmentId={setEnrollmentId}
-        enrollments={enrollments}
-        setEnrollments={setEnrollments}
-      />
-    </div>
-  );
+    return (
+        <div>
+            <EnrollmentList
+                isOpen={isOpen}
+                enrollments={enrollments}
+                setEnrollments={setEnrollments}
+            />
+        </div>
+    );
 }

@@ -76,12 +76,9 @@ export default function WorkshopList({
         })
             .then(res => {
                 if (res.ok) {
-                    // If deletion is successful, close the modal and update the state
                     setShowModal(false);
-                    // Reset the workshopToDeleteId and workshopToDeleteName
                     setWorkshopToDeleteId(null);
                     setWorkshopToDeleteName(null);
-                    // Update the state to reflect the deletion
                     const updatedWorkshops = workshops.filter(workshop => workshop.id !== workshopToDeleteId);
                     setWorkshops(updatedWorkshops);
                 } else {
@@ -90,12 +87,6 @@ export default function WorkshopList({
             })
             .catch(error => console.error('Error deleting workshop:', error));
     };
-
-    const formatDate = (date) => {
-        if (!date) return "";
-        const options = {year: 'numeric', month: 'long', day: 'numeric'};
-        return new Date(date).toLocaleDateString("nl-NL", options);
-    }
 
     const toggleAccordion = (index) => {
         setIsAccordionOpen(prevState => prevState.map((isOpen, i) => i === index ? !isOpen : isOpen));
@@ -238,7 +229,6 @@ export default function WorkshopList({
             </div>
         </div>
     );
-
 
     return (
         <div className={'shadow sm:rounded-lg'}>

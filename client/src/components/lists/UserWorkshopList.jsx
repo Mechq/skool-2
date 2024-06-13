@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import UserWorkshopCard from "../UserWorkshopCard";
 import UserWorkshopDetailsModalScreen from "../modal-screens/UserWorkshopDetailsModalScreen";
 
 
-export default function UserWorkshopList({ userWorkshops, setUserWorkshops, user }) {
+export default function UserWorkshopList({userWorkshops, setUserWorkshops, user}) {
     const [commissions, setCommissions] = useState([]);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedCommission, setSelectedCommission] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [durations, setDurations] = useState([]);
-;
 
     const handleDetailsClick = (workshop, commission, e) => {
         e.preventDefault();
@@ -53,12 +52,12 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops, user
 
     useEffect(() => {
             fetch('/api/commission/durations')
-            .then(res => res.json())
-            .then(data => {
-                setDurations(data.data);
-                console.log("Fetched durations: ", data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
+                .then(res => res.json())
+                .then(data => {
+                    setDurations(data.data);
+                    console.log("Fetched durations: ", data.data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
         }, []
     )
 
@@ -75,19 +74,17 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops, user
     }
 
     const getCommissionDate = (commissionId) => {
-       const commission = getCommission(commissionId)
-            const date = new Date(commission.date);
-            return date.toLocaleDateString('nl-NL', {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-            });
+        const commission = getCommission(commissionId)
+        const date = new Date(commission.date);
+        return date.toLocaleDateString('nl-NL', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+        });
     };
     const getCommissionTime = (commissionId) => {
         if (durations.length > 0) {
-            const durationData = durations.find(c => c.commissionId === commissionId)
-            console.log(durationData)
-            return durationData
+            return durations.find(c => c.commissionId === commissionId)
 
         }
         return 'Unknown Time';
@@ -95,13 +92,12 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops, user
 
     const getCommissionPay = (commissionId) => {
         const minutes = getCommissionTime(commissionId).durationMin
-        console.log("pay:" + user.hourlyRate * minutes / 60)
         return user.hourlyRate * minutes / 60
 
 
     }
     return (
-        <div >
+        <div>
             {showDetailsModal && (
                 <div>
                     <UserWorkshopDetailsModalScreen
@@ -142,6 +138,4 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops, user
             </div>
         </div>
     );
-
-
 }

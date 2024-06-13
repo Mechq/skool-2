@@ -5,7 +5,6 @@ export default function ProfileWorkshopList({user, workshops, qualifiedWorkshops
     const [isAccordionOpen, setIsAccordionOpen] = useState([false, false, false, false, false, false]);
 
     useEffect(() => {
-        // Initialize selected workshops based on qualifiedWorkshops
         if (Array.isArray(qualifiedWorkshops)) {
             const qualifiedIds = qualifiedWorkshops.map(qw => qw.id);
             setSelectedWorkshops(qualifiedIds);
@@ -21,15 +20,10 @@ export default function ProfileWorkshopList({user, workshops, qualifiedWorkshops
     };
 
     const handleUpdate = () => {
-        console.log('Updating workshops for user:', user.id);
-        console.log('Selected workshops:', selectedWorkshops);
-
-        // Determine unselected workshops
         const unselectedWorkshops = workshops
             .filter(workshop => !selectedWorkshops.includes(workshop.id))
             .map(workshop => workshop.id);
 
-        // Send request to update selected workshops
         fetch(`/api/teacherWorkshopQualification/${user.id}`, {
             method: 'POST',
             headers: {
@@ -38,13 +32,8 @@ export default function ProfileWorkshopList({user, workshops, qualifiedWorkshops
             body: JSON.stringify({workshops: selectedWorkshops}),
         })
             .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                // Optionally, you can handle success here, like showing a success message
-            })
             .catch((error) => {
                 console.error('Error:', error);
-                // Optionally, handle errors here
             });
 
         // Send request to delete unselected workshops
@@ -96,7 +85,8 @@ export default function ProfileWorkshopList({user, workshops, qualifiedWorkshops
             </h2>
             <div id={`accordion-collapse-body-${index}`} className={`${isAccordionOpen[index] ? '' : 'hidden'}`}
                  aria-labelledby={`accordion-collapse-heading-${index}`}>
-                <div className={`p-5 border  border-gray-200 light:border-gray-700 light:bg-gray-900 ${index === totalCategories - 1 ? '' : 'border-b-0'}`}>
+                <div
+                    className={`p-5 border  border-gray-200 light:border-gray-700 light:bg-gray-900 ${index === totalCategories - 1 ? '' : 'border-b-0'}`}>
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                         {categorizedWorkshops[category].length > 0 && (
                             <table

@@ -34,7 +34,6 @@ export function Customers() {
     return (
         <div>
             <InvitesList
-                setInviteId={setInviteId}
                 invites={invites}
                 user={user}
                 setInvites={setInvites}

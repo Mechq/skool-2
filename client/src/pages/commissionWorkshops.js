@@ -17,11 +17,11 @@ export function CommissionWorkshops() {
 
     return (
         <div>
-            <CommissionWorkshopList commissionWorkshops={commissionWorkshops}
-                                    setIsOpen={setIsOpen}
-                                    isOpen={isOpen}
-                                    setCommissionWorkshopId={setCommissionWorkshopId}
-                                    setCommissionWorkshops={setCommissionWorkshops}
+            <CommissionWorkshopList
+                setIsOpen={setIsOpen}
+                isOpen={isOpen}
+                commissionWorkshops={commissionWorkshops}
+                setCommissionWorkshops={setCommissionWorkshops}
             />
         </div>
     );

@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
-import Dropdown from "../Dropdown"; // Make sure the path is correct
+import Dropdown from "../Dropdown"
 
 export default function UserProfile({user, editUser}) {
     const [languages, setLanguages] = useState("");
 
-    console.log('usuer', user);
     useEffect(() => {
         const fetchLanguages = async () => {
             if (!user || !user.id) {
@@ -19,7 +18,6 @@ export default function UserProfile({user, editUser}) {
                 }
                 const result = await response.json();
                 if (result.status === 200) {
-                    console.log(result.data);
                     const languageNames = result.data.map(language => language.name);
                     const languagesString = languageNames.join(', ');
                     setLanguages(languagesString);
@@ -31,7 +29,7 @@ export default function UserProfile({user, editUser}) {
             }
         };
 
-        fetchLanguages();
+        fetchLanguages().then();
     }, [user]);
 
 
