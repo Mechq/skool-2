@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import CommissionList from "../components/lists/CommissionList";
+import CommissionList from "../components/commissions/CommissionList";
 import SidePanel from "../components/SidePanel";
-import CommissionPanelContent from "../components/panel-contents/CommissionPanelContent";
+import CommissionPanelContent from "../components/commissions/CommissionPanelContent";
 import CreateButton from "../components/CreateButton";
-import EditCommissionPanelContent from "../components/panel-contents/EditCommissionPanelContent";
+import EditCommissionPanelContent from "../components/commissions/EditCommissionPanelContent";
 
 export default function Commissions() {
     const [isOpen, setIsOpen] = React.useState(false);

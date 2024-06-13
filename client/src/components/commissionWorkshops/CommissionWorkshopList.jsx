@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import InviteTeacherModalScreen from "../modal-screens/InviteTeacherModalScreen";
+import InviteTeacherModalScreen from "./InviteTeacherModalScreen";
 
 export default function CommissionWorkshopList({
                                                    commissionWorkshops,

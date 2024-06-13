@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import CustomerList from "../components/lists/CustomerList";
-import CreateCustomerPanelContent from "../components/panel-contents/CreateCustomerPanelContent";
-import EditCustomerPanelContent from "../components/panel-contents/EditCustomerPanelContent";
+import CustomerList from "../components/customers/CustomerList";
+import CreateCustomerPanelContent from "../components/customers/CreateCustomerPanelContent";
+import EditCustomerPanelContent from "../components/customers/EditCustomerPanelContent";
 import SidePanel from "../components/SidePanel";
 import CreateButton from "../components/CreateButton";
 

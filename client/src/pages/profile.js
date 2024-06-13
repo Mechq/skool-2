@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import SidePanel from "../components/SidePanel";
-import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
-import UserProfile from "../components/lists/UserProfile";
-import ProfileWorkshopList from "../components/lists/ProfileWorkshopList";
+import EditPanelWorkshopContent from "../components/workshopTemplates/EditPanelWorkshopContent";
+import UserProfile from "../components/profile/UserProfile";
+import ProfileWorkshopList from "../components/profile/ProfileWorkshopList";
 import {jwtDecode} from "jwt-decode";
 
 export default function Profile() {

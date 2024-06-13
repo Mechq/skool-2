@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import UserWorkshopCard from "../UserWorkshopCard";
-import UserWorkshopDetailsModalScreen from "../modal-screens/UserWorkshopDetailsModalScreen";
+import UserWorkshopCard from "../cards/UserWorkshopCard";
+import UserWorkshopDetailsModalScreen from "../UserWorkshopDetailsModalScreen";
 
 
 export default function UserWorkshopList({userWorkshops, setUserWorkshops, user}) {

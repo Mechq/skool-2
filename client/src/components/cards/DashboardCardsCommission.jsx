@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import UserCommissionCard from "./UserCommissionCard";
-import UserWorkshopDetailsModalScreen from "./modal-screens/UserWorkshopDetailsModalScreen";
+import UserWorkshopDetailsModalScreen from "../UserWorkshopDetailsModalScreen";
 
 export default function DashboardCardsCommission({userWorkshops}) {
     const [showDetailsModal, setShowDetailsModal] = useState(false);

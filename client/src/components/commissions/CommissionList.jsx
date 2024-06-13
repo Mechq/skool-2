@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import DeleteCommissionModalScreen from "../modal-screens/DeleteCommissionModalScreen";
+import DeleteCommissionModalScreen from "./DeleteCommissionModalScreen";
 
 export default function CommissionList({
                                            isOpen,

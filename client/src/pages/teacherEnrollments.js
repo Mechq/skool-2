@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import EnrollmentList from "../components/lists/EnrollmentList";
+import EnrollmentList from "../components/teacherEnrollments/EnrollmentList";
 
 export default function TeacherEnrollments() {
     const [isOpen, setIsOpen] = React.useState(false);

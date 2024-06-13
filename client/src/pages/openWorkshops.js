@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import UserWorkshopList from "../components/lists/UserWorkshopList";
+import UserWorkshopList from "../components/openWorkshops/UserWorkshopList";
 import {jwtDecode} from "jwt-decode";
 
 export default function OpenWorkshops() {

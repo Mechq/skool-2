@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import InvitesList from "../components/lists/InvitesList";
+import InvitesList from "../components/invites/InvitesList";
 import {jwtDecode} from "jwt-decode";
 
 

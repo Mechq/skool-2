@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import DeleteConfirmationModalScreen from "../modal-screens/DeleteConfirmationModalScreen";
-import UserWorkshopDetailsModalScreen from "../modal-screens/UserWorkshopDetailsModalScreen";
+import DeleteConfirmationModalScreen from "./DeleteConfirmationModalScreen";
+import UserWorkshopDetailsModalScreen from "../UserWorkshopDetailsModalScreen";
 
 export default function WorkshopList({
                                          isOpen,

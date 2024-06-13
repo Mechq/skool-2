@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import MailTemplateList from "../components/lists/MailTemplateList";
+import MailTemplateList from "../components/mailTemplates/MailTemplateList";
 import SidePanel from "../components/SidePanel";
-import MailTemplateContent from "../components/panel-contents/MailTemplateContent";
+import MailTemplateContent from "../components/mailTemplates/MailTemplateContent";
 import CreateButton from "../components/CreateButton";
-import EditMailTemplateContent from "../components/panel-contents/EditMailTemplateContent";
+import EditMailTemplateContent from "../components/mailTemplates/EditMailTemplateContent";
 
 export default function MailTemplates() {
     const [isOpen, setIsOpen] = useState(false);

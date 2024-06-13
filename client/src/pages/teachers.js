@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import TeacherList from "../components/lists/TeacherList";
-import CreatePanelContent from "../components/panel-contents/CreatePanelContent";
+import TeacherList from "../components/teachers/TeacherList";
+import CreatePanelContent from "../components/workshopTemplates/CreatePanelContent";
 import SidePanel from "../components/SidePanel";
-import EditUserPanelContent from "../components/panel-contents/EditUserPanelContent";
+import EditUserPanelContent from "../components/teachers/EditUserPanelContent";
 import CreateButton from "../components/CreateButton";
 
 export default function Teachers() {

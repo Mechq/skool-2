@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import SidePanel from "../components/SidePanel";
-import CreateWorkLocationContent from "../components/panel-contents/CreateWorkLocationContent";
+import CreateWorkLocationContent from "../components/workLocation/CreateWorkLocationContent";
 import CreateButton from "../components/CreateButton";
-import WorkLocationList from "../components/lists/WorkLocationList";
-import EditPanelWorkLocationContent from "../components/panel-contents/EditWorkLocationContent";
+import WorkLocationList from "../components/workLocation/WorkLocationList";
+import EditPanelWorkLocationContent from "../components/workLocation/EditWorkLocationContent";
 
 export default function WorkLocation() {
     const [isOpen, setIsOpen] = useState(false);

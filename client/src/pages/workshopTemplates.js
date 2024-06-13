@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import WorkshopList from "../components/lists/WorkshopList";
-import CreatePanelContent from "../components/panel-contents/CreatePanelContent";
+import WorkshopList from "../components/workshopTemplates/WorkshopList";
+import CreatePanelContent from "../components/workshopTemplates/CreatePanelContent";
 import SidePanel from "../components/SidePanel";
-import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
+import EditPanelWorkshopContent from "../components/workshopTemplates/EditPanelWorkshopContent";
 import CreateButton from "../components/CreateButton";
 
 export default function WorkshopTemplates() {

@@ -1,9 +1,9 @@
 import React, {useRef, useEffect, useState} from "react"
 import Datepicker from "tailwind-datepicker-react"
 import "../../styles/optionsRoundCreate.css"
-import RoundEditModal from "../modal-screens/CommissionRoundModalScreen";
-import WorkshopRoundEditModal from "../modal-screens/CommissionWorkshopRoundModalScreen";
-import WorkshopRoundWorkshopEditModal from "../modal-screens/CommissionWorkshopRoundWorkshopEditModal"
+import RoundEditModal from "./CommissionRoundModalScreen";
+import WorkshopRoundEditModal from "./CommissionWorkshopRoundModalScreen";
+import WorkshopRoundWorkshopEditModal from "./CommissionWorkshopRoundWorkshopEditModal"
 
 const dateOptions = {
     title: " ",
