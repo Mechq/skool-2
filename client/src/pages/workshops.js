@@ -3,7 +3,6 @@ import List_workshops from "../components/workshops/List_workshops";
 
 export function Workshops() {
     const [isOpen, setIsOpen] = useState(false);
-    const [commissionWorkshopId, setCommissionWorkshopId] = useState(null);
     const [commissionWorkshops, setCommissionWorkshops] = useState([]);
 
     useEffect(() => {
