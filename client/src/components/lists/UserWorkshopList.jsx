@@ -101,7 +101,7 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops, user
 
     }
     return (
-        <>
+        <div >
             {showDetailsModal && (
                 <div>
                     <UserWorkshopDetailsModalScreen
@@ -140,7 +140,7 @@ export default function UserWorkshopList({ userWorkshops, setUserWorkshops, user
                     </div>
                 ))}
             </div>
-        </>
+        </div>
     );
 
 

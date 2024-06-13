@@ -43,7 +43,7 @@ function NavBar() {
                     <ul className="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
                         <CustomLink to="/commissionWorkshops" userRole={userRole}>Workshops</CustomLink>
                         <CustomLink to="/opdracht" userRole={userRole}>Opdrachten</CustomLink>
-                        <CustomLink to="/users" userRole={userRole}>Docenten</CustomLink>
+                        <CustomLink to="/users" userRole={userRole}>Workshopdocenten</CustomLink>
                         <CustomLink to="/customers" userRole={userRole}>Klanten</CustomLink>
                         <CustomLink to="/werklocatie" userRole={userRole}>Werklocaties</CustomLink>
                         <CustomLink to="/teacherEnrollments" userRole={userRole}>Inschrijvingen</CustomLink>
