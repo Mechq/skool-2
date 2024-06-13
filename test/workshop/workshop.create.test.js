@@ -13,7 +13,7 @@ const endpointToTest = '/api/workshop';
 
 //TODO: Needs finishing later when there is authentication
 
-describe('Workshop create endpoint', () => {
+describe('WorkshopTemplates create endpoint', () => {
     beforeEach((done) => {
         console.log('Running test');
         done();

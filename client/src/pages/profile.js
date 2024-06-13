@@ -5,7 +5,7 @@ import UserProfile from "../components/lists/UserProfile";
 import ProfileWorkshopList from "../components/lists/ProfileWorkshopList";
 import {jwtDecode} from "jwt-decode";
 
-export default function User() {
+export default function Profile() {
     const [isOpen, setIsOpen] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [user, setUser] = useState({});

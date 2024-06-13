@@ -68,17 +68,17 @@ const workshopService = {
 
             } else {
                 if (results.length > 0) {
-                    logger.info('Workshop fetched successfully', results[0]);
+                    logger.info('WorkshopTemplates fetched successfully', results[0]);
                     callback(null, {
                         status: 200,
-                        message: 'Workshop fetched successfully',
+                        message: 'WorkshopTemplates fetched successfully',
                         data: results[0],
                     });
                 } else {
                     logger.warn('No workshop found with id', id);
                     callback({
                         status: 404,
-                        message: 'Workshop not found',
+                        message: 'WorkshopTemplates not found',
                     }, null);
                 }
             }
@@ -158,8 +158,8 @@ const workshopService = {
 
                 } else {
                     if (results.affectedRows > 0) {
-                        logger.info('Workshop updated successfully');
-                        callback(null, 'Workshop updated successfully');
+                        logger.info('WorkshopTemplates updated successfully');
+                        callback(null, 'WorkshopTemplates updated successfully');
                     } else {
                         logger.info('No workshop found with the provided ID');
                         callback(null, 'No workshop found with the provided ID');
@@ -181,8 +181,8 @@ const workshopService = {
 
                 } else {
                     if (results.affectedRows > 0) {
-                        logger.info('Workshop deleted successfully');
-                        callback(null, 'Workshop deleted successfully');
+                        logger.info('WorkshopTemplates deleted successfully');
+                        callback(null, 'WorkshopTemplates deleted successfully');
                     } else {
                         logger.info('No workshop found with the provided ID');
                         callback(null, 'No workshop found with the provided ID');
@@ -211,17 +211,17 @@ const workshopService = {
 
                 } else {
                     if (results.length > 0) {
-                        logger.info('Workshop commission fetched successfully', results);
+                        logger.info('WorkshopTemplates commission fetched successfully', results);
                         callback(null, {
                             status: 200,
-                            message: 'Workshop commission fetched successfully',
+                            message: 'WorkshopTemplates commission fetched successfully',
                             data: results,
                         });
                     } else {
                         logger.warn('No workshop commission found');
                         callback({
                             status: 404,
-                            message: 'Workshop commission not found',
+                            message: 'WorkshopTemplates commission not found',
                         }, null);
                     }
                 }
@@ -241,17 +241,17 @@ const workshopService = {
 
             } else {
                 if (results.length > 0) {
-                    logger.info('Workshop commission fetched successfully', results);
+                    logger.info('WorkshopTemplates commission fetched successfully', results);
                     callback(null, {
                         status: 200,
-                        message: 'Workshop commission fetched successfully',
+                        message: 'WorkshopTemplates commission fetched successfully',
                         data: results[0],
                     });
                 } else {
                     logger.warn('No workshop commission found');
                     callback({
                         status: 404,
-                        message: 'Workshop commission not found',
+                        message: 'WorkshopTemplates commission not found',
                     }, null);
                 }
             }
@@ -326,10 +326,10 @@ const workshopService = {
                 logger.error('Error getting commission workshops', error);
                 callback(error, null);
             } else {
-                logger.info('Commission workshops fetched successfully', results);
+                logger.info('Commissions workshops fetched successfully', results);
                 callback(null, {
                     status: 200,
-                    message: 'Commission workshops fetched successfully',
+                    message: 'Commissions workshops fetched successfully',
                     data: results,
                 });
             }

@@ -22,13 +22,13 @@ export default function UserWorkshopCard({
                             <AiTwotoneCalendar className="mr-2"/>
                             <span>{commissionDate}</span>
                         </div>
-                        <div className="flex items-center mb-2 sm:mb-0 sm:mr-1">
+                        <div className="flex items-center mb-2 sm:mb-0 sm:mr-1 ml-3">
                             <AiTwotoneClockCircle className="mr-2"/>
                             <span>{commissionTime}</span>
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center mb-2 sm:mb-0 sm:mr-1 ml-3">
                             <AiTwotoneEuro className="mr-2"/>
-                            <span>€ {commissionPay}</span>
+                            <span>{commissionPay}</span>
                         </div>
                     </div>
                     <p className="text-2xl  mt-4 font-bold tracking-tight text-gray-800 light:text-white">Opdracht: {commissionName}</p>

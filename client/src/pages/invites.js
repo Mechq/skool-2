@@ -3,8 +3,7 @@ import InvitesList from "../components/lists/InvitesList";
 import {jwtDecode} from "jwt-decode";
 
 
-export function Customers() {
-    const [inviteId, setInviteId] = useState(null);
+export function Invites() {
     const [invites, setInvites] = useState([]);
     const [user, setUser] = useState({});
 
@@ -23,13 +22,9 @@ export function Customers() {
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
-
-
         };
-
         fetchData().then();
-    });
-
+    }, []);
 
     return (
         <div>
@@ -42,4 +37,4 @@ export function Customers() {
     );
 }
 
-export default Customers;
+export default Invites;

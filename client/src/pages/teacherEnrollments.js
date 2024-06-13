@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import EnrollmentList from "../components/lists/EnrollmentList";
 
-export default function Workshop() {
+export default function TeacherEnrollments() {
     const [isOpen, setIsOpen] = React.useState(false);
     const [enrollments, setEnrollments] = useState([]);
 

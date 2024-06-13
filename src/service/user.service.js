@@ -35,7 +35,7 @@ const userService = {
 
                     callback(null, {
                         status: 'Success',
-                        message: 'User registered successfully',
+                        message: 'Profile registered successfully',
                         data: result
                     });
                 });
@@ -240,7 +240,7 @@ const userService = {
 
                         callback(null, {
                             status: 200,
-                            message: 'User updated',
+                            message: 'Profile updated',
                             data: results,
                         });
                     }

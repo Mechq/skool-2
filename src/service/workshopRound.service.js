@@ -240,10 +240,10 @@ const workshopRound = {
         callback(error, null);
       } else {
         if (results.length > 0) {
-          logger.info("Workshop for round fetched successfully", results);
+          logger.info("WorkshopTemplates for round fetched successfully", results);
           callback(null, {
             status: 200,
-            message: "Workshop for round fetched successfully",
+            message: "WorkshopTemplates for round fetched successfully",
             data: results[0],
           });
         } else {

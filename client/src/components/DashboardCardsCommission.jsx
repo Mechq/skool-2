@@ -49,7 +49,7 @@ export default function DashboardCardsCommission({userWorkshops}) {
                 customerId: commission.customerId,
             };
         }
-        return 'Unknown Commission';
+        return 'Unknown Commissions';
     }
     const refreshPage = () => {
         window.location.reload();

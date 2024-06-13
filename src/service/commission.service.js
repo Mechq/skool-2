@@ -103,17 +103,17 @@ const commissionService = {
 
             } else {
                 if (results.length > 0) {
-                    logger.info('Commission fetched successfully', results[0]);
+                    logger.info('Commissions fetched successfully', results[0]);
                     callback(null, {
                         status: 200,
-                        message: 'Commission fetched successfully',
+                        message: 'Commissions fetched successfully',
                         data: results[0],
                     });
                 } else {
                     logger.warn('No commission found with id', id);
                     callback({
                         status: 404,
-                        message: 'Commission not found',
+                        message: 'Commissions not found',
                     }, null);
                 }
             }
@@ -221,7 +221,7 @@ const commissionService = {
                 logger.warn('No commission found with id', commissionId);
                 return callback({
                     status: 404,
-                    message: 'Commission not found',
+                    message: 'Commissions not found',
                 }, null);
             }
 

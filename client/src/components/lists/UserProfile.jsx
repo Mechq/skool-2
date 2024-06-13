@@ -7,7 +7,7 @@ export default function UserProfile({user, editUser}) {
     useEffect(() => {
         const fetchLanguages = async () => {
             if (!user || !user.id) {
-                console.error("User or user ID is missing");
+                console.error("Profile or user ID is missing");
                 return;
             }
 
@@ -52,7 +52,7 @@ export default function UserProfile({user, editUser}) {
                             {user.firstName + ' ' + user.lastName + ' (' + calculate_age(new Date(user.birthDate)) + ' jaar)'}
                         </h3>
                         <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                            {user.role === 'teacher' ? 'Workshop docent' : (user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : '')}                            </p>
+                            {user.role === 'teacher' ? 'WorkshopTemplates docent' : (user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : '')}                            </p>
                     </div>
                     <div className="border-t border-gray-200">
                         <div className="bg-white px-4 pt-5 sm:grid sm:grid-cols-1 sm:gap-4 sm:px-6">

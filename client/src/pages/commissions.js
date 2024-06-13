@@ -5,7 +5,7 @@ import CommissionPanelContent from "../components/panel-contents/CommissionPanel
 import CreateButton from "../components/CreateButton";
 import EditCommissionPanelContent from "../components/panel-contents/EditCommissionPanelContent";
 
-export default function Commission() {
+export default function Commissions() {
     const [isOpen, setIsOpen] = React.useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [commissions, setCommissions] = useState([]);

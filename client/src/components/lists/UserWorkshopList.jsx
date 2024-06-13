@@ -66,7 +66,7 @@ export default function UserWorkshopList({userWorkshops, setUserWorkshops, user}
         if (commission) {
             return commission;
         }
-        return 'Unknown Commission';
+        return 'Unknown Commissions';
     }
 
     const getCommissionName = (commissionId) => {

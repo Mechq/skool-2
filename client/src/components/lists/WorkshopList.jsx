@@ -163,7 +163,7 @@ export default function WorkshopList({
                                         onClick={(e) => handleDetailsClick(workshop.id, workshop.name, e)}
                                     >
                                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
-                                            {'Workshop ' + workshop.name}
+                                            {'WorkshopTemplates ' + workshop.name}
                                         </td>
                                         <td className="px-6 py-4">{workshop.materials}</td>
                                         <td className="px-6 py-4">{workshop.category}</td>

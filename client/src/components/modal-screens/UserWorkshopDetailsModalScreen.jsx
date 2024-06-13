@@ -216,7 +216,7 @@ export default function UserWorkshopDetailsModalScreen({onClose, workshop, commi
                                         </div>
                                     </div>
                                     <div className="flex flex-col md:flex-row">
-                                        {/* Commission Data */}
+                                        {/* Commissions Data */}
                                         <div className="md:w-1/2 px-4 mb-4">
                                             <h1 className="font-bold text-lg">Opdracht Informatie</h1>
                                             <p><strong>Details:</strong> {workshop.details}</p>

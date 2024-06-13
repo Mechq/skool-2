@@ -1,53 +1,51 @@
 import React, {useEffect, useState} from "react";
-import WorkshopList from "../components/lists/WorkshopList";
+import TeacherList from "../components/lists/TeacherList";
 import CreatePanelContent from "../components/panel-contents/CreatePanelContent";
 import SidePanel from "../components/SidePanel";
-import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
+import EditUserPanelContent from "../components/panel-contents/EditUserPanelContent";
 import CreateButton from "../components/CreateButton";
 
-export default function Workshop() {
+export default function Teachers() {
     const [isOpen, setIsOpen] = React.useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
-    const [workshopId, setWorkshopId] = useState(null);
-    const [workshops, setWorkshops] = useState([]);
+    const [userId, setUserId] = useState(null);
+    const [users, setUsers] = useState([]);
     const [rotateSpan, setRotateSpan] = useState(false);
 
     useEffect(() => {
-        fetch('/api/workshop')
+        fetch('/api/user')
             .then(res => res.json())
             .then(data => {
-                setWorkshops(data.data);
-                console.log("Fetched workshops: ", data.data);
+                setUsers(data.data);
+                console.log("Fetched teachers: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
 
     return (
         <div>
-            <CreateButton
-                setShowSidePanel={setIsOpen}
-                showSidePanel={isOpen}
-                setSidePanelContent={setSidePanelContent}
-                rotateSpan={rotateSpan}
-                setRotateSpan={setRotateSpan}
-            />
-
             <SidePanel isOpen={isOpen}
                        setIsOpen={setIsOpen}
                        rotateSpan={rotateSpan}
                        setRotateSpan={setRotateSpan}>
+                <CreateButton
+                    setShowSidePanel={setIsOpen}
+                    showSidePanel={isOpen}
+                    setSidePanelContent={setSidePanelContent}
+                    rotateSpan={rotateSpan}
+                    setRotateSpan={setRotateSpan}/>
                 {sidePanelContent === "create" &&
-                    <CreatePanelContent setWorkshops={setWorkshops} setShowSidePanel={setIsOpen}/>}
+                    <CreatePanelContent setUsers={setUsers} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditPanelWorkshopContent workshopId={workshopId} setShowSidePanel={setIsOpen}/>}
+                    <EditUserPanelContent userId={userId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
-            <WorkshopList
+            <TeacherList
                 setIsOpen={setIsOpen}
                 isOpen={isOpen}
                 setSidePanelContent={setSidePanelContent}
-                setWorkshopId={setWorkshopId}
-                workshops={workshops}
-                setWorkshops={setWorkshops}
+                setUserId={setUserId}
+                users={users}
+                setUsers={setUsers} 
                 setRotateSpan={setRotateSpan}
             />
         </div>

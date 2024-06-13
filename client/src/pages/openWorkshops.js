@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import UserWorkshopList from "../components/lists/UserWorkshopList";
 import {jwtDecode} from "jwt-decode";
 
-export default function UserWorkshops() {
+export default function OpenWorkshops() {
 const [userWorkshops, setUserWorkshops] = useState([]);
     const [user, setUser] = useState({});
 
