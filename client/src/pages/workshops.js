@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import List_workshops from "../components/commissionWorkshops/List_workshops";
+import List_workshops from "../components/workshops/List_workshops";
 
 export function Workshops() {
     const [isOpen, setIsOpen] = useState(false);
