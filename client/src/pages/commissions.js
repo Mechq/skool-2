@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import CommissionList from "../components/commissions/CommissionList";
+import List_commissions from "../components/commissions/List_commissions";
 import SidePanel from "../components/SidePanel";
-import CommissionPanelContent from "../components/commissions/CommissionPanelContent";
+import CreatePanelContent from "../components/commissions/CreatePanelContent_commissions";
 import CreateButton from "../components/CreateButton";
-import EditCommissionPanelContent from "../components/commissions/EditCommissionPanelContent";
+import EditPanelContent_commissions from "../components/commissions/EditPanelContent_commissions";
 
 export default function Commissions() {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -24,7 +24,7 @@ export default function Commissions() {
 
     return (
         <>
-            <CommissionList
+            <List_commissions
                 setIsOpen={setIsOpen}
                 isOpen={isOpen}
                 setSidePanelContent={setSidePanelContent}
@@ -44,9 +44,9 @@ export default function Commissions() {
                        rotateSpan={rotateSpan}
                        setRotateSpan={rotateSpan}>
                 {sidePanelContent === "create" &&
-                    <CommissionPanelContent setCommissions={setCommissions} setShowSidePanel={setIsOpen}/>}
+                    <CreatePanelContent setCommissions={setCommissions} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditCommissionPanelContent commissionId={commissionId} setShowSidePanel={setIsOpen}/>}
+                    <EditPanelContent_commissions commissionId={commissionId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
         </>
     );

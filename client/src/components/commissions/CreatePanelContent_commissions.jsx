@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-export default function CommissionPanelContent({setShowSidePanel, setCommissions}) {
+export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
     const [customerId, setCustomerId] = useState("");

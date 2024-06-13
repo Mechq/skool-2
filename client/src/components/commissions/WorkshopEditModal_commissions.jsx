@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../../styles/ModalScreen.css";
 import {use} from "chai";
 
-export default function CommissionWorkshopRoundWorkshopEditModal({
+export default function WorkshopEditModal_commissions({
                                                                      roundType,
                                                                      roundId,
                                                                      commissionId,

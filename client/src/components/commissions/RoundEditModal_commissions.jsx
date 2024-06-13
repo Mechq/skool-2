@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "../../styles/ModalScreen.css";
 
-export default function CommissionRoundModalScreen({roundType, roundId, onClose, onSave, onEdit}) {
+export default function RoundEditModal_commissions({roundType, roundId, onClose, onSave, onEdit}) {
     const [editedRound, setEditedRound] = useState(roundType);
     const [duration, setDuration] = useState('')
     const [startTime, setStartTime] = useState('')

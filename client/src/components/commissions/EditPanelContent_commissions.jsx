@@ -1,9 +1,9 @@
 import React, {useRef, useEffect, useState} from "react"
 import Datepicker from "tailwind-datepicker-react"
 import "../../styles/optionsRoundCreate.css"
-import RoundEditModal from "./CommissionRoundModalScreen";
-import WorkshopRoundEditModal from "./CommissionWorkshopRoundModalScreen";
-import WorkshopRoundWorkshopEditModal from "./CommissionWorkshopRoundWorkshopEditModal"
+import RoundEditModal from "./RoundEditModal_commissions";
+import WorkshopRoundEditModal_commissions from "./WorkshopRoundEditModal_commissions";
+import WorkshopRoundWorkshopEditModal from "./WorkshopEditModal_commissions"
 
 const dateOptions = {
     title: " ",
@@ -43,7 +43,7 @@ const dateOptions = {
     }
 }
 
-export default function EditCommissionPanelContent({setShowSidePanel, commissionId}) {
+export default function EditPanelContent_commissions({setShowSidePanel, commissionId}) {
     const [customerId, setCustomerId] = useState("");
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
@@ -425,7 +425,7 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
 
 
             {showEditModal && editedRoundType === "Workshopronde" && (
-                <WorkshopRoundEditModal
+                <WorkshopRoundEditModal_commissions
                     roundType={editedRoundType}
                     roundId={editedRoundId}
                     onClose={handleModalClose}

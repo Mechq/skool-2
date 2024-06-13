@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import DeleteCommissionModalScreen from "./DeleteCommissionModalScreen";
+import DeleteCommissionModalScreen from "./ConfirmDeleteModal_commissions";
 
-export default function CommissionList({
+export default function List_commissions({
                                            isOpen,
                                            setIsOpen,
                                            setSidePanelContent,
