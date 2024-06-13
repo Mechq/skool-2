@@ -1,17 +1,22 @@
 import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 import { useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [openDropdown, setOpenDropdown] = useState(null);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const handleDropdownToggle = (dropdownId) => {
+        setOpenDropdown(openDropdown === dropdownId ? null : dropdownId);
+    };
+
     const token = localStorage.getItem('token');
     let userRole = null;
-    let userName = null
+    let userName = null;
     if (token) {
         const decodedToken = jwtDecode(token, process.env.ACCESS_TOKEN_SECRET);
         userRole = decodedToken.role;
@@ -42,6 +47,31 @@ function Navbar() {
                 <div className={`w-full md:flex md:w-auto ${isMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
                     <ul className="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
                         <CustomLink to="/workshops" userRole={userRole}>Workshops</CustomLink>
+
+                        <Dropdown
+                            userRole={userRole}
+                            toggleDropdown={() => handleDropdownToggle('dropdown1')}
+                            isOpen={openDropdown === 'dropdown1'}
+                            label="Dropdown 1"
+                            options={[
+                                { label: 'Dashboard', href: '/workshops' },
+                                { label: 'Settings', href: '#' },
+                                { label: 'Earnings', href: '#' }
+                            ]}
+                        />
+
+                        <Dropdown
+                            userRole={userRole}
+                            toggleDropdown={() => handleDropdownToggle('dropdown2')}
+                            isOpen={openDropdown === 'dropdown2'}
+                            label="Dropdown 2"
+                            options={[
+                                { label: 'Profile', href: '#' },
+                                { label: 'Notifications', href: '#' },
+                                { label: 'Logout', href: '#' }
+                            ]}
+                        />
+
                         <CustomLink to="/opdrachten" userRole={userRole}>Opdrachten</CustomLink>
                         <CustomLink to="/workshop-docenten" userRole={userRole}>Workshopdocenten</CustomLink>
                         <CustomLink to="/klanten" userRole={userRole}>Klanten</CustomLink>
@@ -53,9 +83,12 @@ function Navbar() {
                         <CustomLink to="/uitnodigingen" userRole={userRole}>Uitnodigingen</CustomLink>
                         <CustomLink to="/profiel" userRole={userRole}>
                             <div className="flex items-center">
-                                <div className="relative w-8 h-8 overflow-hidden bg-brand-orange-light rounded-full light:bg-gray-600 hover:ring-2 hover:ring-brand-orange ring-offset-2">
-                                    <svg className="absolute w-10 h-10 text-brand-orange -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path>
+                                <div
+                                    className="relative w-8 h-8 overflow-hidden bg-brand-orange-light rounded-full light:bg-gray-600 hover:ring-2 hover:ring-brand-orange ring-offset-2">
+                                    <svg className="absolute w-10 h-10 text-brand-orange -left-1" fill="currentColor"
+                                         viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                              clipRule="evenodd"></path>
                                     </svg>
                                 </div>
                                 <span className="ml-2">{userName}</span>
@@ -68,9 +101,9 @@ function Navbar() {
     );
 }
 
-function CustomLink({to, children, userRole}) {
+function CustomLink({ to, children, userRole }) {
     const resolvedPath = useResolvedPath(to);
-    const isActive = useMatch({path: resolvedPath.pathname, end: true});
+    const isActive = useMatch({ path: resolvedPath.pathname, end: true });
 
     const allowedRoles = {
         '/workshop-templates': ['admin'],
@@ -98,6 +131,51 @@ function CustomLink({to, children, userRole}) {
             >
                 {children}
             </Link>
+        </li>
+    );
+}
+
+function Dropdown({ toggleDropdown, isOpen, userRole, label, options }) {
+    const resolvedPath = useResolvedPath(options.href);
+
+    const allowedRoles = {
+        '/workshop-templates': ['admin'],
+        '/mail-templates': ['admin'],
+        '/workshop-docenten': ['admin'],
+        '/werklocaties': ['admin'],
+        '/klanten': ['admin'],
+        '/inschrijvingen': ['admin'],
+        '/workshops': ['admin'],
+        '/opdrachten': ['admin'],
+        '/profiel': ['admin', 'teacher'],
+        '/openstaande-workshops': ['admin', 'teacher'],
+        '/uitnodigingen': ['teacher']
+    };
+
+    if (allowedRoles[resolvedPath.pathname] && !allowedRoles[resolvedPath.pathname].includes(userRole)) {
+        return null;
+    }
+
+
+    return (
+        <li className="relative">
+            <button onClick={toggleDropdown} className="flex items-center py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 light:text-white md:light:hover:text-blue-500 light:focus:text-white light:border-gray-700 light:hover:bg-gray-700 md:light:hover:bg-transparent">
+                {label}
+                <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                </svg>
+            </button>
+            {isOpen && (
+                <div className="absolute right-0 z-10 mt-2 w-44 origin-top-right rounded-md bg-white shadow-lg light:bg-gray-700">
+                    <ul className="py-2 text-sm text-gray-700 light:text-gray-400">
+                        {options.map((option, index) => (
+                            <li key={index}>
+                                <a href={option.href} className="block px-4 py-2 hover:bg-gray-100 light:hover:bg-gray-600 light:hover:text-white">{option.label}</a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </li>
     );
 }
