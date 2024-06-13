@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-function EditPanelWorkLocationContent({ setWorkLocations, locationId, setShowSidePanel }) {
+function EditPanelWorkLocationContent({setWorkLocations, locationId, setShowSidePanel}) {
     const [name, setName] = useState("");
     const [street, setStreet] = useState("");
     const [houseNumber, setHouseNumber] = useState("");
@@ -29,7 +29,7 @@ function EditPanelWorkLocationContent({ setWorkLocations, locationId, setShowSid
                     setPostalCode(data.postalCode || "");
                     setDescription(data.description || "");
                     setSelectedCustomerId(data.customerId || "");
-                    autoResize({ target: document.getElementById('edit-description') });
+                    autoResize({target: document.getElementById('edit-description')});
                 })
                 .catch(error => console.error('Error fetching work locations:', error));
         }
@@ -62,7 +62,7 @@ function EditPanelWorkLocationContent({ setWorkLocations, locationId, setShowSid
         if (!city) setCityValid(false);
         if (!postalCode) setPostalCodeValid(false);
 
-        if (!name || !street || !houseNumber || !city || !postalCode ) {
+        if (!name || !street || !houseNumber || !city || !postalCode) {
             return;
         }
 
@@ -103,12 +103,13 @@ function EditPanelWorkLocationContent({ setWorkLocations, locationId, setShowSid
     };
 
     return (
-            <div className="px-6">
+        <div className="px-6">
             <header className="pt-4 pb-4 font-bold text-lg">Werklocatie bewerken</header>
             <form>
                 <div className="mb-6">
                     <label htmlFor="locationName"
-                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Locatie naam</label>
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Locatie
+                        naam</label>
                     <input type="text" id="locationName" value={name} onChange={(e) => setName(e.target.value)}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="Hoofdkantoor A" required/>
@@ -160,14 +161,16 @@ function EditPanelWorkLocationContent({ setWorkLocations, locationId, setShowSid
                 </div>
                 <div className="mb-6">
                     <label htmlFor="description"
-                        className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Beschrijving
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Beschrijving
                         locatie</label>
                     <textarea id="description"
-                        value={description} 
-                        onChange={(e) => { setDescription(e.target.value); }}
-                        rows="2"
-                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                        placeholder="Beschrijving...">
+                              value={description}
+                              onChange={(e) => {
+                                  setDescription(e.target.value);
+                              }}
+                              rows="2"
+                              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                              placeholder="Beschrijving...">
                     </textarea>
                 </div>
                 <button type="submit" onClick={handleSubmit}

@@ -2,32 +2,31 @@ import React, {useState} from "react";
 
 export default function CreateCustomerPanelContent({setCustomers, setShowSidePanel}) {
 
-    const [name, setName] = useState(""); // Name state
-    const [locationName, setLocationName] = useState(""); // Location state
-    const [contactName, setContactName] = useState("");  // Contact name state
-    const [street, setStreet] = useState("");  // Street state
-    const [houseNumber, setHouseNumber] = useState("");  // House number state
-    const [postalCode, setPostalCode] = useState("");  // Postal code state
-    const [city, setCity] = useState("");  // City state
-    const [email, setEmail] = useState("");  // Email state
-    const [phoneNumber, setPhoneNumber] = useState("");  // Phone number state
+    const [name, setName] = useState("");
+    const [locationName, setLocationName] = useState("");
+    const [contactName, setContactName] = useState("");
+    const [street, setStreet] = useState("");
+    const [houseNumber, setHouseNumber] = useState("");
+    const [postalCode, setPostalCode] = useState("");
+    const [city, setCity] = useState("");
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
 
-    const [nameValid, setNameValid] = useState(true); // Name validation state
-    const [locationNameValid, setLocationNameValid] = useState(true); // Location validation state
-    const [contactNameValid, setContactNameValid] = useState(true);  // Contact name validation state
-    const [streetValid, setStreetValid] = useState(true);  // Street validation state
-    const [houseNumberValid, setHouseNumberValid] = useState(true);  // House number validation state
-    const [postalCodeValid, setPostalCodeValid] = useState(true);  // Postal code validation state
-    const [cityValid, setCityValid] = useState(true);  // City validation state
-    const [emailValid, setEmailValid] = useState(true);  // Email validation state
-    const [phoneNumberValid, setPhoneNumberValid] = useState(true); // Phone number validation state
+    const [nameValid, setNameValid] = useState(true);
+    const [locationNameValid, setLocationNameValid] = useState(true);
+    const [contactNameValid, setContactNameValid] = useState(true);
+    const [streetValid, setStreetValid] = useState(true);
+    const [houseNumberValid, setHouseNumberValid] = useState(true);
+    const [postalCodeValid, setPostalCodeValid] = useState(true);
+    const [cityValid, setCityValid] = useState(true);
+    const [emailValid, setEmailValid] = useState(true);
+    const [phoneNumberValid, setPhoneNumberValid] = useState(true);
 
-    const [locationId, setLocationId] = useState(null);  // Location ID state
+    const [locationId, setLocationId] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Validation
         if (!name) setNameValid(false);
         if (!locationName) setLocationNameValid(false);
         if (!contactName) setContactNameValid(false);
@@ -38,10 +37,7 @@ export default function CreateCustomerPanelContent({setCustomers, setShowSidePan
         if (!email) setEmailValid(false);
         if (!phoneNumber) setPhoneNumberValid(false);
 
-
-        // If any field is invalid, stop the form submission
         if (!name || !locationName || !contactName || !street || !houseNumber || !postalCode || !city || !email || !phoneNumber) return;
-
 
         const location = {
             name: locationName,
@@ -60,7 +56,6 @@ export default function CreateCustomerPanelContent({setCustomers, setShowSidePan
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
                 setLocationId(data.data.Id);
 
                 const customer = {
@@ -79,14 +74,12 @@ export default function CreateCustomerPanelContent({setCustomers, setShowSidePan
                 })
                     .then(response => response.json())
                     .then(data => {
-                        console.log('Success:', data);
 
                         fetch('/api/customer')
                             .then(res => res.json())
                             .then(data => {
                                 setCustomers(data.data);
                                 setShowSidePanel(false);
-                                console.log("closing sidepanel")
                             })
                             .catch(error => console.error('Error fetching data:', error));
 
@@ -99,7 +92,6 @@ export default function CreateCustomerPanelContent({setCustomers, setShowSidePan
             .catch((error) => {
                 console.error('Error:', error);
             });
-
 
         setName('');
         setLocationName('');

@@ -8,10 +8,9 @@ export default function CreateWorkLocationContent({ setWorkLocations, setShowSid
     const [postalCode, setPostalCode] = useState("");
     const [description, setDescription] = useState("");
     const [selectedCustomerId, setSelectedCustomerId] = useState("");
-    const [customers, setCustomers] = useState([]); // Customers state
+    const [customers, setCustomers] = useState([]);
 
     useEffect(() => {
-        // Fetch customers when the component mounts
         fetch('/api/customer', {
             method: 'GET',
             headers: {
@@ -41,7 +40,7 @@ export default function CreateWorkLocationContent({ setWorkLocations, setShowSid
             city: city,
             postalCode: postalCode,
             description: description,
-            customerId: selectedCustomerId // Include the selected customer ID
+            customerId: selectedCustomerId
         };
 
         fetch('/api/location', {
@@ -53,7 +52,6 @@ export default function CreateWorkLocationContent({ setWorkLocations, setShowSid
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
                 setName('');
                 setStreet('');
                 setHouseNumber('');
@@ -61,7 +59,7 @@ export default function CreateWorkLocationContent({ setWorkLocations, setShowSid
                 setPostalCode('');
                 setDescription('');
 
-                // Fetch updated locations and close the side panel
+
                 fetch('/api/location')
                     .then(res => res.json())
                     .then(data => {

@@ -28,8 +28,6 @@ function EditMailTemplatePanelContent({ mailTemplateId, setShowSidePanel }) {
     const [content, setContent] = useState("");
     const [name, setName] = useState("");
 
-    const [subjectValid, setSubjectValid] = useState(true);
-    const [ccValid, setCcValid] = useState(true);
     const [contentValid, setContentValid] = useState(true);
     const [nameValid, setNameValid] = useState(true);
 
@@ -83,7 +81,7 @@ function EditMailTemplatePanelContent({ mailTemplateId, setShowSidePanel }) {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                setShowSidePanel(false); // Close the side panel after submission
+                setShowSidePanel(false);
             })
             .catch(error => console.error('Error:', error));
     };

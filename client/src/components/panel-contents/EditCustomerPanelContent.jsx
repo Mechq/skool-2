@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
-function EditCustomerPanelContent({ customerId, setShowSidePanel }) {
+function EditCustomerPanelContent({customerId, setShowSidePanel}) {
     const [name, setName] = useState('');
     const [locationName, setLocationName] = useState('');
     const [contactName, setContactName] = useState('');
@@ -13,29 +13,29 @@ function EditCustomerPanelContent({ customerId, setShowSidePanel }) {
     const [locationId, setLocationId] = useState('');
 
     useEffect(() => {
-    if (customerId) {
-        fetch(`/api/customer/${customerId}`)
-            .then(res => res.json())
-            .then(response => {
-                const data = response.data;
-                console.log('customerdata', data);  
-                setName(data.name || '');
-                setContactName(data.contactName || '');
-                setEmail(data.email || '');
-                setPhoneNumber(data.phone || '');
-                setLocationName(data.locationName || '');
-                setStreet(data.street || '');
-                setHouseNumber(data.houseNumber || '');
-                setCity(data.city || '');
-                setPostalCode(data.postalCode || '');
-                setLocationId(data.locationId || '')
-                autoResize({target: document.getElementById('edit-description')});
+        if (customerId) {
+            fetch(`/api/customer/${customerId}`)
+                .then(res => res.json())
+                .then(response => {
+                    const data = response.data;
+                    console.log('customerdata', data);
+                    setName(data.name || '');
+                    setContactName(data.contactName || '');
+                    setEmail(data.email || '');
+                    setPhoneNumber(data.phone || '');
+                    setLocationName(data.locationName || '');
+                    setStreet(data.street || '');
+                    setHouseNumber(data.houseNumber || '');
+                    setCity(data.city || '');
+                    setPostalCode(data.postalCode || '');
+                    setLocationId(data.locationId || '')
+                    autoResize({target: document.getElementById('edit-description')});
 
-                
-            })
-            .catch(error => console.error('Error fetching customer:', error));
-    }
-}, [customerId]);
+
+                })
+                .catch(error => console.error('Error fetching customer:', error));
+        }
+    }, [customerId]);
 
 
     const handleSubmit = (e) => {
@@ -87,61 +87,75 @@ function EditCustomerPanelContent({ customerId, setShowSidePanel }) {
                         <div>
                             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">Naam</label>
                             <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                required />
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   required/>
                         </div>
                     </div>
                     <div className="grid gap-6 mb-6 md:grid-cols-2">
                         <div>
-                            <label htmlFor="locationName" className="block mb-2 text-sm font-medium text-gray-900">Locatie naam</label>
-                            <input type="text" id="locationName" value={locationName} onChange={(e) => setLocationName(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                required />
+                            <label htmlFor="locationName" className="block mb-2 text-sm font-medium text-gray-900">Locatie
+                                naam</label>
+                            <input type="text" id="locationName" value={locationName}
+                                   onChange={(e) => setLocationName(e.target.value)}
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   required/>
                         </div>
                         <div>
-                            <label htmlFor="contactName" className="block mb-2 text-sm font-medium text-gray-900">Contact naam</label>
-                            <input type="text" id="contactName" value={contactName} onChange={(e) => setContactName(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                required />
+                            <label htmlFor="contactName" className="block mb-2 text-sm font-medium text-gray-900">Contact
+                                naam</label>
+                            <input type="text" id="contactName" value={contactName}
+                                   onChange={(e) => setContactName(e.target.value)}
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   required/>
                         </div>
                         <div>
-                            <label htmlFor="street" className="block mb-2 text-sm font-medium text-gray-900">Straatnaam</label>
+                            <label htmlFor="street"
+                                   className="block mb-2 text-sm font-medium text-gray-900">Straatnaam</label>
                             <input type="text" id="street" value={street} onChange={(e) => setStreet(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                required />
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   required/>
                         </div>
                         <div>
-                            <label htmlFor="houseNumber" className="block mb-2 text-sm font-medium text-gray-900">Huisnummer</label>
-                            <input type="text" id="houseNumber" value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                required />
+                            <label htmlFor="houseNumber"
+                                   className="block mb-2 text-sm font-medium text-gray-900">Huisnummer</label>
+                            <input type="text" id="houseNumber" value={houseNumber}
+                                   onChange={(e) => setHouseNumber(e.target.value)}
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   required/>
                         </div>
                         <div>
-                            <label htmlFor="postalCode" className="block mb-2 text-sm font-medium text-gray-900">Postcode</label>
-                            <input type="text" id="postalCode" value={postalCode} onChange={(e) => setPostalCode(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                required />
+                            <label htmlFor="postalCode"
+                                   className="block mb-2 text-sm font-medium text-gray-900">Postcode</label>
+                            <input type="text" id="postalCode" value={postalCode}
+                                   onChange={(e) => setPostalCode(e.target.value)}
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   required/>
                         </div>
                         <div>
-                            <label htmlFor="city" className="block mb-2 text-sm font-medium text-gray-900">Woonplaats</label>
+                            <label htmlFor="city"
+                                   className="block mb-2 text-sm font-medium text-gray-900">Woonplaats</label>
                             <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                required />
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   required/>
                         </div>
                         <div>
-                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">E-mail</label>
+                            <label htmlFor="email"
+                                   className="block mb-2 text-sm font-medium text-gray-900">E-mail</label>
                             <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                required />
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   required/>
                         </div>
                         <div>
-                            <label htmlFor="phoneNumber" className="block mb-2 text-sm font-medium text-gray-900">Telefoonnummer</label>
-                            <input type="text" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                required />
+                            <label htmlFor="phoneNumber"
+                                   className="block mb-2 text-sm font-medium text-gray-900">Telefoonnummer</label>
+                            <input type="text" id="phoneNumber" value={phoneNumber}
+                                   onChange={(e) => setPhoneNumber(e.target.value)}
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   required/>
                         </div>
                     </div>
-                    <button type="submit" className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+                    <button type="submit"
+                            className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
                         Submit
                     </button>
                 </form>
