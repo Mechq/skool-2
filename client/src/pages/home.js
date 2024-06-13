@@ -3,7 +3,6 @@ import DashboardCardsCommission from '../components/DashboardCardsCommission';
 import { jwtDecode } from "jwt-decode";
 
 function Home() {
-    const [disableUseEffect, setDisableUseEffect] = useState(false);
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
     const [commissions, setCommissions] = useState([]);

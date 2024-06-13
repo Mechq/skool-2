@@ -1,5 +1,5 @@
 import React from "react";
-import { AiTwotoneCalendar, AiTwotoneClockCircle, AiTwotoneEuro } from "react-icons/ai";
+import {AiTwotoneCalendar, AiTwotoneClockCircle, AiTwotoneEuro} from "react-icons/ai";
 
 export default function UserWorkshopCard({
                                              userWorkshop,

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 
-export default function AccountConfirmation({ formData, postRequest }) {
+export default function AccountConfirmation({formData, postRequest}) {
     const [hasPosted, setHasPosted] = useState(false);
 
     useEffect(() => {
@@ -21,8 +21,7 @@ export default function AccountConfirmation({ formData, postRequest }) {
                         return response.json();
                     })
                     .then(data => {
-                        console.log('Success:', data);
-                        setHasPosted(true); // Mark the post request as completed
+                        setHasPosted(true);
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -35,7 +34,7 @@ export default function AccountConfirmation({ formData, postRequest }) {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ "languages": formData.userLanguages }),
+                    body: JSON.stringify({"languages": formData.userLanguages}),
                 })
                     .then(response => {
                         if (!response.ok) {
@@ -44,8 +43,7 @@ export default function AccountConfirmation({ formData, postRequest }) {
                         return response.json();
                     })
                     .then(data => {
-                        console.log('Success:', data);
-                        setHasPosted(true); // Mark the post request as completed
+                        setHasPosted(true);
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -63,8 +61,10 @@ export default function AccountConfirmation({ formData, postRequest }) {
                 <h1>Account aangemaakt</h1>
             </div>
 
-            <button onClick={() => window.location.replace("/login")} 
-            className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Terug Naar Login Scherm</button>
+            <button onClick={() => window.location.replace("/login")}
+                    className="text-white bg-brand-orange hover:bg-hover-brand-orange focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-brand-orange-light light:hover:bg-hover-brand-orange light:focus:ring-hover-brand-orange">Terug
+                Naar Login Scherm
+            </button>
         </>
     );
 }

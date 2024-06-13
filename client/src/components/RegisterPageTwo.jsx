@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
-const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => {
-    const { kvkNumber, btwNumber, hasDriversLicense, hasCar, isZZPer, iban, userLanguages } = formData;
+const PersonalDetails = ({formData, setFormData, createAccount, stepBack}) => {
+    const {kvkNumber, btwNumber, hasDriversLicense, hasCar, isZZPer, iban, userLanguages} = formData;
 
     const [kvkNumberValid, setKvkNumberValid] = useState(true);
     const [btwNumberValid, setBtwNumberValid] = useState(true);
@@ -18,7 +18,6 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
                 const data = await response.json();
                 if (response.ok) {
                     setLanguages(data.data.map(lang => lang.name));
-                    console.log('Languages fetched:', languages);
                 } else {
                     console.error('Failed to fetch languages:', data.message);
                 }
@@ -27,7 +26,7 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
             }
         };
 
-        fetchLanguages();
+        fetchLanguages().then();
 
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target) && event.target.type !== 'checkbox') {
@@ -112,7 +111,6 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
                 prevState.userLanguages.filter(lang => lang !== language)
         }));
 
-        // Keep the dropdown open when interacting with checkboxes
         setIsDropdownVisible(true);
     };
 
@@ -123,7 +121,8 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
 
                 <div className="grid gap-4 mb-4 grid-cols-2">
                     <div>
-                        <label htmlFor="btwNumber" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
+                        <label htmlFor="btwNumber"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
                             BTW Nummer
                         </label>
                         <input type="text" name="btwNumber" id="btwNumber"
@@ -135,7 +134,8 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
                         }}/>
                     </div>
                     <div>
-                        <label htmlFor="kvkNumber" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
+                        <label htmlFor="kvkNumber"
+                               className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
                             KVK Nummer
                         </label>
                         <input type="text" name="kvkNumber" id="kvkNumber"
@@ -162,7 +162,8 @@ const PersonalDetails = ({ formData, setFormData, createAccount, stepBack }) => 
                     </div>
                 </div>
 
-                <h3 className="mb-2 block text-sm font-medium text-gray-900 light:text-white">Vervoer & Soort Werknemer</h3>
+                <h3 className="mb-2 block text-sm font-medium text-gray-900 light:text-white">Vervoer & Soort
+                    Werknemer</h3>
                 <ul className="items-center w-full mb-4 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex light:bg-gray-700 light:border-gray-600 light:text-white">
                     <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r light:border-gray-600">
                         <div className="flex items-center ps-3">

@@ -1,8 +1,8 @@
 import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 import { useState } from 'react';
-import { jwtDecode } from 'jwt-decode'; // Adjusted import statement
+import { jwtDecode } from 'jwt-decode';
 
-function NavBar() {
+function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -61,7 +61,6 @@ function NavBar() {
                                 <span className="ml-2">{userName}</span>
                             </div>
                         </CustomLink>
-
                     </ul>
                 </div>
             </div>
@@ -100,4 +99,4 @@ function CustomLink({to, children, userRole}) {
     );
 }
 
-export default NavBar;
+export default Navbar;

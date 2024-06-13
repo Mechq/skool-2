@@ -1,6 +1,6 @@
 import React from "react";
 
-function SidePanel({isOpen, setIsOpen, rotateSpan, setRotateSpan, children}) {
+export default function SidePanel({isOpen, children}) {
 
     return (
         <>
@@ -28,4 +28,3 @@ function SidePanel({isOpen, setIsOpen, rotateSpan, setRotateSpan, children}) {
     );
 }
 
-export default SidePanel;

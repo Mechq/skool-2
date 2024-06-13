@@ -40,7 +40,9 @@ router.get("/register", (req, res, next) => {
 router.get("/login", (req, res, next) => {
     res.render('index.html')
 });
-
+router.get("/login", (req, res, next) => {
+    res.render('index.html')
+});
 
 
 

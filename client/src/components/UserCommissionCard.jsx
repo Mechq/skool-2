@@ -1,7 +1,7 @@
 import React from "react";
 import { AiTwotoneCalendar } from "react-icons/ai";
 
-export default function UserWorkshopCard({ userWorkshop, commissionDate }) {
+export default function UserWorkshopCard({userWorkshop, commissionDate }) {
     return (
         <>
             <a href="#"
