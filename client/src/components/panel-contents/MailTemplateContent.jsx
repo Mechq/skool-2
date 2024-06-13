@@ -9,7 +9,6 @@ export default function MailTemplateContent() {
         const details = document.getElementById('content').value;
         const name = document.getElementById('templateName').value;
 
-        // Check if all required fields have values
         if (!subject || !details || !name) {
             return;
         }

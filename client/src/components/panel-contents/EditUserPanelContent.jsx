@@ -54,7 +54,7 @@ export default function EditUserPanelContent({userId, setShowSidePanel}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form data being sent:', formData); // Add this line
+        console.log('Form data being sent:', formData);
 
         fetch(`/api/user/${userId}`, {
             method: 'PUT',
@@ -66,16 +66,10 @@ export default function EditUserPanelContent({userId, setShowSidePanel}) {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                setShowSidePanel(false); // Close the side panel after successful submission
+                setShowSidePanel(false);
             })
             .catch(error => console.error('Error:', error));
     };
-
-    const autoResize = (e) => {
-        e.target.style.height = 'auto';
-        e.target.style.height = `${e.target.scrollHeight}px`;
-    };
-
     return (
         <div className="px-6">
             <header className="pt-4 pb-4 font-bold text-lg">Workshopdocent bewerken</header>

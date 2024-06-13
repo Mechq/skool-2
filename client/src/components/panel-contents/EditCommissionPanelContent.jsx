@@ -25,7 +25,6 @@ const dateOptions = {
         selected: "bg-brand-orange",
     },
     icons: {
-        // () => ReactElement | JSX.Element
         prev: () => <span>Vorige</span>,
         next: () => <span>Volgende</span>,
     },
@@ -44,33 +43,33 @@ const dateOptions = {
     }
 }
 
-export default function EditCommissionPanelContent({ setShowSidePanel, commissionId }) {
+export default function EditCommissionPanelContent({setShowSidePanel, commissionId}) {
     const [customerId, setCustomerId] = useState("");
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
     const [selectedCustomerName, setSelectedCustomerName] = useState("");
-    const[selectedCustomerId, setSelectedCustomerId] = useState("");
+    const [selectedCustomerId, setSelectedCustomerId] = useState("");
     const [customers, setCustomers] = useState([]);
     const [locationName, setLocationName] = useState("");
     const [roundIds, setRoundIds] = useState([]);
     const [types, setTypes] = useState([]);
-    const [workshopRoundWorkshops, setWorkshopRoundWorkshops] = useState({}); // Updated to store workshops for each roundId
-    const [editedWorkshopId, setEditedWorkshopId] = useState(""); // New state to store the edited workshop ID
-    const [editedRoundId, setEditedRoundId] = useState(""); // State to store the edited round ID
-    const [showOptions, setShowOptions] = useState(false); // New state for showing options
+    const [workshopRoundWorkshops, setWorkshopRoundWorkshops] = useState({});
+    const [editedWorkshopId, setEditedWorkshopId] = useState("");
+    const [editedRoundId, setEditedRoundId] = useState("");
+    const [showOptions, setShowOptions] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingRoundType, setEditingRoundType] = useState("");
     const [editedRoundType, setEditedRoundType] = useState("");
     const [date, setDate] = useState("");
-    const[startTimes, setStartTimes] = useState([]);
-    const[endTimes, setEndTimes] = useState([]);
+    const [startTimes, setStartTimes] = useState([]);
+    const [endTimes, setEndTimes] = useState([]);
     const [orders, setOrders] = useState([]);
     const optionsRef = useRef(null);
-    const [locations, setLocations] = useState([]); // Locations state
+    const [locations, setLocations] = useState([]);
     const [selectedLocationId, setSelectedLocationId] = useState("");
     const [locationId, setLocationId] = useState("");
 
-    const [show, setShow] = useState(false); // No need to specify type for useState
+    const [show, setShow] = useState(false);
 
     const handleChange = (selectedDate) => {
         const localDate = new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000);
@@ -98,7 +97,6 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .catch((error) => console.error("Error fetching commission:", error));
         }
     }, [commissionId]);
-
 
 
     const fetchRoundData = () => {
@@ -148,9 +146,8 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .then((res) => res.json())
                 .then((response) => {
                     const customer = response.data
-                        setSelectedCustomerName(customer.name || "");
-                        setSelectedCustomerId(customer.id || "");
-                        console.log("Fetched selected commissions customer:", customer)
+                    setSelectedCustomerName(customer.name || "");
+                    setSelectedCustomerId(customer.id || "");
                 })
                 .catch((error) => console.error("Error fetching customer:", error));
         }
@@ -174,16 +171,15 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .then(data => {
                     const location = data.data;
                     setLocationName(location.name || "");
-                    console.log("Fetched location:", locationName);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
-                    setLocationName(""); // Ensure locationName is always defined
+                    setLocationName("");
                 });
         }
     }, [selectedCustomerId]);
 
-    //
+
 
     useEffect(() => {
         if (locationId) {
@@ -191,11 +187,10 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                 .then(response => response.json())
                 .then(data => {
                     setLocations(Array.isArray(data.data) ? data.data : []);
-                    console.log("Fetched locations:", locations);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
-                    setLocationName(""); // Ensure locationName is always defined
+                    setLocationName("");
                 });
         }
     }, [selectedCustomerId]);
@@ -203,11 +198,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     useEffect(() => {
         function handleClickOutside(event) {
             if (optionsRef.current && !optionsRef.current.contains(event.target)) {
-                // Clicked outside the options list, so close it
                 setShowOptions(false);
             }
         }
-
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
@@ -220,19 +213,16 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Trying to submit commission");
-        console.log(date)
 
 
         if (!customerId || !details || !targetAudience) return;
-        console.log("Submitting commission");
-            const commission = {
-                customerId,
-                details,
-                targetAudience,
-                locationId: selectedLocationId,
-                date
-            };
+        const commission = {
+            customerId,
+            details,
+            targetAudience,
+            locationId: selectedLocationId,
+            date
+        };
 
         fetch(`/api/commission/${commissionId}`, {
             method: "PUT",
@@ -243,8 +233,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log("Success:", data);
-                setShowSidePanel(false); // Close the side panel after submission
+                setShowSidePanel(false);
             })
             .catch((error) => console.error("Error:", error));
     };
@@ -255,21 +244,18 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
     };
 
     const handleOptionClick = (option) => {
-        console.log("Adding round of type", option);
         setShowOptions(false);
         let order = 0
-        if(orders.length > 0){
+        if (orders.length > 0) {
             order = orders[orders.length - 1] + 1
         }
         let latestEndTime = ''
-        fetch(`/api/round/endTime/${commissionId}`, {
-
-        })
+        fetch(`/api/round/endTime/${commissionId}`, {})
             .then((response) => response.json())
             .then((data) => {
                 latestEndTime = data.data.endTime || '';
 
-                const requestBody = JSON.stringify({ type: option, order, startTime: latestEndTime});
+                const requestBody = JSON.stringify({type: option, order, startTime: latestEndTime});
 
                 fetch(`/api/round/${commissionId}`, {
                     method: "POST",
@@ -284,12 +270,12 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                         setRoundIds(prevRoundIds => [...prevRoundIds, data.data.insertId]);
                     })
                     .then(() => {
-                        fetchRoundData(); // Refresh data after adding a round
+                        fetchRoundData();
                     })
                     .catch((error) => console.error("Error:", error));
             })
             .then(() => {
-                fetchRoundData(); // Refresh data after adding a round
+                fetchRoundData();
             })
             .catch((error) => console.error("Error:", error));
 
@@ -300,19 +286,18 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
         setEditedRoundType(type);
         if (type === "workshop") {
             setEditedWorkshopId(id);
-            setEditedRoundId(parentId); // Pass the parent workshop round ID as the round ID
+            setEditedRoundId(parentId);
         } else {
             setEditedRoundId(id);
         }
         setShowEditModal(true);
-        console.log("Editing round", type, id);
     };
 
     const handleModalClose = () => {
         setShowEditModal(false);
     };
 
-    const handleModalSave = (editedType) => {
+    const handleModalSave = () => {
         setShowEditModal(false);
     };
 
@@ -330,7 +315,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                     <label htmlFor="workshopName"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Kies een
                         Klant</label>
-                    <select id="workshopName" value={selectedCustomerId} // Corrected line
+                    <select id="workshopName" value={selectedCustomerId}
                             onChange={(e) => {
                                 setSelectedCustomerId(e.target.value);
                             }} required={true}
@@ -405,7 +390,7 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
                                         <li
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                editRound("workshop", workshop.id, roundIds[index]); // Pass the parent workshop round ID
+                                                editRound("workshop", workshop.id, roundIds[index]);
                                             }}
                                             key={workshop.id}
                                             className={"hover:bg-gray-200 hover:cursor-pointer"}
@@ -461,9 +446,9 @@ export default function EditCommissionPanelContent({ setShowSidePanel, commissio
             {showEditModal && editedRoundType === "workshop" && (
                 <WorkshopRoundWorkshopEditModal
                     roundType={editedRoundType}
-                    roundId={editedRoundId} // Pass the parent workshop round ID as the round ID
-                    commissionId={commissionId} // Pass the commission ID
-                    workshopId={editedWorkshopId} // Pass the workshop ID
+                    roundId={editedRoundId}
+                    commissionId={commissionId}
+                    workshopId={editedWorkshopId}
                     onClose={handleModalClose}
                     onSave={handleModalSave}
                     onEdit={handleUpdate}

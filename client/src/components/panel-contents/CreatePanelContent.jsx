@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from "react";
 
 export default function CreatePanelContent({setWorkshops, setShowSidePanel}) {
-    const [name, setName] = useState("");
     const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const [description, setDescription] = useState("");
-    const [materials, setMaterials] = useState("");
 
     useEffect(() => {
         fetch('/api/category')
@@ -32,9 +28,8 @@ export default function CreatePanelContent({setWorkshops, setShowSidePanel}) {
         const description = document.getElementById('description').value;
         const materials = document.getElementById('materials').value;
 
-        // Check if all required fields have values
         if (!workshopName || !category || !description || !materials) {
-            return; // Exit the function if any required field is empty
+            return;
         }
 
         const workshop = {
@@ -53,7 +48,6 @@ export default function CreatePanelContent({setWorkshops, setShowSidePanel}) {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
                 document.getElementById('workshopName').value = '';
                 document.getElementById('category').value = '';
                 document.getElementById('description').value = '';
