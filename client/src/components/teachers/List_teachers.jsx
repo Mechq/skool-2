@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 
-export default function TeacherList({
+export default function List_teachers({
                                         isOpen,
                                         setIsOpen,
                                         setSidePanelContent,

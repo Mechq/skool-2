@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import EnrollmentList from "../components/teacherEnrollments/EnrollmentList";
+import List_teacherEnrollments from "../components/teacherEnrollments/List_teacherEnrollments";
 
 export default function TeacherEnrollments() {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -17,7 +17,7 @@ export default function TeacherEnrollments() {
 
     return (
         <div>
-            <EnrollmentList
+            <List_teacherEnrollments
                 isOpen={isOpen}
                 enrollments={enrollments}
                 setEnrollments={setEnrollments}

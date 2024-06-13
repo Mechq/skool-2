@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import UserWorkshopList from "../components/openWorkshops/UserWorkshopList";
+import List_openWorkshops from "../components/openWorkshops/List_openWorkshops";
 import {jwtDecode} from "jwt-decode";
 
 export default function OpenWorkshops() {
@@ -30,7 +30,7 @@ const [userWorkshops, setUserWorkshops] = useState([]);
 
     return (
         <div>
-            <UserWorkshopList
+            <List_openWorkshops
                 userWorkshops={userWorkshops}
                 setUserWorkshops={setUserWorkshops}
                 user = {user}

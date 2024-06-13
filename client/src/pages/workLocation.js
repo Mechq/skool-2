@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import SidePanel from "../components/SidePanel";
-import CreateWorkLocationContent from "../components/workLocation/CreateWorkLocationContent";
+import CreatePanelContent_workLocation from "../components/workLocation/CreatePanelContent_workLocation";
 import CreateButton from "../components/CreateButton";
-import WorkLocationList from "../components/workLocation/WorkLocationList";
-import EditPanelWorkLocationContent from "../components/workLocation/EditWorkLocationContent";
+import List_workLocation from "../components/workLocation/List_workLocation";
+import EditPanelWorkLocationContent from "../components/workLocation/EditPanelContent_workLocation";
 
 export default function WorkLocation() {
     const [isOpen, setIsOpen] = useState(false);
@@ -33,12 +33,12 @@ export default function WorkLocation() {
             />
             <SidePanel isOpen={isOpen} setIsOpen={setIsOpen}>
                 {sidePanelContent === "create" &&
-                    <CreateWorkLocationContent setWorkLocations={setWorkLocations} setShowSidePanel={setIsOpen}/>}
+                    <CreatePanelContent_workLocation setWorkLocations={setWorkLocations} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
                     <EditPanelWorkLocationContent setWorkLocations={setWorkLocations} locationId={workLocationId}
                                                   setShowSidePanel={setIsOpen}/>}
             </SidePanel>
-            <WorkLocationList
+            <List_workLocation
                 setShowSidePanel={setIsOpen}
                 setSidePanelContent={setSidePanelContent}
                 setWorkLocationId={setWorkLocationId}

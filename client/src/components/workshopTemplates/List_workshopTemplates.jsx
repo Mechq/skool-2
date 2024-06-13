@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
-import DeleteConfirmationModalScreen from "./DeleteConfirmationModalScreen";
-import UserWorkshopDetailsModalScreen from "../UserWorkshopDetailsModalScreen";
+import ConfirmDeleteModal_workshopTemplates from "./ConfirmDeleteModal_workshopTemplates";
 
-export default function WorkshopList({
+export default function List_workshopTemplates({
                                          isOpen,
                                          setIsOpen,
                                          setSidePanelContent,
@@ -12,10 +11,8 @@ export default function WorkshopList({
                                          setWorkshops
                                      }) {
     const [showModal, setShowModal] = useState(false);
-    const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [workshopToDeleteId, setWorkshopToDeleteId] = useState(null);
     const [workshopToDeleteName, setWorkshopToDeleteName] = useState(null);
-    const [selectedWorkshopId, setSelectedWorkshopId] = useState(null);
     const [selectedWorkshopName, setSelectedWorkshopName] = useState(null);
     const [isAccordionOpen, setIsAccordionOpen] = useState([false, false, false, false, false, false]);
 
@@ -50,9 +47,7 @@ export default function WorkshopList({
 
     const handleDetailsClick = (id, name, e) => {
         e.preventDefault();
-        setSelectedWorkshopId(id);
         setSelectedWorkshopName(name);
-        setShowDetailsModal(true);
     };
 
     const handleDeleteClick = (id, name, e) => {
@@ -66,7 +61,6 @@ export default function WorkshopList({
 
     const handleModalClose = () => {
         setShowModal(false);
-        setShowDetailsModal(false);
     };
 
     const handleModalSave = () => {
@@ -207,20 +201,11 @@ export default function WorkshopList({
                         )}
                         {showModal && (
                             <div>
-                                <DeleteConfirmationModalScreen
+                                <ConfirmDeleteModal_workshopTemplates
                                     onClose={handleModalClose}
                                     onSave={handleModalSave}
                                     workshopId={workshopToDeleteId}
                                     workshopName={workshopToDeleteName}
-                                />
-                            </div>
-                        )}
-                        {showDetailsModal && (
-                            <div>
-                                <UserWorkshopDetailsModalScreen
-                                    onClose={handleModalClose}
-                                    onSave={handleModalSave}
-                                    workshopId={selectedWorkshopId}
                                 />
                             </div>
                         )}

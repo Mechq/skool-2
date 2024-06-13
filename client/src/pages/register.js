@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import AccountCreation from "../components/register/RegisterPageOne";
-import PersonalDetails from "../components/register/RegisterPageTwo";
-import AccountConfirmation from '../components/register/RegisterConfirmation';
+import AccountCreation from "../components/register/PersonalDetails_register";
+import PersonalDetails from "../components/register/CorporateDetails_register";
+import AccountConfirmation from '../components/register/Confirmation_register';
 
 const RegistrationFlow = () => {
     const navigate = useNavigate();

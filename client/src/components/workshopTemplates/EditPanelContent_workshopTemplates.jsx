@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-function EditPanelWorkshopContent({workshopId, setShowSidePanel}) {
+function EditPanelContent_workshopTemplates({workshopId, setShowSidePanel}) {
     const [name, setName] = useState("");
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -138,4 +138,4 @@ function EditPanelWorkshopContent({workshopId, setShowSidePanel}) {
     );
 }
 
-export default EditPanelWorkshopContent;
+export default EditPanelContent_workshopTemplates;

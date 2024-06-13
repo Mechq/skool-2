@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-export default function CreateWorkLocationContent({setWorkLocations, setShowSidePanel}) {
+export default function CreatePanelContent_workLocation({setWorkLocations, setShowSidePanel}) {
     const [name, setName] = useState("");
     const [street, setStreet] = useState("");
     const [houseNumber, setHouseNumber] = useState("");

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function DeleteConfirmationModalScreen({onClose, onSave, workshopId, workshopName}) {
+export default function ConfirmDeleteModal_workshopTemplates({onClose, onSave, workshopId, workshopName}) {
     const handleDelete = () => {
         fetch(`/api/workshop/${workshopId}`, {
             method: 'DELETE',

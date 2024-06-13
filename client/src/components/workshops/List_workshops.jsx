@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import InviteTeacherModalScreen from "./InviteTeacherModalScreen";
+import InviteModal_workshops from "./InviteModal_workshops";
 
-export default function CommissionWorkshopList({
+export default function List_workshops({
                                                    commissionWorkshops,
                                                    setCommissionWorkshops,
                                                }) {
@@ -71,7 +71,7 @@ export default function CommissionWorkshopList({
             </table>
 
             {showModal && (
-                <InviteTeacherModalScreen
+                <InviteModal_workshops
                     onClose={() => setShowModal(false)}
                     commissionWorkshop={commissionWorkshop}
                 />

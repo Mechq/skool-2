@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import SidePanel from "../components/SidePanel";
-import EditPanelWorkshopContent from "../components/workshopTemplates/EditPanelWorkshopContent";
-import UserProfile from "../components/profile/UserProfile";
-import ProfileWorkshopList from "../components/profile/ProfileWorkshopList";
+import EditPanelContent_workshopTemplates from "../components/workshopTemplates/EditPanelContent_workshopTemplates";
+import List_profile from "../components/profile/List_profile";
+import WorkshopTemplateList_profile from "../components/profile/WorkshopTemplateList_profile";
 import {jwtDecode} from "jwt-decode";
 
 export default function Profile() {
@@ -58,13 +58,13 @@ export default function Profile() {
         <>
             <div className="grid grid-cols-2 gap-4">
                 <div>
-                    <UserProfile
+                    <List_profile
                         user={user}
                         editUser={editUser}
                     />
                 </div>
                 <div>
-                    <ProfileWorkshopList
+                    <WorkshopTemplateList_profile
                         user={user}
                         editUser={editUser}
                         workshops={workshops}
@@ -80,7 +80,7 @@ export default function Profile() {
                 setRotateSpan={setRotateSpan}
             >
                 {sidePanelContent === "edit" && (
-                    <EditPanelWorkshopContent
+                    <EditPanelContent_workshopTemplates
                         setShowSidePanel={setIsOpen}
                     />
                 )}

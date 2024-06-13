@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 
-export default function EnrollmentList({
+export default function List_teacherEnrollments({
                                            isOpen,
                                            enrollments,
                                            setEnrollments,

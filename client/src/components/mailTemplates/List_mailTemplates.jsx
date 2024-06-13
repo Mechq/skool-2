@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function MailTemplateList({
+export default function List_mailTemplates({
                                              setShowSidePanel,
                                              setSidePanelContent,
                                              setMailTemplateId,

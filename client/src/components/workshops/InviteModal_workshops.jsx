@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-export default function InviteTeacherModalScreen({onClose, onSave, commissionWorkshop}) {
+export default function InviteModal_workshops({onClose, onSave, commissionWorkshop}) {
     const [users, setUsers] = useState([]);
     const [selectedTeacher, setSelectedTeacher] = useState("");
 

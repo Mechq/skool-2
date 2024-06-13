@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import CommissionWorkshopList from "../components/commissionWorkshops/CommissionWorkshopList";
+import List_workshops from "../components/commissionWorkshops/List_workshops";
 
-export function CommissionWorkshops() {
+export function Workshops() {
     const [isOpen, setIsOpen] = useState(false);
     const [commissionWorkshopId, setCommissionWorkshopId] = useState(null);
     const [commissionWorkshops, setCommissionWorkshops] = useState([]);
@@ -17,7 +17,7 @@ export function CommissionWorkshops() {
 
     return (
         <div>
-            <CommissionWorkshopList
+            <List_workshops
                 setIsOpen={setIsOpen}
                 isOpen={isOpen}
                 commissionWorkshops={commissionWorkshops}
@@ -27,4 +27,4 @@ export function CommissionWorkshops() {
     );
 }
 
-export default CommissionWorkshops;
+export default Workshops;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import CustomerList from "../components/customers/CustomerList";
-import CreateCustomerPanelContent from "../components/customers/CreateCustomerPanelContent";
-import EditCustomerPanelContent from "../components/customers/EditCustomerPanelContent";
+import List_customers from "../components/customers/List_customers";
+import CreatePanelContent_customers from "../components/customers/CreatePanelContent_customers";
+import EditPanelContent_customers from "../components/customers/EditPanelContent_customers";
 import SidePanel from "../components/SidePanel";
 import CreateButton from "../components/CreateButton";
 
@@ -35,17 +35,17 @@ export function Customers() {
                        rotateSpan={rotateSpan}
                        setRotateSpan={setRotateSpan}>
                 {sidePanelContent === "create" &&
-                    <CreateCustomerPanelContent setCustomers={setCustomers} setShowSidePanel={setIsOpen}/>}
+                    <CreatePanelContent_customers setCustomers={setCustomers} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditCustomerPanelContent customerId={customerId} setShowSidePanel={setIsOpen}/>}
+                    <EditPanelContent_customers customerId={customerId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
-            <CustomerList customers={customers}
-                          setIsOpen={setIsOpen}
-                          isOpen={isOpen}
-                          setSidePanelContent={setSidePanelContent}
-                          setCustomerId={setCustomerId}
-                          setRotateSpan={setRotateSpan}
-                          setCustomers={setCustomers}
+            <List_customers customers={customers}
+                            setIsOpen={setIsOpen}
+                            isOpen={isOpen}
+                            setSidePanelContent={setSidePanelContent}
+                            setCustomerId={setCustomerId}
+                            setRotateSpan={setRotateSpan}
+                            setCustomers={setCustomers}
                           />
         </div>
     );

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-export default function CreateCustomerPanelContent({setCustomers, setShowSidePanel}) {
+export default function CreatePanelContent_customers({setCustomers, setShowSidePanel}) {
 
     const [name, setName] = useState("");
     const [locationName, setLocationName] = useState("");

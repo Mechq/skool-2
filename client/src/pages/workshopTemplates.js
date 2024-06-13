@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import WorkshopList from "../components/workshopTemplates/WorkshopList";
-import CreatePanelContent from "../components/workshopTemplates/CreatePanelContent";
+import List_workshopTemplates from "../components/workshopTemplates/List_workshopTemplates";
+import CreatePanelContent_workshopTemplates from "../components/workshopTemplates/CreatePanelContent_workshopTemplates";
 import SidePanel from "../components/SidePanel";
-import EditPanelWorkshopContent from "../components/workshopTemplates/EditPanelWorkshopContent";
+import EditPanelContent_workshopTemplates from "../components/workshopTemplates/EditPanelContent_workshopTemplates";
 import CreateButton from "../components/CreateButton";
 
 export default function WorkshopTemplates() {
@@ -37,11 +37,11 @@ export default function WorkshopTemplates() {
                        rotateSpan={rotateSpan}
                        setRotateSpan={setRotateSpan}>
                 {sidePanelContent === "create" &&
-                    <CreatePanelContent setWorkshops={setWorkshops} setShowSidePanel={setIsOpen}/>}
+                    <CreatePanelContent_workshopTemplates setWorkshops={setWorkshops} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditPanelWorkshopContent workshopId={workshopId} setShowSidePanel={setIsOpen}/>}
+                    <EditPanelContent_workshopTemplates workshopId={workshopId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
-            <WorkshopList
+            <List_workshopTemplates
                 setIsOpen={setIsOpen}
                 isOpen={isOpen}
                 setSidePanelContent={setSidePanelContent}

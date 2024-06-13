@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import InvitesList from "../components/invites/InvitesList";
+import List_invites from "../components/invites/List_invites";
 import {jwtDecode} from "jwt-decode";
 
 
@@ -28,7 +28,7 @@ export function Invites() {
 
     return (
         <div>
-            <InvitesList
+            <List_invites
                 invites={invites}
                 user={user}
                 setInvites={setInvites}

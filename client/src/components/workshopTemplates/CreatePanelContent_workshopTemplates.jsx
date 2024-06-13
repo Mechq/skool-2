@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-export default function CreatePanelContent({setWorkshops, setShowSidePanel}) {
+export default function CreatePanelContent_workshopTemplates({setWorkshops, setShowSidePanel}) {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {

@@ -3,7 +3,7 @@ import UserWorkshopCard from "../cards/UserWorkshopCard";
 import UserWorkshopDetailsModalScreen from "../UserWorkshopDetailsModalScreen";
 
 
-export default function UserWorkshopList({userWorkshops, setUserWorkshops, user}) {
+export default function List_openWorkshops({userWorkshops, setUserWorkshops, user}) {
     const [commissions, setCommissions] = useState([]);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);

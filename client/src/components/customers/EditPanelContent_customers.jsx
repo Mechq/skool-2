@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-function EditCustomerPanelContent({customerId, setShowSidePanel}) {
+function EditPanelContent_customers({customerId, setShowSidePanel}) {
     const [name, setName] = useState('');
     const [locationName, setLocationName] = useState('');
     const [contactName, setContactName] = useState('');
@@ -164,4 +164,4 @@ function EditCustomerPanelContent({customerId, setShowSidePanel}) {
     );
 }
 
-export default EditCustomerPanelContent;
+export default EditPanelContent_customers;

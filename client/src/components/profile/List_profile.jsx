@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Dropdown from "../Dropdown"
 
-export default function UserProfile({user, editUser}) {
+export default function List_profile({user, editUser}) {
     const [languages, setLanguages] = useState("");
 
     useEffect(() => {

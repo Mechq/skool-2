@@ -1,6 +1,6 @@
 import {useEffect} from "react";
 
-export default function InvitesList({
+export default function List_invites({
                                         invites,
                                         setInvites,
                                         user

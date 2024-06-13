@@ -14,7 +14,7 @@ import Teachers from './pages/teachers';
 import ProtectedRoute from "./ProtectedRoute";
 import OpenWorkshops from "./pages/openWorkshops";
 import TeacherEnrollments from "./pages/teacherEnrollments";
-import CommissionWorkshops from "./pages/commissionWorkshops";
+import Workshops from "./pages/workshops";
 import Invites from "./pages/invites";
 
 function App() {
@@ -76,7 +76,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/user" element={<ProtectedRoute access="everyone"><Profile /></ProtectedRoute>} />
                     <Route path="/userWorkshops" element={<ProtectedRoute access="everyone"><OpenWorkshops /></ProtectedRoute>} />
-                    <Route path="/commissionWorkshops" element={<ProtectedRoute access="admin"><CommissionWorkshops /></ProtectedRoute>} />
+                    <Route path="/commissionWorkshops" element={<ProtectedRoute access="admin"><Workshops /></ProtectedRoute>} />
                     <Route path='/invites' element={<ProtectedRoute access="everyone"><Invites /></ProtectedRoute>} />
                 </Routes>
             </div>

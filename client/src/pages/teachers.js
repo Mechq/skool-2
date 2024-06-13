@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import TeacherList from "../components/teachers/TeacherList";
-import CreatePanelContent from "../components/workshopTemplates/CreatePanelContent";
+import List_teachers from "../components/teachers/List_teachers";
+import CreatePanelContent_workshopTemplates from "../components/workshopTemplates/CreatePanelContent_workshopTemplates";
 import SidePanel from "../components/SidePanel";
-import EditUserPanelContent from "../components/teachers/EditUserPanelContent";
+import EditPanelContent_teachers from "../components/teachers/EditPanelContent_teachers";
 import CreateButton from "../components/CreateButton";
 
 export default function Teachers() {
@@ -35,11 +35,11 @@ export default function Teachers() {
                     rotateSpan={rotateSpan}
                     setRotateSpan={setRotateSpan}/>
                 {sidePanelContent === "create" &&
-                    <CreatePanelContent setUsers={setUsers} setShowSidePanel={setIsOpen}/>}
+                    <CreatePanelContent_workshopTemplates setUsers={setUsers} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditUserPanelContent userId={userId} setShowSidePanel={setIsOpen}/>}
+                    <EditPanelContent_teachers userId={userId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
-            <TeacherList
+            <List_teachers
                 setIsOpen={setIsOpen}
                 isOpen={isOpen}
                 setSidePanelContent={setSidePanelContent}

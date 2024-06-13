@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-export default function EditUserPanelContent({userId, setShowSidePanel}) {
+export default function EditPanelContent_teachers({userId, setShowSidePanel}) {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',

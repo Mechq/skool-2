@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-export default function ProfileWorkshopList({user, workshops, qualifiedWorkshops}) {
+export default function WorkshopTemplateList_profile({user, workshops, qualifiedWorkshops}) {
     const [selectedWorkshops, setSelectedWorkshops] = useState([]);
     const [isAccordionOpen, setIsAccordionOpen] = useState([false, false, false, false, false, false]);
 

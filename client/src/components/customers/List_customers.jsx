@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 
-export default function CustomerList({
+export default function List_customers({
                                          isOpen,
                                          setIsOpen,
                                          setSidePanelContent,

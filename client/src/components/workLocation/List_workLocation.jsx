@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-export default function WorkLocationList({
+export default function List_workLocation({
                                              setShowSidePanel,
                                              setSidePanelContent,
                                              setWorkLocationId,
