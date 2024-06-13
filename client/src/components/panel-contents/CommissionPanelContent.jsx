@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-export default function CommissionPanelContent({ setShowSidePanel, setCommissions }) {
+export default function CommissionPanelContent({setShowSidePanel, setCommissions}) {
     const [details, setDetails] = useState("");
     const [targetAudience, setTargetAudience] = useState("");
     const [customerId, setCustomerId] = useState("");
@@ -135,7 +135,8 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                 <div className="mb-6">
                     <label htmlFor="targetAudience"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Doelgroep</label>
-                    <input type="text" id="targetAudience" value={targetAudience} onChange={(e) => setTargetAudience(e.target.value)}
+                    <input type="text" id="targetAudience" value={targetAudience}
+                           onChange={(e) => setTargetAudience(e.target.value)}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="doelgroep" required/>
                 </div>
@@ -154,7 +155,7 @@ export default function CommissionPanelContent({ setShowSidePanel, setCommission
                         )}
                         {locations.map((location) => (
                             <option key={location.id} value={location.id}>
-                                {     location.name}
+                                {location.name}
                             </option>
                         ))}
                     </select>

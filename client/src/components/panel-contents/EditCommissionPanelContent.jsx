@@ -180,7 +180,6 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
     }, [selectedCustomerId]);
 
 
-
     useEffect(() => {
         if (locationId) {
             fetch(`/api/location/customer/${selectedCustomerId}`)
@@ -201,6 +200,7 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
                 setShowOptions(false);
             }
         }
+
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
@@ -439,7 +439,6 @@ export default function EditCommissionPanelContent({setShowSidePanel, commission
                     roundId={editedRoundId}
                     onClose={handleModalClose}
                     onSave={handleModalSave}
-                    commissionId={commissionId}
                     onEdit={handleUpdate}
                 />
             )}

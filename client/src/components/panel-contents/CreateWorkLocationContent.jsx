@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 
-export default function CreateWorkLocationContent({ setWorkLocations, setShowSidePanel }) {
+export default function CreateWorkLocationContent({setWorkLocations, setShowSidePanel}) {
     const [name, setName] = useState("");
     const [street, setStreet] = useState("");
     const [houseNumber, setHouseNumber] = useState("");
@@ -79,7 +79,8 @@ export default function CreateWorkLocationContent({ setWorkLocations, setShowSid
             <form onSubmit={handleSubmit}>
                 <div className="mb-6">
                     <label htmlFor="locationName"
-                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Locatie naam</label>
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Locatie
+                        naam</label>
                     <input type="text" id="locationName" value={name} onChange={(e) => setName(e.target.value)}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="Hoofdkantoor A" required/>
@@ -109,7 +110,8 @@ export default function CreateWorkLocationContent({ setWorkLocations, setShowSid
                     <div>
                         <label htmlFor="houseNumber"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Huisnummer</label>
-                        <input type="text" id="houseNumber" value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)}
+                        <input type="text" id="houseNumber" value={houseNumber}
+                               onChange={(e) => setHouseNumber(e.target.value)}
                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                                placeholder="1" required/>
                     </div>
@@ -131,13 +133,14 @@ export default function CreateWorkLocationContent({ setWorkLocations, setShowSid
                 </div>
                 <div className="mb-6">
                     <label htmlFor="description"
-                        className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Beschrijving locatie</label>
-                    <textarea id="description" 
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        rows="2"
-                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                        placeholder="Beschrijving...">
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Beschrijving
+                        locatie</label>
+                    <textarea id="description"
+                              value={description}
+                              onChange={(e) => setDescription(e.target.value)}
+                              rows="2"
+                              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                              placeholder="Beschrijving...">
                     </textarea>
                 </div>
                 <button type="submit"

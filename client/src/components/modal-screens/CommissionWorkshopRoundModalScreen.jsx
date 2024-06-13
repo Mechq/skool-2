@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../styles/ModalScreen.css";
 
-export default function CommissionWorkshopRoundModalScreen({ roundType, roundId, onClose, onSave, onWorkshopAdded }) {
+export default function CommissionWorkshopRoundModalScreen({roundType, roundId, onClose, onSave, onWorkshopAdded}) {
     const [editedRound, setEditedRound] = useState(roundType);
     const [workshops, setWorkshops] = useState([]);
     const [selectedWorkshops, setSelectedWorkshops] = useState([]);
     const [duration, setDuration] = useState('');
     const [startTime, setStartTime] = useState('')
-    const [order, setOrder] = useState('')
     const [endTime, setEndTime] = useState('')
     const [commissionId, setCommissionId] = useState('')
     const [initSelectedWorkshops, setInitSelectedWorkshops] = useState([])
@@ -20,7 +19,6 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
             .then(res => res.json())
             .then(data => {
                 setWorkshops(data.data);
-                console.log("Fetched workshops: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
@@ -33,7 +31,6 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                 setStartTime(data.data.startTime);
                 setEndTime(data.data.endTime);
                 setCommissionId(data.data.commissionId);
-                console.log("Fetched workshops: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
@@ -46,7 +43,6 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                 const selectedWorkshopIds = data.data.map(workshop => workshop.id);
                 setSelectedWorkshops(selectedWorkshopIds);
                 setInitSelectedWorkshops(selectedWorkshopIds);
-                console.log("Fetched selected workshops: ", selectedWorkshopIds);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [roundId]);
@@ -89,7 +85,6 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
         e.preventDefault();
         onSave(editedRound);
 
-        // First, update the round duration and start time
         fetch(`/api/round/${roundId}`, {
             method: 'PUT',
             headers: {
@@ -102,20 +97,14 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
             }),
         })
             .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-
-                // After updating the round, delete associated workshops
+            .then(() => {
                 fetch(`/api/workshopRound/workshop/${roundId}`, {
                     method: 'DELETE',
                 })
                     .then(response => response.json())
-                    .then(data => {
-                        console.log('Delete Success:', data);
+                    .then(() => {
 
-                        // After deleting workshops, add selected workshops to the round
                         const fetchPromises = selectedWorkshops.map(selectedWorkshopId => {
-                            console.log("Adding workshop to round: ", selectedWorkshopId, roundId)
                             return fetch(`/api/workshopRound/${selectedWorkshopId}/${roundId}`, {
                                 method: 'POST',
                                 headers: {
@@ -128,13 +117,11 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                                 }),
                             })
                                 .then(response => response.json())
-                                .then(data => {
-                                    console.log('Success:', data);
+                                .then(() => {
                                 })
                                 .catch(error => console.error('Error:', error));
                         });
 
-                        // After adding workshops, execute necessary follow-up actions
                         Promise.all(fetchPromises)
                             .then(() => {
                                 onWorkshopAdded();
@@ -148,21 +135,13 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
             })
             .catch(error => console.error('PUT Error:', error));
 
-
-        console.log("initSelectedWorkshops", initSelectedWorkshops)
-        console.log("selectedWorkshops", selectedWorkshops)
-        // init = [44,23]
-        // selected = [44,23, 12]
-        //
         initSelectedWorkshops.forEach(initSelectedWorkshopId => {
             if (!selectedWorkshops.includes(initSelectedWorkshopId)) {
-                console.log("deleting workshop", initSelectedWorkshopId)
                 fetch(`/api/workshopRound/${initSelectedWorkshopId}/${commissionId}`, {
                     method: 'DELETE',
                 })
                     .then(response => response.json())
-                    .then(data => {
-                        console.log('Success:', data);
+                    .then(() => {
                     })
                     .catch(error => console.error('Error:', error));
             }
@@ -211,7 +190,7 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                     {workshops.map(workshop => (
                         <li key={workshop.id}>
                             <label>
-                            <input
+                                <input
                                     type="checkbox"
                                     checked={selectedWorkshops.includes(workshop.id)}
                                     onChange={() => handleCheckboxChange(workshop.id)}
@@ -221,8 +200,10 @@ export default function CommissionWorkshopRoundModalScreen({ roundType, roundId,
                         </li>
                     ))}
                 </ul>
-                <button                     className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange mt-4"
-                                            type="submit" onClick={handleSubmit}>Opslaan</button>
+                <button
+                    className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange mt-4"
+                    type="submit" onClick={handleSubmit}>Opslaan
+                </button>
             </div>
         </div>
     );

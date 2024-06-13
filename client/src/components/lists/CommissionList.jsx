@@ -150,7 +150,6 @@ export default function CommissionList({
                     <DeleteCommissionModalScreen
                         onClose={handleModalClose}
                         onSave={handleModalSave}
-                        commissionId={commissionToDeleteId}
                         commissionName={commissionToDeleteName}
                         commissionDate={commissionToDeleteDate}
                     />
