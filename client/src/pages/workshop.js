@@ -21,6 +21,7 @@ export default function Workshop() {
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [setIsOpen]);
+
     return (
         <div>
             <CreateButton
@@ -46,7 +47,7 @@ export default function Workshop() {
                 setSidePanelContent={setSidePanelContent}
                 setWorkshopId={setWorkshopId}
                 workshops={workshops}
-                setWorkshops={setWorkshops} // pass setWorkshops as prop
+                setWorkshops={setWorkshops}
                 setRotateSpan={setRotateSpan}
             />
         </div>

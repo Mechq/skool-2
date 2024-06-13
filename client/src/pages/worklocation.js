@@ -5,7 +5,7 @@ import CreateButton from "../components/CreateButton";
 import WorkLocationList from "../components/lists/WorkLocationList";
 import EditPanelWorkLocationContent from "../components/panel-contents/EditWorkLocationContent";
 
-function Worklocation() {
+export default function WorkLocation() {
     const [isOpen, setIsOpen] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [workLocations, setWorkLocations] = useState([]);
@@ -35,17 +35,17 @@ function Worklocation() {
                 {sidePanelContent === "create" &&
                     <CreateWorkLocationContent setWorkLocations={setWorkLocations} setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
-                    <EditPanelWorkLocationContent setWorkLocations={setWorkLocations} locationId={workLocationId} setShowSidePanel={setIsOpen}/>}
+                    <EditPanelWorkLocationContent setWorkLocations={setWorkLocations} locationId={workLocationId}
+                                                  setShowSidePanel={setIsOpen}/>}
             </SidePanel>
             <WorkLocationList
                 setShowSidePanel={setIsOpen}
                 setSidePanelContent={setSidePanelContent}
                 setWorkLocationId={setWorkLocationId}
-                workLocations={workLocations} // Pass workLocations as mailTemplates for demonstration
+                workLocations={workLocations}
                 setRotateSpan={setRotateSpan}
             />
         </div>
     );
 }
 
-export default Worklocation;

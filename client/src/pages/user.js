@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import SidePanel from "../components/SidePanel";
 import EditPanelWorkshopContent from "../components/panel-contents/EditPanelWorkshopContent";
 import UserProfile from "../components/lists/UserProfile";
 import ProfileWorkshopList from "../components/lists/ProfileWorkshopList";
 import {jwtDecode} from "jwt-decode";
 
-function User() {
+export default function User() {
     const [isOpen, setIsOpen] = useState(false);
     const [sidePanelContent, setSidePanelContent] = useState("");
     const [user, setUser] = useState({});
     const [rotateSpan, setRotateSpan] = useState(false);
-    const [workshopId, setWorkshopId] = useState(null);
     const [workshops, setWorkshops] = useState([]);
     const [qualifiedWorkshops, setQualifiedWorkshops] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -32,11 +31,9 @@ function User() {
 
                 const workshopData = await workshopRes.json();
                 setWorkshops(workshopData.data);
-                // console.log("Fetched workshops: ", workshopData.data);
 
                 const qualifiedWorkshopsData = await qualifiedWorkshopsRes.json();
                 setQualifiedWorkshops(qualifiedWorkshopsData.data);
-                // console.log("Fetched teacherWorkshops: ", qualifiedWorkshopsData.data);
 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -45,14 +42,13 @@ function User() {
             }
         };
 
-        fetchData();
-        console.log("User: ", user)
+        fetchData().then();
     }, []);
 
     if (loading) {
         return <div>Loading...</div>;
     }
-    
+
     const editUser = () => {
         setIsOpen(true);
         setSidePanelContent("edit");
@@ -62,7 +58,6 @@ function User() {
         <>
             <div className="grid grid-cols-2 gap-4">
                 <div>
-                    {console.log("User: ", user)}
                     <UserProfile
                         user={user}
                         editUser={editUser}
@@ -94,4 +89,3 @@ function User() {
     );
 }
 
-export default User;

@@ -25,21 +25,20 @@ export default function MailTemplates() {
     return (
         <div>
             <SidePanel isOpen={isOpen}
-                setIsOpen={setIsOpen}
-                rotateSpan={rotateSpan}
-                setRotateSpan={setRotateSpan}>
-                    <CreateButton
-                        setShowSidePanel={setIsOpen}
-                        showSidePanel={isOpen}
-                        setSidePanelContent={setSidePanelContent}
-                        rotateSpan={rotateSpan}
-                        setRotateSpan={setRotateSpan}/>
+                       setIsOpen={setIsOpen}
+                       rotateSpan={rotateSpan}
+                       setRotateSpan={setRotateSpan}>
+                <CreateButton
+                    setShowSidePanel={setIsOpen}
+                    showSidePanel={isOpen}
+                    setSidePanelContent={setSidePanelContent}
+                    rotateSpan={rotateSpan}
+                    setRotateSpan={setRotateSpan}/>
                 {sidePanelContent === "create" &&
                     <MailTemplateContent setShowSidePanel={setIsOpen}/>}
                 {sidePanelContent === "edit" &&
                     <EditMailTemplateContent mailTemplateId={mailTemplateId} setShowSidePanel={setIsOpen}/>}
             </SidePanel>
-
             <MailTemplateList
                 setShowSidePanel={setIsOpen}
                 setSidePanelContent={setSidePanelContent}

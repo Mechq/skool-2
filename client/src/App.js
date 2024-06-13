@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, Routes, useLocation} from 'react-router-dom';
-import NavBar from './components/NavBar';
+import Navbar from './components/Navbar';
 import Home from './pages/home';
 import Customers from './pages/customers';
 import Workshop from './pages/workshop';
@@ -12,7 +12,7 @@ import Register from './pages/register';
 import User from './pages/user';
 import Users from './pages/users';
 import ProtectedRoute from "./ProtectedRoute";
-import UserWorkshops from "./pages/UserWorkshops";
+import UserWorkshops from "./pages/userWorkshops";
 import TeacherEnrollments from "./pages/teacherEnrollments";
 import CommissionWorkshops from "./pages/commissionWorkshops";
 import Invites from "./pages/invites";
@@ -60,7 +60,7 @@ function App() {
 
     return (
         <div className="flex flex-col min-h-screen">
-            {!(isLoginPage || isRegisterPage) && <NavBar/>}
+            {!(isLoginPage || isRegisterPage) && <Navbar/>}
             <div className="container mx-auto flex-grow py-4">
                 <Routes>
                     <Route path="/workshops" element={<ProtectedRoute access="admin"><Workshop /></ProtectedRoute>} />

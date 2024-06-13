@@ -1,14 +1,10 @@
 import React, {useEffect, useState} from "react";
-import TeacherList from "../components/lists/TeacherList";
-
-import PageSecurity from "../PageSecurity";
 import UserWorkshopList from "../components/lists/UserWorkshopList";
 import {jwtDecode} from "jwt-decode";
 
 export default function UserWorkshops() {
 const [userWorkshops, setUserWorkshops] = useState([]);
     const [user, setUser] = useState({});
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,7 +15,7 @@ const [userWorkshops, setUserWorkshops] = useState([]);
                 setUser(decodedToken);
             }
         }
-        fetchData()
+        fetchData().then()
     }, [])
 
     useEffect(() => {

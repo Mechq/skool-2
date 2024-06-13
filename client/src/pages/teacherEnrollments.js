@@ -3,7 +3,7 @@ import EnrollmentList from "../components/lists/EnrollmentList";
 
 export default function Workshop() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [enrollmentId, setEnrollmentId] = useState(null);
+    const [enrollmentId, setEnrollmentId] = useState(null);
   const [enrollments, setEnrollments] = useState([]);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Workshop() {
         isOpen={isOpen}
         setEnrollmentId={setEnrollmentId}
         enrollments={enrollments}
-        setEnrollments={setEnrollments} // pass setWorkshops as prop
+        setEnrollments={setEnrollments}
       />
     </div>
   );
