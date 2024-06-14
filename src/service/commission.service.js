@@ -18,12 +18,13 @@ const commissionService = {
                 details,
                 targetAudience,
                 locationId,
+                grade,
             } = commission;
 
-            const values = [customerId, details, targetAudience, locationId];
+            const values = [customerId, details, targetAudience, locationId, grade];
 
             // TODO: Implement the query to insert correct data
-            const query = 'INSERT INTO commission (customerId, details, targetAudience, locationId) VALUES (?, ?, ?, ?)';
+            const query = 'INSERT INTO commission (customerId, details, targetAudience, locationId, grade) VALUES (?, ?, ?, ?, ?)';
 
             logger.debug('query', query);
 
