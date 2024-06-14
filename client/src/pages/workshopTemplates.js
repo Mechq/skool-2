@@ -70,7 +70,7 @@ export default function WorkshopTemplates() {
                 setIsAllExpanded={setIsAllExpanded}
             />
 
-            {/* Footer bar */}
+
             <div className="w-full">
                 <div className="relative overflow-hidden bg-white rounded-b-lg shadow-md light:bg-gray-800">
                     <nav className="flex flex-row items-center justify-between p-4" aria-label="Table navigation">
