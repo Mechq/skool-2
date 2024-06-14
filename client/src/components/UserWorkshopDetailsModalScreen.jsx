@@ -221,6 +221,8 @@ export default function UserWorkshopDetailsModalScreen({onClose, workshop, commi
                                             <h1 className="font-bold text-lg">Opdracht Informatie</h1>
                                             <p><strong>Details:</strong> {workshop.details}</p>
                                             <p><strong>Doelgroep:</strong> {workshop.targetAudience}</p>
+                                            <p><strong>Leerjaar en niveau:</strong> {workshop.grade}</p>
+
                                             <p><strong>Docenten:</strong> {workshopRound.amountOfTeachers}</p>
                                             <p><strong>Leerlingen:</strong> {workshopRound.amountOfStudents}</p>
                                         </div>
