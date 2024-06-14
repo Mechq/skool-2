@@ -1,13 +1,14 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 
-export default function AccountConfirmation({formData, postRequest}) {
+export default function AccountConfirmation({ formData, postRequest }) {
     const [hasPosted, setHasPosted] = useState(false);
 
     useEffect(() => {
         if (postRequest && !hasPosted) {
             console.log('Posting data:', JSON.stringify(formData));
-            const createDatabaseAccount = (formData) => {
-                fetch('/api/register', {
+
+            const createDatabaseAccount = () => {
+                return fetch('/api/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -16,42 +17,52 @@ export default function AccountConfirmation({formData, postRequest}) {
                 })
                     .then(response => {
                         if (!response.ok) {
-                            throw response;
+                            throw new Error('Failed to create database account');
                         }
                         return response.json();
                     })
                     .then(data => {
-                        setHasPosted(true);
+                        console.log('Database account created successfully:', data);
                     })
                     .catch(error => {
-                        console.error('Error:', error);
+                        console.error('Error creating database account:', error);
+                        throw error; // Re-throw error to propagate to outer catch block
                     });
             };
 
-            const createUserLanguageQualifications = (formData) => {
-                fetch(`/api/language/${formData.email}`, {
+            const createUserLanguageQualifications = () => {
+                return fetch(`/api/language/${formData.email}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({"languages": formData.userLanguages}),
+                    body: JSON.stringify({ "languages": formData.userLanguages }),
                 })
                     .then(response => {
                         if (!response.ok) {
-                            throw response;
+                            throw new Error('Failed to create user language qualifications');
                         }
                         return response.json();
                     })
                     .then(data => {
-                        setHasPosted(true);
+                        console.log('User language qualifications added successfully:', data);
                     })
                     .catch(error => {
-                        console.error('Error:', error);
+                        console.error('Error adding user language qualifications:', error);
+                        throw error; // Re-throw error to propagate to outer catch block
                     });
             };
 
-            createDatabaseAccount(formData);
-            createUserLanguageQualifications(formData);
+            // Sequential execution using Promise chaining
+            createDatabaseAccount()
+                .then(() => createUserLanguageQualifications())
+                .then(() => {
+                    setHasPosted(true);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Handle error or set appropriate state
+                });
         }
     }, [postRequest, hasPosted, formData]);
 
