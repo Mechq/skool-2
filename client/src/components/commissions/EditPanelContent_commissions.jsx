@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import Datepicker from "tailwind-datepicker-react"
 import "../../styles/optionsRoundCreate.css"
 import RoundEditModal from "./RoundEditModal_commissions";
@@ -323,14 +323,42 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     };
 
     const handleChange = (index, key, value) => {
-        const localDate = new Date(value.getTime() - value.getTimezoneOffset() * 60000);
-        const isoDate = localDate.toISOString(); // Get ISO date string
-        const formattedDate = isoDate.substring(0, 10); // Extract YYYY-MM-DD
+        console.log("handleChange value:", value, typeof value);
+
+        // Ensure newDates[index] is initialized as a string if it's undefined
         const newDates = [...dates];
-        newDates[index][key] = formattedDate;
-        setDates(newDates);
-        
+        try {
+            // Check if value is a valid date string
+            if (typeof value !== 'string') {
+                console.log("Invalid date string:", value);
+                return;
+            }
+
+            // Convert `value` into a Date object
+            const selectedDate = new Date(value);
+
+            // Check if `selectedDate` is a valid Date object
+            if (isNaN(selectedDate.getTime())) {
+                console.error("Invalid date:", value);
+                return;
+            }
+
+            // Format `selectedDate` to YYYY-MM-DD
+            const isoDate = selectedDate.toISOString();
+            const formattedDate = isoDate.substring(0, 10);
+
+            // Update newDates array with formattedDate directly
+            newDates[index] = formattedDate;
+            setDates(newDates);
+        } catch (error) {
+            console.error("Error parsing date:", error);
+        }
+        console.log("datessssss: ", dates)
     };
+
+
+
+
 
     return (
         <div className="px-6">
@@ -418,14 +446,15 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                             {dates.map((date, index) => (
                                 <tr key={index} className="bg-white border-b light:bg-gray-800 light:border-gray-700">
                                     <td className="py-2 px-2">
-                                        {console.log(date)}
+                                        {console.log("date: ",date, typeof date)}
                                         <Datepicker
                                             options={dateOptions}
-                                            onChange={(e) => handleChange(index, "date", e.target.value)}
+                                            onChange={(value) => handleChange(index, "date", value)} // Ensure `value` is passed correctly
                                             show={show}
                                             setShow={handleClose}
-                                            value={date} // Ensure `date` is in YYYY-MM-DD format
+                                            value={date}
                                         />
+
                                     </td>
                                     <td className="py-2 px-2 justify-center">
                                         <button
