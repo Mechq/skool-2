@@ -1,14 +1,14 @@
 import {useEffect} from "react";
 
 export default function List_teachers({
-                                        isOpen,
-                                        setIsOpen,
-                                        setSidePanelContent,
-                                        setUserId,
-                                        users,
-                                        setUsers,
-                                        setRotateSpan,
-                                    }) {
+                                          isOpen,
+                                          setIsOpen,
+                                          setSidePanelContent,
+                                          setUserId,
+                                          users,
+                                          setUsers,
+                                          setRotateSpan,
+                                      }) {
 
     useEffect(() => {
         fetch('/api/user')
@@ -26,6 +26,7 @@ export default function List_teachers({
         setIsOpen(true);
         setRotateSpan(true);
     };
+
     const formatDate = (date) => {
         if (!date) return "";
         const options = {year: 'numeric', month: 'long', day: 'numeric'};
@@ -39,8 +40,8 @@ export default function List_teachers({
                 <tr>
                     <th className="px-6 py-3">Workshopdocent</th>
                     <th className="px-6 py-3">Email</th>
-                    <th className="px-6 py-3">Telefoonnummer</th>
-                    <th className="px-6 py-3">Geboortedatum</th>
+                    <th className="px-6 py-3 hidden lg:table-cell">Telefoonnummer</th>
+                    <th className="px-6 py-3 hidden lg:table-cell">Geboortedatum</th>
                     <th className="px-6 py-3">Bewerken</th>
                 </tr>
                 </thead>
@@ -50,8 +51,8 @@ export default function List_teachers({
                         className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700">
                         <td className="px-6 py-4">{user.firstName + ' ' + user.lastName}</td>
                         <td className="px-6 py-4">{user.email}</td>
-                        <td className="px-6 py-4">{user.phoneNumber}</td>
-                        <td className="px-6 py-4">{formatDate(user.birthDate)}</td>
+                        <td className="px-6 py-4 hidden lg:table-cell">{user.phoneNumber}</td>
+                        <td className="px-6 py-4 hidden lg:table-cell">{formatDate(user.birthDate)}</td>
                         <td className="px-6 py-4">
                             <a href="#" onClick={(e) => {
                                 e.preventDefault();
