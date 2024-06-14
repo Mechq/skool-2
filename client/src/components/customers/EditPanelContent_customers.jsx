@@ -4,7 +4,6 @@ import {AiTwotonePlusCircle} from "react-icons/ai";
 function EditPanelContent_customers({customerId, setShowSidePanel}) {
     const [name, setName] = useState('');
     const [locationName, setLocationName] = useState('');
-    const [contactName, setContactName] = useState('');
     const [street, setStreet] = useState('');
     const [houseNumber, setHouseNumber] = useState('');
     const [postalCode, setPostalCode] = useState('');
@@ -23,7 +22,6 @@ function EditPanelContent_customers({customerId, setShowSidePanel}) {
                     const data = response.data;
                     console.log('customerdata', data);
                     setName(data.name || '');
-                    setContactName(data.contactName || '');
                     setEmail(data.email || '');
                     setPhoneNumber(data.phone || '');
                     setLocationName(data.locationName || '');
@@ -52,14 +50,13 @@ function EditPanelContent_customers({customerId, setShowSidePanel}) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!name || !locationName || !contactName || !street || !houseNumber || !postalCode || !city || !email || !phoneNumber) {
+        if (!name || !locationName || !street || !houseNumber || !postalCode || !city || !email || !phoneNumber) {
             return; // Exit the function if any required field is empty
         }
 
         const customer = {
             name,
             locationName,
-            contactName,
             street,
             houseNumber,
             city,

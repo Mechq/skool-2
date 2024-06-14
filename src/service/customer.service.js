@@ -14,15 +14,15 @@ const customerService = {
 
             const {
                 name,
-                contactName,
+
                 email,
                 phone,
                 locationId,
             } = customer;
 
-            const values = [name, contactName, email, phone, locationId];
+            const values = [name, email, phone, locationId];
 
-            const sql = 'INSERT INTO customer (name, contactName, email, phone, locationId) VALUES (?, ?, ?, ?, ?)';
+            const sql = 'INSERT INTO customer (name, email, phone, locationId) VALUES (?, ?, ?, ?)';
               connection.query(sql, values, function(error, results, fields) {
                     connection.release();
                     if (error) {
@@ -127,10 +127,6 @@ const customerService = {
             if (customer.name) {
                 customerSql += 'name = ?, ';
                 customerValues.push(customer.name);
-            }
-            if (customer.contactName) {
-                customerSql += 'contactName = ?, ';
-                customerValues.push(customer.contactName);
             }
             if (customer.email) {
                 customerSql += 'email = ?, ';

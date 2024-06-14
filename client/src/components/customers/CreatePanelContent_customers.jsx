@@ -4,7 +4,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
     const [name, setName] = useState("");
     const [locationName, setLocationName] = useState("");
-    const [contactName, setContactName] = useState("");
     const [street, setStreet] = useState("");
     const [houseNumber, setHouseNumber] = useState("");
     const [postalCode, setPostalCode] = useState("");
@@ -14,7 +13,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
     const [nameValid, setNameValid] = useState(true);
     const [locationNameValid, setLocationNameValid] = useState(true);
-    const [contactNameValid, setContactNameValid] = useState(true);
     const [streetValid, setStreetValid] = useState(true);
     const [houseNumberValid, setHouseNumberValid] = useState(true);
     const [postalCodeValid, setPostalCodeValid] = useState(true);
@@ -29,7 +27,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
         if (!name) setNameValid(false);
         if (!locationName) setLocationNameValid(false);
-        if (!contactName) setContactNameValid(false);
         if (!street) setStreetValid(false);
         if (!houseNumber) setHouseNumberValid(false);
         if (!postalCode) setPostalCodeValid(false);
@@ -37,7 +34,7 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
         if (!email) setEmailValid(false);
         if (!phoneNumber) setPhoneNumberValid(false);
 
-        if (!name || !locationName || !contactName || !street || !houseNumber || !postalCode || !city || !email || !phoneNumber) return;
+        if (!name || !locationName || !street || !houseNumber || !postalCode || !city || !email || !phoneNumber) return;
 
         const location = {
             name: locationName,
@@ -60,7 +57,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
                 const customer = {
                     name,
-                    contactName,
                     email,
                     phone: parseInt(phoneNumber),
                     locationId: data.data.Id
@@ -95,7 +91,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
         setName('');
         setLocationName('');
-        setContactName('');
         setStreet('');
         setHouseNumber('');
         setPostalCode('');
