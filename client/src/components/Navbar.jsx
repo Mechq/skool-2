@@ -1,5 +1,5 @@
-import { Link, useMatch, useResolvedPath } from 'react-router-dom';
-import { useState } from 'react';
+import {Link, useMatch, useResolvedPath} from 'react-router-dom';
+import {useState} from 'react';
 import {jwtDecode} from 'jwt-decode';
 
 function Navbar() {
@@ -18,7 +18,7 @@ function Navbar() {
     let userRole = null;
     let userName = null;
     if (token) {
-        const decodedToken = jwtDecode(token, process.env.ACCESS_TOKEN_SECRET);
+        const decodedToken = jwtDecode(token);
         userRole = decodedToken.role;
         userName = decodedToken.firstName + ' ' + decodedToken.lastName;
     }
@@ -28,7 +28,7 @@ function Navbar() {
             <div className="container mx-auto flex flex-wrap justify-between items-center">
                 <Link to="/" className="flex items-center">
                     <img src="https://skoolworkshop.nl/wp-content/uploads/2020/06/Skool-Workshop_Logo-200x65.png"
-                         alt="Logo" className="self-center h-10" />
+                         alt="Logo" className="self-center h-10"/>
                 </Link>
                 <div className="flex items-center md:hidden">
                     <button
@@ -40,7 +40,7 @@ function Navbar() {
                         <span className="sr-only">Open main menu</span>
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                  d="M4 6h16M4 12h16m-7 6h7" />
+                                  d="M4 6h16M4 12h16m-7 6h7"/>
                         </svg>
                     </button>
                 </div>
@@ -48,37 +48,35 @@ function Navbar() {
                     <ul className="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
                         <CustomLink to="/workshops" userRole={userRole}>Workshops</CustomLink>
 
-                        <Dropdown
-                            userRole={userRole}
-                            toggleDropdown={() => handleDropdownToggle('dropdown1')}
-                            isOpen={openDropdown === 'dropdown1'}
-                            label="Dropdown 1"
-                            options={[
-                                { label: 'Dashboard', href: '/workshops' },
-                                { label: 'Settings', href: '#' },
-                                { label: 'Earnings', href: '#' }
-                            ]}
-                        />
+                        {userRole === 'admin' && (
+                            <Dropdown
+                                toggleDropdown={() => handleDropdownToggle('dropdown1')}
+                                isOpen={openDropdown === 'dropdown1'}
+                                label="Templates"
+                                options={[
+                                    {label: 'Workshop Templates', href: '/workshops'},
+                                    {label: 'Mail Templates', href: '/mail-templates'},
+                                ]}
+                            />
+                        )}
 
-                        <Dropdown
-                            userRole={userRole}
-                            toggleDropdown={() => handleDropdownToggle('dropdown2')}
-                            isOpen={openDropdown === 'dropdown2'}
-                            label="Dropdown 2"
-                            options={[
-                                { label: 'Profile', href: '#' },
-                                { label: 'Notifications', href: '#' },
-                                { label: 'Logout', href: '#' }
-                            ]}
-                        />
+                        {userRole === 'admin' && (
+                            <Dropdown
+                                toggleDropdown={() => handleDropdownToggle('dropdown2')}
+                                isOpen={openDropdown === 'dropdown2'}
+                                label="Klant"
+                                options={[
+                                    {label: 'Klanten', href: '/klanten'},
+                                    {label: 'Werklocaties', href: '/werklocaties'}
+                                ]}
+                            />
+                        )}
 
                         <CustomLink to="/opdrachten" userRole={userRole}>Opdrachten</CustomLink>
                         <CustomLink to="/workshop-docenten" userRole={userRole}>Workshopdocenten</CustomLink>
-                        <CustomLink to="/klanten" userRole={userRole}>Klanten</CustomLink>
-                        <CustomLink to="/werklocaties" userRole={userRole}>Werklocaties</CustomLink>
+
                         <CustomLink to="/inschrijvingen" userRole={userRole}>Inschrijvingen</CustomLink>
-                        <CustomLink to="/workshop-templates" userRole={userRole}>Workshop Templates</CustomLink>
-                        <CustomLink to="/mail-templates" userRole={userRole}>Mail Templates</CustomLink>
+
                         <CustomLink to="/openstaande-workshops" userRole={userRole}>Aanmelden</CustomLink>
                         <CustomLink to="/uitnodigingen" userRole={userRole}>Uitnodigingen</CustomLink>
                         <CustomLink to="/profiel" userRole={userRole}>
@@ -101,9 +99,9 @@ function Navbar() {
     );
 }
 
-function CustomLink({ to, children, userRole }) {
+function CustomLink({to, children, userRole}) {
     const resolvedPath = useResolvedPath(to);
-    const isActive = useMatch({ path: resolvedPath.pathname, end: true });
+    const isActive = useMatch({path: resolvedPath.pathname, end: true});
 
     const allowedRoles = {
         '/workshop-templates': ['admin'],
@@ -135,42 +133,26 @@ function CustomLink({ to, children, userRole }) {
     );
 }
 
-function Dropdown({ toggleDropdown, isOpen, userRole, label, options }) {
-    const resolvedPath = useResolvedPath(options.href);
-
-    const allowedRoles = {
-        '/workshop-templates': ['admin'],
-        '/mail-templates': ['admin'],
-        '/workshop-docenten': ['admin'],
-        '/werklocaties': ['admin'],
-        '/klanten': ['admin'],
-        '/inschrijvingen': ['admin'],
-        '/workshops': ['admin'],
-        '/opdrachten': ['admin'],
-        '/profiel': ['admin', 'teacher'],
-        '/openstaande-workshops': ['admin', 'teacher'],
-        '/uitnodigingen': ['teacher']
-    };
-
-    if (allowedRoles[resolvedPath.pathname] && !allowedRoles[resolvedPath.pathname].includes(userRole)) {
-        return null;
-    }
-
-
+function Dropdown({toggleDropdown, isOpen, label, options}) {
     return (
         <li className="relative">
-            <button onClick={toggleDropdown} className="flex items-center py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 light:text-white md:light:hover:text-blue-500 light:focus:text-white light:border-gray-700 light:hover:bg-gray-700 md:light:hover:bg-transparent">
+            <button onClick={toggleDropdown}
+                    className={`flex items-center py-2 px-3 hover:underline ${isOpen ? 'text-brand-orange' : 'text-gray-900'} rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-brand-orange md:p-0 light:text-white md:light:hover:text-blue-500 light:focus:text-white light:border-gray-700 light:hover:bg-gray-700 md:light:hover:bg-transparent`}>
                 {label}
-                <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 10 6">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                          d="m1 1 4 4 4-4"/>
                 </svg>
             </button>
             {isOpen && (
-                <div className="absolute right-0 z-10 mt-2 w-44 origin-top-right rounded-md bg-white shadow-lg light:bg-gray-700">
+                <div
+                    className="absolute right-0 z-10 mt-2 w-44 origin-top-right rounded-md bg-white shadow-lg light:bg-gray-700">
                     <ul className="py-2 text-sm text-gray-700 light:text-gray-400">
                         {options.map((option, index) => (
                             <li key={index}>
-                                <a href={option.href} className="block px-4 py-2 hover:bg-gray-100 light:hover:bg-gray-600 light:hover:text-white">{option.label}</a>
+                                <a href={option.href}
+                                   className="block px-4 py-2 hover:bg-gray-100 light:hover:bg-gray-600 light:hover:text-white">{option.label}</a>
                             </li>
                         ))}
                     </ul>
