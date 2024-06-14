@@ -92,14 +92,14 @@ function Navbar() {
 
                         <CustomLink to="/profiel" userRole={userRole}>
                             <div className="flex items-center">
-                                <div
+                                <div1
                                     className="relative w-8 h-8 overflow-hidden bg-brand-orange-light rounded-full light:bg-gray-600 hover:ring-2 hover:ring-brand-orange ring-offset-2">
                                     <svg className="absolute w-10 h-10 text-brand-orange -left-1" fill="currentColor"
                                          viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
                                               clipRule="evenodd"></path>
                                     </svg>
-                                </div>
+                                </div1>
                                 <span className="ml-2">{userName}</span>
                             </div>
                         </CustomLink>
