@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import DashboardCardsCommission from '../components/cards/DashboardCardsCommission';
+import DashboardCardsCommission from '../components/Cards/DashboardCardsCommission';
 import {jwtDecode} from "jwt-decode";
 
 function Home() {

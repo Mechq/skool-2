@@ -46,19 +46,24 @@ function Navbar() {
                 </div>
                 <div className={`w-full md:flex md:w-auto ${isMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
                     <ul className="flex flex-col items-center mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-                        <CustomLink to="/workshops" userRole={userRole}>Workshops</CustomLink>
 
-                        {userRole === 'admin' && (
-                            <Dropdown
-                                toggleDropdown={() => handleDropdownToggle('dropdown1')}
-                                isOpen={openDropdown === 'dropdown1'}
-                                label="Templates"
-                                options={[
-                                    {label: 'Workshop Templates', href: '/workshops'},
-                                    {label: 'Mail Templates', href: '/mail-templates'},
-                                ]}
-                            />
-                        )}
+
+                        <CustomLink to="/mijn-opdrachten" userRole={userRole}>Mijn Opdrachten</CustomLink>
+
+
+                        <CustomLink to="/inschrijvingen" userRole={userRole}>Inschrijvingen</CustomLink>
+                        <CustomLink to="/uitnodigingen" userRole={userRole}>Openstaande Verzoeken</CustomLink>
+                        <CustomLink to="/openstaande-workshops" userRole={userRole}>Openstaande Workshops</CustomLink>
+
+
+                        <CustomLink to="/workshops" userRole={userRole}>Workshops</CustomLink>
+                        <CustomLink to="/opdrachten" userRole={userRole}>Opdrachten</CustomLink>
+
+
+                        <CustomLink to="/workshop-docenten" userRole={userRole}>Workshopdocenten</CustomLink>
+
+
+
 
                         {userRole === 'admin' && (
                             <Dropdown
@@ -71,14 +76,20 @@ function Navbar() {
                                 ]}
                             />
                         )}
+                        {userRole === 'admin' && (
+                            <Dropdown
+                                toggleDropdown={() => handleDropdownToggle('dropdown1')}
+                                isOpen={openDropdown === 'dropdown1'}
+                                label="Templates"
+                                options={[
+                                    {label: 'Workshop Templates', href: '/workshops'},
+                                    {label: 'Mail Templates', href: '/mail-templates'},
+                                ]}
+                            />
+                        )}
 
-                        <CustomLink to="/opdrachten" userRole={userRole}>Opdrachten</CustomLink>
-                        <CustomLink to="/workshop-docenten" userRole={userRole}>Workshopdocenten</CustomLink>
 
-                        <CustomLink to="/inschrijvingen" userRole={userRole}>Inschrijvingen</CustomLink>
 
-                        <CustomLink to="/openstaande-workshops" userRole={userRole}>Aanmelden</CustomLink>
-                        <CustomLink to="/uitnodigingen" userRole={userRole}>Uitnodigingen</CustomLink>
                         <CustomLink to="/profiel" userRole={userRole}>
                             <div className="flex items-center">
                                 <div

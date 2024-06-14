@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import UserWorkshopCard from "../cards/UserWorkshopCard";
+import UserWorkshopCard from "../Cards/UserWorkshopCard";
 import UserWorkshopDetailsModalScreen from "../UserWorkshopDetailsModalScreen";
 
 
