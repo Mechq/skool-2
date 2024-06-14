@@ -196,6 +196,98 @@ const customerService = {
                 });
             });
         });
+    },
+    createContactPerson: (contactPerson, callback) => {
+        logger.info('creating contact person', contactPerson);
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error creating contact person', err);
+                callback(err, null);
+                return;
+            }
+
+            const {
+                name,
+                email,
+                phone,
+                customerId,
+            } = contactPerson;
+
+            const values = [name, email, phone, customerId];
+
+            const sql = 'INSERT INTO contactPerson (name, email, phone, customerId) VALUES (?, ?, ?, ?)';
+            connection.query(sql, values, function(error, results, fields) {
+                connection.release();
+                if (error) {
+                    logger.error('Error creating contact person', error);
+                    callback(error, null);
+                    return;
+                }
+                const contactPersonId = results.insertId;
+                logger.trace('contact person created', contactPersonId);
+
+                const contactPersonDataWithId = { ...contactPerson, id: contactPersonId };
+                callback(null, {
+                    status: 200,
+                    message: 'contact person created',
+                    data: contactPersonDataWithId,
+                });
+            });
+        });
+    },
+    getAllContactPersonsByCustomerId: (id, callback) => {
+        logger.info('get all contact persons');
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error getting contact persons', err);
+                callback(err, null);
+                return;
+            }
+
+            connection.query('SELECT * FROM `contactPerson` WHERE customerId = ?;', [id], function(error, results, fields) {
+                connection.release();
+
+                if (error) {
+                    logger.error('Error getting contact person', error);
+                    callback(error, null);
+                    return;
+                }
+
+                callback(null, {
+                    status: 200,
+                    message: `${results.length} contact person retrieved`,
+                    data: results,
+                });
+            });
+        });
+    },
+    deleteContactPerson: (id, callback) => {
+        logger.info('deleting contact person', id);
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error deleting contact person', err);
+                callback(err, null);
+                return;
+            }
+
+            connection.query('DELETE FROM `contactPerson` WHERE id = ?;', [id], function(error, results, fields) {
+                connection.release();
+
+                if (error) {
+                    logger.error('Error deleting contact person', error);
+                    callback(error, null);
+                    return;
+                }
+
+                callback(null, {
+                    status: 200,
+                    message: 'contact person deleted',
+                });
+            });
+        });
     }
 
 };
