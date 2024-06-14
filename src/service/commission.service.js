@@ -352,7 +352,7 @@ JOIN
                 }
 
                 const deleteSql = 'DELETE FROM commissionDate WHERE commissionId = ?';
-                connection.query(deleteSql, [dateId], (error, results) => {
+                connection.query(deleteSql, [commissionId], (error, results) => {
                     if (error) {
                         logger.error('Error deleting dates', error);
                         return connection.rollback(() => {
@@ -380,8 +380,8 @@ JOIN
                         return;
                     }
 
-                    const insertSql = 'INSERT INTO commissionDate (commissionId, date) VALUES ?, ?';
-                    const values = contactPersons.map(({ commissionId, date }) => [commissionId, date]);
+                    const insertSql = 'INSERT INTO commissionDate (commissionId, date) VALUES ?';
+                    const values = dates.map(date => [commissionId, date.date]);
 
                     connection.query(insertSql, [values], (error, results) => {
                         if (error) {
@@ -418,10 +418,7 @@ JOIN
                 });
             });
         });
-    },
-
-
-
+    }
 
 };
 

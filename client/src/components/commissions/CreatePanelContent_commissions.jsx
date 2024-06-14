@@ -7,7 +7,7 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
     const [locationName, setLocationName] = useState("");
     const [locations, setLocations] = useState([]); // Locations state
     const [selectedLocationId, setSelectedLocationId] = useState("");
-
+    const [grade, setGrade] = useState("");
 
     const [customers, setCustomers] = useState([]); // Customers state
 
@@ -139,6 +139,14 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
                            onChange={(e) => setTargetAudience(e.target.value)}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="doelgroep" required/>
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="grade"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Leerjaar en niveau</label>
+                    <input type="text" id="grade" value={grade}
+                           onChange={(e) => setTargetAudience(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="leerjaar en niveau" required/>
                 </div>
                 <div className="mb-6">
                     <label htmlFor="location"

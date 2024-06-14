@@ -185,6 +185,29 @@ let commissionController = {
                 });
             }
         })
+    },
+    updateCommissionDates: (req, res, next) => {
+        const id = req.params.id;
+        const dates = req.body;
+        logger.info("updating commission dates by id ", id);
+
+        commissionService.updateCommissionDates(id, dates, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 };
 
