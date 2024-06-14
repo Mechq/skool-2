@@ -333,6 +333,92 @@ JOIN
         });
     },
 
+    updateCommissionDates: (commissionId, dates, callback) => {
+        logger.info('updating contact persons for commission', commissionId);
+
+        database.getConnection((err, connection) => {
+            if (err) {
+                logger.error('Error getting connection', err);
+                callback(err, null);
+                return;
+            }
+
+            connection.beginTransaction(err => {
+                if (err) {
+                    logger.error('Error starting transaction', err);
+                    connection.release();
+                    callback(err, null);
+                    return;
+                }
+
+                const deleteSql = 'DELETE FROM commissionDate WHERE commissionId = ?';
+                connection.query(deleteSql, [dateId], (error, results) => {
+                    if (error) {
+                        logger.error('Error deleting dates', error);
+                        return connection.rollback(() => {
+                            connection.release();
+                            callback(error, null);
+                        });
+                    }
+
+                    if (dates.length === 0) {
+                        connection.commit(err => {
+                            if (err) {
+                                logger.error('Error committing transaction', err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    callback(err, null);
+                                });
+                            }
+                            connection.release();
+                            callback(null, {
+                                status: 200,
+                                message: 'Dates updated successfully',
+                                data: []
+                            });
+                        });
+                        return;
+                    }
+
+                    const insertSql = 'INSERT INTO commissionDate (commissionId, date) VALUES ?, ?';
+                    const values = contactPersons.map(({ commissionId, date }) => [commissionId, date]);
+
+                    connection.query(insertSql, [values], (error, results) => {
+                        if (error) {
+                            logger.error('Error inserting dates', error);
+                            return connection.rollback(() => {
+                                connection.release();
+                                callback(error, null);
+                            });
+                        }
+
+                        connection.commit(err => {
+                            if (err) {
+                                logger.error('Error committing transaction', err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    callback(err, null);
+                                });
+                            }
+
+                            const insertedDates = dates.map((date, index) => ({
+                                ...date,
+                                id: results.insertId + index
+                            }));
+
+                            logger.trace('Dates updated', insertedDates);
+                            connection.release();
+                            callback(null, {
+                                status: 200,
+                                message: 'Dates updated successfully',
+                                data: insertedDates
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    },
 
 
 
