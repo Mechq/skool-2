@@ -20,10 +20,16 @@ const userService = {
                     callback(err, null);
                     return;
                 }
-                user.role = "teacher"
+                user.role = "teacher";
 
-                const sql = "INSERT INTO user (`email`, `password`, `firstName`, `lastName`, `phoneNumber`, `birthDate`, `street`, `houseNumber`, `postalCode`, `city`, `country`,`kvkNumber`, `btwNumber`, `iban`, `hasCar`, `hasDriversLicense`, `role`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                const values = [user.email, hash, user.firstName, user.lastName, user.phoneNumber, user.birthDate, user.streetName, user.houseNumber, user.postalCode, user.city, user.country, user.kvkNumber, user.btwNumber, user.iban, user.hasCar, user.hasDriversLicense, user.role];
+                // Set kvkNumber to null if it's empty
+                const kvkNumber = user.kvkNumber ? user.kvkNumber : null;
+                const btwNumber = user.btwNumber ? user.btwNumber : null;
+                const hasCar = user.hasCar ? user.hasCar : null;
+                const hasDriversLicense = user.hasDriversLicense ? user.hasDriversLicense : null;
+
+                const sql = "INSERT INTO user (`email`, `password`, `firstName`, `lastName`, `phoneNumber`, `birthDate`, `street`, `houseNumber`, `postalCode`, `city`, `country`,`kvkNumber`, `btwNumber`, `iban`, `hasCar`, `hasDriversLicense`, `isZZPer`, `role`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                const values = [user.email, hash, user.firstName, user.lastName, user.phoneNumber, user.birthDate, user.streetName, user.houseNumber, user.postalCode, user.city, user.country, kvkNumber, btwNumber, user.iban, hasCar, hasDriversLicense, user.isZZPer, user.role];
 
                 connection.query(sql, values, (err, result) => {
                     connection.release();
@@ -42,6 +48,7 @@ const userService = {
             });
         });
     },
+
 
     login: (email, password, callback) => {
         database.getConnection((err, connection) => {

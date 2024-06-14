@@ -53,11 +53,14 @@ const PersonalDetails = ({formData, setFormData, createAccount, stepBack}) => {
 
     const handleRegister = (e) => {
         e.preventDefault();
-        if (!kvkNumber) setKvkNumberValid(false);
+
+        if (isZZPer && !kvkNumber) {
+            setKvkNumberValid(false);
+        }
         if (!btwNumber) setBtwNumberValid(false);
         if (!iban) setIbanValid(false);
 
-        if (!kvkNumber || !btwNumber || !iban) return;
+        if ((isZZPer && !kvkNumber) || !btwNumber || !iban) return;
 
         if (btwNumber.length !== 14) {
             setBtwNumberValid(false);
@@ -77,7 +80,7 @@ const PersonalDetails = ({formData, setFormData, createAccount, stepBack}) => {
             return;
         }
 
-        if (!kvkNumberRegex.test(kvkNumber)) {
+        if (isZZPer && !kvkNumberRegex.test(kvkNumber)) {
             setKvkNumberValid(false);
             return;
         }
@@ -140,7 +143,7 @@ const PersonalDetails = ({formData, setFormData, createAccount, stepBack}) => {
                         </label>
                         <input type="text" name="kvkNumber" id="kvkNumber"
                                className={`bg-gray-50 border ${kvkNumberValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="12345678" required=""
+                               placeholder="12345678" required={isZZPer}
                                value={kvkNumber} onChange={(e) => {
                             setFormData({...formData, kvkNumber: e.target.value});
                             setKvkNumberValid(true);
