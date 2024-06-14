@@ -45,7 +45,7 @@ function Navbar() {
                     </button>
                 </div>
                 <div className={`w-full lg:flex lg:w-auto ${isMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
-                    <ul className="flex flex-col items-leftc mt-4 lg:flex-row lg:space-x-8 lg:mt-0 lg:text-sm lg:font-medium font-semibold space-y-2">
+                    <ul className="flex flex-col items-center lg:flex-row lg:space-x-8 lg:mt-0 lg:text-sm lg:font-medium font-semibold space-y-0 lg:space-y-0">
 
                         <CustomLink to="/mijn-opdrachten" userRole={userRole}>Mijn Opdrachten</CustomLink>
                         <CustomLink to="/inschrijvingen" userRole={userRole}>Inschrijvingen</CustomLink>
