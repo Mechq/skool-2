@@ -106,8 +106,8 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
     return (
         <div>
-            <h1 className='side-panel-title'>Maak een klant aan</h1>
-            <div className='side-panel-content'>
+            <header className='side-panel-title pt-4 pb-4 px-4 font-bold text-lg'>Maak een klant aan</header>
+            <div className='side-panel-content p-4'>
                 <form>
                     <div className="mb-6">
                         <label htmlFor="name"
@@ -125,15 +125,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
                                    onChange={(e) => setLocationName(e.target.value)}
                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                                    placeholder="Hoofdlocatie" required/>
-                        </div>
-                        <div>
-                            <label htmlFor="contactName"
-                                   className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contact
-                                naam</label>
-                            <input type="text" id="contactName" value={contactName}
-                                   onChange={(e) => setContactName(e.target.value)}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                                   placeholder="Naam contactpersoon" required/>
                         </div>
                         <div>
                             <label htmlFor="street"

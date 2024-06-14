@@ -197,41 +197,88 @@ const customerService = {
             });
         });
     },
-    createContactPerson: (contactPerson, callback) => {
-        logger.info('creating contact person', contactPerson);
+    updateContactPersons: (customerId, contactPersons, callback) => {
+        logger.info('updating contact persons for customer', customerId);
 
-        database.getConnection(function (err, connection) {
+        database.getConnection((err, connection) => {
             if (err) {
-                logger.error('Error creating contact person', err);
+                logger.error('Error getting connection', err);
                 callback(err, null);
                 return;
             }
 
-            const {
-                name,
-                email,
-                phone,
-                customerId,
-            } = contactPerson;
-
-            const values = [name, email, phone, customerId];
-
-            const sql = 'INSERT INTO contactPerson (name, email, phone, customerId) VALUES (?, ?, ?, ?)';
-            connection.query(sql, values, function(error, results, fields) {
-                connection.release();
-                if (error) {
-                    logger.error('Error creating contact person', error);
-                    callback(error, null);
+            connection.beginTransaction(err => {
+                if (err) {
+                    logger.error('Error starting transaction', err);
+                    connection.release();
+                    callback(err, null);
                     return;
                 }
-                const contactPersonId = results.insertId;
-                logger.trace('contact person created', contactPersonId);
 
-                const contactPersonDataWithId = { ...contactPerson, id: contactPersonId };
-                callback(null, {
-                    status: 200,
-                    message: 'contact person created',
-                    data: contactPersonDataWithId,
+                const deleteSql = 'DELETE FROM contactPerson WHERE customerId = ?';
+                connection.query(deleteSql, [customerId], (error, results) => {
+                    if (error) {
+                        logger.error('Error deleting contact persons', error);
+                        return connection.rollback(() => {
+                            connection.release();
+                            callback(error, null);
+                        });
+                    }
+
+                    if (contactPersons.length === 0) {
+                        connection.commit(err => {
+                            if (err) {
+                                logger.error('Error committing transaction', err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    callback(err, null);
+                                });
+                            }
+                            connection.release();
+                            callback(null, {
+                                status: 200,
+                                message: 'Contact persons updated successfully',
+                                data: []
+                            });
+                        });
+                        return;
+                    }
+
+                    const insertSql = 'INSERT INTO contactPerson (name, email, phoneNumber, customerId) VALUES ?';
+                    const values = contactPersons.map(({ name, email, phoneNumber }) => [name, email, phoneNumber, customerId]);
+
+                    connection.query(insertSql, [values], (error, results) => {
+                        if (error) {
+                            logger.error('Error inserting contact persons', error);
+                            return connection.rollback(() => {
+                                connection.release();
+                                callback(error, null);
+                            });
+                        }
+
+                        connection.commit(err => {
+                            if (err) {
+                                logger.error('Error committing transaction', err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    callback(err, null);
+                                });
+                            }
+
+                            const insertedContactPersons = contactPersons.map((contactPerson, index) => ({
+                                ...contactPerson,
+                                id: results.insertId + index
+                            }));
+
+                            logger.trace('Contact persons updated', insertedContactPersons);
+                            connection.release();
+                            callback(null, {
+                                status: 200,
+                                message: 'Contact persons updated successfully',
+                                data: insertedContactPersons
+                            });
+                        });
+                    });
                 });
             });
         });
@@ -263,32 +310,6 @@ const customerService = {
             });
         });
     },
-    deleteContactPerson: (id, callback) => {
-        logger.info('deleting contact person', id);
-
-        database.getConnection(function (err, connection) {
-            if (err) {
-                logger.error('Error deleting contact person', err);
-                callback(err, null);
-                return;
-            }
-
-            connection.query('DELETE FROM `contactPerson` WHERE id = ?;', [id], function(error, results, fields) {
-                connection.release();
-
-                if (error) {
-                    logger.error('Error deleting contact person', error);
-                    callback(error, null);
-                    return;
-                }
-
-                callback(null, {
-                    status: 200,
-                    message: 'contact person deleted',
-                });
-            });
-        });
-    }
 
 };
 

@@ -96,13 +96,14 @@ let customerController = {
             }
         });
     },
-    createContactPerson: (req, res, next) => {
+    updateContactPersons: (req, res, next) => {
+        const customerId = req.params.id;
         const contactPerson = req.body;
-        logger.debug('contactPerson', contactPerson);
 
+        logger.debug('customerId', customerId);
         logger.info('creating contactPerson', contactPerson);
 
-        customerService.createContactPerson(contactPerson, (error, success) => {
+        customerService.updateContactPersons(customerId, contactPerson, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,
@@ -142,29 +143,6 @@ let customerController = {
             }
         });
     },
-    deleteContactPerson: (req, res, next) => {
-        const id = req.params.id;
-        logger.info('deleting contactPerson', id);
-
-        customerService.deleteContactPerson(id, (error, success) => {
-            if (error) {
-                return next({
-                    status: error.status,
-                    message: error.message,
-                    data: {},
-                });
-            }
-
-            if (success) {
-                res.status(200).json({
-                    status: success.status,
-                    message: success.message,
-                    data: success.data,
-                });
-            }
-        });
-    }
-
 
 };
 
