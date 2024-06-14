@@ -18,12 +18,13 @@ const commissionService = {
                 details,
                 targetAudience,
                 locationId,
+                grade,
             } = commission;
 
-            const values = [customerId, details, targetAudience, locationId];
+            const values = [customerId, details, targetAudience, locationId, grade];
 
             // TODO: Implement the query to insert correct data
-            const query = 'INSERT INTO commission (customerId, details, targetAudience, locationId) VALUES (?, ?, ?, ?)';
+            const query = 'INSERT INTO commission (customerId, details, targetAudience, locationId, grade) VALUES (?, ?, ?, ?, ?)';
 
             logger.debug('query', query);
 
@@ -146,6 +147,10 @@ const commissionService = {
                 sql += 'date = ?, ';
                 values.push(commission.date);
             }
+             if (commission.grade) {
+                 sql += 'grade = ?, ';
+                 values.push(commission.grade);
+             }
             // Remove the trailing comma and space
             sql = sql.slice(0, -2);
 

@@ -70,6 +70,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     const [locations, setLocations] = useState([]);
     const [selectedLocationId, setSelectedLocationId] = useState("");
     const [locationId, setLocationId] = useState("");
+    const [grade, setGrade] = useState("");
 
     const [show, setShow] = useState(false);
 
@@ -88,6 +89,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                     setTargetAudience(data.targetAudience || "");
                     // setDate(data.date ? data.date.substring(0, 10) : "");
                     setLocationId(data.locationId || "");
+                    setGrade(data.grade || "")
                 })
                 .catch((error) => console.error("Error fetching commission:", error));
         }
@@ -215,7 +217,8 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
             details,
             targetAudience,
             locationId: selectedLocationId,
-            date
+            date,
+            grade
         };
 
         fetch(`/api/commission/${commissionId}`, {
@@ -368,6 +371,15 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                            onChange={(e) => setTargetAudience(e.target.value)}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="Doelgroep"></input>
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="grade"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Leerjaar en niveau
+                    </label>
+                    <input id="targetAudience" value={grade} required={true}
+                           onChange={(e) => setGrade(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="Leerjaar en niveau"></input>
                 </div>
 
                 <select id="location" value={selectedLocationId} onChange={handleLocationChange}
