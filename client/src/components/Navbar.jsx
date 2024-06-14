@@ -82,7 +82,7 @@ function Navbar() {
                                 isOpen={openDropdown === 'dropdown1'}
                                 label="Templates"
                                 options={[
-                                    {label: 'Workshop Templates', href: '/workshops'},
+                                    {label: 'Workshop Templates', href: '/workshop-templates'},
                                     {label: 'Mail Templates', href: '/mail-templates'},
                                 ]}
                             />
