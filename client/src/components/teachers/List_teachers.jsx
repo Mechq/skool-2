@@ -33,7 +33,7 @@ export default function List_teachers({
     }
 
     return (
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div className="relative overflow-x-auto shadow-md rounded-lg mx-3">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                 <tr>
