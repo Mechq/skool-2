@@ -30,6 +30,7 @@ export default function List_openWorkshops({userWorkshops, setUserWorkshops, use
         fetch('/api/workshop/commission')
             .then(res => res.json())
             .then(data => {
+                // const filteredData = data.data.filter(workshop => workshop.userId === user.id);
                 const workshopsWithUniqueKey = data.data.map((workshop, index) => ({
                     ...workshop,
                     unique: index + 1 // Incremented number starting from 1

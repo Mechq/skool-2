@@ -27,6 +27,7 @@ router.post("/api/workshop", validateWorkshop, workshopController.createWorkshop
 router.post("/api/workshop/commission/:workshopId/:commissionId", workshopController.createEnrollment);
 router.get("/api/workshop", workshopController.getAllWorkshops);
 router.get("/api/workshop/commission", workshopController.getWorkshopCommission);
+router.get("/api/workshop/commission/user/:userId", workshopController.getWorkshopCommissionWhereNotEnrolled);
 router.get("/api/workshop/commission/:workshopId/:commissionId", workshopController.getWorkshopCommissionById);
 router.get("/api/workshop/enrollment/:workshopId/:commissionId", workshopController.getEnrollmentCount);
 router.put("/api/workshop/:id", workshopController.update);
