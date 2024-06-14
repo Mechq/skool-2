@@ -147,6 +147,10 @@ const commissionService = {
                 sql += 'date = ?, ';
                 values.push(commission.date);
             }
+             if (commission.grade) {
+                 sql += 'grade = ?, ';
+                 values.push(commission.grade);
+             }
             // Remove the trailing comma and space
             sql = sql.slice(0, -2);
 
