@@ -141,6 +141,8 @@ const AccountCreation = ({formData, setFormData, nextStep}) => {
             password: password
         });
 
+        console.log('formData:', formData)
+
         nextStep();
     }
 
