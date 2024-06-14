@@ -305,6 +305,20 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         fetchRoundData();
     };
 
+    const workshopRoundIndex = (type, index) => {
+        if (type === "Workshopronde") {
+            let workshopIndex = 1;
+            for (let i = 0; i < index; i++) {
+                if (types[i] === "Workshopronde") {
+                    workshopIndex++;
+                }
+            }
+            return workshopIndex;
+        }
+        return "";
+    };
+
+
     return (
         <div className="px-6">
 
@@ -381,9 +395,9 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                     {types.map((type, index) => (
                         <li key={index} className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer"
                             onClick={() => editRound(type, roundIds[index])}>
-                <span>
-                    {type} - Tijd {startTimes[index]} - {endTimes[index]}
-                </span>
+            <span>
+                {type === "Workshopronde" ? `${type} ${workshopRoundIndex(type, index)} - Tijd ${startTimes[index]} - ${endTimes[index]}` : `${type} - Tijd ${startTimes[index]} - ${endTimes[index]}`}
+            </span>
                             {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
                                 <ul className="pl-4 mt-2">
                                     {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
