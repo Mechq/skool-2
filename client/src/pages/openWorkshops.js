@@ -19,13 +19,16 @@ const [userWorkshops, setUserWorkshops] = useState([]);
     }, [])
 
     useEffect(() => {
-        fetch('/api/workshop/commission')
-            .then(res => res.json())
-            .then(data => {
-                setUserWorkshops(data.data);
-                console.log("Fetched workshops: ", data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
+        if (user.id) {
+            fetch(`/api/workshop/commission/user/${user.id}`)
+                .then(res => res.json())
+                .then(data => {
+                    // filteredData = data.data.filter(workshop => workshop.userId === user.id);
+                    setUserWorkshops(data.data);
+                    console.log("Fetched workshops: ", data.data);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
     }, []);
 
     return (
