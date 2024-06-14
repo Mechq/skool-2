@@ -4,6 +4,7 @@ import "../../styles/optionsRoundCreate.css"
 import RoundEditModal from "./RoundEditModal_commissions";
 import WorkshopRoundEditModal_commissions from "./WorkshopRoundEditModal_commissions";
 import WorkshopRoundWorkshopEditModal from "./WorkshopEditModal_commissions"
+import {AiTwotonePlusCircle} from "react-icons/ai";
 
 const dateOptions = {
     title: " ",
@@ -60,6 +61,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingRoundType, setEditingRoundType] = useState("");
     const [editedRoundType, setEditedRoundType] = useState("");
+    const [dates, setDates] = useState([]);
     const [date, setDate] = useState("");
     const [startTimes, setStartTimes] = useState([]);
     const [endTimes, setEndTimes] = useState([]);
@@ -70,13 +72,6 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     const [locationId, setLocationId] = useState("");
 
     const [show, setShow] = useState(false);
-
-    const handleChange = (selectedDate) => {
-        const localDate = new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000);
-        const dateString = localDate.toISOString();
-        const slicedDate = dateString.slice(0, 10);
-        setDate(slicedDate);
-    }
 
     const handleClose = (state) => {
         setShow(state);
@@ -91,7 +86,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                     setCustomerId(data.customerId || "");
                     setDetails(data.details || "");
                     setTargetAudience(data.targetAudience || "");
-                    setDate(data.date ? data.date.substring(0, 10) : "");
+                    // setDate(data.date ? data.date.substring(0, 10) : "");
                     setLocationId(data.locationId || "");
                 })
                 .catch((error) => console.error("Error fetching commission:", error));
@@ -214,7 +209,6 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     const handleSubmit = (e) => {
         e.preventDefault();
 
-
         if (!customerId || !details || !targetAudience) return;
         const commission = {
             customerId,
@@ -244,6 +238,9 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     };
 
     const handleOptionClick = (option) => {
+
+
+
         setShowOptions(false);
         let order = 0
         if (orders.length > 0) {
@@ -305,6 +302,33 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         fetchRoundData();
     };
 
+    const handleAddDate = () => {
+        // Ensure new dates added are in YYYY-MM-DD format
+        const newDates = [...dates, date]; // Assuming `date` is already in YYYY-MM-DD format
+        setDates(newDates);
+    };
+
+    const handleDateChange = (index, key, value) => {
+        const newDates = [...dates];
+        newDates[index][key] = value;
+        setDates(newDates);
+    };
+
+    const handleDeleteDate = (index) => {
+        const newDates = dates.filter((_, i) => i !== index);
+        setDates(newDates);
+    };
+
+    const handleChange = (index, key, value) => {
+        const localDate = new Date(value.getTime() - value.getTimezoneOffset() * 60000);
+        const isoDate = localDate.toISOString(); // Get ISO date string
+        const formattedDate = isoDate.substring(0, 10); // Extract YYYY-MM-DD
+        const newDates = [...dates];
+        newDates[index][key] = formattedDate;
+        setDates(newDates);
+        
+    };
+
     return (
         <div className="px-6">
 
@@ -361,11 +385,65 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                     ))}
                 </select>
 
-                <div className="mb-6">
+                {/* <div className="mb-6">
                     <label htmlFor="date"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Datum</label>
                     <Datepicker options={dateOptions} onChange={handleChange} show={show} setShow={handleClose}/>
-                </div>
+                </div> */}
+
+                <p className="mb-4 mt-8 text-lg font-medium text-gray-900 flex items-center">
+                        Datum(s)
+                        <button
+                            type="button"
+                            onClick={handleAddDate}
+                            className="ml-2 text-black mt-1 font-medium rounded-full flex items-center justify-center"
+                        >
+                            <AiTwotonePlusCircle />
+                        </button>
+                    </p>
+                        <table className="w-full text-sm text-left text-gray-500 light:text-gray-400">
+                            <tbody style={{height: 'wrap-content'}}>
+                            {dates.map((date, index) => (
+                                <tr key={index} className="bg-white border-b light:bg-gray-800 light:border-gray-700">
+                                    <td className="py-2 px-2">
+                                        {console.log(date)}
+                                        <Datepicker
+                                            options={dateOptions}
+                                            onChange={(e) => handleChange(index, "date", e.target.value)}
+                                            show={show}
+                                            setShow={handleClose}
+                                            value={date} // Ensure `date` is in YYYY-MM-DD format
+                                        />
+                                    </td>
+                                    <td className="py-2 px-2 justify-center">
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDeleteDate(index)}
+                                            className="justify-center"
+                                        >
+                                            <svg
+                                                className="w-5 h-5 text-danger hover:text-red-600"
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="24"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
 
                 <button type="submit" onClick={handleSubmit}
                         className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Opslaan
