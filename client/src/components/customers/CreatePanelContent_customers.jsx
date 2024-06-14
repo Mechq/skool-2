@@ -4,7 +4,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
     const [name, setName] = useState("");
     const [locationName, setLocationName] = useState("");
-    const [contactName, setContactName] = useState("");
     const [street, setStreet] = useState("");
     const [houseNumber, setHouseNumber] = useState("");
     const [postalCode, setPostalCode] = useState("");
@@ -14,7 +13,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
     const [nameValid, setNameValid] = useState(true);
     const [locationNameValid, setLocationNameValid] = useState(true);
-    const [contactNameValid, setContactNameValid] = useState(true);
     const [streetValid, setStreetValid] = useState(true);
     const [houseNumberValid, setHouseNumberValid] = useState(true);
     const [postalCodeValid, setPostalCodeValid] = useState(true);
@@ -29,7 +27,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
         if (!name) setNameValid(false);
         if (!locationName) setLocationNameValid(false);
-        if (!contactName) setContactNameValid(false);
         if (!street) setStreetValid(false);
         if (!houseNumber) setHouseNumberValid(false);
         if (!postalCode) setPostalCodeValid(false);
@@ -37,7 +34,7 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
         if (!email) setEmailValid(false);
         if (!phoneNumber) setPhoneNumberValid(false);
 
-        if (!name || !locationName || !contactName || !street || !houseNumber || !postalCode || !city || !email || !phoneNumber) return;
+        if (!name || !locationName || !street || !houseNumber || !postalCode || !city || !email || !phoneNumber) return;
 
         const location = {
             name: locationName,
@@ -60,7 +57,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
                 const customer = {
                     name,
-                    contactName,
                     email,
                     phone: parseInt(phoneNumber),
                     locationId: data.data.Id
@@ -95,7 +91,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
         setName('');
         setLocationName('');
-        setContactName('');
         setStreet('');
         setHouseNumber('');
         setPostalCode('');
@@ -106,8 +101,8 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
 
     return (
         <div>
-            <h1 className='side-panel-title'>Maak een klant aan</h1>
-            <div className='side-panel-content'>
+            <header className='side-panel-title pt-4 pb-4 px-4 font-bold text-lg'>Maak een klant aan</header>
+            <div className='side-panel-content p-4'>
                 <form>
                     <div className="mb-6">
                         <label htmlFor="name"
@@ -125,15 +120,6 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
                                    onChange={(e) => setLocationName(e.target.value)}
                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                                    placeholder="Hoofdlocatie" required/>
-                        </div>
-                        <div>
-                            <label htmlFor="contactName"
-                                   className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contact
-                                naam</label>
-                            <input type="text" id="contactName" value={contactName}
-                                   onChange={(e) => setContactName(e.target.value)}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
-                                   placeholder="Naam contactpersoon" required/>
                         </div>
                         <div>
                             <label htmlFor="street"
