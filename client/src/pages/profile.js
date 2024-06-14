@@ -56,7 +56,7 @@ export default function Profile() {
 
     return (
         <>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-3 md:px-0">
                 <div>
                     <List_profile
                         user={user}
