@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import DeleteCommissionModalScreen from "./ConfirmDeleteModal_commissions";
+import ListFooter from "../ListFooter";
 
 export default function List_commissions({
                                            isOpen,
@@ -145,6 +146,12 @@ export default function List_commissions({
                 })}
                 </tbody>
             </table>
+            <ListFooter
+                amountOfRows={commissions?.length}
+                totaalAantalString={'opdrachten'}
+            />
+
+
             {showModal && (
                 <div>
                     <DeleteCommissionModalScreen

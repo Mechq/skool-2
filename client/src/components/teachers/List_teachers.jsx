@@ -1,4 +1,5 @@
-import {useEffect} from "react";
+import React, {useEffect} from "react";
+import ListFooter from "../ListFooter";
 
 export default function List_teachers({
                                         isOpen,
@@ -63,6 +64,10 @@ export default function List_teachers({
                 ))}
                 </tbody>
             </table>
+            <ListFooter
+                amountOfRows={users?.length}
+                totaalAantalString={'workshop docenten'}
+            />
         </div>
     );
 }
