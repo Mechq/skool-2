@@ -128,9 +128,9 @@ const mailTemplateService = {
                 sql += 'subject = ?, ';
                 values.push(mailTemplate.subject);
             }
-            if (mailTemplate.details) {
-                sql += 'details = ?, ';
-                values.push(mailTemplate.details);
+            if (mailTemplate.content) {
+                sql += 'content = ?, ';
+                values.push(mailTemplate.content);
             }
             if (mailTemplate.name) {
                 sql += 'name = ?, ';

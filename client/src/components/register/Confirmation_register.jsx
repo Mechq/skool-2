@@ -4,8 +4,6 @@ export default function AccountConfirmation({ formData, postRequest }) {
     const [hasPosted, setHasPosted] = useState(false);
     const hasPostedRef = useRef(false);
 
-    const [mailTemplate, setMailTemplate] = useState("");
-
     useEffect(() => {
         if (postRequest && !hasPosted && !hasPostedRef.current) {
             hasPostedRef.current = true;
@@ -68,7 +66,7 @@ export default function AccountConfirmation({ formData, postRequest }) {
                     .then(data => {
                         console.log("Fetched mail template:", data);
                         // Ensure to return the template content string
-                        return data.data.content;
+                        return { content: data.data.content, subject: data.data.subject };
                     })
                     .catch(error => console.error('Error fetching data:', error));
             };
@@ -77,27 +75,30 @@ export default function AccountConfirmation({ formData, postRequest }) {
                 if (typeof template !== 'string') {
                     throw new Error('Template is not a string');
                 }
-                return template.replace(/{FirstName}/g, placeholders.FirstName || '');
+                return template.replace(/{(FirstName|PictureLink)}/g, (_, key) => {
+                    return placeholders[key] || '';
+                });
             };
 
             const handleAccountCreation = async () => {
                 try {
                     await createDatabaseAccount();
                     await createUserLanguageQualifications();
-                    const template = await fetchEmailTemplate();
+                    const { content, subject } = await fetchEmailTemplate();
 
                     // Log template to check its type
-                    console.log("Template type:", typeof template);
-                    console.log("Template content:", template);
+                    console.log("Template type:", typeof content);
+                    console.log("Template content:", content);
 
                     const placeholders = {
                         FirstName: formData.firstName,
+                        PictureLink: 'https://skoolworkshop.nl/wp-content/uploads/2020/06/Skool-Workshop_Logo-200x65.png'
                     };
-                    const emailBody = replaceTemplatePlaceholders(template, placeholders);
+                    const emailBody = replaceTemplatePlaceholders(content, placeholders);
 
                     const mailData = {
                         email: formData.email,
-                        subject: 'Account registratie confirmatie',
+                        subject: subject,
                         message: emailBody,
                     };
 
