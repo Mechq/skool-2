@@ -361,7 +361,8 @@ WHERE
     getAllCommissionWorkshops: (callback) => {
         logger.info('getting all commission workshops');
 
-        const sql = `SELECT c.date, c.customerId, cust.name AS customerName, w.name AS workshopName, CASE WHEN e.status = 'geaccepteerd' THEN CONCAT(u.firstName, ' ', u.lastName) ELSE '' END AS teacherName, w.id AS workshopId, cw.id AS commissionWorkshopId FROM commission AS c JOIN commissionWorkshop AS cw ON c.id = cw.commissionId JOIN customer AS cust ON c.customerId = cust.id JOIN workshop AS w ON cw.workshopId = w.id LEFT JOIN enrollment AS e ON cw.id = e.commissionWorkshopId AND e.status = 'geaccepteerd' LEFT JOIN user AS u ON e.userId = u.id;`;
+        const sql = `SELECT cd.date, c.customerId, cust.name AS customerName, w.name AS workshopName, CASE WHEN e.status = 'geaccepteerd' THEN CONCAT(u.firstName, ' ', u.lastName) ELSE '' END AS teacherName, w.id AS workshopId, cw.id AS commissionWorkshopId FROM commission AS c JOIN commissionWorkshop AS cw ON c.id = cw.commissionId JOIN customer AS cust ON c.customerId = cust.id JOIN workshop AS w ON cw.workshopId = w.id LEFT JOIN enrollment AS e ON cw.id = e.commissionWorkshopId AND e.status = 'geaccepteerd' LEFT JOIN user AS u ON e.userId = u.id LEFT JOIN commissionDate AS cd ON c.id = cd.commissionId;
+`;
     
         database.query(sql, (error, results, fields) => {
             if (error) {
