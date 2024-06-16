@@ -16,6 +16,7 @@ import OpenWorkshops from "./pages/openWorkshops";
 import TeacherEnrollments from "./pages/teacherEnrollments";
 import Workshops from "./pages/workshops";
 import Invites from "./pages/invites";
+import TempMail from "./pages/tempMailer";
 
 function App() {
     const location = useLocation();
@@ -88,6 +89,8 @@ function App() {
                            element={<ProtectedRoute access="everyone"><OpenWorkshops/></ProtectedRoute>}/>
                     <Route path='/uitnodigingen'
                            element={<ProtectedRoute access="teacher"><Invites/></ProtectedRoute>}/>
+                    <Route path='/mail'
+                           element={<ProtectedRoute access="everyone"><TempMail/></ProtectedRoute>}/>
                 </Routes>
             </div>
         </div>
