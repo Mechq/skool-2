@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {AiTwotonePlusCircle} from "react-icons/ai";
 
 function EditPanelContent_customers({customerId, setShowSidePanel}) {
     const [name, setName] = useState('');
