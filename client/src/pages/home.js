@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardCardsCommission from '../components/Cards/DashboardCardsCommission';
-import {jwtDecode} from "jwt-decode";
+import {jwtDecode} from 'jwt-decode';
 
 function Home() {
     const [user, setUser] = useState({});
@@ -10,6 +10,8 @@ function Home() {
     const [times, setTimes] = useState([]);
     const [acceptedWorkshops, setAcceptedWorkshops] = useState([]);
     const [signedUpWorkshops, setSignedUpWorkshops] = useState([]);
+    const [invitedWorkshops, setInvitedWorkshops] = useState([]);
+    const [inviteState, setInviteState] = useState(false);
 
     const getEarliestDate = (items) => {
         if (!items || items.length === 0) {
@@ -21,7 +23,7 @@ function Home() {
 
     const formatDate = (date) => {
         if (!date) return "";
-        const options = {year: 'numeric', month: 'long', day: 'numeric'};
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(date).toLocaleDateString("nl-NL", options);
     }
 
@@ -32,6 +34,19 @@ function Home() {
             setTimes(data.data);
         } catch (error) {
             console.error('Error fetching time data:', error);
+        }
+    };
+
+    const fetchInvitedWorkshops = async (userId) => {
+        try {
+            const res = await fetch(`/api/invite/user/${userId}`);
+            const data = await res.json();
+            console.log(" aaaaaaaaaaaaa" , data.data)
+            setInvitedWorkshops(data.data);
+            setInviteState(true);
+        } catch (error) {
+            console.error('Error fetching invited workshops:', error);
+            setInvitedWorkshops([]);
         }
     };
 
@@ -62,6 +77,8 @@ function Home() {
                     if (data.data && data.data.length > 0) {
                         await fetchTimes(data.data[0].commissionId);
                     }
+
+                    await fetchInvitedWorkshops(decodedToken.id);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -88,27 +105,48 @@ function Home() {
         return <div>Loading...</div>;
     }
 
+    const earliestDate = getEarliestDate(acceptedWorkshops);
+
     return (
         <>
-            <div className='bg-white rounded-lg shadow-lg p-6 mb-8 text-center'>
+            <div className='bg-white rounded-lg shadow-lg p-6 mb-8 text-center m-8'>
                 <h1 className='text-2xl font-bold mb-4'>
-                    Welkom <span className='text-brand-orange'>{user.firstName}</span>, je volgende workshop is gepland
-                    op <span
-                    className='text-brand-orange'>{formatDate(getEarliestDate(userWorkshops))} om {times.startTime}</span>
+                    Welkom <span className='text-brand-orange'>{user.firstName}</span>,{' '}
+                    {acceptedWorkshops.length > 0 ? (
+                        <>
+                            je volgende workshop is gepland op <span className='text-brand-orange'>
+                            {earliestDate ? `${formatDate(earliestDate)} om ${times.startTime}` : ''}
+                        </span>
+                        </>
+                    ) : (
+                        <span> er zijn geen workshops gepland</span>
+                    )}
                 </h1>
             </div>
             <div className='flex'>
                 <div className='block mb-2 text-sm font-medium text-gray-900 pl-24 flex-1'>
                     <h1 className='text-2xl mb-4 pd-6'><strong>Bevestigingen</strong></h1>
-                    <DashboardCardsCommission
-                        userWorkshops={acceptedWorkshops}
-                    />
+                    {acceptedWorkshops.length > 0 ? (
+                        <DashboardCardsCommission userWorkshops={acceptedWorkshops} inviteState={inviteState} />
+                    ) : (
+                        <p>Er zijn geen bevestigde workshops.</p>
+                    )}
                 </div>
-                <div className='block mb-2 text-sm font-medium text-gray-900     pr-24 flex-1'>
+                <div className='block mb-2 text-sm font-medium text-gray-900 pr-24 flex-1'>
                     <h1 className='text-2xl mb-4 pd-6'><strong>Aangemelde workshops</strong></h1>
-                    <DashboardCardsCommission
-                        userWorkshops={signedUpWorkshops}
-                    />
+                    {signedUpWorkshops.length > 0 ? (
+                        <DashboardCardsCommission userWorkshops={signedUpWorkshops} inviteState={inviteState} />
+                    ) : (
+                        <p>Er zijn geen ingeschreven workshops.</p>
+                    )}
+                </div>
+                <div className='block mb-2 text-sm font-medium text-gray-900 pr-24 flex-1'>
+                    <h1 className='text-2xl mb-4 pd-6'><strong>Uitgenodigde workshops</strong></h1>
+                    {invitedWorkshops.length > 0 ? (
+                        <DashboardCardsCommission userWorkshops={invitedWorkshops} inviteState={inviteState} />
+                    ) : (
+                        <p>Er zijn geen uitgenodigde workshops.</p>
+                    )}
                 </div>
             </div>
         </>

@@ -3,8 +3,9 @@ import {AiTwotoneCalendar, AiTwotoneClockCircle} from "react-icons/ai";
 import {jwtDecode} from "jwt-decode";
 
 
-export default function UserWorkshopDetailsModalScreen({onClose, workshop, commission, onRefresh}) {
 
+export default function UserWorkshopDetailsModalScreen({onClose, workshop, commission, onRefresh, inviteState}) {
+console.log(inviteState)
 
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);
     const [workshopRound, setWorkshopRound] = useState({});
@@ -14,6 +15,7 @@ export default function UserWorkshopDetailsModalScreen({onClose, workshop, commi
     const [times, setTimes] = useState({});
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [invitedWorkshop, setInvitedWorkshop] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -251,6 +253,7 @@ export default function UserWorkshopDetailsModalScreen({onClose, workshop, commi
 
                             )}
                         </div>
+                        {!inviteState && (
                         <div className="flex justify-center"
                              onClick={handleSubmit}
                         >
@@ -260,6 +263,7 @@ export default function UserWorkshopDetailsModalScreen({onClose, workshop, commi
                                 {buttonText}
                             </button>
                         </div>
+                        )}
                     </div>
 
                 </div>
