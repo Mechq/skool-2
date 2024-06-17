@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import ConfirmRejectModal_teacherEnrollments from "./ConfirmRejectModal_teacherEnrollments";
 
 export default function List_teacherEnrollments({
@@ -7,8 +7,30 @@ export default function List_teacherEnrollments({
                                                     setEnrollments,
                                                 }) {
 
-    const [showModal, setShowModal] = React.useState(false);
-    const [enrollmentToReject, setEnrollmentToReject] = React.useState({});
+    const [showModal, setShowModal] = useState(false);
+    const [enrollmentToReject, setEnrollmentToReject] = useState({});
+    const [rejectedMail, setRejectedMail] = useState({});
+    const [acceptedMail, setAcceptedMail] = useState({});
+
+
+    useEffect(() => {
+        fetch(`/api/mailTemplate/15`)
+            .then(res => res.json())
+            .then(data => {
+                setRejectedMail(data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, [])
+
+    useEffect(() => {
+        fetch(`/api/mailTemplate/16`)
+            .then(res => res.json())
+            .then(data => {
+                setAcceptedMail(data.data);
+                console.log("fecthed mail", data.data)
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, [])
 
 
     useEffect(() => {
@@ -52,8 +74,69 @@ export default function List_teacherEnrollments({
         setShowModal(false);
     };
 
+    const replaceTemplatePlaceholders = (template, placeholders) => {
+        if (typeof template !== 'string') {
+            throw new Error('Template is not a string');
+        }
+        return template.replace(/{(FirstName|Workshop|Customer|ExecutionDate|Reason)}/g, (_, key) => placeholders[key] || '');
+    };
 
-    const handleSubmit = (enrollment) => {
+    const handleSubmit = (enrollment, status, reason) => {
+        console.log("Enrollment:", enrollment);
+        console.log("Status:", status);
+        if (status === "geaccepteerd") {
+            const emailBody = replaceTemplatePlaceholders(acceptedMail.content, {
+                FirstName: enrollment.firstName,
+                Workshop: enrollment.workshopName,
+                ExecutionDate: formatDate(enrollment.date),
+            });
+            const subjectBody = replaceTemplatePlaceholders(acceptedMail.subject, {
+                Workshop: enrollment.workshopName,
+                ExecutionDate: formatDate(enrollment.date),
+            });
+
+            fetch('/api/mail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: enrollment.email,
+                    subject: subjectBody,
+                    message: emailBody
+                })
+            })
+                .then(res => res.json())
+                .catch(error => console.error('Error sending email:', error));
+        }
+        else if (status === "geweigerd") {
+
+            const emailBody = replaceTemplatePlaceholders(rejectedMail.content, {
+                FirstName: enrollment.firstName,
+                Workshop: enrollment.workshopName,
+                Customer: enrollment.customer,
+                ExecutionDate: formatDate(enrollment.date),
+                Reason: 'reason'
+            });
+            const subjectBody = replaceTemplatePlaceholders(rejectedMail.subject, {
+                Workshop: enrollment.workshopName,
+                ExecutionDate: formatDate(enrollment.date),
+            });
+
+            fetch('/api/mail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: enrollment.email,
+                    subject: subjectBody,
+                    message: emailBody
+                })
+            })
+                .then(res => res.json())
+                .catch(error => console.error('Error sending email:', error));
+        }
 
         // console.log("Submitting enrollment status:", status);
         // console.log("Enrollment:", enrollment);
@@ -109,7 +192,7 @@ export default function List_teacherEnrollments({
                                     <button onClick={() => handleSubmit("geaccepteerd", enrollment)}
                                             className="bg-custom-blue text-white px-2 py-1 rounded mr-2">Accepteren
                                     </button>
-                                    <button onClick={(e) => handleRejectClick(e, enrollment)}
+                                    <button onClick={(e) => handleRejectClick(e, enrollment, 'geweigerd')}
                                             className="bg-custom-red text-white px-2 py-1 rounded">Weigeren
                                     </button>
                                 </td>
@@ -121,7 +204,7 @@ export default function List_teacherEnrollments({
                         <div>
                             <ConfirmRejectModal_teacherEnrollments
                                 onClose={handleModalClose}
-                                onConfirm={handleSubmit}
+                                onConfirm={() => handleSubmit(enrollmentToReject, 'geweigerd')}
                                 enrollment={enrollmentToReject}
                                 setEnrollments={setEnrollments}
                             />
