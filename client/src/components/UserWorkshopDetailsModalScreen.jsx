@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import ConfirmModal_openWorkshops from "./openWorkshops/ConfirmModal_openWorkshops";
 
 export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission, onRefresh }) {
+    const [activeTab, setActiveTab] = useState("workshop"); // Default active tab
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);
     const [workshopRound, setWorkshopRound] = useState({});
     const [customer, setCustomer] = useState({});
@@ -117,7 +118,8 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
 
         const timeDifference = checkDate.getTime() - currentDate.getTime();
 
-        if (buttonText === "Afmelden" && timeDifference >= threeDaysInMillis) {
+        // if (buttonText === "Afmelden" && timeDifference >= threeDaysInMillis) {
+        if (buttonText === "Afmelden") {
             setConfirmMessage("Weet je zeker dat je je wilt afmelden voor deze workshop?");
             setConfirmAction(() => () => {
                 fetch(`/api/enrollment/${workshopRound.id}/${userId}`, {
@@ -141,7 +143,7 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                     .finally(onRefresh);
             });
             setShowConfirmModal(true);
-        } else if (buttonText === "Afmelden" && timeDifference < threeDaysInMillis) {
+        } else if (buttonText === "Afmelden") {
             alert("Je kunt je niet meer afmelden voor deze workshop, omdat deze binnen 3 dagen plaatsvindt.");
         } else if (buttonText === "Aanmelden" || buttonText === "Wachtrij") {
             setConfirmMessage("Weet je zeker dat je je wilt aanmelden voor deze workshop?");
@@ -175,11 +177,13 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
         return <div>Loading...</div>;
     }
 
+
     return (
         <>
             <div className="fixed inset-0 z-10 bg-gray-900 bg-opacity-15" onClick={onClose} />
     
             <section className="w-full flex flex-col items-center justify-center fixed top-0 left-0 z-20 mt-20">
+                {/* Background image section */}
                 <section
                     className="bg-center bg-no-repeat bg-gray-500 bg-blend-multiply w-full max-w-4xl"
                     style={{ backgroundImage: `url(${workshop.picture})` }}
@@ -190,26 +194,33 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                         </h1>
                     </div>
                 </section>
+    
+                {/* Main content section */}
                 <div className="w-full max-w-4xl">
                     <div className="bg-white shadow light:border light:bg-gray-800 light:border-gray-700 rounded-none">
+                        {/* Tabs for Workshop Details and Opdracht Details */}
                         <div className="w-full max-w-4xl flex pb-6 pt-6">
                             <div
-                                className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600  ${showWorkshopDetails ? 'border-brand-orange' : 'border-black'}`}
+                                className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600 ${activeTab === 'workshop' ? 'border-brand-orange' : 'border-black'}`}
+                                onClick={() => setActiveTab('workshop')}
                             >
-                                <button onClick={() => setShowWorkshopDetails(true)}>
+                                <button>
                                     Workshop Details
                                 </button>
                             </div>
                             <div
-                                className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600 ${!showWorkshopDetails ? 'border-brand-orange' : 'border-black'}`}
+                                className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600 ${activeTab === 'opdracht' ? 'border-brand-orange' : 'border-black'}`}
+                                onClick={() => setActiveTab('opdracht')}
                             >
-                                <button onClick={() => setShowWorkshopDetails(false)}>
+                                <button>
                                     Opdracht Details
                                 </button>
                             </div>
                         </div>
+    
+                        {/* Workshop or Opdracht Details content */}
                         <div className="p-6 space-y-4 sm:space-y-6">
-                            {showWorkshopDetails ? (
+                            {activeTab === 'workshop' ? (
                                 <>
                                     <h2><strong>Naam:</strong> <br />{workshop.name}</h2>
                                     <h2><strong>Details:</strong> <br />{workshop.description}</h2>
@@ -247,8 +258,13 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                                 </>
                             )}
                         </div>
-                        <div className="flex justify-center" onClick={handleSubmit}>
-                            <button className="bg-brand-orange text-white font-bold py-4 px-8 rounded focus:outline-none hover:bg-hover-brand-orange focus:shadow-outline m-5 mt-8">
+    
+                        {/* Button section for enrollment or cancellation */}
+                        <div className="flex justify-center">
+                            <button
+                                className="bg-brand-orange text-white font-bold py-4 px-8 rounded focus:outline-none hover:bg-hover-brand-orange focus:shadow-outline m-5 mt-8"
+                                onClick={handleSubmit}
+                            >
                                 {buttonText}
                             </button>
                         </div>
@@ -256,6 +272,7 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                 </div>
             </section>
     
+            {/* Confirmation modal for enrollment or cancellation */}
             <ConfirmModal_openWorkshops
                 isOpen={showConfirmModal}
                 onClose={() => setShowConfirmModal(false)}
@@ -265,4 +282,4 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
         </>
     );
     
-}
+};
