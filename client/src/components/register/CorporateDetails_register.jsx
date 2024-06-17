@@ -130,7 +130,7 @@ const PersonalDetails = ({formData, setFormData, createAccount, stepBack}) => {
                         </label>
                         <input type="text" name="btwNumber" id="btwNumber"
                                className={`bg-gray-50 border ${btwNumberValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="NL123456789B12" required=""
+                               required=""
                                value={btwNumber} onChange={(e) => {
                             setFormData({...formData, btwNumber: e.target.value});
                             setBtwNumberValid(true);
@@ -143,7 +143,7 @@ const PersonalDetails = ({formData, setFormData, createAccount, stepBack}) => {
                         </label>
                         <input type="text" name="kvkNumber" id="kvkNumber"
                                className={`bg-gray-50 border ${kvkNumberValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="12345678" required={isZZPer}
+                               required={isZZPer}
                                value={kvkNumber} onChange={(e) => {
                             setFormData({...formData, kvkNumber: e.target.value});
                             setKvkNumberValid(true);
@@ -157,7 +157,7 @@ const PersonalDetails = ({formData, setFormData, createAccount, stepBack}) => {
                         </label>
                         <input type="text" name="iban" id="iban"
                                className={`bg-gray-50 border ${ibanValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="NL02ABNA0123456789" required=""
+                               required=""
                                value={iban} onChange={(e) => {
                             setFormData({...formData, iban: e.target.value});
                             setIbanValid(true);

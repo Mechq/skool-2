@@ -26,13 +26,13 @@ const dateOptions = {
         selected: "bg-brand-orange",
     },
     datepickerClassNames: "top-12",
-    defaultDate: maxDate,
+    defaultDate: null,
     language: "nl",
     disabledDates: [],
     weekDays: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
     inputNameProp: "date",
     inputIdProp: "date",
-    inputPlaceholderProp: "Select Date",
+    inputPlaceholderProp: "Selecteer Datum",
     inputDateFormatProp: {
         day: "numeric",
         month: "long",
@@ -156,7 +156,7 @@ const AccountCreation = ({formData, setFormData, nextStep}) => {
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Voornaam</label>
                         <input type="text" name="firstName" id="firstName"
                                className={`bg-gray-50 border ${firstNameValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="voornaam" required=""
+                               required=""
                                value={firstName} onChange={(e) => {
                             setFormData({...formData, firstName: e.target.value})
                             setFirstNameValid(true);
@@ -167,7 +167,7 @@ const AccountCreation = ({formData, setFormData, nextStep}) => {
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Achternaam</label>
                         <input type="text" name="surName" id="surName"
                                className={`bg-gray-50 border ${surNameValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="achternaam" required=""
+                                required=""
                                value={lastName} onChange={(e) => {
                             setFormData({...formData, lastName: e.target.value})
                             setSurNameValid(true);
@@ -180,7 +180,7 @@ const AccountCreation = ({formData, setFormData, nextStep}) => {
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Telefoonnummer</label>
                         <input type="number" name="phoneNr" id="phoneNr"
                                className={`bg-gray-50 border ${phoneNrValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="0612345678" required=""
+                                required=""
                                value={phoneNumber} onChange={(e) => {
                             setFormData({...formData, phoneNumber: e.target.value})
                             setPhoneNrValid(true);
@@ -201,7 +201,7 @@ const AccountCreation = ({formData, setFormData, nextStep}) => {
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Straatnaam</label>
                         <input type="text" name="streetName" id="streetName"
                                className={`bg-gray-50 border ${streetNameValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="straat" required=""
+                               required=""
                                value={streetName} onChange={(e) => {
                             setFormData({...formData, streetName: e.target.value})
                             setStreetNameValid(true);
@@ -213,7 +213,7 @@ const AccountCreation = ({formData, setFormData, nextStep}) => {
                                    className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Huisnummer</label>
                             <input type="text" name="houseNumber" id="houseNumber"
                                    className={`bg-gray-50 border ${houseNumberValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                                   placeholder="0" required=""
+                                   required=""
                                    value={houseNumber} onChange={(e) => {
                                 setFormData({...formData, houseNumber: e.target.value})
                                 setHouseNumberValid(true);
@@ -224,7 +224,7 @@ const AccountCreation = ({formData, setFormData, nextStep}) => {
                                    className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Postcode</label>
                             <input type="text" name="postalCode" id="postalCode"
                                    className={`bg-gray-50 border ${postalCodeValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                                   placeholder="1234AB" required=""
+                                   required=""
                                    value={postalCode} onChange={(e) => {
                                 setFormData({...formData, postalCode: e.target.value})
                                 setPostalCodeValid(true);
@@ -240,7 +240,7 @@ const AccountCreation = ({formData, setFormData, nextStep}) => {
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Stad</label>
                         <input type="text" name="city" id="city"
                                className={`bg-gray-50 border ${cityValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="gilze" required=""
+                               required=""
                                value={city} onChange={(e) => {
                             setFormData({...formData, city: e.target.value})
                             setCityValid(true);
@@ -251,7 +251,7 @@ const AccountCreation = ({formData, setFormData, nextStep}) => {
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Land</label>
                         <input type="text" name="country" id="country"
                                className={`bg-gray-50 border ${countryValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="nederland" required=""
+                               required=""
                                value={country} onChange={(e) => {
                             setFormData({...formData, country: e.target.value})
                             setCountryValid(true);
@@ -266,7 +266,7 @@ const AccountCreation = ({formData, setFormData, nextStep}) => {
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Email</label>
                         <input type="email" name="email" id="email"
                                className={`bg-gray-50 border ${emailValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="name@bedrijf.com" required=""
+                               required=""
                                value={email} onChange={(e) => {
                             setFormData({...formData, email: e.target.value})
                             setEmailValid(true);
@@ -279,7 +279,7 @@ const AccountCreation = ({formData, setFormData, nextStep}) => {
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Wachtwoord</label>
                         <input type="password" name="password" id="password"
                                className={`bg-gray-50 border ${passwordValid ? 'border-gray-300' : 'border-red-500'} text-gray-900 sm:text-sm rounded-lg focus:ring-brand-orange focus:border-brand-orange block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange light:focus:border-brand-orange`}
-                               placeholder="•••••••••" required=""
+                               required=""
                                value={password} onChange={(e) => {
                             setFormData({...formData, password: e.target.value})
                             setPasswordValid(true);
