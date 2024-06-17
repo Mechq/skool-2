@@ -1,10 +1,10 @@
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 export default function List_invites({
-                                        invites,
-                                        setInvites,
-                                        user
-                                    }) {
+    invites,
+    setInvites,
+    user
+}) {
 
     useEffect(() => {
         fetch(`/api/invite/user/${user.id}`)
@@ -13,33 +13,39 @@ export default function List_invites({
                 setInvites(data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, []);
+    }, [user.id, setInvites]);
 
     const formatDate = (dateString) => {
         if (!dateString) return "";
-        const options = {year: 'numeric', month: 'long', day: 'numeric'};
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString("nl-NL", options);
     };
 
     const handleAccept = (status, invite, userId) => {
+        console.log("Accepting invite:", invite);
         fetch(`/api/invite/${invite.inviteId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({status}),
+            body: JSON.stringify({ status }),
         })
-            .then((res) => res.json())
-            .then(() => {
-                fetch(`/api/invite/user/${user.id}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        setInvites(data.data);
-                    })
-                    .catch(error => console.error('Error fetching data:', error));
+            .then((res) => {
+                console.log("Response from updating invite status:", res);
+                return res.json();
             })
-            .catch((error) => console.error("Error updating invite:", error));
+            .then(() => {
+                console.log("Fetching updated invites list...");
+                return fetch(`/api/invite/user/${user.id}`);
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log("Updated invites list:", data.data);
+                setInvites(data.data);
+            })
+            .catch(error => console.error('Error updating invite:', error));
 
+        console.log("Creating enrollment...");
         fetch('/api/enrollment', {
             method: "POST",
             headers: {
@@ -49,29 +55,36 @@ export default function List_invites({
                 userId: userId,
                 commissionWorkshopId: invite.commissionWorkshopId,
             }),
-
         })
-            .then((res) => res.json())
-            .catch((error) => console.error("Error updating invite:", error));
+            .then((res) => {
+                console.log("Response from creating enrollment:", res);
+                return res.json();
+            })
+            .catch((error) => console.error("Error creating enrollment:", error));
     };
 
     const handleReject = (inviteId) => {
+        console.log("Rejecting invite with ID:", inviteId);
         fetch(`/api/invite/${inviteId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
         })
-            .then((res) => res.json())
-            .then(() => {
-                fetch(`/api/invite/user/${user.id}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        setInvites(data.data);
-                    })
-                    .catch(error => console.error('Error fetching data:', error));
+            .then((res) => {
+                console.log("Response from deleting invite:", res);
+                return res.json();
             })
-            .catch((error) => console.error("Error updating invite:", error));
+            .then(() => {
+                console.log("Fetching updated invites list...");
+                return fetch(`/api/invite/user/${user.id}`);
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log("Updated invites list:", data.data);
+                setInvites(data.data);
+            })
+            .catch((error) => console.error("Error deleting invite:", error));
     };
 
     return (
@@ -87,9 +100,9 @@ export default function List_invites({
                 </tr>
                 </thead>
                 <tbody>
-                {invites.map((invite) => (
+                {invites.map((invite, index) => (
                     <tr
-                        key={invite.inviteId}
+                        key={`${invite.inviteId}-${index}`}
                         className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700"
                     >
                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
