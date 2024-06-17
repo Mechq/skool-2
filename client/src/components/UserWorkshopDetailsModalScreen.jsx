@@ -167,6 +167,7 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                     sendEmail(user.email, mailTemplateConfirm.subject, emailContent);
                 } else if (buttonText === 'Wachtrij') {
                     const emailContent = replaceTemplatePlaceholders(mailTemplateBackup.content, placeholders);
+                    console.log(emailContent)
                     sendEmail(user.email, mailTemplateBackup.subject, emailContent);
                 }
             }
