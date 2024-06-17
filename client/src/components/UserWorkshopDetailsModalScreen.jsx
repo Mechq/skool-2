@@ -113,8 +113,8 @@ export default function UserWorkshopDetailsModalScreen({onClose, workshop, commi
         const threeDaysInMillis = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
 
         const timeDifference = checkDate.getTime() - currentDate.getTime();
-
-        if (buttonText === "Afmelden" && timeDifference >= threeDaysInMillis) {
+//&& timeDifference >= threeDaysInMillis
+        if (buttonText === "Afmelden" ) {
             fetch(`/api/enrollment/${workshopRound.id}/${userId}`, {
                 method: "DELETE",
                 headers: {
