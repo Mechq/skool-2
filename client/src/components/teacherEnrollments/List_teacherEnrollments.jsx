@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import ConfirmRejectModal_teacherEnrollments from "./ConfirmRejectModal_teacherEnrollments";
+import ConfirmAcceptModal_teacherEnrollments from "./ConfirmAcceptModal_teacherEnrollments";
 
 export default function List_teacherEnrollments({
                                                     isOpen,
                                                     enrollments,
                                                     setEnrollments,
                                                 }) {
-
-    const [showModal, setShowModal] = useState(false);
+    const [showRejectModal, setShowRejectModal] = useState(false);
+    const [showAcceptModal, setShowAcceptModal] = useState(false);
     const [enrollmentToReject, setEnrollmentToReject] = useState({});
+    const [enrollmentToAccept, setEnrollmentToAccept] = useState({});
     const [rejectedMail, setRejectedMail] = useState({});
     const [acceptedMail, setAcceptedMail] = useState({});
-
 
     useEffect(() => {
         fetch(`/api/mailTemplate/15`)
@@ -30,7 +31,6 @@ export default function List_teacherEnrollments({
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [])
-
 
     useEffect(() => {
         fetch('/api/enrollment')
@@ -58,16 +58,26 @@ export default function List_teacherEnrollments({
         return acc;
     }, {});
 
-
     const handleRejectClick = (e, enrollment) => {
         e.preventDefault();
         e.stopPropagation();
         setEnrollmentToReject(enrollment);
-        setShowModal(true);
+        setShowRejectModal(true);
     };
 
-    const handleModalClose = () => {
-        setShowModal(false);
+    const handleAcceptClick = (e, enrollment) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setEnrollmentToAccept(enrollment);
+        setShowAcceptModal(true);
+    };
+
+    const handleRejectModalClose = () => {
+        setShowRejectModal(false);
+    };
+
+    const handleAcceptModalClose = () => {
+        setShowAcceptModal(false);
     };
 
     const replaceTemplatePlaceholders = (template, placeholders) => {
@@ -102,9 +112,7 @@ export default function List_teacherEnrollments({
             })
                 .then(res => res.json())
                 .catch(error => console.error('Error sending email:', error));
-        }
-        else if (status === "geweigerd") {
-
+        } else if (status === "geweigerd") {
             const emailBody = replaceTemplatePlaceholders(rejectedMail.content, {
                 FirstName: enrollment.firstName,
                 Workshop: enrollment.workshopName,
@@ -133,7 +141,6 @@ export default function List_teacherEnrollments({
         }
     };
 
-
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             {Object.keys(groupedEnrollments).map((groupKey) => (
@@ -142,8 +149,7 @@ export default function List_teacherEnrollments({
                         {groupKey}
                     </h2>
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
-                        <thead
-                            className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                         <tr>
                             <th className="px-6 py-3">Naam</th>
                             <th className="px-6 py-3 text-right">Actie</th>
@@ -160,7 +166,7 @@ export default function List_teacherEnrollments({
                                 </td>
                                 <td className="px-6 py-4 text-right">
                                     {/* Placeholder for accept/reject buttons */}
-                                    <button onClick={() => handleSubmit(enrollment, "geaccepteerd")}
+                                    <button onClick={(e) => handleAcceptClick(e, enrollment)}
                                             className="bg-custom-blue text-white px-2 py-1 rounded mr-2">Accepteren
                                     </button>
                                     <button onClick={(e) => handleRejectClick(e, enrollment)}
@@ -171,19 +177,28 @@ export default function List_teacherEnrollments({
                         ))}
                         </tbody>
                     </table>
-                    {showModal && (
+                    {showRejectModal && (
                         <div>
                             <ConfirmRejectModal_teacherEnrollments
-                                onClose={handleModalClose}
+                                onClose={handleRejectModalClose}
                                 onConfirm={(reason) => handleSubmit(enrollmentToReject, 'geweigerd', reason)}
                                 enrollment={enrollmentToReject}
                                 setEnrollments={setEnrollments}
                             />
                         </div>
                     )}
+                    {showAcceptModal && (
+                        <div>
+                            <ConfirmAcceptModal_teacherEnrollments
+                                onClose={handleAcceptModalClose}
+                                onConfirm={() => handleSubmit(enrollmentToAccept, 'geaccepteerd')}
+                                enrollment={enrollmentToAccept}
+                                setEnrollments={setEnrollments}
+                            />
+                        </div>
+                    )}
                 </div>
             ))}
-
         </div>
     );
 }
