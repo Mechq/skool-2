@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import ConfirmDeleteModal_workshopTemplates from "./ConfirmDeleteModal_workshopTemplates";
 
 export default function List_workshopTemplates({
-    isOpen,
-    setIsOpen,
-    setSidePanelContent,
-    setWorkshopId,
-    workshops,
-    setRotateSpan,
-    setWorkshops,
-    isAllExpanded,
-    setIsAllExpanded,
-    isAccordionOpen,
-    setIsAccordionOpen,
-    categories,
-    openFirstCategoryWithData,
-}) {
+                                                   isOpen,
+                                                   setIsOpen,
+                                                   setSidePanelContent,
+                                                   setWorkshopId,
+                                                   workshops,
+                                                   setRotateSpan,
+                                                   setWorkshops,
+                                                   isAllExpanded,
+                                                   setIsAllExpanded,
+                                                   isAccordionOpen,
+                                                   setIsAccordionOpen,
+                                                   categories,
+                                                   openFirstCategoryWithData,
+                                               }) {
     const [showModal, setShowModal] = useState(false);
     const [workshopToDeleteId, setWorkshopToDeleteId] = useState(null);
     const [workshopToDeleteName, setWorkshopToDeleteName] = useState(null);
@@ -114,17 +114,20 @@ export default function List_workshopTemplates({
                 className={`${isAccordionOpen[index] ? '' : 'hidden'}`}
                 aria-labelledby={`accordion-collapse-heading-${index}`}
             >
-                <div className={`p-5 border border-gray-200 light:border-gray-700 light:bg-gray-900 ${index === totalCategories - 1 ? '' : 'border-b-0'}`}>
+                <div
+                    className={`p-5 border border-gray-200 light:border-gray-700 light:bg-gray-900 ${index === totalCategories - 1 ? '' : 'border-b-0'}`}>
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                         {categorizedWorkshops[category].length > 0 && (
-                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
+                            <table
+                                className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
                                 <colgroup>
-                                    <col style={{ width: '25%' }} />
-                                    <col style={{ width: '25%' }} />
-                                    <col style={{ width: '25%' }} />
-                                    <col style={{ width: '25%' }} />
+                                    <col style={{width: '25%'}}/>
+                                    <col style={{width: '25%'}}/>
+                                    <col style={{width: '25%'}}/>
+                                    <col style={{width: '25%'}}/>
                                 </colgroup>
-                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
+                                <thead
+                                    className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                                 <tr>
                                     <th className="px-6 py-3">Workshop Naam</th>
                                     <th className="px-6 py-3">Materialen</th>

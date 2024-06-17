@@ -1,10 +1,16 @@
 import React, {useEffect} from "react";
+import ConfirmRejectModal_teacherEnrollments from "./ConfirmRejectModal_teacherEnrollments";
 
 export default function List_teacherEnrollments({
-                                           isOpen,
-                                           enrollments,
-                                           setEnrollments,
-                                       }) {
+                                                    isOpen,
+                                                    enrollments,
+                                                    setEnrollments,
+                                                }) {
+
+    const [showModal, setShowModal] = React.useState(false);
+    const [enrollmentToReject, setEnrollmentToReject] = React.useState({});
+
+
     useEffect(() => {
         fetch('/api/enrollment')
             .then(res => res.json())
@@ -32,29 +38,45 @@ export default function List_teacherEnrollments({
         return acc;
     }, {});
 
-    const handleSubmit = (status, enrollment) => {
-        console.log("Submitting enrollment status:", status);
-        console.log("Enrollment:", enrollment);
-        fetch(`/api/enrollment/${enrollment.enrollmentId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({status}),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                // Refresh enrollments after successful update
-                fetch('/api/enrollment')
-                    .then(res => res.json())
-                    .then(data => {
-                        setEnrollments(data.data);
-                        console.log("Fetched enrollments: ", data.data);
-                    })
-                    .catch(error => console.error('Error fetching data:', error));
-            })
-            .catch((error) => console.error("Error updating enrollment:", error));
+
+    const handleRejectClick = (e, enrollment) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setEnrollmentToReject(enrollment);
+        setShowModal(true);
+        console.log("Reject clicked for enrollment:", enrollment)
+    };
+
+    const handleModalClose = () => {
+        console.log("Modal close triggered");
+        setShowModal(false);
+    };
+
+
+    const handleSubmit = (enrollment) => {
+
+        // console.log("Submitting enrollment status:", status);
+        // console.log("Enrollment:", enrollment);
+        // fetch(`/api/enrollment/${enrollment.enrollmentId}`, {
+        //     method: "PUT",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({status}),
+        // })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         console.log(data);
+        //         // Refresh enrollments after successful update
+        //         fetch('/api/enrollment')
+        //             .then(res => res.json())
+        //             .then(data => {
+        //                 setEnrollments(data.data);
+        //                 console.log("Fetched enrollments: ", data.data);
+        //             })
+        //             .catch(error => console.error('Error fetching data:', error));
+        //     })
+        //     .catch((error) => console.error("Error updating enrollment:", error));
     };
 
 
@@ -87,7 +109,7 @@ export default function List_teacherEnrollments({
                                     <button onClick={() => handleSubmit("geaccepteerd", enrollment)}
                                             className="bg-custom-blue text-white px-2 py-1 rounded mr-2">Accepteren
                                     </button>
-                                    <button onClick={() => handleSubmit("geweigerd", enrollment)}
+                                    <button onClick={(e) => handleRejectClick(e, enrollment)}
                                             className="bg-custom-red text-white px-2 py-1 rounded">Weigeren
                                     </button>
                                 </td>
@@ -95,8 +117,19 @@ export default function List_teacherEnrollments({
                         ))}
                         </tbody>
                     </table>
+                    {showModal && (
+                        <div>
+                            <ConfirmRejectModal_teacherEnrollments
+                                onClose={handleModalClose}
+                                onConfirm={handleSubmit}
+                                enrollment={enrollmentToReject}
+                                setEnrollments={setEnrollments}
+                            />
+                        </div>
+                    )}
                 </div>
             ))}
+
         </div>
     );
 }
