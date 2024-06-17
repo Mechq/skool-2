@@ -1,36 +1,132 @@
 import React, {useEffect, useState} from "react";
 
 export default function InviteModal_workshops({onClose, onSave, commissionWorkshop}) {
+    console.log(commissionWorkshop)
     const [users, setUsers] = useState([]);
     const [selectedTeacher, setSelectedTeacher] = useState("");
-
+    const [ mailTemplate, setMailTemplate] = useState({});
+    const [times, setTimes] = useState({});
+    const [locationId, setLocationId] = useState(null);
+    const [locationCity, setLocationCity] = useState('');
 
     useEffect(() => {
-        fetch(`/api/teacherWorkshopQualification/workshop/${commissionWorkshop.workshopId}`)
-            .then(res => res.json())
-            .then(data => {
-                setUsers(data.data);
-            })
-    }, [])
+        const fetchData = async () => {
+            try {
+                const [usersResponse, mailTemplateResponse, timesResponse, commissionResponse] = await Promise.all([
+                    fetch(`/api/teacherWorkshopQualification/workshop/${commissionWorkshop.workshopId}`).then(res => res.json()),
+                    fetch(`/api/mailTemplate/14`).then(res => res.json()),
+                    fetch(`/api/commission/time/${commissionWorkshop.commissionId}`).then(res => res.json()),
+                    fetch(`/api/commission/${commissionWorkshop.commissionId}`).then(res => res.json())
+                ]);
 
-    const handleInvite = () => {
-        fetch(`/api/invite/workshop/${commissionWorkshop.commissionWorkshopId}/user/${selectedTeacher}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(response => {
-                if (response.ok) {
-                    onClose();
-                } else {
-                    console.error('Failed to send invite');
+                setUsers(usersResponse.data);
+                setMailTemplate(mailTemplateResponse.data);
+                setTimes(timesResponse.data);
+                setLocationId(commissionResponse.data.locationId);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, [commissionWorkshop.workshopId, commissionWorkshop.commissionId]);
+
+    useEffect(() => {
+        const fetchLocation = async () => {
+            if (locationId) {
+                try {
+                    const locationResponse = await fetch(`/api/location/${locationId}`).then(res => res.json());
+                    setLocationCity(locationResponse.data.city);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
                 }
-            })
-            .catch(error => {
-                console.error('Error sending invite:', error);
-            });
+            }
+        };
+
+        fetchLocation();
+    }, [locationId]);
+
+
+
+    const replaceTemplatePlaceholders = (template, placeholders) => {
+        if (typeof template !== 'string') {
+            throw new Error('Template is not a string');
+        }
+        return template.replace(/{(FirstName|ExecutionDate|FirstRoundStartTime|LastRoundEndTime|Workshop|City)}/g, (_, key) => placeholders[key] || '');
     };
+
+    const handleInvite = async () => {
+        const selectedTeacherNum = parseInt(selectedTeacher, 10); // Assuming selectedTeacher is a string
+
+        // Ensure selectedTeacher is a valid number and find the user
+        if (isNaN(selectedTeacherNum)) {
+            console.error('Invalid selectedTeacher ID');
+            return;
+        }
+
+        const selectedUser = users.find(user => user.id === selectedTeacherNum);
+        if (!selectedUser) {
+            console.error('User not found');
+            return;
+        }
+
+        const emailBody = replaceTemplatePlaceholders(mailTemplate.content, {
+            FirstName: selectedUser.firstName,
+            ExecutionDate: formatDate(commissionWorkshop.date),
+            FirstRoundStartTime: times.startTime,
+            LastRoundEndTime: times.endTime,
+            Workshop: commissionWorkshop.workshopName,
+            City: locationCity
+        });
+
+        const subjectBody = replaceTemplatePlaceholders(mailTemplate.subject, {
+            Workshop: commissionWorkshop.workshopName,
+            ExecutionDate: formatDate(commissionWorkshop.date),
+            City: locationCity
+        })
+        console.log({
+            email: selectedUser.email,});
+        console.log({subject: mailTemplate.subject,})
+        console.log({message: emailBody})
+
+        try {
+            const inviteResponse = await fetch(`/api/invite/workshop/${commissionWorkshop.commissionWorkshopId}/user/${selectedTeacherNum}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId: selectedTeacherNum }) // Include the body in the POST request
+            });
+
+            if (!inviteResponse.ok) {
+                throw new Error('Failed to send invite');
+            }
+
+            onClose();
+
+            const emailResponse = await fetch('/api/mail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: selectedUser.email,
+                    subject: subjectBody,
+                    message: emailBody
+                })
+            });
+
+            if (!emailResponse.ok) {
+                throw new Error('Failed to send email');
+            }
+
+            console.log('Email sent');
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
 
 
     const formatDate = (date) => {

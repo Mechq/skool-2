@@ -152,7 +152,7 @@ const teacherWorkshopQualificationService = {
             }
 
             connection.query(
-                "SELECT id, firstName, lastName from user WHERE id IN (SELECT userId FROM teacherWorkshopQualification WHERE workshopId = ?)",
+                "SELECT id, firstName, lastName, email from user WHERE id IN (SELECT userId FROM teacherWorkshopQualification WHERE workshopId = ?)",
                 [id],
                 function (error, results, fields) {
                     connection.release();
