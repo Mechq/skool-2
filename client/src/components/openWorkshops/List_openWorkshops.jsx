@@ -77,6 +77,12 @@ export default function List_openWorkshops({userWorkshops, setUserWorkshops, use
     const getCommissionDate = (commissionId) => {
         const commission = getCommission(commissionId)
         const date = new Date(commission.date);
+        console.log(date.toLocaleDateString('nl-NL', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+        })
+        )
         return date.toLocaleDateString('nl-NL', {
             year: 'numeric',
             month: 'numeric',

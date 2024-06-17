@@ -1,13 +1,7 @@
 import React from "react";
 import {AiTwotoneCalendar, AiTwotoneClockCircle, AiTwotoneEuro} from "react-icons/ai";
 
-export default function UserWorkshopCard({
-                                             userWorkshop,
-                                             commissionDate,
-                                             commissionName,
-                                             commissionTime,
-                                             commissionPay
-                                         }) {
+export default function UserWorkshopCard({ userWorkshop, commissionDate, commissionName, commissionTime, commissionPay }) {
     return (
         <>
             <a href="#"

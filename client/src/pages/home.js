@@ -15,8 +15,8 @@ function Home() {
         if (!items || items.length === 0) {
             return null;
         }
-        const sortedItems = items.sort((a, b) => new Date(a.date) - new Date(b.date));
-        return sortedItems[0].date;
+        const sortedItems = items.sort((a, b) => new Date(a.commissionDate) - new Date(b.commissionDate));
+        return sortedItems[0].commissionDate;
     };
 
     const formatDate = (date) => {
