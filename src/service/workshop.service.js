@@ -227,6 +227,33 @@ const workshopService = {
                 }
             });
         },
+    getWorkshopCommissionWhereNotEnrolled: (userId, callback) => {
+        logger.info('getting workshop commission where user is not enrolled');
+
+        let sql = `SELECT w.id AS workshopId, c.id AS commissionId, w.*, c.*, cd.date FROM workshop w JOIN commissionWorkshop cw ON w.id = cw.workshopId JOIN commission c ON cw.commissionId = c.id LEFT JOIN enrollment e ON cw.id = e.commissionWorkshopId AND e.userId = ? LEFT JOIN commissionDate cd ON c.id = cd.commissionId WHERE e.userId IS NULL;;`;
+        database.query(sql, [userId], (error, results, fields) => {
+            if (error) {
+                logger.error('Error getting workshop commission', error);
+                callback(error, null);
+
+            } else {
+                if (results.length > 0) {
+                    logger.info('WorkshopTemplates commission fetched successfully', results);
+                    callback(null, {
+                        status: 200,
+                        message: 'WorkshopTemplates commission fetched successfully',
+                        data: results,
+                    });
+                } else {
+                    logger.warn('No workshop commission found');
+                    callback({
+                        status: 404,
+                        message: 'WorkshopTemplates commission not found',
+                    }, null);
+                }
+            }
+        });
+    },
     getWorkshopCommissionById: (workshopId, commissionId, callback) => {
         logger.info('getting workshop commission');
 
@@ -319,7 +346,8 @@ const workshopService = {
     getAllCommissionWorkshops: (callback) => {
         logger.info('getting all commission workshops');
 
-        const sql = `SELECT c.date, c.customerId, cust.name AS customerName, w.name AS workshopName, CASE WHEN e.status = 'geaccepteerd' THEN CONCAT(u.firstName, ' ', u.lastName) ELSE '' END AS teacherName, w.id AS workshopId, cw.id AS commissionWorkshopId FROM commission AS c JOIN commissionWorkshop AS cw ON c.id = cw.commissionId JOIN customer AS cust ON c.customerId = cust.id JOIN workshop AS w ON cw.workshopId = w.id LEFT JOIN enrollment AS e ON cw.id = e.commissionWorkshopId AND e.status = 'geaccepteerd' LEFT JOIN user AS u ON e.userId = u.id;`;
+        const sql = `SELECT cd.date, c.customerId, cust.name AS customerName, w.name AS workshopName, CASE WHEN e.status = 'geaccepteerd' THEN CONCAT(u.firstName, ' ', u.lastName) ELSE '' END AS teacherName, w.id AS workshopId, cw.id AS commissionWorkshopId FROM commission AS c JOIN commissionWorkshop AS cw ON c.id = cw.commissionId JOIN customer AS cust ON c.customerId = cust.id JOIN workshop AS w ON cw.workshopId = w.id LEFT JOIN enrollment AS e ON cw.id = e.commissionWorkshopId AND e.status = 'geaccepteerd' LEFT JOIN user AS u ON e.userId = u.id LEFT JOIN commissionDate AS cd ON c.id = cd.commissionId;
+`;
     
         database.query(sql, (error, results, fields) => {
             if (error) {

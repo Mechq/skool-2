@@ -12,19 +12,8 @@ const dashboardService = {
                 callback(err, null);
                 return;
             }
-            connection.query(`SELECT e.id AS enrollmentId,
-       cw.id AS commissionWorkshopId,
-       c.id AS commissionId,
-       w.id AS workshopId,
-       e.*, 
-       cw.*, 
-       c.*, 
-       w.*
-FROM enrollment e
-JOIN commissionWorkshop cw ON e.commissionWorkshopId = cw.id
-JOIN commission c ON cw.commissionId = c.id
-JOIN workshop w ON cw.workshopId = w.id
-WHERE e.userId = ? ORDER BY c.date;`, [id],
+            connection.query(`SELECT e.id AS enrollmentId, cw.id AS commissionWorkshopId, c.id AS commissionId, w.id AS workshopId, e.*, cw.*, c.*, w.*, cd.date AS commissionDate FROM enrollment e JOIN commissionWorkshop cw ON e.commissionWorkshopId = cw.id JOIN commission c ON cw.commissionId = c.id JOIN workshop w ON cw.workshopId = w.id JOIN commissionDate cd ON c.id = cd.commissionId WHERE e.userId = ? ORDER BY cd.date;`,
+                [id],
             function(error, results, fields) {
                 connection.release();
 

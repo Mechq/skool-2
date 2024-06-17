@@ -14,15 +14,15 @@ const customerService = {
 
             const {
                 name,
-                contactName,
+
                 email,
                 phone,
                 locationId,
             } = customer;
 
-            const values = [name, contactName, email, phone, locationId];
+            const values = [name, email, phone, locationId];
 
-            const sql = 'INSERT INTO customer (name, contactName, email, phone, locationId) VALUES (?, ?, ?, ?, ?)';
+            const sql = 'INSERT INTO customer (name, email, phone, locationId) VALUES (?, ?, ?, ?)';
               connection.query(sql, values, function(error, results, fields) {
                     connection.release();
                     if (error) {
@@ -128,10 +128,6 @@ const customerService = {
                 customerSql += 'name = ?, ';
                 customerValues.push(customer.name);
             }
-            if (customer.contactName) {
-                customerSql += 'contactName = ?, ';
-                customerValues.push(customer.contactName);
-            }
             if (customer.email) {
                 customerSql += 'email = ?, ';
                 customerValues.push(customer.email);
@@ -196,7 +192,120 @@ const customerService = {
                 });
             });
         });
-    }
+    },
+    updateContactPersons: (customerId, contactPersons, callback) => {
+        logger.info('updating contact persons for customer', customerId);
+
+        database.getConnection((err, connection) => {
+            if (err) {
+                logger.error('Error getting connection', err);
+                callback(err, null);
+                return;
+            }
+
+            connection.beginTransaction(err => {
+                if (err) {
+                    logger.error('Error starting transaction', err);
+                    connection.release();
+                    callback(err, null);
+                    return;
+                }
+
+                const deleteSql = 'DELETE FROM contactPerson WHERE customerId = ?';
+                connection.query(deleteSql, [customerId], (error, results) => {
+                    if (error) {
+                        logger.error('Error deleting contact persons', error);
+                        return connection.rollback(() => {
+                            connection.release();
+                            callback(error, null);
+                        });
+                    }
+
+                    if (contactPersons.length === 0) {
+                        connection.commit(err => {
+                            if (err) {
+                                logger.error('Error committing transaction', err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    callback(err, null);
+                                });
+                            }
+                            connection.release();
+                            callback(null, {
+                                status: 200,
+                                message: 'Contact persons updated successfully',
+                                data: []
+                            });
+                        });
+                        return;
+                    }
+
+                    const insertSql = 'INSERT INTO contactPerson (name, email, phoneNumber, customerId) VALUES ?';
+                    const values = contactPersons.map(({ name, email, phoneNumber }) => [name, email, phoneNumber, customerId]);
+
+                    connection.query(insertSql, [values], (error, results) => {
+                        if (error) {
+                            logger.error('Error inserting contact persons', error);
+                            return connection.rollback(() => {
+                                connection.release();
+                                callback(error, null);
+                            });
+                        }
+
+                        connection.commit(err => {
+                            if (err) {
+                                logger.error('Error committing transaction', err);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    callback(err, null);
+                                });
+                            }
+
+                            const insertedContactPersons = contactPersons.map((contactPerson, index) => ({
+                                ...contactPerson,
+                                id: results.insertId + index
+                            }));
+
+                            logger.trace('Contact persons updated', insertedContactPersons);
+                            connection.release();
+                            callback(null, {
+                                status: 200,
+                                message: 'Contact persons updated successfully',
+                                data: insertedContactPersons
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    },
+    getAllContactPersonsByCustomerId: (id, callback) => {
+        logger.info('get all contact persons');
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error getting contact persons', err);
+                callback(err, null);
+                return;
+            }
+
+            connection.query('SELECT * FROM `contactPerson` WHERE customerId = ?;', [id], function(error, results, fields) {
+                connection.release();
+
+                if (error) {
+                    logger.error('Error getting contact person', error);
+                    callback(error, null);
+                    return;
+                }
+
+                callback(null, {
+                    status: 200,
+                    message: `${results.length} contact person retrieved`,
+                    data: results,
+                });
+            });
+        });
+    },
 
 };
 

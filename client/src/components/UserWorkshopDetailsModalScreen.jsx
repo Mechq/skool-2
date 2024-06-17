@@ -107,7 +107,14 @@ export default function UserWorkshopDetailsModalScreen({onClose, workshop, commi
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (buttonText === "Afmelden") {
+
+        const checkDate = new Date(commission.commissionDate);
+        const currentDate = new Date();
+        const threeDaysInMillis = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
+
+        const timeDifference = checkDate.getTime() - currentDate.getTime();
+
+        if (buttonText === "Afmelden" && timeDifference >= threeDaysInMillis) {
             fetch(`/api/enrollment/${workshopRound.id}/${userId}`, {
                 method: "DELETE",
                 headers: {
@@ -126,7 +133,12 @@ export default function UserWorkshopDetailsModalScreen({onClose, workshop, commi
                     onClose();
                 })
                 .catch((error) => console.error("Error:", error));
-        } else if (buttonText === "Aanmelden" || buttonText === "Wachtrij") {
+
+        } else if (buttonText === "Afmelden" && timeDifference < threeDaysInMillis) {
+            alert("Je kunt je niet meer afmelden voor deze workshop, omdat deze binnen 3 dagen plaatsvindt.");
+        }
+
+        else if (buttonText === "Aanmelden" || buttonText === "Wachtrij") {
             fetch(`/api/workshop/commission/${workshop.workshopId}/${commission.id}`, {
                 method: "POST",
                 headers: {

@@ -18,6 +18,8 @@ const enrollmentRoutes = require("./src/routes/enrollment.routes");
 const dashboardRoutes = require("./src/routes/dashboard.routes");
 const inviteRoutes = require("./src/routes/invite.routes");
 
+const emailRoutes = require("./src/mail/mail.routes");
+
 const userRoutes = require ("./src/routes/user.routes");
 
 const app = express();
@@ -49,6 +51,7 @@ app.use(enrollmentRoutes);
 app.use(teacherWorkshopQualificationRoutes);
 app.use(inviteRoutes);
 app.use(dashboardRoutes);
+app.use(emailRoutes);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));

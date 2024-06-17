@@ -23,7 +23,7 @@ export default function DashboardCardsCommission({userWorkshops}) {
     const formatDate = (commissionDate) => {
         if (commissionDate) {
             const date = new Date(
-                typeof commissionDate === 'string' ? commissionDate : commissionDate.date
+                typeof commissionDate === 'string' ? commissionDate : commissionDate.formatDate
             );
             return date.toLocaleDateString('nl-NL', {
                 year: 'numeric',
@@ -39,9 +39,10 @@ export default function DashboardCardsCommission({userWorkshops}) {
     const getCommission = (commissionId) => {
         const commission = userWorkshops.find(c => c.commissionId === commissionId);
         if (commission) {
+            console.log(commission);
             return {
                 id: commission.commissionId,
-                date: commission.date,
+                date: commission.commissionDate,
                 materials: commission.materials,
                 targetAudience: commission.targetAudience,
                 locationId: commission.locationId,
@@ -73,7 +74,7 @@ export default function DashboardCardsCommission({userWorkshops}) {
                     <UserCommissionCard
                         onClose={handleModalClose}
                         userWorkshop={userWorkshop}
-                        commissionDate={formatDate(userWorkshop.date)}
+                        commissionDate={formatDate(userWorkshop.commissionDate)}
                     />
                 </div>
             ))}

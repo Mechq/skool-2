@@ -15,8 +15,8 @@ function Home() {
         if (!items || items.length === 0) {
             return null;
         }
-        const sortedItems = items.sort((a, b) => new Date(a.date) - new Date(b.date));
-        return sortedItems[0].date;
+        const sortedItems = items.sort((a, b) => new Date(a.commissionDate) - new Date(b.commissionDate));
+        return sortedItems[0].commissionDate;
     };
 
     const formatDate = (date) => {
@@ -105,7 +105,7 @@ function Home() {
                     />
                 </div>
                 <div className='block mb-2 text-sm font-medium text-gray-900     pr-24 flex-1'>
-                    <h1 className='text-2xl mb-4 pd-6'><strong>Openstaand</strong></h1>
+                    <h1 className='text-2xl mb-4 pd-6'><strong>Aangemelde workshops</strong></h1>
                     <DashboardCardsCommission
                         userWorkshops={signedUpWorkshops}
                     />

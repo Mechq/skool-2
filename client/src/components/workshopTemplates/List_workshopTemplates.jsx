@@ -1,20 +1,24 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import ConfirmDeleteModal_workshopTemplates from "./ConfirmDeleteModal_workshopTemplates";
 
 export default function List_workshopTemplates({
-                                         isOpen,
-                                         setIsOpen,
-                                         setSidePanelContent,
-                                         setWorkshopId,
-                                         workshops,
-                                         setRotateSpan,
-                                         setWorkshops
-                                     }) {
+                                                   isOpen,
+                                                   setIsOpen,
+                                                   setSidePanelContent,
+                                                   setWorkshopId,
+                                                   workshops,
+                                                   setRotateSpan,
+                                                   setWorkshops,
+                                                   isAllExpanded,
+                                                   setIsAllExpanded,
+                                                   isAccordionOpen,
+                                                   setIsAccordionOpen,
+                                                   categories
+                                               }) {
     const [showModal, setShowModal] = useState(false);
     const [workshopToDeleteId, setWorkshopToDeleteId] = useState(null);
     const [workshopToDeleteName, setWorkshopToDeleteName] = useState(null);
     const [selectedWorkshopName, setSelectedWorkshopName] = useState(null);
-    const [isAccordionOpen, setIsAccordionOpen] = useState([false, false, false, false, false, false]);
 
     useEffect(() => {
         fetch('/api/workshop')
@@ -28,7 +32,6 @@ export default function List_workshopTemplates({
     }, [isOpen]);
 
     const openFirstCategoryWithData = (workshops) => {
-        const categories = ['Beeldende kunst', 'Dans', 'Media', 'Muziek', 'Sport', 'Theater'];
         const categorizedWorkshops = categories.map(category => workshops.filter(workshop => workshop.category === category));
         const firstNonEmptyCategoryIndex = categorizedWorkshops.findIndex(categoryWorkshops => categoryWorkshops.length > 0);
         if (firstNonEmptyCategoryIndex !== -1) {
@@ -58,8 +61,8 @@ export default function List_workshopTemplates({
         setShowModal(true);
     };
 
-
     const handleModalClose = () => {
+        console.log("Modal close triggered");
         setShowModal(false);
     };
 
@@ -85,8 +88,6 @@ export default function List_workshopTemplates({
     const toggleAccordion = (index) => {
         setIsAccordionOpen(prevState => prevState.map((isOpen, i) => i === index ? !isOpen : isOpen));
     };
-
-    const categories = ['Beeldende kunst', 'Dans', 'Media', 'Muziek', 'Sport', 'Theater'];
 
     const categorizedWorkshops = categories.reduce((acc, category) => {
         acc[category] = workshops.filter(workshop => workshop.category === category);
@@ -127,20 +128,17 @@ export default function List_workshopTemplates({
                 className={`${isAccordionOpen[index] ? '' : 'hidden'}`}
                 aria-labelledby={`accordion-collapse-heading-${index}`}
             >
-                <div
-                    className={`p-5 border  border-gray-200 light:border-gray-700 light:bg-gray-900 ${index === totalCategories - 1 ? '' : 'border-b-0'}`}>
+                <div className={`p-5 border border-gray-200 light:border-gray-700 light:bg-gray-900 ${index === totalCategories - 1 ? '' : 'border-b-0'}`}>
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                         {categorizedWorkshops[category].length > 0 && (
-                            <table
-                                className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
+                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
                                 <colgroup>
-                                    <col style={{width: '25%'}}/>
-                                    <col style={{width: '25%'}}/>
-                                    <col style={{width: '25%'}}/>
-                                    <col style={{width: '25%'}}/>
+                                    <col style={{ width: '25%' }} />
+                                    <col style={{ width: '25%' }} />
+                                    <col style={{ width: '25%' }} />
+                                    <col style={{ width: '25%' }} />
                                 </colgroup>
-                                <thead
-                                    className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
+                                <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                                 <tr>
                                     <th className="px-6 py-3">Workshop Naam</th>
                                     <th className="px-6 py-3">Materialen</th>
@@ -216,11 +214,10 @@ export default function List_workshopTemplates({
     );
 
     return (
-        <div className={'shadow sm:rounded-lg'}>
-            <div id="accordion-collapse" data-accordion="collapse">
-                {categories.map((category, index) => renderAccordion(category, index, categories.length))}
-            </div>
+        <div>
+            {categories.map((category, index) =>
+                renderAccordion(category, index, categories.length)
+            )}
         </div>
-
     );
 }

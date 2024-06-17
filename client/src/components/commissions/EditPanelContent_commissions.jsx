@@ -305,59 +305,18 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         fetchRoundData();
     };
 
-    const handleAddDate = () => {
-        // Ensure new dates added are in YYYY-MM-DD format
-        const newDates = [...dates, date]; // Assuming `date` is already in YYYY-MM-DD format
-        setDates(newDates);
-    };
-
-    const handleDateChange = (index, key, value) => {
-        const newDates = [...dates];
-        newDates[index][key] = value;
-        setDates(newDates);
-    };
-
-    const handleDeleteDate = (index) => {
-        const newDates = dates.filter((_, i) => i !== index);
-        setDates(newDates);
-    };
-
-    const handleChange = (index, key, value) => {
-        console.log("handleChange value:", value, typeof value);
-
-        // Ensure newDates[index] is initialized as a string if it's undefined
-        const newDates = [...dates];
-        try {
-            // Check if value is a valid date string
-            if (typeof value !== 'string') {
-                console.log("Invalid date string:", value);
-                return;
+    const workshopRoundIndex = (type, index) => {
+        if (type === "Workshopronde") {
+            let workshopIndex = 1;
+            for (let i = 0; i < index; i++) {
+                if (types[i] === "Workshopronde") {
+                    workshopIndex++;
+                }
             }
-
-            // Convert `value` into a Date object
-            const selectedDate = new Date(value);
-
-            // Check if `selectedDate` is a valid Date object
-            if (isNaN(selectedDate.getTime())) {
-                console.error("Invalid date:", value);
-                return;
-            }
-
-            // Format `selectedDate` to YYYY-MM-DD
-            const isoDate = selectedDate.toISOString();
-            const formattedDate = isoDate.substring(0, 10);
-
-            // Update newDates array with formattedDate directly
-            newDates[index] = formattedDate;
-            setDates(newDates);
-        } catch (error) {
-            console.error("Error parsing date:", error);
+            return workshopIndex;
         }
-        console.log("datessssss: ", dates)
+        return "";
     };
-
-
-
 
 
     return (
@@ -500,9 +459,9 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                     {types.map((type, index) => (
                         <li key={index} className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer"
                             onClick={() => editRound(type, roundIds[index])}>
-                <span>
-                    {type} - Tijd {startTimes[index]} - {endTimes[index]}
-                </span>
+            <span>
+                {type === "Workshopronde" ? `${type} ${workshopRoundIndex(type, index)} - Tijd ${startTimes[index]} - ${endTimes[index]}` : `${type} - Tijd ${startTimes[index]} - ${endTimes[index]}`}
+            </span>
                             {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
                                 <ul className="pl-4 mt-2">
                                     {workshopRoundWorkshops[roundIds[index]].map((workshop) => (

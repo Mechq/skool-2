@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import ListFooter from "../ListFooter";
 
 export default function List_workLocation({
                                              setShowSidePanel,
@@ -64,6 +65,10 @@ export default function List_workLocation({
                 })}
                 </tbody>
             </table>
+            <ListFooter
+                amountOfRows={workLocations?.length}
+                totaalAantalString={'werklocaties'}
+            />
         </div>
     );
 }

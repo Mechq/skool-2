@@ -39,22 +39,12 @@ function EditMailTemplatePanelContent({ mailTemplateId, setShowSidePanel }) {
                     const data = response.data;
                     setSubject(data.subject || "");
                     setCc(data.cc || "");
-                    setContent(convertNewlinesToHtml(data.content || ""));
+                    setContent(data.content || "");  // Removed convertNewlinesToHtml function call
                     setName(data.name || "");
                 })
                 .catch(error => console.error('Error fetching mail template:', error));
         }
     }, [mailTemplateId]);
-
-    const convertNewlinesToHtml = (text) => {
-        return text.replace(/\n/g, '<br>');
-    };
-
-    const convertHtmlToNewlines = (html) => {
-        const tempElement = document.createElement('div');
-        tempElement.innerHTML = html;
-        return tempElement.innerText.replace(/<br>/g, '\n');
-    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -62,15 +52,15 @@ function EditMailTemplatePanelContent({ mailTemplateId, setShowSidePanel }) {
         if (!subject) setSubject(false);
         if (!content) setContentValid(false);
         if (!name) setNameValid(false);
-        if (!subject || !content) return;
+        if (!subject || !content || !name) return;
 
         const mailTemplate = {
             subject,
             cc: cc || null,
-            content: convertHtmlToNewlines(content),
+            content, // Directly use the HTML content from ReactQuill
             name
         };
-
+    console.log("mailTemplate---->", mailTemplate)
         fetch(`/api/mailTemplate/${mailTemplateId}`, {
             method: 'PUT',
             headers: {
@@ -103,21 +93,21 @@ function EditMailTemplatePanelContent({ mailTemplateId, setShowSidePanel }) {
                            placeholder="Bevestiging {workshop} op {executionDate}" required/>
                 </div>
                 <div className="mb-6">
-    <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900">Inhoud</label>
-   
-        <ReactQuill className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            theme="snow"
-            modules={modules}
-            formats={formats}
-            placeholder="Beste {firstName}..."
-            onChange={handleProcedureContentChange}
-            value={content}
-        />
-    
-</div>
+                    <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900">Inhoud</label>
+
+                    <ReactQuill className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                theme="snow"
+                                modules={modules}
+                                formats={formats}
+                                placeholder="Beste {firstName}..."
+                                onChange={handleProcedureContentChange}
+                                value={content}
+                    />
+
+                </div>
                 <button type="submit" onClick={handleSubmit}
                         className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-                    Submit
+                    Opslaan
                 </button>
             </form>
         </div>

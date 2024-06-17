@@ -1,4 +1,5 @@
 import React from "react";
+import ListFooter from "../ListFooter";
 
 export default function List_mailTemplates({
                                              setShowSidePanel,
@@ -45,6 +46,10 @@ export default function List_mailTemplates({
                 ))}
                 </tbody>
             </table>
+            <ListFooter
+                amountOfRows={mailTemplates?.length}
+                totaalAantalString={'mail templates'}
+            />
         </div>
     );
 }

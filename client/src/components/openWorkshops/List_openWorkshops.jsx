@@ -30,6 +30,7 @@ export default function List_openWorkshops({userWorkshops, setUserWorkshops, use
         fetch('/api/workshop/commission')
             .then(res => res.json())
             .then(data => {
+                // const filteredData = data.data.filter(workshop => workshop.userId === user.id);
                 const workshopsWithUniqueKey = data.data.map((workshop, index) => ({
                     ...workshop,
                     unique: index + 1 // Incremented number starting from 1
@@ -76,6 +77,12 @@ export default function List_openWorkshops({userWorkshops, setUserWorkshops, use
     const getCommissionDate = (commissionId) => {
         const commission = getCommission(commissionId)
         const date = new Date(commission.date);
+        console.log(date.toLocaleDateString('nl-NL', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+        })
+        )
         return date.toLocaleDateString('nl-NL', {
             year: 'numeric',
             month: 'numeric',

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import InviteModal_workshops from "./InviteModal_workshops";
+import ListFooter from "../ListFooter";
 
 export default function List_workshops({
                                                    commissionWorkshops,
@@ -69,6 +70,11 @@ export default function List_workshops({
                 ))}
                 </tbody>
             </table>
+
+            <ListFooter
+                amountOfRows={commissionWorkshops?.length}
+                totaalAantalString={'workshops'}
+            />
 
             {showModal && (
                 <InviteModal_workshops

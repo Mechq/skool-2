@@ -46,7 +46,7 @@ export default function List_profile({user, editUser}) {
     return (
         <>
             <div className="justify-center">
-                <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg">
+                <div className="bg-white max-w-2xl shadow overflow-hidden rounded-lg">
                     <div className="px-4 py-5 sm:px-6">
                         <h3 className="text-lg leading-6 font-medium text-gray-900">
                             {user.firstName + ' ' + user.lastName + ' (' + calculate_age(new Date(user.birthDate)) + ' jaar)'}
@@ -211,7 +211,7 @@ export default function List_profile({user, editUser}) {
             </div>
             <button
                 onClick={editUser}
-                className="bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-white mt-4"
+                className="bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-white mt-4 mb-4"
             >
                 Bewerk
             </button>
