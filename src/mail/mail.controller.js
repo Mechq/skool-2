@@ -8,8 +8,8 @@ let transporter = nodemailer.createTransport({
     port: process.env.SMTP_PORT,
     secure: false, // true for 465, false for other ports
     auth: {
-        user: process.env.SMTP_MAIL, // generated ethereal user
-        pass: process.env.SMTP_PASSWORD, // generated ethereal password
+        user: process.env.SMTP_MAIL,
+        pass: process.env.SMTP_PASSWORD,
     },
 });
 
@@ -33,7 +33,6 @@ const sendEmail = expressAsyncHandler(async (req, res) => {
                     <br>
                     <p>Veilingkade 15 | 4815 HC Breda | Tel. 085 - 0653923 | App. 06 - 28318842</p>
                     <p>Mail. info@skoolworkshop.nl | Web. www.skoolworkshop.nl</p>
-                    <p>Registratie bevestig | 2024-06-05 20:02:04 |</p>
                 </div>
             </body>
         </html>
