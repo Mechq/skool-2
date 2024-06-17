@@ -2,42 +2,28 @@ import React, { useEffect, useState } from "react";
 import ConfirmDeleteModal_workshopTemplates from "./ConfirmDeleteModal_workshopTemplates";
 
 export default function List_workshopTemplates({
-                                                   isOpen,
-                                                   setIsOpen,
-                                                   setSidePanelContent,
-                                                   setWorkshopId,
-                                                   workshops,
-                                                   setRotateSpan,
-                                                   setWorkshops,
-                                                   isAllExpanded,
-                                                   setIsAllExpanded,
-                                                   isAccordionOpen,
-                                                   setIsAccordionOpen,
-                                                   categories
-                                               }) {
+    isOpen,
+    setIsOpen,
+    setSidePanelContent,
+    setWorkshopId,
+    workshops,
+    setRotateSpan,
+    setWorkshops,
+    isAllExpanded,
+    setIsAllExpanded,
+    isAccordionOpen,
+    setIsAccordionOpen,
+    categories,
+    openFirstCategoryWithData,
+}) {
     const [showModal, setShowModal] = useState(false);
     const [workshopToDeleteId, setWorkshopToDeleteId] = useState(null);
     const [workshopToDeleteName, setWorkshopToDeleteName] = useState(null);
     const [selectedWorkshopName, setSelectedWorkshopName] = useState(null);
 
     useEffect(() => {
-        fetch('/api/workshop')
-            .then(res => res.json())
-            .then(data => {
-                setWorkshops(data.data);
-                console.log("Fetched workshops: ", data.data);
-                openFirstCategoryWithData(data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, [isOpen]);
-
-    const openFirstCategoryWithData = (workshops) => {
-        const categorizedWorkshops = categories.map(category => workshops.filter(workshop => workshop.category === category));
-        const firstNonEmptyCategoryIndex = categorizedWorkshops.findIndex(categoryWorkshops => categoryWorkshops.length > 0);
-        if (firstNonEmptyCategoryIndex !== -1) {
-            setIsAccordionOpen(prevState => prevState.map((isOpen, i) => i === firstNonEmptyCategoryIndex));
-        }
-    };
+        openFirstCategoryWithData(workshops);
+    }, [isOpen, workshops]);
 
     const editWorkshop = (id, e) => {
         e.preventDefault();

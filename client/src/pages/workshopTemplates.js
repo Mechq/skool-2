@@ -23,9 +23,18 @@ export default function WorkshopTemplates() {
                 setWorkshops(data.data);
                 console.log("Fetched workshops: ", data.data);
                 setIsAccordionOpen(Array(categories.length).fill(false)); // Initialize isAccordionOpen
+                openFirstCategoryWithData(data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, []);
+
+    const openFirstCategoryWithData = (workshops) => {
+        const categorizedWorkshops = categories.map(category => workshops.filter(workshop => workshop.category === category));
+        const firstNonEmptyCategoryIndex = categorizedWorkshops.findIndex(categoryWorkshops => categoryWorkshops.length > 0);
+        if (firstNonEmptyCategoryIndex !== -1) {
+            setIsAccordionOpen(prevState => prevState.map((isOpen, i) => i === firstNonEmptyCategoryIndex));
+        }
+    };
 
     const toggleAllAccordions = () => {
         const allExpanded = !isAllExpanded;
@@ -68,6 +77,7 @@ export default function WorkshopTemplates() {
                 categories={categories}
                 isAllExpanded={isAllExpanded}
                 setIsAllExpanded={setIsAllExpanded}
+                openFirstCategoryWithData={openFirstCategoryWithData}
             />
 
 
