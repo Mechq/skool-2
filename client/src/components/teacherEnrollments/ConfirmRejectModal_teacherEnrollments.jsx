@@ -43,7 +43,7 @@ export default function ConfirmRejectModal_teacherEnrollments({ onClose, onConfi
                             <span className="close text-xl" onClick={() => {
                                 onClose();
                             }}>&times;</span>
-                            <h1 className="text-xl font-medium m-0 p-0" style={{ marginTop: 0 }}>Workshop verwijderen</h1>
+                            <h1 className="text-xl font-medium m-0 p-0" style={{ marginTop: 0 }}>Inschrijving weigeren</h1>
                             <h2 className="">Weet u zeker dat u de inschrijving
                                 van <strong>{enrollment.firstName + ' ' + enrollment.lastName}</strong> voor de workshop<br />
                                 '<strong>{enrollment.workshopName}</strong>'
