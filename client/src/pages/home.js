@@ -99,7 +99,7 @@ function Home() {
             </div>
             <div className='flex'>
                 <div className='block mb-2 text-sm font-medium text-gray-900 pl-24 flex-1'>
-                    <h1 className='text-2xl mb-4 pd-6'><strong>Aankomende inschrijvingen</strong></h1>
+                    <h1 className='text-2xl mb-4 pd-6'><strong>Bevestigingen</strong></h1>
                     <DashboardCardsCommission
                         userWorkshops={acceptedWorkshops}
                     />
