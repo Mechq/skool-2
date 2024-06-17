@@ -1,6 +1,4 @@
 const express = require("express");
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
 const path = require('path');
 
 const workshopRoutes = require("./src/routes/workshop.routes");
@@ -27,14 +25,6 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
-app.use(cookieParser());
-
-// Configure CORS
-const corsOptions = {
-    origin: 'https://skool-2.studententuin.nl', // replace with your client app's url
-    credentials: true
-};
-app.use(cors(corsOptions));
 
 // All routes
 app.use(customerRoutes);

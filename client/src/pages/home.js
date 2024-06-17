@@ -105,7 +105,7 @@ function Home() {
                     />
                 </div>
                 <div className='block mb-2 text-sm font-medium text-gray-900     pr-24 flex-1'>
-                    <h1 className='text-2xl mb-4 pd-6'><strong>Openstaand</strong></h1>
+                    <h1 className='text-2xl mb-4 pd-6'><strong>Aangemelde workshops</strong></h1>
                     <DashboardCardsCommission
                         userWorkshops={signedUpWorkshops}
                     />
