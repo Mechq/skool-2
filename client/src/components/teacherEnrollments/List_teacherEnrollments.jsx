@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import ConfirmRejectModal_teacherEnrollments from "./ConfirmRejectModal_teacherEnrollments";
 
 export default function List_teacherEnrollments({
@@ -27,7 +27,6 @@ export default function List_teacherEnrollments({
             .then(res => res.json())
             .then(data => {
                 setAcceptedMail(data.data);
-                console.log("fecthed mail", data.data)
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [])
@@ -38,20 +37,19 @@ export default function List_teacherEnrollments({
             .then(res => res.json())
             .then(data => {
                 setEnrollments(data.data);
-                console.log("Fetched enrollments: ", data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [isOpen]);
 
     const formatDate = (date) => {
         if (!date) return "";
-        const options = {year: 'numeric', month: 'long', day: 'numeric'};
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(date).toLocaleDateString("nl-NL", options);
     };
 
     // Group enrollments by commissionWorkshopId
     const groupedEnrollments = enrollments.reduce((acc, enrollment) => {
-        const {date, workshopName, customer} = enrollment;
+        const { date, workshopName, customer } = enrollment;
         const groupKey = `${formatDate(date)}: ${customer} - ${workshopName}`;
         if (!acc[groupKey]) {
             acc[groupKey] = [];
@@ -66,11 +64,9 @@ export default function List_teacherEnrollments({
         e.stopPropagation();
         setEnrollmentToReject(enrollment);
         setShowModal(true);
-        console.log("Reject clicked for enrollment:", enrollment)
     };
 
     const handleModalClose = () => {
-        console.log("Modal close triggered");
         setShowModal(false);
     };
 
@@ -82,8 +78,6 @@ export default function List_teacherEnrollments({
     };
 
     const handleSubmit = (enrollment, status, reason) => {
-        console.log("Enrollment:", enrollment);
-        console.log("Status:", status);
         if (status === "geaccepteerd") {
             const emailBody = replaceTemplatePlaceholders(acceptedMail.content, {
                 FirstName: enrollment.firstName,
@@ -116,7 +110,7 @@ export default function List_teacherEnrollments({
                 Workshop: enrollment.workshopName,
                 Customer: enrollment.customer,
                 ExecutionDate: formatDate(enrollment.date),
-                Reason: 'reason'
+                Reason: reason // Pass the reason here
             });
             const subjectBody = replaceTemplatePlaceholders(rejectedMail.subject, {
                 Workshop: enrollment.workshopName,
@@ -137,29 +131,6 @@ export default function List_teacherEnrollments({
                 .then(res => res.json())
                 .catch(error => console.error('Error sending email:', error));
         }
-
-        // console.log("Submitting enrollment status:", status);
-        // console.log("Enrollment:", enrollment);
-        // fetch(`/api/enrollment/${enrollment.enrollmentId}`, {
-        //     method: "PUT",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({status}),
-        // })
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         console.log(data);
-        //         // Refresh enrollments after successful update
-        //         fetch('/api/enrollment')
-        //             .then(res => res.json())
-        //             .then(data => {
-        //                 setEnrollments(data.data);
-        //                 console.log("Fetched enrollments: ", data.data);
-        //             })
-        //             .catch(error => console.error('Error fetching data:', error));
-        //     })
-        //     .catch((error) => console.error("Error updating enrollment:", error));
     };
 
 
@@ -189,10 +160,10 @@ export default function List_teacherEnrollments({
                                 </td>
                                 <td className="px-6 py-4 text-right">
                                     {/* Placeholder for accept/reject buttons */}
-                                    <button onClick={() => handleSubmit("geaccepteerd", enrollment)}
+                                    <button onClick={() => handleSubmit(enrollment, "geaccepteerd")}
                                             className="bg-custom-blue text-white px-2 py-1 rounded mr-2">Accepteren
                                     </button>
-                                    <button onClick={(e) => handleRejectClick(e, enrollment, 'geweigerd')}
+                                    <button onClick={(e) => handleRejectClick(e, enrollment)}
                                             className="bg-custom-red text-white px-2 py-1 rounded">Weigeren
                                     </button>
                                 </td>
@@ -204,7 +175,7 @@ export default function List_teacherEnrollments({
                         <div>
                             <ConfirmRejectModal_teacherEnrollments
                                 onClose={handleModalClose}
-                                onConfirm={() => handleSubmit(enrollmentToReject, 'geweigerd')}
+                                onConfirm={(reason) => handleSubmit(enrollmentToReject, 'geweigerd', reason)}
                                 enrollment={enrollmentToReject}
                                 setEnrollments={setEnrollments}
                             />
