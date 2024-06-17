@@ -109,7 +109,7 @@ export default function WorkshopTemplateList_profile({user, workshops, qualified
                                     <tr key={workshop.id}
                                         className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700 hover:cursor-pointer">
                                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
-                                            {"WorkshopTemplates " + workshop.name}
+                                            {"Workshop " + workshop.name}
                                         </td>
                                         <td className="px-6 py-4">{workshop.category}</td>
                                         <td className="px-6 py-4 text-center">
