@@ -45,7 +45,7 @@ export default function ConfirmAcceptModal_teacherEnrollments({ onClose, onConfi
                             <h2 className="">Weet u zeker dat u de inschrijving
                                 van <strong>{enrollment.firstName + ' ' + enrollment.lastName}</strong> voor de workshop<br />
                                 '<strong>{enrollment.workshopName}</strong>'
-                                op <strong>{formatDate(enrollment.date)}</strong>wilt accepteren?
+                                op <strong>{formatDate(enrollment.date)}</strong> wilt accepteren?
                             </h2>
 
                             <button type="submit" onClick={handleAccept}
