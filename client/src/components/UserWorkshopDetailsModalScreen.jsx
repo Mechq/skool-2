@@ -108,7 +108,7 @@ export default function UserWorkshopDetailsModalScreen({onClose, workshop, commi
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const checkDate = new Date(commission.date);
+        const checkDate = new Date(commission.commissionDate);
         const currentDate = new Date();
         const threeDaysInMillis = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
 

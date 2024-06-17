@@ -6,101 +6,79 @@ const commissionService = {
     create: (commission, callback) => {
         logger.info('creating commission', commission);
 
-        database.getConnection(function (err, connection) {
+        database.getConnection((err, connection) => {
             if (err) {
                 logger.error('Error creating commission', err);
                 callback(err, null);
                 return;
             }
 
-            const {
-                customerId,
-                details,
-                targetAudience,
-                locationId,
-            } = commission;
-
+            const { customerId, details, targetAudience, locationId } = commission;
             const values = [customerId, details, targetAudience, locationId];
 
-            // TODO: Implement the query to insert correct data
             const query = 'INSERT INTO commission (customerId, details, targetAudience, locationId) VALUES (?, ?, ?, ?)';
 
             logger.debug('query', query);
 
-            connection.query(
-                query,
-                values,
-                function (error, results, fields) {
-                    connection.release();
+            connection.query(query, values, (error, results, fields) => {
+                connection.release();
 
-                    if (error) {
+                if (error) {
+                    logger.error('Error creating commission', error);
+                    callback(error, null);
+                } else {
+                    const commissionId = results.insertId;
+                    logger.trace('commission created', commissionId);
 
-                        // TODO: Implement correct logging for possible error cases
-                        logger.error('Error creating commission', error);
-                        callback(error, null);
-
-                    } else {
-                        // Get the last inserted id for logging
-                        const commissionId = results.insertId;
-                        logger.trace('commission created', commissionId);
-
-                        const commissionDataWithId = {...commission, Id: commissionId};
-                        callback(null, {
-                            status: 200,
-                            message: 'commission created',
-                            data: commissionDataWithId,
-                        });
-                    }
+                    const commissionDataWithId = { ...commission, id: commissionId };
+                    callback(null, {
+                        status: 200,
+                        message: 'commission created',
+                        data: commissionDataWithId,
+                    });
                 }
-            )
+            });
         });
     },
-
 
     getAll: (callback) => {
         logger.info('get all commissions');
 
-        database.getConnection(function (err, connection) {
+        database.getConnection((err, connection) => {
             if (err) {
                 logger.error('Error getting commission', err);
                 callback(err, null);
                 return;
             }
 
+            const query = 'SELECT c.*, cd.date FROM commission c LEFT JOIN commissionDate cd ON c.id = cd.commissionId;';
 
-            connection.query(
-                'SELECT * FROM commission',
-                function (error, results, fields) {
-                    connection.release();
+            connection.query(query, (error, results, fields) => {
+                connection.release();
 
-                    if (error) {
-
-                        // TODO: Implement correct logging for possible error cases
-                        logger.error('Error getting commission', error);
-                        callback(error, null);
-
-                    } else {
-                        callback(null, {
-                            status: 200,
-                            message: `${results.length} commission retrieved`,
-                            data: results,
-                        });
-                    }
+                if (error) {
+                    logger.error('Error getting commission', error);
+                    callback(error, null);
+                } else {
+                    callback(null, {
+                        status: 200,
+                        message: `${results.length} commission retrieved`,
+                        data: results,
+                    });
                 }
-            )
+            });
         });
     },
 
     getCommissionById: (id, callback) => {
         logger.info('getting commission by id', id);
 
-        let sql = 'SELECT * FROM commission WHERE id = ?';
+        const query = 'SELECT c.*, cd.date FROM commission c LEFT JOIN commissionDate cd ON c.id = cd.commissionId WHERE c.id = ?';
 
-        database.query(sql, [id], (error, results, fields) => {
+        database.query(query, [id], (error, results, fields) => {
             if (error) {
                 logger.error('Error getting commission', error);
                 callback(error, null);
-
             } else {
                 if (results.length > 0) {
                     logger.info('Commissions fetched successfully', results[0]);
@@ -119,89 +97,87 @@ const commissionService = {
             }
         });
     },
-    update:
-        (commission, commissionId, callback) => {
-            logger.info('updating commission', commission);
 
-            let sql = 'UPDATE commission SET ';
-            const values = [];
+    update: (commission, commissionId, callback) => {
+        logger.info('updating commission', commission);
 
-            if (commission.customerId) {
-                sql += 'customerId = ?, ';
-                values.push(commission.customerId);
-            }
-            if (commission.details) {
-                sql += 'details = ?, ';
-                values.push(commission.details);
-            }
-            if (commission.targetAudience) {
-                sql += 'targetAudience = ?, ';
-                values.push(commission.targetAudience);
-            }
-            if (commission.locationId) {
-                sql += 'locationId = ?, ';
-                values.push(commission.locationId);
-            }
-            if (commission.date) {
-                sql += 'date = ?, ';
-                values.push(commission.date);
-            }
-            // Remove the trailing comma and space
-            sql = sql.slice(0, -2);
+        let sql = 'UPDATE commission SET ';
+        const values = [];
 
-            sql += ' WHERE id = ?';
-            values.push(commissionId);
+        if (commission.customerId) {
+            sql += 'customerId = ?, ';
+            values.push(commission.customerId);
+        }
+        if (commission.details) {
+            sql += 'details = ?, ';
+            values.push(commission.details);
+        }
+        if (commission.targetAudience) {
+            sql += 'targetAudience = ?, ';
+            values.push(commission.targetAudience);
+        }
+        if (commission.locationId) {
+            sql += 'locationId = ?, ';
+            values.push(commission.locationId);
+        }
+        if (commission.date) {
+            sql += 'date = ?, ';
+            values.push(commission.date);
+        }
+        // Remove the trailing comma and space
+        sql = sql.slice(0, -2);
 
-            database.query(sql, values, (error, results, fields) => {
-                if (error) {
-                    logger.error('Error updating commission', error);
-                    callback(error, null);
+        sql += ' WHERE id = ?';
+        values.push(commissionId);
 
+        database.query(sql, values, (error, results, fields) => {
+            if (error) {
+                logger.error('Error updating commission', error);
+                callback(error, null);
+            } else {
+                if (results.affectedRows > 0) {
+                    logger.info('commission updated successfully');
+                    callback(null, 'commission updated successfully');
                 } else {
-                    if (results.affectedRows > 0) {
-                        logger.info('commission updated successfully');
-                        callback(null, 'commission updated successfully');
-                    } else {
-                        logger.info('No commission found with the provided ID');
-                        callback(null, 'No commission found with the provided ID');
-                    }
+                    logger.info('No commission found with the provided ID');
+                    callback(null, 'No commission found with the provided ID');
                 }
-            });
-        },
+            }
+        });
+    },
 
-        getCustomer: (commissionId, callback) => {
-            logger.info('getting customer by commission id', commissionId);
+    getCustomer: (commissionId, callback) => {
+        logger.info('getting customer by commission id', commissionId);
 
-            let sql = 'SELECT name,id FROM customer WHERE id = (SELECT customerId FROM commission WHERE id = ?)';
+        const sql = 'SELECT name,id FROM customer WHERE id = (SELECT customerId FROM commission WHERE id = ?)';
 
-            database.query(sql, [commissionId], (error, results, fields) => {
-                if (error) {
-                    logger.error('Error getting customer', error);
-                    callback(error, null);
-
+        database.query(sql, [commissionId], (error, results, fields) => {
+            if (error) {
+                logger.error('Error getting customer', error);
+                callback(error, null);
+            } else {
+                if (results.length > 0) {
+                    logger.info('Customer fetched successfully', results[0]);
+                    callback(null, {
+                        status: 200,
+                        message: 'Customer fetched successfully',
+                        data: results[0],
+                    });
                 } else {
-                    if (results.length > 0) {
-                        logger.info('Customer fetched successfully', results[0]);
-                        callback(null, {
-                            status: 200,
-                            message: 'Customer fetched successfully',
-                            data: results[0],
-                        });
-                    } else {
-                        logger.warn('No customer found with commission id', commissionId);
-                        callback({
-                            status: 404,
-                            message: 'Customer not found',
-                        }, null);
-                    }
+                    logger.warn('No customer found with commission id', commissionId);
+                    callback({
+                        status: 404,
+                        message: 'Customer not found',
+                    }, null);
                 }
-            });
-        },
+            }
+        });
+    },
+
     getStartAndEndTime: (commissionId, callback) => {
         logger.info('getting start and end time by commission id', commissionId);
 
-        // Single query to get the startTime and endTime
-        let sql = `
+        const sql = `
         SELECT time FROM (
             SELECT startTime AS time FROM round WHERE commissionId = ? ORDER BY "order" LIMIT 1
         ) AS start
@@ -209,7 +185,7 @@ const commissionService = {
         SELECT time FROM (
             SELECT endTime AS time FROM round WHERE commissionId = ? ORDER BY "order" DESC LIMIT 1
         ) AS end;
-    `;
+        `;
 
         database.query(sql, [commissionId, commissionId], (error, results) => {
             if (error) {
@@ -241,13 +217,12 @@ const commissionService = {
     deleteCommission: (id, callback) => {
         logger.info('deleting commission', id);
 
-        let sql = 'DELETE FROM commission WHERE id = ?';
+        const sql = 'DELETE FROM commission WHERE id = ?';
 
         database.query(sql, [id], (error, results, fields) => {
             if (error) {
                 logger.error('Error deleting commission', error);
                 callback(error, null);
-
             } else {
                 if (results.affectedRows > 0) {
                     logger.info('commission deleted successfully');
@@ -263,23 +238,22 @@ const commissionService = {
     getDuration: (callback) => {
         logger.info('getting start and end times for all commissions');
 
-        // Single query to get the startTime and endTime for all commissions
-        let sql = `
-    SELECT 
-    r1.commissionId, 
-    r1.startTime AS startTime, 
-    r2.endTime AS endTime
-FROM 
-    (SELECT commissionId, MIN("order") AS minOrder FROM round GROUP BY commissionId) AS minOrderTable
-JOIN 
-    round r1 ON minOrderTable.commissionId = r1.commissionId AND minOrderTable.minOrder = r1."order"
-JOIN 
-    (SELECT commissionId, MAX("order") AS maxOrder FROM round GROUP BY commissionId) AS maxOrderTable
-ON 
-    minOrderTable.commissionId = maxOrderTable.commissionId
-JOIN 
-    round r2 ON maxOrderTable.commissionId = r2.commissionId AND maxOrderTable.maxOrder = r2."order";
-`;
+        const sql = `
+        SELECT 
+            r1.commissionId, 
+            r1.startTime AS startTime, 
+            r2.endTime AS endTime
+        FROM 
+            (SELECT commissionId, MIN("order") AS minOrder FROM round GROUP BY commissionId) AS minOrderTable
+        JOIN 
+            round r1 ON minOrderTable.commissionId = r1.commissionId AND minOrderTable.minOrder = r1."order"
+        JOIN 
+            (SELECT commissionId, MAX("order") AS maxOrder FROM round GROUP BY commissionId) AS maxOrderTable
+        ON 
+            minOrderTable.commissionId = maxOrderTable.commissionId
+        JOIN 
+            round r2 ON maxOrderTable.commissionId = r2.commissionId AND maxOrderTable.maxOrder = r2."order";
+        `;
 
         database.query(sql, (error, results) => {
             if (error) {
@@ -304,6 +278,14 @@ JOIN
 
             // Calculate the duration for each commission
             const commissionsWithDurations = results.map((result) => {
+                if (!result.startTime || !result.endTime) {
+                    return {
+                        ...result,
+                        durationMin: null,
+                        formattedDuration: null,
+                    };
+                }
+
                 const [startHour, startMinute] = result.startTime.split(':').map(Number);
                 const [endHour, endMinute] = result.endTime.split(':').map(Number);
 
@@ -332,11 +314,6 @@ JOIN
             });
         });
     },
-
-
-
-
-
 };
 
 module.exports = commissionService;

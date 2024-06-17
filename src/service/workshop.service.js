@@ -230,22 +230,7 @@ const workshopService = {
     getWorkshopCommissionWhereNotEnrolled: (userId, callback) => {
         logger.info('getting workshop commission where user is not enrolled');
 
-        let sql = `
-             SELECT 
-    w.id AS workshopId,
-    c.id AS commissionId,
-    w.*,
-    c.*
-FROM 
-    workshop w
-    JOIN commissionWorkshop cw ON w.id = cw.workshopId
-    JOIN commission c ON cw.commissionId = c.id
-    LEFT JOIN enrollment e ON cw.id = e.commissionWorkshopId AND e.userId = ?
-WHERE 
-    e.userId IS NULL;
-
-
-            `;
+        let sql = `SELECT w.id AS workshopId, c.id AS commissionId, w.*, c.*, cd.date FROM workshop w JOIN commissionWorkshop cw ON w.id = cw.workshopId JOIN commission c ON cw.commissionId = c.id LEFT JOIN enrollment e ON cw.id = e.commissionWorkshopId AND e.userId = ? LEFT JOIN commissionDate cd ON c.id = cd.commissionId WHERE e.userId IS NULL;;`;
         database.query(sql, [userId], (error, results, fields) => {
             if (error) {
                 logger.error('Error getting workshop commission', error);
