@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-export default function Warning_toasts({message, onClose}) {
+export default function Warning_toasts({ message, onClose }) {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            onClose(); // Call onClose after 3000 milliseconds (3 seconds)
+        }, 3000);
+
+        return () => clearTimeout(timer); // Clean up timer on unmount
+    }, [onClose]);
 
     return (
         <div id="toast-warning"
@@ -18,7 +25,7 @@ export default function Warning_toasts({message, onClose}) {
             <div className="ms-3 text-sm font-normal">{message}</div>
             <button type="button"
                     className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 light:text-gray-500 light:hover:text-white light:bg-gray-800 light:hover:bg-gray-700"
-                    data-dismiss-target="#toast-warning" aria-label="Close">
+                    data-dismiss-target="#toast-warning" aria-label="Close" onClick={onClose}>
                 <span className="sr-only">Close</span>
                 <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                      viewBox="0 0 14 14">
@@ -27,5 +34,5 @@ export default function Warning_toasts({message, onClose}) {
                 </svg>
             </button>
         </div>
-    )
+    );
 }

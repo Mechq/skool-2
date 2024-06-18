@@ -1,10 +1,13 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Success_toasts from "../toasts/Success_toasts";
+import Warning_toasts from "../toasts/Warning_toasts";
 
 export default function List_invites({
-    invites,
-    setInvites,
-    user
-}) {
+                                         invites,
+                                         setInvites,
+                                         user
+                                     }) {
+    const [toasts, setToasts] = useState([]);
 
     useEffect(() => {
         fetch(`/api/invite/user/${user.id}`)
@@ -42,6 +45,8 @@ export default function List_invites({
             .then(data => {
                 console.log("Updated invites list:", data.data);
                 setInvites(data.data);
+                // Add success toast
+                setToasts(prevToasts => [...prevToasts, { id: Date.now(), type: 'success', message: 'Uitnodiging succesvol geaccepteerd' }]);
             })
             .catch(error => console.error('Error updating invite:', error));
 
@@ -83,6 +88,8 @@ export default function List_invites({
             .then(data => {
                 console.log("Updated invites list:", data.data);
                 setInvites(data.data);
+                // Add warning toast
+                setToasts(prevToasts => [...prevToasts, { id: Date.now(), type: 'warning', message: 'Uitnodiging geweigerd' }]);
             })
             .catch((error) => console.error("Error deleting invite:", error));
     };
@@ -114,11 +121,14 @@ export default function List_invites({
                         <td className="px-6 py-4">
                             <button
                                 className="bg-custom-blue hover:bg-custom-blue text-white font-bold py-2 px-4 mr-2 rounded"
-                                onClick={() => handleAccept("geaccepteerd", invite, user.id)}>
+                                onClick={() => handleAccept("geaccepteerd", invite, user.id)}
+                            >
                                 Accepteren
                             </button>
-                            <button className="bg-custom-red hover:bg-custom-red text-white font-bold py-2 px-4 rounded"
-                                    onClick={() => handleReject(invite.inviteId)}>
+                            <button
+                                className="bg-custom-red hover:bg-custom-red text-white font-bold py-2 px-4 rounded"
+                                onClick={() => handleReject(invite.inviteId)}
+                            >
                                 Weigeren
                             </button>
                         </td>
@@ -126,6 +136,28 @@ export default function List_invites({
                 ))}
                 </tbody>
             </table>
+            <div className="fixed right-5 bottom-5 space-y-2">
+                {toasts.map(toast => {
+                    if (toast.type === 'success') {
+                        return (
+                            <Success_toasts
+                                key={toast.id}
+                                message={toast.message}
+                                onClose={() => setToasts(prevToasts => prevToasts.filter(t => t.id !== toast.id))}
+                            />
+                        );
+                    } else if (toast.type === 'warning') {
+                        return (
+                            <Warning_toasts
+                                key={toast.id}
+                                message={toast.message}
+                                onClose={() => setToasts(prevToasts => prevToasts.filter(t => t.id !== toast.id))}
+                            />
+                        );
+                    }
+                    return null;
+                })}
+            </div>
         </div>
     );
 }
