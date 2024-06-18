@@ -34,7 +34,7 @@ const sendEmail = expressAsyncHandler(async (req, res) => {
                     <br>
                     <p>Veilingkade 15 | 4815 HC Breda | Tel. 085 - 0653923 | App. 06 - 28318842</p>
                     <p>Mail. info@skoolworkshop.nl | Web. www.skoolworkshop.nl</p>
-                </div>
+                </div>  
             </body>
         </html>
         `,
