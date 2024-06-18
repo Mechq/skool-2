@@ -442,7 +442,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
 
                 <div className="mb-6">
                     <label htmlFor="contactPerson"
-                        className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contactpersoon</label>
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contactpersoon</label>
                     <select id="contactPerson" onChange={handleContactPersonChange} value={contactPersonId}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                             required>
@@ -490,16 +490,14 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                 </div>
 
 
+                <button type="submit" onClick={handleSubmit}
+                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-6 light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Opslaan
+                </button>
 
 
-    <button type="submit" onClick={handleSubmit}
-            className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-6 light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Opslaan
-    </button>
-
-
-</form>
-    <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
-    <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+            </form>
+            <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
+            <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
     focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400
     light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
                 <ul>
