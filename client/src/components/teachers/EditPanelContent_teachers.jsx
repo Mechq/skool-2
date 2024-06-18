@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import EditPanelWorkshopTemplateList_teachers from "./EditPanelWorkshopTemplateList_teachers";
 
 export default function EditPanelContent_teachers({userId, setShowSidePanel}) {
     const [formData, setFormData] = useState({
@@ -244,12 +245,18 @@ export default function EditPanelContent_teachers({userId, setShowSidePanel}) {
                                required/>
                     </div>
 
+                    <EditPanelWorkshopTemplateList_teachers
+                        userId={userId}
+                        setShowSidePanel={setShowSidePanel}/>
 
                     <button type="submit"
                             className="text-white mt-4 bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
                         Opslaan
                     </button>
                 </form>
+
+
+
             </div>
         </div>
     );
