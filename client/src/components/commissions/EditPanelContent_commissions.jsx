@@ -1,47 +1,12 @@
-import React, {useRef, useEffect, useState} from "react"
-import Datepicker from "tailwind-datepicker-react"
+import React, {useEffect, useRef, useState} from "react"
 import "../../styles/optionsRoundCreate.css"
 import RoundEditModal from "./RoundEditModal_commissions";
 import WorkshopRoundEditModal_commissions from "./WorkshopRoundEditModal_commissions";
 import WorkshopRoundWorkshopEditModal from "./WorkshopEditModal_commissions"
-
-const dateOptions = {
-    title: " ",
-    autoHide: false,
-    todayBtn: false,
-    clearBtn: false,
-    clearBtnText: "",
-    maxDate: new Date("2030-01-01"),
-    minDate: new Date(),
-    theme: {
-        background: "bg-white",
-        todayBtn: true,
-        clearBtn: "",
-        icons: "",
-        text: "",
-        disabledText: "",
-        input: "",
-        inputIcon: "",
-        selected: "bg-brand-orange",
-    },
-    icons: {
-        prev: () => <span>Vorige</span>,
-        next: () => <span>Volgende</span>,
-    },
-    datepickerClassNames: "top-12",
-    defaultDate: false,
-    language: "nl",
-    disabledDates: [],
-    weekDays: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
-    inputNameProp: "date",
-    inputIdProp: "date",
-    inputPlaceholderProp: "Select Date",
-    inputDateFormatProp: {
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-    }
-}
+import {AiTwotonePlusCircle} from "react-icons/ai";
+import { use } from "chai";
+import DatePicker from "react-multi-date-picker";
+import {FaCalendarPlus} from "react-icons/fa";
 
 export default function EditPanelContent_commissions({setShowSidePanel, commissionId}) {
     const [customerId, setCustomerId] = useState("");
@@ -60,6 +25,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     const [showEditModal, setShowEditModal] = useState(false);
     const [editingRoundType, setEditingRoundType] = useState("");
     const [editedRoundType, setEditedRoundType] = useState("");
+    const [dates, setDates] = useState([]);
     const [date, setDate] = useState("");
     const [startTimes, setStartTimes] = useState([]);
     const [endTimes, setEndTimes] = useState([]);
@@ -68,15 +34,13 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     const [locations, setLocations] = useState([]);
     const [selectedLocationId, setSelectedLocationId] = useState("");
     const [locationId, setLocationId] = useState("");
+    const [grade, setGrade] = useState("");
+    const [contactPeople, setContactPeople] = useState([]);
+    const [contactPersonId, setContactPersonId] = useState("");
 
+    const [value, setValue] = useState([new Date()]);
+    const [showDatePicker, setShowDatePicker] = useState(false);
     const [show, setShow] = useState(false);
-
-    const handleChange = (selectedDate) => {
-        const localDate = new Date(selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000);
-        const dateString = localDate.toISOString();
-        const slicedDate = dateString.slice(0, 10);
-        setDate(slicedDate);
-    }
 
     const handleClose = (state) => {
         setShow(state);
@@ -87,13 +51,15 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
             fetch(`/api/commission/${commissionId}`)
                 .then((res) => res.json())
                 .then((response) => {
-                    const data = response.data;
+                    const data = response.data[0];
+                    console.log(data)
                     setCustomerId(data.customerId || "");
                     setDetails(data.details || "");
                     setTargetAudience(data.targetAudience || "");
-                    setDate(data.date ? data.date.substring(0, 10) : "");
                     setLocationId(data.locationId || "");
-                })
+                    setGrade(data.grade || "")
+                    const datesArray = data.dates ? data.dates.split(',').map(date => new Date(date.trim())) : [];
+                    setValue(datesArray);                })
                 .catch((error) => console.error("Error fetching commission:", error));
         }
     }, [commissionId]);
@@ -179,9 +145,22 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         }
     }, [selectedCustomerId]);
 
+    useEffect(() => {
+        if (customerId) {
+            fetch(`/api/customer/contact/${customerId}`)
+                .then(response => response.json())
+                .then(data => {
+                    setContactPeople(data.data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    setContactPeople([]);
+                });
+        }
+    }, [customerId]);
 
     useEffect(() => {
-        if (locationId) {
+        if (customerId) {
             fetch(`/api/location/customer/${selectedCustomerId}`)
                 .then(response => response.json())
                 .then(data => {
@@ -211,18 +190,24 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         setSelectedLocationId(e.target.value);
     }
 
+    const handleContactPersonChange = (e) => {
+        setContactPersonId(e.target.value);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
-
+        const formattedDates = value.map(formatCustomDate);
         if (!customerId || !details || !targetAudience) return;
         const commission = {
             customerId,
             details,
             targetAudience,
             locationId: selectedLocationId,
-            date
+            date,
+            grade,
+            contactPersonId
         };
+        setShowSidePanel(false);
 
         fetch(`/api/commission/${commissionId}`, {
             method: "PUT",
@@ -233,7 +218,18 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         })
             .then((response) => response.json())
             .then((data) => {
-                setShowSidePanel(false);
+            })
+            .catch((error) => console.error("Error:", error));
+        fetch(`/api/commission/date/${commissionId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formattedDates),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("posted dates", data)
             })
             .catch((error) => console.error("Error:", error));
     };
@@ -244,6 +240,8 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     };
 
     const handleOptionClick = (option) => {
+
+
         setShowOptions(false);
         let order = 0
         if (orders.length > 0) {
@@ -305,6 +303,43 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         fetchRoundData();
     };
 
+    const handleChange = (index, value) => {
+        console.log("value: ", value + " index: ", index);
+        const newDates = [...dates];
+        newDates[index] = value;
+        setDates(newDates);
+    };
+
+    const handleCustomerChange = async (e) => {
+        const selectedCustomerId = e.target.value;
+        setCustomerId(selectedCustomerId);
+
+        // Clear previous locations and location name
+        setLocations([]);
+        setLocationName("");
+
+        try {
+            // Fetch default location name for the selected customer
+            const defaultLocationResponse = await fetch(`/api/location/default/${selectedCustomerId}`);
+            const defaultLocationData = await defaultLocationResponse.json();
+            const defaultLocationName = defaultLocationData.data ? defaultLocationData.data.name || "" : "";
+            const defaultLocationId = defaultLocationData.data ? defaultLocationData.data.id || "" : "";
+            setLocationName(defaultLocationName);
+            setSelectedLocationId(defaultLocationId);
+            console.log("-----------", defaultLocationId, defaultLocationName)
+
+            // Fetch locations for the selected customer
+            const locationsResponse = await fetch(`/api/location/customer/${selectedCustomerId}`);
+            const locationsData = await locationsResponse.json();
+            // Ensure that locationsData.data is an array before setting it to the state
+            setLocations(Array.isArray(locationsData.data) ? locationsData.data : []);
+
+        } catch (error) {
+            console.error('Error:', error);
+            setLocationName(""); // Ensure locationName is always defined
+        }
+    };
+
     const workshopRoundIndex = (type, index) => {
         if (type === "Workshopronde") {
             let workshopIndex = 1;
@@ -319,20 +354,41 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     };
 
 
+
+    const formatCustomDate = (date) => {
+        if (date instanceof Date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        } else {
+            const { year, month, day } = date;
+            return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        }
+    };
+    const handleDateChange = (dates) => {
+        const formattedDates = dates.map(date => {
+            if (date instanceof Date) {
+                return date;
+            } else if (date && date.toDate) {
+                return date.toDate();
+            } else {
+                return new Date(date);
+            }
+        });
+        setValue(formattedDates);
+        setShowDatePicker(false); // Close DatePicker after selecting dates
+    };
+
     return (
         <div className="px-6">
-
-
             <header className="pt-4 pb-4 font-bold text-lg">Opdracht bewerken</header>
             <form>
                 <div className="mb-6">
                     <label htmlFor="workshopName"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Kies een
                         Klant</label>
-                    <select id="workshopName" value={selectedCustomerId}
-                            onChange={(e) => {
-                                setSelectedCustomerId(e.target.value);
-                            }} required={true}
+                    <select id="workshopName" required={true} onChange={handleCustomerChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
                         <option value="" disabled>{selectedCustomerName}</option>
                         {customers.map((customer) => (
@@ -359,6 +415,15 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
                            placeholder="Doelgroep"></input>
                 </div>
+                <div className="mb-6">
+                    <label htmlFor="grade"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Leerjaar en niveau
+                    </label>
+                    <input id="targetAudience" value={grade} required={true}
+                           onChange={(e) => setGrade(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="Leerjaar en niveau"></input>
+                </div>
 
                 <select id="location" value={selectedLocationId} onChange={handleLocationChange}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
@@ -376,13 +441,57 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                 </select>
 
                 <div className="mb-6">
-                    <label htmlFor="date"
-                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Datum</label>
-                    <Datepicker options={dateOptions} onChange={handleChange} show={show} setShow={handleClose}/>
+                    <label htmlFor="contactPerson"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contactpersoon</label>
+                    <select id="contactPerson" onChange={handleContactPersonChange} value={contactPersonId}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            required>
+                        <option value="" disabled>Kies een contactpersoon</option>
+                        {contactPeople.map((contactPerson) => (
+                            <option key={contactPerson.id} value={contactPerson.id}>
+                                {contactPerson.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
+
+                <div>
+                    <h2 className="text-lg font-medium text-gray-900 light:text-white mt-6">Datums:</h2>
+                    <button
+                        type="button"
+                        className="inline-flex items-center px-2 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none mt-2"
+                        onClick={() => setShowDatePicker(!showDatePicker)}
+                    >
+                        <FaCalendarPlus className="mr-2"/>
+                        Voeg datum toe
+                    </button>
+                    {showDatePicker && (
+                        <DatePicker
+                            value={value}
+                            onChange={handleDateChange}
+                            multiple
+                            sort
+                            style={{marginTop: '10px'}}
+                            portal
+                            portalTarget={document.body}
+                        />
+                    )}
+                </div>
+
+                <div className="mt-2">
+                    <ol className="list-disc list-inside mt-2">
+                        {value.map((date, index) => (
+                            <li key={index} className="text-s text-gray-700 light:text-gray-300">
+                                {formatCustomDate(date)}
+                            </li>
+                        ))}
+                    </ol>
+                </div>
+
+
                 <button type="submit" onClick={handleSubmit}
-                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Opslaan
+                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-6 light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Opslaan
                 </button>
 
 

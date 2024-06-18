@@ -7,7 +7,9 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
     const [locationName, setLocationName] = useState("");
     const [locations, setLocations] = useState([]); // Locations state
     const [selectedLocationId, setSelectedLocationId] = useState("");
-
+    const [grade, setGrade] = useState("");
+    const [contactPeople, setContactPeople] = useState([]);
+    const [contactPersonId, setContactPersonId] = useState("");
 
     const [customers, setCustomers] = useState([]); // Customers state
 
@@ -21,6 +23,21 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
                 console.error('Error:', error);
             });
     }, []);
+
+    useEffect(() => {
+        if (customerId) {
+            fetch(`/api/customer/contact/${customerId}`)
+                .then(response => response.json())
+                .then(data => {
+                    setContactPeople(data.data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    setContactPeople([]);
+                });
+        }
+    }, [customerId]);
+
     const handleCustomerChange = async (e) => {
         const selectedCustomerId = e.target.value;
         setCustomerId(selectedCustomerId);
@@ -56,9 +73,13 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
         console.log("selectedLocationId", selectedLocationId)
     }
 
+    const handleContactPersonChange = (e) => {
+        setContactPersonId(e.target.value);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Validation
+
         const customerId = document.getElementById('customerName').value;
         const details = document.getElementById('details').value;
         const targetAudience = document.getElementById('targetAudience').value;
@@ -70,6 +91,8 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
             targetAudience,
             customerId,
             locationId: selectedLocationId,
+            grade,
+            contactPersonId,
         };
         console.log(commission);
 
@@ -89,6 +112,7 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
             .then(data => {
                 console.log('Success:', data);
                 setSelectedLocationId('')
+                setGrade('')
                 setCustomerId('');
                 setTargetAudience('');
                 setDetails('');
@@ -141,6 +165,14 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
                            placeholder="doelgroep" required/>
                 </div>
                 <div className="mb-6">
+                    <label htmlFor="grade"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Leerjaar en niveau</label>
+                    <input type="text" id="grade" value={grade}
+                           onChange={(e) => setGrade(e.target.value)}
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           placeholder="leerjaar en niveau" required/>
+                </div>
+                <div className="mb-6">
                     <label htmlFor="location"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
                         Locatie
@@ -156,6 +188,21 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
                         {locations.map((location) => (
                             <option key={location.id} value={location.id}>
                                 {location.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="mb-6">
+                    <label htmlFor="contactPerson"
+                        className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contactpersoon</label>
+                    <select id="contactPerson" onChange={handleContactPersonChange} value={contactPersonId}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            required>
+                        <option value="" disabled>Kies een contactpersoon</option>
+                        {contactPeople.map((contactPerson) => (
+                            <option key={contactPerson.id} value={contactPerson.id}>
+                                {contactPerson.name}
                             </option>
                         ))}
                     </select>

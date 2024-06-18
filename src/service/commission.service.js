@@ -13,10 +13,18 @@ const commissionService = {
                 return;
             }
 
-            const { customerId, details, targetAudience, locationId } = commission;
-            const values = [customerId, details, targetAudience, locationId];
+            const {
+                customerId,
+                details,
+                targetAudience,
+                locationId,
+                grade,
+                contactPersonId
+            } = commission;
 
-            const query = 'INSERT INTO commission (customerId, details, targetAudience, locationId) VALUES (?, ?, ?, ?)';
+            const values = [customerId, details, targetAudience, locationId, grade, contactPersonId];
+
+            const query = 'INSERT INTO commission (customerId, details, targetAudience, locationId, grade, contactPersonId) VALUES (?, ?, ?, ?, ?, ?)';
 
             logger.debug('query', query);
 
@@ -73,7 +81,22 @@ const commissionService = {
     getCommissionById: (id, callback) => {
         logger.info('getting commission by id', id);
 
-        const query = 'SELECT c.*, cd.date FROM commission c LEFT JOIN commissionDate cd ON c.id = cd.commissionId WHERE c.id = ?';
+        const query = `
+    SELECT 
+        c.*, 
+        GROUP_CONCAT(cd.date ORDER BY cd.date SEPARATOR ', ') AS dates 
+    FROM 
+        commission c 
+    LEFT JOIN 
+        commissionDate cd 
+    ON 
+        c.id = cd.commissionId 
+    WHERE 
+        c.id = ?
+    GROUP BY 
+        c.id
+`;
+
 
         database.query(query, [id], (error, results, fields) => {
             if (error) {
@@ -85,7 +108,7 @@ const commissionService = {
                     callback(null, {
                         status: 200,
                         message: 'Commissions fetched successfully',
-                        data: results[0],
+                        data: results,
                     });
                 } else {
                     logger.warn('No commission found with id', id);
@@ -104,28 +127,32 @@ const commissionService = {
         let sql = 'UPDATE commission SET ';
         const values = [];
 
-        if (commission.customerId) {
-            sql += 'customerId = ?, ';
-            values.push(commission.customerId);
-        }
-        if (commission.details) {
-            sql += 'details = ?, ';
-            values.push(commission.details);
-        }
-        if (commission.targetAudience) {
-            sql += 'targetAudience = ?, ';
-            values.push(commission.targetAudience);
-        }
-        if (commission.locationId) {
-            sql += 'locationId = ?, ';
-            values.push(commission.locationId);
-        }
-        if (commission.date) {
-            sql += 'date = ?, ';
-            values.push(commission.date);
-        }
-        // Remove the trailing comma and space
-        sql = sql.slice(0, -2);
+            if (commission.customerId) {
+                sql += 'customerId = ?, ';
+                values.push(commission.customerId);
+            }
+            if (commission.details) {
+                sql += 'details = ?, ';
+                values.push(commission.details);
+            }
+            if (commission.targetAudience) {
+                sql += 'targetAudience = ?, ';
+                values.push(commission.targetAudience);
+            }
+            if (commission.locationId) {
+                sql += 'locationId = ?, ';
+                values.push(commission.locationId);
+            }
+             if (commission.grade) {
+                sql += 'grade = ?, ';
+                values.push(commission.grade);
+             }
+             if (commission.contactPersonId) {
+                sql += 'contactPersonId = ?, ';
+                values.push(commission.contactPersonId);
+                }
+            // Remove the trailing comma and space
+            sql = sql.slice(0, -2);
 
         sql += ' WHERE id = ?';
         values.push(commissionId);
@@ -314,6 +341,94 @@ const commissionService = {
             });
         });
     },
+
+    updateCommissionDates: (commissionId, dates, callback) => {
+        logger.info('Updating dates for commission', commissionId);
+
+        database.getConnection((err, connection) => {
+            if (err) {
+                logger.error('Error getting connection', err);
+                callback(err, null);
+                return;
+            }
+
+            connection.beginTransaction(err => {
+                if (err) {
+                    logger.error('Error starting transaction', err);
+                    connection.release();
+                    callback(err, null);
+                    return;
+                }
+
+                const deleteSql = 'DELETE FROM commissionDate WHERE commissionId = ?';
+                connection.query(deleteSql, [commissionId], (error, results) => {
+                    if (error) {
+                        logger.error('Error deleting dates', error);
+                        return connection.rollback(() => {
+                            connection.release();
+                            callback(error, null);
+                        });
+                    }
+
+                    if (dates.length === 0) {
+                        return connection.commit(commitErr => {
+                            if (commitErr) {
+                                logger.error('Error committing transaction', commitErr);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    callback(commitErr, null);
+                                });
+                            }
+                            connection.release();
+                            callback(null, {
+                                status: 200,
+                                message: 'Dates updated successfully',
+                                data: []
+                            });
+                        });
+                    }
+
+                    const insertSql = 'INSERT INTO commissionDate (commissionId, date) VALUES ?';
+                    const values = dates.map(date => [commissionId, date]);
+
+                    connection.query(insertSql, [values], (error, results) => {
+                        if (error) {
+                            logger.error('Error inserting dates', error);
+                            return connection.rollback(() => {
+                                connection.release();
+                                callback(error, null);
+                            });
+                        }
+
+                        connection.commit(commitErr => {
+                            if (commitErr) {
+                                logger.error('Error committing transaction', commitErr);
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    callback(commitErr, null);
+                                });
+                            }
+
+                            const insertedDates = dates.map((date, index) => ({
+                                commissionId: commissionId,
+                                date: date,
+                                id: results.insertId + index
+                            }));
+
+                            logger.trace('Dates updated', insertedDates);
+                            connection.release();
+                            callback(null, {
+                                status: 200,
+                                message: 'Dates updated successfully',
+                                data: insertedDates
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
 };
 
 module.exports = commissionService;
