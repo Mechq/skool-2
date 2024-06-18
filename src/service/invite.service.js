@@ -44,7 +44,38 @@ let inviteService = {
             }
       
             connection.query(
-              `SELECT workshop.name AS workshopName, cd.date, customer.name AS customerName, location.name AS locationName, invite.id AS inviteId, commissionWorkshop.id AS commissionWorkshopId FROM invite JOIN commissionWorkshop ON invite.commissionWorkshopId = commissionWorkshop.id JOIN commission ON commissionWorkshop.commissionId = commission.id JOIN customer ON commission.customerId = customer.id JOIN workshop ON commissionWorkshop.workshopId = workshop.id JOIN location ON commission.locationId = location.id JOIN commissionDate cd ON commission.id = cd.commissionId WHERE invite.userId = ? AND invite.status = 'open';`,
+              `SELECT 
+    invite.id AS inviteId, 
+    commissionWorkshop.id AS commissionWorkshopId, 
+    commission.id AS commissionId, 
+    workshop.id AS workshopId, 
+    invite.*, 
+    commissionWorkshop.*, 
+    commission.*, 
+    workshop.*, 
+    customer.name AS customerName, 
+    location.name AS locationName, 
+    cd.date AS commissionDate 
+FROM 
+    invite 
+JOIN 
+    commissionWorkshop ON invite.commissionWorkshopId = commissionWorkshop.id 
+JOIN 
+    commission ON commissionWorkshop.commissionId = commission.id 
+JOIN 
+    customer ON commission.customerId = customer.id 
+JOIN 
+    workshop ON commissionWorkshop.workshopId = workshop.id 
+JOIN 
+    location ON commission.locationId = location.id 
+JOIN 
+    commissionDate cd ON commission.id = cd.commissionId 
+WHERE 
+    invite.userId = ? 
+    AND invite.status = 'open'
+ORDER BY 
+    cd.date;
+`,
               [userId],
               function (error, results, fields) {
                 connection.release();

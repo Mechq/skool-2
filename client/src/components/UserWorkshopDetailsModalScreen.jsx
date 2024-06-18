@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { AiTwotoneCalendar, AiTwotoneClockCircle } from "react-icons/ai";
-import { jwtDecode } from "jwt-decode";
-
 import ConfirmModal_openWorkshops from "./openWorkshops/ConfirmModal_openWorkshops";
+import React, {useEffect, useState} from "react";
+import {AiTwotoneCalendar, AiTwotoneClockCircle} from "react-icons/ai";
+import {jwtDecode} from "jwt-decode";
 
-export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission, onRefresh }) {
+export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission, onRefresh, inviteState }) {
     const [activeTab, setActiveTab] = useState("workshop"); // Default active tab
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);
     const [workshopRound, setWorkshopRound] = useState({});
@@ -20,6 +19,7 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [confirmMessage, setConfirmMessage] = useState("");
     const [confirmAction, setConfirmAction] = useState(() => {});
+    const [invitedWorkshop, setInvitedWorkshop] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -338,3 +338,4 @@ console.log(commission)
         </>
     );
 }
+
