@@ -5,6 +5,7 @@ import RoundEditModal from "./RoundEditModal_commissions";
 import WorkshopRoundEditModal_commissions from "./WorkshopRoundEditModal_commissions";
 import WorkshopRoundWorkshopEditModal from "./WorkshopEditModal_commissions"
 import {AiTwotonePlusCircle} from "react-icons/ai";
+import { use } from "chai";
 
 const dateOptions = {
     title: " ",
@@ -71,6 +72,8 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     const [selectedLocationId, setSelectedLocationId] = useState("");
     const [locationId, setLocationId] = useState("");
     const [grade, setGrade] = useState("");
+    const [contactPeople, setContactPeople] = useState([]);
+    const [contactPersonId, setContactPersonId] = useState("");
 
     const [show, setShow] = useState(false);
 
@@ -94,7 +97,6 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                 .catch((error) => console.error("Error fetching commission:", error));
         }
     }, [commissionId]);
-
 
     const fetchRoundData = () => {
         if (commissionId) {
@@ -176,6 +178,19 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         }
     }, [selectedCustomerId]);
 
+    useEffect(() => {
+        if (customerId) {
+            fetch(`/api/customer/contact/${customerId}`)
+                .then(response => response.json())
+                .then(data => {
+                    setContactPeople(data.data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    setContactPeople([]);
+                });
+        }
+    }, [customerId]);
 
     useEffect(() => {
         if (locationId) {
@@ -208,6 +223,10 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         setSelectedLocationId(e.target.value);
     }
 
+    const handleContactPersonChange = (e) => {
+        setContactPersonId(e.target.value);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -218,7 +237,8 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
             targetAudience,
             locationId: selectedLocationId,
             date,
-            grade
+            grade,
+            contactPersonId
         };
 
         fetch(`/api/commission/${commissionId}`, {
@@ -305,6 +325,21 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         fetchRoundData();
     };
 
+    const handleAddDate = () => {
+        setDates((prevDates) => [...prevDates, new Date()]);
+    };
+
+    const handleDeleteDate = (index) => {
+        setDates((prevDates) => prevDates.filter((_, i) => i !== index));
+    };
+
+    const handleChange = (index, value) => {
+        console.log("value: ", value + " index: ", index);
+        const newDates = [...dates];
+        newDates[index] = value;
+        setDates(newDates);
+    };
+
     const workshopRoundIndex = (type, index) => {
         if (type === "Workshopronde") {
             let workshopIndex = 1;
@@ -384,6 +419,20 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                     ))}
                 </select>
 
+                <div className="mb-6">
+                    <label htmlFor="contactPerson"
+                        className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contactpersoon</label>
+                    <select id="contactPerson" onChange={handleContactPersonChange} value={contactPersonId}
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            required>
+                        <option value="" disabled>Kies een contactpersoon</option>
+                        {contactPeople.map((contactPerson) => (
+                            <option key={contactPerson.id} value={contactPerson.id}>
+                                {contactPerson.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
                 {/* <div className="mb-6">
                     <label htmlFor="date"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Datum</label>
@@ -405,15 +454,17 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                             {dates.map((date, index) => (
                                 <tr key={index} className="bg-white border-b light:bg-gray-800 light:border-gray-700">
                                     <td className="py-2 px-2">
-                                        {console.log("date: ",date, typeof date)}
                                         <Datepicker
+                                            key={index}
                                             options={dateOptions}
-                                            onChange={(value) => handleChange(index, "date", value)} // Ensure `value` is passed correctly
+                                            onChange={(selectedDate) => {
+                                                console.log("Datepicker onChange called with:", selectedDate);
+                                                handleChange(index, selectedDate);
+                                            }} // Ensure `value` is passed correctly
                                             show={show}
                                             setShow={handleClose}
                                             value={date}
                                         />
-
                                     </td>
                                     <td className="py-2 px-2 justify-center">
                                         <button
@@ -445,12 +496,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                             </tbody>
                         </table>
 
-                <button type="submit" onClick={handleSubmit}
-                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Opslaan
-                </button>
-
-
-            </form>
+                
             <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
             <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
     focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400
@@ -531,6 +577,12 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                     onEdit={handleUpdate}
                 />
             )}
-        </div>
+            <button type="submit" onClick={handleSubmit}
+                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Opslaan
+                </button>
+
+
+            </form>
+        </div> 
     );
 }

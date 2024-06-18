@@ -19,11 +19,12 @@ const commissionService = {
                 targetAudience,
                 locationId,
                 grade,
+                contactPersonId
             } = commission;
 
-            const values = [customerId, details, targetAudience, locationId, grade];
+            const values = [customerId, details, targetAudience, locationId, grade, contactPersonId];
 
-            const query = 'INSERT INTO commission (customerId, details, targetAudience, locationId, grade) VALUES (?, ?, ?, ?, ?)';
+            const query = 'INSERT INTO commission (customerId, details, targetAudience, locationId, grade, contactPersonId) VALUES (?, ?, ?, ?, ?, ?)';
 
             logger.debug('query', query);
 
@@ -127,14 +128,14 @@ const commissionService = {
                 sql += 'locationId = ?, ';
                 values.push(commission.locationId);
             }
-            if (commission.date) {
-                sql += 'date = ?, ';
-                values.push(commission.date);
-            }
              if (commission.grade) {
-                 sql += 'grade = ?, ';
-                 values.push(commission.grade);
+                sql += 'grade = ?, ';
+                values.push(commission.grade);
              }
+             if (commission.contactPersonId) {
+                sql += 'contactPersonId = ?, ';
+                values.push(commission.contactPersonId);
+                }
             // Remove the trailing comma and space
             sql = sql.slice(0, -2);
 
