@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const { sendEmail } = require("../mail/mail.controller");
+const { sendEmail , scheduleEmail} = require("../mail/mail.controller");
 
 router.post("/api/mail", sendEmail);
+router.post("/api/schedule-mail", scheduleEmail);
+
 
 module.exports = router;
