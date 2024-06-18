@@ -253,7 +253,6 @@ console.log(inviteState)
 
                             )}
                         </div>
-                        {!inviteState && (
                         <div className="flex justify-center"
                              onClick={handleSubmit}
                         >
@@ -263,7 +262,6 @@ console.log(inviteState)
                                 {buttonText}
                             </button>
                         </div>
-                        )}
                     </div>
 
                 </div>
