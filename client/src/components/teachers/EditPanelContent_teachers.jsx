@@ -246,13 +246,7 @@ export default function EditPanelContent_teachers({userId, setShowSidePanel}) {
                     </div>
 
                     <EditPanelWorkshopTemplateList_teachers
-                        userId={userId}
-                        setShowSidePanel={setShowSidePanel}/>
-
-                    <button type="submit"
-                            className="text-white mt-4 bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-                        Opslaan
-                    </button>
+                        userId={userId}/>
                 </form>
 
 

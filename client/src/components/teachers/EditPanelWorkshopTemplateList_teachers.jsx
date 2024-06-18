@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-export default function EditPanelWorkshopTemplateList_teachers({ userId, setShowSidePanel }) {
+export default function EditPanelWorkshopTemplateList_teachers({ userId }) {
     const [user, setUser] = useState({});
     const [workshops, setWorkshops] = useState([]);
     const [qualifiedWorkshops, setQualifiedWorkshops] = useState([]);
@@ -158,7 +158,7 @@ export default function EditPanelWorkshopTemplateList_teachers({ userId, setShow
     );
 
     return (
-        <div className="px-6">
+        <div className="">
             <header className="pt-4 pb-4 font-bold text-lg">Workshop Kwalificaties Bewerken</header>
             <div className='side-panel-content'>
                 <div className={'shadow sm:rounded-lg'}>
