@@ -10,7 +10,6 @@ export default function TeacherEnrollments() {
             .then((res) => res.json())
             .then((data) => {
                 setEnrollments(data.data);
-                console.log("Fetched enrollments: ", data.data);
             })
             .catch((error) => console.error("Error fetching data:", error));
     }, [setIsOpen]);

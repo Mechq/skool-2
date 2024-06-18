@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import UserWorkshopCard from "../Cards/UserWorkshopCard";
 import UserWorkshopDetailsModalScreen from "../UserWorkshopDetailsModalScreen";
 
-
-export default function List_openWorkshops({userWorkshops, setUserWorkshops, user}) {
+export default function List_openWorkshops({ userWorkshops, setUserWorkshops, user }) {
     const [commissions, setCommissions] = useState([]);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
@@ -16,24 +15,24 @@ export default function List_openWorkshops({userWorkshops, setUserWorkshops, use
         setSelectedWorkshop(workshop);
         setSelectedCommission(commission);
         setShowDetailsModal(true);
+        document.body.style.overflow = 'hidden';
     };
 
-    const onRefresh = () => {
-    }
+    const onRefresh = () => {}
 
     const handleModalClose = () => {
         setShowModal(false);
         setShowDetailsModal(false);
+        document.body.style.overflow = 'auto';
     };
 
     useEffect(() => {
         fetch('/api/workshop/commission')
             .then(res => res.json())
             .then(data => {
-                // const filteredData = data.data.filter(workshop => workshop.userId === user.id);
                 const workshopsWithUniqueKey = data.data.map((workshop, index) => ({
                     ...workshop,
-                    unique: index + 1 // Incremented number starting from 1
+                    unique: index + 1
                 }));
                 setUserWorkshops(workshopsWithUniqueKey);
                 console.log("Fetched workshops: ", workshopsWithUniqueKey);
@@ -52,15 +51,14 @@ export default function List_openWorkshops({userWorkshops, setUserWorkshops, use
     }, []);
 
     useEffect(() => {
-            fetch('/api/commission/durations')
-                .then(res => res.json())
-                .then(data => {
-                    setDurations(data.data);
-                    console.log("Fetched durations: ", data.data);
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }, []
-    )
+        fetch('/api/commission/durations')
+            .then(res => res.json())
+            .then(data => {
+                setDurations(data.data);
+                console.log("Fetched durations: ", data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
 
     const getCommission = (commissionId) => {
         const commission = commissions.find(c => c.id === commissionId);
@@ -77,42 +75,37 @@ export default function List_openWorkshops({userWorkshops, setUserWorkshops, use
     const getCommissionDate = (commissionId) => {
         const commission = getCommission(commissionId)
         const date = new Date(commission.date);
-        console.log(date.toLocaleDateString('nl-NL', {
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-        })
-        )
         return date.toLocaleDateString('nl-NL', {
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
         });
     };
+
     const getCommissionTime = (commissionId) => {
         if (durations.length > 0) {
-            return durations.find(c => c.commissionId === commissionId)
-
+            return durations.find(c => c.commissionId === commissionId);
         }
         return 'Unknown Time';
     }
 
     const getCommissionPay = (commissionId) => {
-        const minutes = getCommissionTime(commissionId).durationMin
-        return user.hourlyRate * minutes / 60
-
-
+        const minutes = getCommissionTime(commissionId).durationMin;
+        return user.hourlyRate * minutes / 60;
     }
+
     return (
         <div>
             {showDetailsModal && (
-                <div>
-                    <UserWorkshopDetailsModalScreen
-                        onClose={handleModalClose}
-                        workshop={selectedWorkshop}
-                        commission={selectedCommission}
-                        onRefresh={onRefresh}
-                    />
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-auto">
+                    <div className="relative w-full max-w-lg max-h-full p-4 bg-white rounded-lg shadow-lg overflow-y-auto">
+                        <UserWorkshopDetailsModalScreen
+                            onClose={handleModalClose}
+                            workshop={selectedWorkshop}
+                            commission={selectedCommission}
+                            onRefresh={onRefresh}
+                        />
+                    </div>
                 </div>
             )}
 

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { AiTwotoneCalendar, AiTwotoneClockCircle } from "react-icons/ai";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+
+import ConfirmModal_openWorkshops from "./openWorkshops/ConfirmModal_openWorkshops";
 
 export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission, onRefresh }) {
+    const [activeTab, setActiveTab] = useState("workshop"); // Default active tab
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);
     const [workshopRound, setWorkshopRound] = useState({});
     const [customer, setCustomer] = useState({});
@@ -14,17 +17,22 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
     const [mailTemplateBackup, setMailTemplateBackup] = useState({});
     const [mailTemplateCancel, setMailTemplateCancel] = useState({});
     const [mailTemplateConfirm, setMailTemplateConfirm] = useState({});
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [confirmMessage, setConfirmMessage] = useState("");
+    const [confirmAction, setConfirmAction] = useState(() => {});
 
     useEffect(() => {
         const fetchData = async () => {
+            let decodedToken;
             const token = localStorage.getItem('token');
             if (token) {
-                const decodedToken = jwtDecode(token);
+                decodedToken = jwtDecode(token);
                 setUser(decodedToken);
             }
             setLoading(false);
+
         };
-        fetchData();
+        fetchData().then();
     }, []);
 
     useEffect(() => {
@@ -121,7 +129,14 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
         ? "Afmelden"
         : (workshopRound.amountOfTeachers <= enrollments.length ? "Wachtrij" : "Aanmelden");
 
-    const handleSubmit = async (e) => {
+    const handleModalConfirm = () => {
+        if (confirmAction) {
+            confirmAction();
+        }
+        setShowConfirmModal(false);
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         const checkDate = new Date(commission.commissionDate);
@@ -132,35 +147,59 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
         //&& timeDifference >= threeDaysInMillis
         try {
             if (buttonText === "Afmelden") {
-                const response = await fetch(`/api/enrollment/${workshopRound.id}/${userId}`, {
+                setConfirmMessage("Weet je zeker dat je je wilt afmelden voor deze workshop?");
+                setConfirmAction(() => () => {
+                    fetch(`/api/enrollment/${workshopRound.id}/${userId}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
                     },
+                })
+                        .then((response) => {
+                            if (!response.ok) {
+                                return response.json().then((error) => {
+                                    throw new Error(error.message);
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(() => {
+                            onClose();
+                        })
+                        .catch((error) => console.error("Error:", error))
+                        .finally(onRefresh);
                 });
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.message);
-                }
-                onClose();
+                setShowConfirmModal(true);
                 const placeholders = { FirstName: user.firstName, Customer: customer.name, ExecutionDate: formatDate(commission.date), StartTime: times.startTime, FirstRoundStartTime: times.startTime, LastRoundEndTime: times.endTime, Workshop: workshop.name, City: location.city };
                 const emailContent = replaceTemplatePlaceholders(mailTemplateCancel.content, placeholders);
                 sendEmail(user.email, mailTemplateCancel.subject, emailContent);
             } else if (buttonText === "Afmelden" && timeDifference < threeDaysInMillis) {
                 alert("Je kunt je niet meer afmelden voor deze workshop, omdat deze binnen 3 dagen plaatsvindt.");
             } else if (buttonText === "Aanmelden" || buttonText === "Wachtrij") {
-                const response = await fetch(`/api/workshop/commission/${workshop.workshopId}/${commission.id}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ userId }),
+                setConfirmMessage("Weet je zeker dat je je wilt aanmelden voor deze workshop?");
+                setConfirmAction(() => () => {
+                    fetch(`/api/workshop/commission/${workshop.workshopId}/${commission.id}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ userId }),
+                    })
+                        .then((response) => {
+                            if (!response.ok) {
+                                return response.json().then((error) => {
+                                    throw new Error(error.message);
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(() => {
+                            onClose();
+                        })
+                        .catch((error) => console.error("Error:", error))
+                        .finally(onRefresh);
                 });
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.message);
-                }
-                onClose();
+                setShowConfirmModal(true);
                 const placeholders = { FirstName: user.firstName, Customer: customer.name, ExecutionDate: formatDate(commission.date), StartTime: times.startTime, FirstRoundStartTime: times.startTime, LastRoundEndTime: times.endTime, Workshop: workshop.name, City: location.city };
                 if (buttonText === "Aanmelden") {
                     const emailContent = replaceTemplatePlaceholders(mailTemplateConfirm.content, placeholders);
@@ -174,30 +213,20 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
         } catch (error) {
             console.error("Error:", error);
         }
-        onRefresh();
     };
-
 
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    const formatDate = (date) => {
-        const formattedDate = new Date(date);
-        return formattedDate.toLocaleDateString('nl-NL', {
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-        });
-    };
-
     return (
         <>
-            <div className="fixed inset-0 z-10 bg-gray-900 bg-opacity-15" onClick={onClose} />
+            <div className="fixed inset-0 z-10 bg-gray-900 bg-opacity-15" onClick={onClose}/>
+
             <section className="w-full flex flex-col items-center justify-center fixed top-0 left-0 z-20 mt-20">
                 <section
                     className="bg-center bg-no-repeat bg-gray-500 bg-blend-multiply w-full max-w-4xl"
-                    style={{ backgroundImage: `url(${workshop.picture})` }}
+                    style={{backgroundImage: `url(${workshop.picture})`}}
                 >
                     <div className="px-4 mx-auto max-w-screen-xl text-center py-12 lg:py-24">
                         <h1 className="mb-4 text-3xl font-extrabold tracking-tight leading-none text-white md:text-4xl lg:text-5xl">
@@ -206,44 +235,50 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                     </div>
                 </section>
                 <div className="w-full max-w-4xl">
-                    <div className="bg-white shadow light:border light:bg-gray-800 light:border-gray-700 rounded-none">
+                    <div
+                        className="bg-white shadow light:border light:bg-gray-800 light:border-gray-700 rounded-none">
                         <div className="w-full max-w-4xl flex pb-6 pt-6">
                             <div
-                                className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600 ${showWorkshopDetails ? 'border-brand-orange' : 'border-black'}`}
-                            >
-                                <button onClick={() => setShowWorkshopDetails(true)}>
+                                className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600  ${showWorkshopDetails ? 'border-brand-orange' : 'border-black'}`}>
+                                <button
+                                    onClick={() => setShowWorkshopDetails(true)}
+                                >
                                     Workshop Details
                                 </button>
                             </div>
                             <div
-                                className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600 ${!showWorkshopDetails ? 'border-brand-orange' : 'border-black'}`}
-                            >
-                                <button onClick={() => setShowWorkshopDetails(false)}>
+                                className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600 ${!showWorkshopDetails ? 'border-brand-orange' : 'border-black'}`}>
+                                <button
+                                    onClick={() => setShowWorkshopDetails(false)}
+                                >
                                     Opdracht Details
                                 </button>
                             </div>
                         </div>
                         <div className="p-6 space-y-4 sm:space-y-6">
-                            {showWorkshopDetails ? (
+                            {activeTab === 'workshop' ? (
                                 <>
-                                    <h2><strong>Naam:</strong><br />{workshop.name}</h2>
-                                    <h2><strong>Details:</strong><br />{workshop.description}</h2>
-                                    <h2><strong>Materialen:</strong><br />{workshop.materials}</h2>
+                                    <h2><strong>Naam:</strong> <br />{workshop.name}</h2>
+                                    <h2><strong>Details:</strong> <br />{workshop.description}</h2>
+                                    <h2><strong>Materialen:</strong> <br />{workshop.materials}</h2>
                                 </>
                             ) : (
                                 <>
                                     <div className="md:w-full px-4 mb-4">
                                         <h1 className="font-bold text-4xl mb-2">{customer.name}</h1>
-                                        <div className="flex items-center">
-                                            <AiTwotoneCalendar className="mr-2" />
+                                        <div
+                                            className="flex items-center"> {/* Adding a flex container for alignment */}
+                                            <AiTwotoneCalendar className="mr-2"/>
                                             <p>{formatDate(commission.date)}</p>
                                         </div>
-                                        <div className="flex items-center">
-                                            <AiTwotoneClockCircle className="mr-2" />
+                                        <div
+                                            className="flex items-center"> {/* Adding a flex container for alignment */}
+                                            <AiTwotoneClockCircle className="mr-2"/>
                                             <p>{times.startTime} - {times.endTime}</p>
                                         </div>
                                     </div>
                                     <div className="flex flex-col md:flex-row">
+                                        {/* Commissions Data */}
                                         <div className="md:w-1/2 px-4 mb-4">
                                             <h1 className="font-bold text-lg">Opdracht Informatie</h1>
                                             <p><strong>Details:</strong> {workshop.details}</p>
@@ -251,6 +286,8 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                                             <p><strong>Docenten:</strong> {workshopRound.amountOfTeachers}</p>
                                             <p><strong>Leerlingen:</strong> {workshopRound.amountOfStudents}</p>
                                         </div>
+
+                                        {/* Location Data */}
                                         <div className="md:w-1/2 px-4 mb-4">
                                             <h1 className="font-bold text-lg">Locatie Informatie</h1>
                                             <p><strong>Naam:</strong> {location.name}</p>
@@ -260,16 +297,33 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                                         </div>
                                     </div>
                                 </>
+
+
                             )}
                         </div>
-                        <div className="flex justify-center" onClick={handleSubmit}>
-                            <button className="bg-brand-orange text-white font-bold py-4 px-8 rounded focus:outline-none hover:bg-hover-brand-orange focus:shadow-outline m-5 mt-8">
+                        <div className="flex justify-center"
+                             onClick={handleSubmit}
+                        >
+                            <button
+                                className="bg-brand-orange text-white font-bold py-4 px-8 rounded focus:outline-none hover:bg-hover-brand-orange focus:shadow-outline m-5 mt-8"
+                            >
                                 {buttonText}
                             </button>
                         </div>
                     </div>
+
                 </div>
+
+
             </section>
+
+            {/* Confirmation modal for enrollment or cancellation */}
+            <ConfirmModal_openWorkshops
+                isOpen={showConfirmModal}
+                onClose={() => setShowConfirmModal(false)}
+                onConfirm={handleModalConfirm}
+                message={confirmMessage}
+            />
         </>
     );
 }
