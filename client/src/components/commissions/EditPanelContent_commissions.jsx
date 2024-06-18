@@ -3,7 +3,7 @@ import "../../styles/optionsRoundCreate.css"
 import RoundEditModal from "./RoundEditModal_commissions";
 import WorkshopRoundEditModal_commissions from "./WorkshopRoundEditModal_commissions";
 import WorkshopRoundWorkshopEditModal from "./WorkshopEditModal_commissions"
-import {AiTwotonePlusCircle} from "react-icons/ai";
+import {AiOutlineClose, AiTwotonePlusCircle} from "react-icons/ai";
 import { use } from "chai";
 import DatePicker from "react-multi-date-picker";
 import {FaCalendarPlus} from "react-icons/fa";
@@ -353,6 +353,16 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         return "";
     };
 
+    const deleteRound = (roundId) => {
+        fetch(`/api/round/${roundId}`, {
+            method: "DELETE",
+        })
+            .then(() => {
+                fetchRoundData();
+            })
+            .catch((error) => console.error("Error:", error));
+    }
+
 
 
     const formatCustomDate = (date) => {
@@ -496,38 +506,55 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
 
 
             </form>
-            <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
-            <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-    focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400
-    light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
-                <ul>
-                    {types.map((type, index) => (
-                        <li key={index} className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer"
-                            onClick={() => editRound(type, roundIds[index])}>
-            <span>
-                {type === "Workshopronde" ? `${type} ${workshopRoundIndex(type, index)} - Tijd ${startTimes[index]} - ${endTimes[index]}` : `${type} - Tijd ${startTimes[index]} - ${endTimes[index]}`}
-            </span>
-                            {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
-                                <ul className="pl-4 mt-2">
-                                    {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
-                                        <li
+            <div>
+                <div>
+                    <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
+                    <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+            focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400
+            light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
+                        <ul>
+                            {types.map((type, index) => (
+                                <li key={index} className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer">
+                                    <div className="flex justify-between items-center">
+                                <span onClick={() => editRound(type, roundIds[index])}>
+                                    {type === "Workshopronde"
+                                        ? `${type} ${workshopRoundIndex(type, index)} - Tijd ${startTimes[index]} - ${endTimes[index]}`
+                                        : `${type} - Tijd ${startTimes[index]} - ${endTimes[index]}`}
+                                </span>
+                                        <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                editRound("workshop", workshop.id, roundIds[index]);
+                                                // TODO: Add delete functionality here
+                                                deleteRound(roundIds[index])
                                             }}
-                                            key={workshop.id}
-                                            className={"hover:bg-gray-200 hover:cursor-pointer"}
+                                            className="text-red-600 hover:text-red-800"
                                         >
-                                            {workshop.name}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+                                            <AiOutlineClose />
 
+                                        </button>
+                                    </div>
+                                    {type === "Workshopronde" && workshopRoundWorkshops[roundIds[index]] && (
+                                        <ul className="pl-4 mt-2">
+                                            {workshopRoundWorkshops[roundIds[index]].map((workshop) => (
+                                                <li
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        editRound("workshop", workshop.id, roundIds[index]);
+                                                    }}
+                                                    key={workshop.id}
+                                                    className="hover:bg-gray-200 hover:cursor-pointer"
+                                                >
+                                                    {workshop.name}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
             <div style={{position: "relative"}}>
                 <button
