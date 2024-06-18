@@ -143,15 +143,16 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        const checkDate = new Date(commission.commissionDate);
+console.log(commission)
+        const checkDate = new Date(commission.date);
         const currentDate = new Date();
         const threeDaysInMillis = 3 * 24 * 60 * 60 * 1000;
-
+    console.log("checkDate", checkDate)
+        console.log("cure date",currentDate)
         const timeDifference = checkDate.getTime() - currentDate.getTime();
-        //&& timeDifference >= threeDaysInMillis
         try {
-            if (buttonText === "Afmelden") {
+            if (buttonText === "Afmelden"         && timeDifference >= threeDaysInMillis
+            ) {
                 setConfirmMessage("Weet je zeker dat je je wilt afmelden voor deze workshop?");
                 setConfirmAction(() => () => {
                     fetch(`/api/enrollment/${workshopRound.id}/${userId}`, {
