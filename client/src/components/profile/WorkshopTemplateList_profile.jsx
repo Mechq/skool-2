@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
+import Success_toasts from "../toasts/Success_toasts";
 
 export default function WorkshopTemplateList_profile({user, workshops, qualifiedWorkshops}) {
     const [selectedWorkshops, setSelectedWorkshops] = useState([]);
     const [isAccordionOpen, setIsAccordionOpen] = useState([false, false, false, false, false, false]);
+    const [toasts, setToasts] = useState([]);
 
     useEffect(() => {
         if (Array.isArray(qualifiedWorkshops)) {
@@ -53,6 +55,10 @@ export default function WorkshopTemplateList_profile({user, workshops, qualified
                 console.error('Error deleting unselected workshops:', error);
                 // Optionally, handle errors here
             });
+
+        // Add a new toast message to the stack
+        setToasts(prevToasts => [...prevToasts, { id: Date.now(), message: 'Workshops opgeslagen' }]);
+
     };
 
     const toggleAccordion = (index) => {
@@ -157,8 +163,16 @@ export default function WorkshopTemplateList_profile({user, workshops, qualified
             >
                 Opslaan
             </button>
+
+            <div className="fixed right-5 bottom-5 space-y-2">
+                {toasts.map(toast => (
+                    <Success_toasts
+                        key={toast.id}
+                        message={toast.message}
+                        onClose={() => setToasts(prevToasts => prevToasts.filter(t => t.id !== toast.id))}
+                    />
+                ))}
+            </div>
         </>
-
-
     );
 }
