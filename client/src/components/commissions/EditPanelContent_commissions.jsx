@@ -193,7 +193,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     }, [customerId]);
 
     useEffect(() => {
-        if (locationId) {
+        if (customerId) {
             fetch(`/api/location/customer/${selectedCustomerId}`)
                 .then(response => response.json())
                 .then(data => {
@@ -340,6 +340,36 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         setDates(newDates);
     };
 
+    const handleCustomerChange = async (e) => {
+        const selectedCustomerId = e.target.value;
+        setCustomerId(selectedCustomerId);
+
+        // Clear previous locations and location name
+        setLocations([]);
+        setLocationName("");
+
+        try {
+            // Fetch default location name for the selected customer
+            const defaultLocationResponse = await fetch(`/api/location/default/${selectedCustomerId}`);
+            const defaultLocationData = await defaultLocationResponse.json();
+            const defaultLocationName = defaultLocationData.data ? defaultLocationData.data.name || "" : "";
+            const defaultLocationId = defaultLocationData.data ? defaultLocationData.data.id || "" : "";
+            setLocationName(defaultLocationName);
+            setSelectedLocationId(defaultLocationId);
+            console.log("-----------", defaultLocationId, defaultLocationName)
+
+            // Fetch locations for the selected customer
+            const locationsResponse = await fetch(`/api/location/customer/${selectedCustomerId}`);
+            const locationsData = await locationsResponse.json();
+            // Ensure that locationsData.data is an array before setting it to the state
+            setLocations(Array.isArray(locationsData.data) ? locationsData.data : []);
+
+        } catch (error) {
+            console.error('Error:', error);
+            setLocationName(""); // Ensure locationName is always defined
+        }
+    };
+
     const workshopRoundIndex = (type, index) => {
         if (type === "Workshopronde") {
             let workshopIndex = 1;
@@ -356,18 +386,13 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
 
     return (
         <div className="px-6">
-
-
             <header className="pt-4 pb-4 font-bold text-lg">Opdracht bewerken</header>
             <form>
                 <div className="mb-6">
                     <label htmlFor="workshopName"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Kies een
                         Klant</label>
-                    <select id="workshopName" value={selectedCustomerId}
-                            onChange={(e) => {
-                                setSelectedCustomerId(e.target.value);
-                            }} required={true}
+                    <select id="workshopName" required={true} onChange={handleCustomerChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
                         <option value="" disabled>{selectedCustomerName}</option>
                         {customers.map((customer) => (
