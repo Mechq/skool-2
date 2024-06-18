@@ -13,6 +13,7 @@ export default function List_teacherEnrollments({
     const [enrollmentToAccept, setEnrollmentToAccept] = useState({});
     const [rejectedMail, setRejectedMail] = useState({});
     const [acceptedMail, setAcceptedMail] = useState({});
+    const [reminderMail, setReminderMail] = useState({});
 
     useEffect(() => {
         fetch(`/api/mailTemplate/15`)
@@ -28,6 +29,15 @@ export default function List_teacherEnrollments({
             .then(res => res.json())
             .then(data => {
                 setAcceptedMail(data.data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, [])
+
+    useEffect(() => {
+        fetch(`/api/mailTemplate/13`)
+            .then(res => res.json())
+            .then(data => {
+                setReminderMail(data.data);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [])
@@ -89,12 +99,12 @@ export default function List_teacherEnrollments({
 
     const handleSubmit = (enrollment, status, reason) => {
         if (status === "geaccepteerd") {
-            const emailBody = replaceTemplatePlaceholders(acceptedMail.content, {
+            let emailBody = replaceTemplatePlaceholders(acceptedMail.content, {
                 FirstName: enrollment.firstName,
                 Workshop: enrollment.workshopName,
                 ExecutionDate: formatDate(enrollment.date),
             });
-            const subjectBody = replaceTemplatePlaceholders(acceptedMail.subject, {
+            let subjectBody = replaceTemplatePlaceholders(acceptedMail.subject, {
                 Workshop: enrollment.workshopName,
                 ExecutionDate: formatDate(enrollment.date),
             });
@@ -112,6 +122,32 @@ export default function List_teacherEnrollments({
             })
                 .then(res => res.json())
                 .catch(error => console.error('Error sending email:', error));
+
+            emailBody = replaceTemplatePlaceholders(reminderMail.content, {
+                FirstName: enrollment.firstName,
+                ExecutionDate: formatDate(enrollment.date),
+                startTime: enrollment.startTime
+            });
+            subjectBody = replaceTemplatePlaceholders(reminderMail.subject, {
+                Workshop: enrollment.workshopName,
+                ExecutionDate: formatDate(enrollment.date),
+                City: enrollment.city
+            });
+            fetch('/api/schedule-mail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: enrollment.email,
+                    subject: subjectBody,
+                    message: emailBody,
+                    eventDate: enrollment.date
+                })
+            })
+                .then(res => res.json())
+                .catch(error => console.error('Error sending email:', error));
+
         } else if (status === "geweigerd") {
             const emailBody = replaceTemplatePlaceholders(rejectedMail.content, {
                 FirstName: enrollment.firstName,

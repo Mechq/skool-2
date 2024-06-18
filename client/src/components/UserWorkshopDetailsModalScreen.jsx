@@ -79,6 +79,11 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
         }
         return template.replace(/{(FirstName|Customer|ExecutionDate|StartTime|FirstRoundStartTime|LastRoundEndTime|Workshop|City|Reden)}/g, (_, key) => placeholders[key] || '');
     };
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
+        const options = {year: 'numeric', month: 'long', day: 'numeric'};
+        return new Date(dateString).toLocaleDateString("nl-NL", options);
+    };
 
 
     const sendEmail = async (email, subject, message) => {
@@ -172,7 +177,8 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                 setShowConfirmModal(true);
                 const placeholders = { FirstName: user.firstName, Customer: customer.name, ExecutionDate: formatDate(commission.date), StartTime: times.startTime, FirstRoundStartTime: times.startTime, LastRoundEndTime: times.endTime, Workshop: workshop.name, City: location.city };
                 const emailContent = replaceTemplatePlaceholders(mailTemplateCancel.content, placeholders);
-                sendEmail(user.email, mailTemplateCancel.subject, emailContent);
+                const emailSubject = replaceTemplatePlaceholders(mailTemplateCancel.subject, placeholders);
+                sendEmail(user.email, emailSubject, emailContent);
             } else if (buttonText === "Afmelden" && timeDifference < threeDaysInMillis) {
                 alert("Je kunt je niet meer afmelden voor deze workshop, omdat deze binnen 3 dagen plaatsvindt.");
             } else if (buttonText === "Aanmelden" || buttonText === "Wachtrij") {
@@ -203,11 +209,13 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
                 const placeholders = { FirstName: user.firstName, Customer: customer.name, ExecutionDate: formatDate(commission.date), StartTime: times.startTime, FirstRoundStartTime: times.startTime, LastRoundEndTime: times.endTime, Workshop: workshop.name, City: location.city };
                 if (buttonText === "Aanmelden") {
                     const emailContent = replaceTemplatePlaceholders(mailTemplateConfirm.content, placeholders);
-                    sendEmail(user.email, mailTemplateConfirm.subject, emailContent);
+                    const emailSubject = replaceTemplatePlaceholders(mailTemplateConfirm.subject, placeholders);
+                    sendEmail(user.email, emailSubject, emailContent);
                 } else if (buttonText === 'Wachtrij') {
                     const emailContent = replaceTemplatePlaceholders(mailTemplateBackup.content, placeholders);
+                    const emailSubject = replaceTemplatePlaceholders(mailTemplateBackup.subject, placeholders);
                     console.log(emailContent)
-                    sendEmail(user.email, mailTemplateBackup.subject, emailContent);
+                    sendEmail(user.email, emailSubject, emailContent);
                 }
             }
         } catch (error) {
