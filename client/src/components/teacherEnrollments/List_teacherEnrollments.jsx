@@ -16,40 +16,32 @@ export default function List_teacherEnrollments({
     const [reminderMail, setReminderMail] = useState({});
 
     useEffect(() => {
-        fetch(`/api/mailTemplate/15`)
-            .then(res => res.json())
-            .then(data => {
-                setRejectedMail(data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, [])
+        const fetchData = async () => {
+            try {
+                const [rejectedResponse, acceptedResponse, reminderResponse, enrollmentsResponse] = await Promise.all([
+                    fetch(`/api/mailTemplate/15`),
+                    fetch(`/api/mailTemplate/16`),
+                    fetch(`/api/mailTemplate/13`),
+                    fetch(`/api/enrollment`)
+                ]);
 
-    useEffect(() => {
-        fetch(`/api/mailTemplate/16`)
-            .then(res => res.json())
-            .then(data => {
-                setAcceptedMail(data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, [])
+                const rejectedData = await rejectedResponse.json();
+                const acceptedData = await acceptedResponse.json();
+                const reminderData = await reminderResponse.json();
+                const enrollmentsData = await enrollmentsResponse.json();
 
-    useEffect(() => {
-        fetch(`/api/mailTemplate/13`)
-            .then(res => res.json())
-            .then(data => {
-                setReminderMail(data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, [])
+                setRejectedMail(rejectedData.data);
+                setAcceptedMail(acceptedData.data);
+                setReminderMail(reminderData.data);
+                setEnrollments(enrollmentsData.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
-    useEffect(() => {
-        fetch('/api/enrollment')
-            .then(res => res.json())
-            .then(data => {
-                setEnrollments(data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, [isOpen]);
+        fetchData();
+    }, []);
+
 
     const formatDate = (date) => {
         if (!date) return "";
