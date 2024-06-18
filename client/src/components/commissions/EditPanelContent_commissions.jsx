@@ -1,49 +1,12 @@
 import React, {useEffect, useRef, useState} from "react"
-import Datepicker from "tailwind-datepicker-react"
 import "../../styles/optionsRoundCreate.css"
 import RoundEditModal from "./RoundEditModal_commissions";
 import WorkshopRoundEditModal_commissions from "./WorkshopRoundEditModal_commissions";
 import WorkshopRoundWorkshopEditModal from "./WorkshopEditModal_commissions"
 import {AiTwotonePlusCircle} from "react-icons/ai";
 import { use } from "chai";
-
-const dateOptions = {
-    title: " ",
-    autoHide: false,
-    todayBtn: false,
-    clearBtn: false,
-    clearBtnText: "",
-    maxDate: new Date("2030-01-01"),
-    minDate: new Date(),
-    theme: {
-        background: "bg-white",
-        todayBtn: true,
-        clearBtn: "",
-        icons: "",
-        text: "",
-        disabledText: "",
-        input: "",
-        inputIcon: "",
-        selected: "bg-brand-orange",
-    },
-    icons: {
-        prev: () => <span>Vorige</span>,
-        next: () => <span>Volgende</span>,
-    },
-    datepickerClassNames: "top-12",
-    defaultDate: false,
-    language: "nl",
-    disabledDates: [],
-    weekDays: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
-    inputNameProp: "date",
-    inputIdProp: "date",
-    inputPlaceholderProp: "Select Date",
-    inputDateFormatProp: {
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-    }
-}
+import DatePicker from "react-multi-date-picker";
+import {FaCalendarPlus} from "react-icons/fa";
 
 export default function EditPanelContent_commissions({setShowSidePanel, commissionId}) {
     const [customerId, setCustomerId] = useState("");
@@ -75,6 +38,8 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     const [contactPeople, setContactPeople] = useState([]);
     const [contactPersonId, setContactPersonId] = useState("");
 
+    const [value, setValue] = useState([new Date()]);
+    const [showDatePicker, setShowDatePicker] = useState(false);
     const [show, setShow] = useState(false);
 
     const handleClose = (state) => {
@@ -86,17 +51,19 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
             fetch(`/api/commission/${commissionId}`)
                 .then((res) => res.json())
                 .then((response) => {
-                    const data = response.data;
+                    const data = response.data[0];
+                    console.log(data)
                     setCustomerId(data.customerId || "");
                     setDetails(data.details || "");
                     setTargetAudience(data.targetAudience || "");
-                    // setDate(data.date ? data.date.substring(0, 10) : "");
                     setLocationId(data.locationId || "");
                     setGrade(data.grade || "")
-                })
+                    const datesArray = data.dates ? data.dates.split(',').map(date => new Date(date.trim())) : [];
+                    setValue(datesArray);                })
                 .catch((error) => console.error("Error fetching commission:", error));
         }
     }, [commissionId]);
+
 
     const fetchRoundData = () => {
         if (commissionId) {
@@ -229,7 +196,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        const formattedDates = value.map(formatCustomDate);
         if (!customerId || !details || !targetAudience) return;
         const commission = {
             customerId,
@@ -240,6 +207,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
             grade,
             contactPersonId
         };
+        setShowSidePanel(false);
 
         fetch(`/api/commission/${commissionId}`, {
             method: "PUT",
@@ -250,7 +218,18 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         })
             .then((response) => response.json())
             .then((data) => {
-                setShowSidePanel(false);
+            })
+            .catch((error) => console.error("Error:", error));
+        fetch(`/api/commission/date/${commissionId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formattedDates),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("posted dates", data)
             })
             .catch((error) => console.error("Error:", error));
     };
@@ -261,7 +240,6 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     };
 
     const handleOptionClick = (option) => {
-
 
 
         setShowOptions(false);
@@ -325,14 +303,6 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         fetchRoundData();
     };
 
-    const handleAddDate = () => {
-        setDates((prevDates) => [...prevDates, new Date()]);
-    };
-
-    const handleDeleteDate = (index) => {
-        setDates((prevDates) => prevDates.filter((_, i) => i !== index));
-    };
-
     const handleChange = (index, value) => {
         console.log("value: ", value + " index: ", index);
         const newDates = [...dates];
@@ -383,6 +353,32 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
         return "";
     };
 
+
+
+    const formatCustomDate = (date) => {
+        if (date instanceof Date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        } else {
+            const { year, month, day } = date;
+            return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        }
+    };
+    const handleDateChange = (dates) => {
+        const formattedDates = dates.map(date => {
+            if (date instanceof Date) {
+                return date;
+            } else if (date && date.toDate) {
+                return date.toDate();
+            } else {
+                return new Date(date);
+            }
+        });
+        setValue(formattedDates);
+        setShowDatePicker(false); // Close DatePicker after selecting dates
+    };
 
     return (
         <div className="px-6">
@@ -458,72 +454,52 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                         ))}
                     </select>
                 </div>
-                {/* <div className="mb-6">
-                    <label htmlFor="date"
-                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Datum</label>
-                    <Datepicker options={dateOptions} onChange={handleChange} show={show} setShow={handleClose}/>
-                </div> */}
 
-                <p className="mb-4 mt-8 text-lg font-medium text-gray-900 flex items-center">
-                        Datum(s)
-                        <button
-                            type="button"
-                            onClick={handleAddDate}
-                            className="ml-2 text-black mt-1 font-medium rounded-full flex items-center justify-center"
-                        >
-                            <AiTwotonePlusCircle />
-                        </button>
-                    </p>
-                        <table className="w-full text-sm text-left text-gray-500 light:text-gray-400">
-                            <tbody style={{height: 'wrap-content'}}>
-                            {dates.map((date, index) => (
-                                <tr key={index} className="bg-white border-b light:bg-gray-800 light:border-gray-700">
-                                    <td className="py-2 px-2">
-                                        <Datepicker
-                                            key={index}
-                                            options={dateOptions}
-                                            onChange={(selectedDate) => {
-                                                console.log("Datepicker onChange called with:", selectedDate);
-                                                handleChange(index, selectedDate);
-                                            }} // Ensure `value` is passed correctly
-                                            show={show}
-                                            setShow={handleClose}
-                                            value={date}
-                                        />
-                                    </td>
-                                    <td className="py-2 px-2 justify-center">
-                                        <button
-                                            type="button"
-                                            onClick={() => handleDeleteDate(index)}
-                                            className="justify-center"
-                                        >
-                                            <svg
-                                                className="w-5 h-5 text-danger hover:text-red-600"
-                                                aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <path
-                                                    stroke="currentColor"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
 
-                
-            <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
-            <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+                <div>
+                    <h2 className="text-lg font-medium text-gray-900 light:text-white mt-6">Datums:</h2>
+                    <button
+                        type="button"
+                        className="inline-flex items-center px-2 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none mt-2"
+                        onClick={() => setShowDatePicker(!showDatePicker)}
+                    >
+                        <FaCalendarPlus className="mr-2"/>
+                        Voeg datum toe
+                    </button>
+                    {showDatePicker && (
+                        <DatePicker
+                            value={value}
+                            onChange={handleDateChange}
+                            multiple
+                            sort
+                            style={{marginTop: '10px'}}
+                            portal
+                            portalTarget={document.body}
+                        />
+                    )}
+                </div>
+
+                <div className="mt-2">
+                    <ol className="list-disc list-inside mt-2">
+                        {value.map((date, index) => (
+                            <li key={index} className="text-s text-gray-700 light:text-gray-300">
+                                {formatCustomDate(date)}
+                            </li>
+                        ))}
+                    </ol>
+                </div>
+
+
+
+
+    <button type="submit" onClick={handleSubmit}
+            className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-6 light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Opslaan
+    </button>
+
+
+</form>
+    <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
+    <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
     focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400
     light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
                 <ul>
@@ -602,12 +578,6 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                     onEdit={handleUpdate}
                 />
             )}
-            <button type="submit" onClick={handleSubmit}
-                        className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange">Opslaan
-                </button>
-
-
-            </form>
-        </div> 
+        </div>
     );
 }

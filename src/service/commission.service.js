@@ -81,7 +81,22 @@ const commissionService = {
     getCommissionById: (id, callback) => {
         logger.info('getting commission by id', id);
 
-        const query = 'SELECT c.*, cd.date FROM commission c LEFT JOIN commissionDate cd ON c.id = cd.commissionId WHERE c.id = ?';
+        const query = `
+    SELECT 
+        c.*, 
+        GROUP_CONCAT(cd.date ORDER BY cd.date SEPARATOR ', ') AS dates 
+    FROM 
+        commission c 
+    LEFT JOIN 
+        commissionDate cd 
+    ON 
+        c.id = cd.commissionId 
+    WHERE 
+        c.id = ?
+    GROUP BY 
+        c.id
+`;
+
 
         database.query(query, [id], (error, results, fields) => {
             if (error) {
@@ -93,7 +108,7 @@ const commissionService = {
                     callback(null, {
                         status: 200,
                         message: 'Commissions fetched successfully',
-                        data: results[0],
+                        data: results,
                     });
                 } else {
                     logger.warn('No commission found with id', id);
@@ -328,7 +343,7 @@ const commissionService = {
     },
 
     updateCommissionDates: (commissionId, dates, callback) => {
-        logger.info('updating contact persons for commission', commissionId);
+        logger.info('Updating dates for commission', commissionId);
 
         database.getConnection((err, connection) => {
             if (err) {
@@ -356,12 +371,12 @@ const commissionService = {
                     }
 
                     if (dates.length === 0) {
-                        connection.commit(err => {
-                            if (err) {
-                                logger.error('Error committing transaction', err);
+                        return connection.commit(commitErr => {
+                            if (commitErr) {
+                                logger.error('Error committing transaction', commitErr);
                                 return connection.rollback(() => {
                                     connection.release();
-                                    callback(err, null);
+                                    callback(commitErr, null);
                                 });
                             }
                             connection.release();
@@ -371,11 +386,10 @@ const commissionService = {
                                 data: []
                             });
                         });
-                        return;
                     }
 
                     const insertSql = 'INSERT INTO commissionDate (commissionId, date) VALUES ?';
-                    const values = dates.map(date => [commissionId, date.date]);
+                    const values = dates.map(date => [commissionId, date]);
 
                     connection.query(insertSql, [values], (error, results) => {
                         if (error) {
@@ -386,17 +400,18 @@ const commissionService = {
                             });
                         }
 
-                        connection.commit(err => {
-                            if (err) {
-                                logger.error('Error committing transaction', err);
+                        connection.commit(commitErr => {
+                            if (commitErr) {
+                                logger.error('Error committing transaction', commitErr);
                                 return connection.rollback(() => {
                                     connection.release();
-                                    callback(err, null);
+                                    callback(commitErr, null);
                                 });
                             }
 
                             const insertedDates = dates.map((date, index) => ({
-                                ...date,
+                                commissionId: commissionId,
+                                date: date,
                                 id: results.insertId + index
                             }));
 
