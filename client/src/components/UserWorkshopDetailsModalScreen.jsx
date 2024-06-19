@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {AiTwotoneCalendar, AiTwotoneClockCircle} from "react-icons/ai";
 import {jwtDecode} from "jwt-decode";
 
-export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission, onRefresh, inviteState }) {
+export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission, onRefresh}) {
     const [activeTab, setActiveTab] = useState("workshop"); // Default active tab
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);
     const [workshopRound, setWorkshopRound] = useState({});
@@ -147,7 +147,6 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
             }
         }
 
-        // Assume there's a state setter for buttonText
         setButtonText(buttonText);
     }, [workshopRound, enrollments, workshop.status]);
 
@@ -156,21 +155,12 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
     }
     const userId = user.id;
 
-
-    let buttonText = "";
-
-
-    if (workshopRound && workshopRound.amountOfTeachers <= enrollments.length) {
-        buttonText = "Wachtrij";
-    } else if (workshopRound && workshopRound.amountOfTeachers > enrollments.length) {
-        buttonText = "Aanmelden";
-    }
-    enrollments.map((enrollment) => {
-        if (enrollment.userId === userId) {
-            buttonText = "Afmelden";
-
-        } else {}
-    })
+    const handleModalConfirm = () => {
+        if (confirmAction) {
+            confirmAction();
+        }
+        setShowConfirmModal(false);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -281,7 +271,7 @@ console.log(commission)
                             <div
                                 className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600  ${showWorkshopDetails ? 'border-brand-orange' : 'border-black'}`}>
                                 <button
-                                    onClick={() => setShowWorkshopDetails(true)}
+                                    onClick={() => setShowWorkshopDetails(true) && setActiveTab('workshop')}
                                 >
                                     Workshop Details
                                 </button>
@@ -289,14 +279,14 @@ console.log(commission)
                             <div
                                 className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600 ${!showWorkshopDetails ? 'border-brand-orange' : 'border-black'}`}>
                                 <button
-                                    onClick={() => setShowWorkshopDetails(false)}
+                                    onClick={() => setShowWorkshopDetails(false) && setActiveTab('commission')}
                                 >
                                     Opdracht Details
                                 </button>
                             </div>
                         </div>
                         <div className="p-6 space-y-4 sm:space-y-6">
-                            {activeTab === 'workshop' ? (
+                            {showWorkshopDetails ? (
                                 <>
                                     <h2><strong>Naam:</strong> <br />{workshop.name}</h2>
                                     <h2><strong>Details:</strong> <br />{workshop.description}</h2>
