@@ -1,5 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import ListFooter from "../ListFooter";
+import ConfirmRejectModal_teachers from "../teachers/ConfirmRejectModal_teachers";
+import ConfirmAcceptModal_teachers from "../teachers/ConfirmAcceptModal_teachers";
 
 export default function List_teachers({
                                           isOpen,
@@ -10,8 +12,11 @@ export default function List_teachers({
                                           setUsers,
                                           setRotateSpan,
                                       }) {
-
     const [activeAccordions, setActiveAccordions] = useState([1]); // Defaulting Geaccepteerd to be open
+    const [showRejectModal, setShowRejectModal] = useState(false);
+    const [showAcceptModal, setShowAcceptModal] = useState(false);
+    const [teacherToReject, setTeacherToReject] = useState({});
+    const [teacherToAccept, setTeacherToAccept] = useState({});
 
     const fetchUsers = () => {
         fetch("/api/user")
@@ -22,6 +27,7 @@ export default function List_teachers({
             })
             .catch((error) => console.error("Error fetching data:", error));
     };
+
     const fetchEmailTemplate = () => {
         return fetch('/api/mailTemplate/17')
             .then(res => {
@@ -33,7 +39,7 @@ export default function List_teachers({
             .then(data => {
                 console.log("Fetched mail template:", data);
                 // Ensure to return the template content string
-                return {content: data.data.content, subject: data.data.subject};
+                return { content: data.data.content, subject: data.data.subject };
             })
             .catch(error => console.error('Error fetching data:', error));
     };
@@ -46,7 +52,6 @@ export default function List_teachers({
             return placeholders[key] || '';
         });
     };
-
 
     useEffect(() => {
         fetchUsers();
@@ -61,71 +66,97 @@ export default function List_teachers({
 
     const formatDate = (date) => {
         if (!date) return "";
-        const options = {year: "numeric", month: "long", day: "numeric"};
+        const options = { year: "numeric", month: "long", day: "numeric" };
         return new Date(date).toLocaleDateString("nl-NL", options);
     };
 
     const acceptedTeachers = users.filter((user) => user.isAccepted === 1);
     const pendingTeachers = users.filter((user) => user.isAccepted === 0);
 
-    const handleRejectClick = (e, userId) => {
-        e.preventDefault();
-        fetch(`/api/user/delete/${userId}`, {
+    const handleRejectClick = (user) => {
+        setTeacherToReject(user);
+        setShowRejectModal(true);
+    };
+
+    const handleAcceptClick = (user) => {
+        setTeacherToAccept(user);
+        setShowAcceptModal(true);
+    };
+
+    const sendAcceptEmail = async (user) => {
+        try {
+            const { content, subject } = await fetchEmailTemplate();
+
+            const placeholders = {
+                FirstName: user.firstName,
+            };
+            const emailBody = replaceTemplatePlaceholders(content, placeholders);
+            const mailData = {
+                email: user.email,
+                subject: subject,
+                message: emailBody,
+            };
+
+            const emailResponse = await fetch('/api/mail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(mailData),
+            });
+
+            if (!emailResponse.ok) {
+                throw new Error('Failed to send email');
+            }
+
+            const emailData = await emailResponse.json();
+            console.log('Email sent successfully:', emailData);
+
+        } catch (error) {
+            console.error('Error sending email:', error);
+        }
+    };
+
+    const handleRejectModalClose = () => {
+        setShowRejectModal(false);
+    };
+
+    const handleAcceptModalClose = () => {
+        setShowAcceptModal(false);
+    };
+
+    const handleConfirmReject = (reason) => {
+        fetch(`/api/user/delete/${teacherToReject.id}`, {
             method: "DELETE",
         })
             .then((res) => res.json())
             .then((data) => {
-
                 fetchUsers();
-
+                setShowRejectModal(false); // Close modal after successful deletion
             })
             .catch((error) => console.error("Error rejecting user:", error));
     };
 
-    const handleAcceptClick = (e, user) => {
-        e.preventDefault();
-        fetch(`/api/user/accept/${user.id}`, {
-            method: "POST",
-        })
-            .then((res) => res.json())
-            .then(async (data) => {
-                fetchUsers();
+    const handleConfirmAccept = async () => {
+        try {
+            const acceptResponse = await fetch(`/api/user/accept/${teacherToAccept.id}`, {
+                method: "POST",
+            });
 
+            if (!acceptResponse.ok) {
+                throw new Error('Failed to accept user');
+            }
 
-                const {content, subject} = await fetchEmailTemplate();
+            await sendAcceptEmail(teacherToAccept);
 
-                // Log template to check its type
-                console.log("Template type:", typeof content);
-                console.log("Template content:", content);
+            fetchUsers(); // Refresh the user list after accepting
+            setShowAcceptModal(false); // Close modal after successful acceptance
 
-                const placeholders = {
-                    FirstName: user.firstName,
-                };
-                const emailBody = replaceTemplatePlaceholders(content, placeholders);
-                const mailData = {
-                    email: user.email,
-                    subject: subject,
-                    message: emailBody,
-                };
-                const emailResponse = await fetch('/api/mail', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(mailData),
-                });
-
-                if (!emailResponse.ok) {
-                    throw new Error('Failed to send email');
-                }
-                const emailData = await emailResponse.json();
-                console.log('Email sent successfully:', emailData);
-                alert("Send Successfully!");
-
-
-            })
-            .catch((error) => console.error("Error accepting user:", error));
+        } catch (error) {
+            console.error("Error accepting user:", error);
+        }
     };
+
     const toggleAccordion = (index) => {
         if (activeAccordions.includes(index)) {
             setActiveAccordions(activeAccordions.filter((item) => item !== index));
@@ -169,7 +200,7 @@ export default function List_teachers({
                         <th className="px-6 py-3 hidden lg:table-cell">Telefoonnummer</th>
                         <th className="px-6 py-3 hidden lg:table-cell">Geboortedatum</th>
                         <th className="px-6 py-3">Bewerken</th>
-                        {isActive && <th className="px-6 py-3 text-right">Actie</th>}
+                        {isActive && title === 'Aanvragen' && <th className="px-6 py-3 text-right">Actie</th>}
                     </tr>
                     </thead>
                     <tbody>
@@ -194,16 +225,16 @@ export default function List_teachers({
                                     Bewerken
                                 </a>
                             </td>
-                            {isActive && (
+                            {isActive && title === 'Aanvragen' && (
                                 <td className="px-6 py-4 text-right">
                                     <button
-                                        onClick={(e) => handleAcceptClick(e, user)}
+                                        onClick={() => handleAcceptClick(user)}
                                         className="bg-custom-blue text-white px-2 py-1 rounded mr-2"
                                     >
                                         Accepteren
                                     </button>
                                     <button
-                                        onClick={(e) => handleRejectClick(e, user)}
+                                        onClick={() => handleRejectClick(user)}
                                         className="bg-custom-red text-white px-2 py-1 rounded"
                                     >
                                         Weigeren
@@ -222,7 +253,28 @@ export default function List_teachers({
         <div className="relative overflow-x-auto shadow-md rounded-lg mx-3">
             {renderAccordionItem('Aanvragen', pendingTeachers, 0, activeAccordions.includes(0))}
             {renderAccordionItem('Geaccepteerd', acceptedTeachers, 1, activeAccordions.includes(1))}
+
+            {showRejectModal && (
+                <div>
+                    <ConfirmRejectModal_teachers
+                        onClose={handleRejectModalClose}
+                        onConfirm={handleConfirmReject}
+                        teacher={teacherToReject}
+                        setUsers={setUsers}
+                    />
+                </div>
+            )}
+
+            {showAcceptModal && (
+                <div>
+                    <ConfirmAcceptModal_teachers
+                        onClose={handleAcceptModalClose}
+                        onConfirm={handleConfirmAccept}
+                        teacher={teacherToAccept}
+                        setUsers={setUsers}
+                    />
+                </div>
+            )}
         </div>
     );
-
 }

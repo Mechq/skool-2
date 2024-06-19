@@ -74,7 +74,7 @@ export default function AccountConfirmation({ formData, postRequest }) {
     return (
         <>
             <div>
-                <h1>Account aangemaakt</h1>
+                <h1>Account aangevraagd</h1>
             </div>
 
             <button onClick={() => window.location.replace("/login")}
