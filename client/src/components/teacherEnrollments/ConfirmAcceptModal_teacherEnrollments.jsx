@@ -49,7 +49,7 @@ export default function ConfirmAcceptModal_teacherEnrollments({ onClose, onConfi
                             </h2>
 
                             <button type="submit" onClick={handleAccept}
-                                    className="w-full text-white bg-custom-blue hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800">
+                                    className="w-full text-white bg-custom-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800">
                                 Accepteren
                             </button>
                         </div>
