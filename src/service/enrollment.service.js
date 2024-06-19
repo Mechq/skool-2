@@ -103,6 +103,36 @@ let enrollmentService = {
               }
             );
           });
+    },
+    getUserEnrollments: (userId, callback) => {
+        logger.info("getting all enrollments for user", userId);
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+              logger.error("Error getting enrollments for user", err);
+              callback(err, null);
+              return;
+            }
+
+            connection.query(
+`SELECT e.id AS enrollmentId, u.id AS userId, cw.commissionId AS commissionId, cw.workshopId AS workshopId FROM enrollment AS e JOIN user AS u ON e.userId = u.id JOIN commissionWorkshop AS cw ON e.commissionWorkshopId = cw.id AND e.userId = ?;`,
+              [userId],
+              function (error, results, fields) {
+                connection.release();
+
+                if (error) {
+                  logger.error("Error getting enrollments for user", error);
+                  callback(error, null);
+                } else {
+                  callback(null, {
+                    status: 200,
+                    message: `${results.length} enrollments retrieved`,
+                    data: results,
+                  });
+                }
+              }
+            );
+          });
     }
 }
 

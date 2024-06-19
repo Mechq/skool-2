@@ -67,6 +67,28 @@ let enrollmentController = {
                 });
             }
         });
+    },
+    getUserEnrollments: (req, res, next) => {
+        const userId = req.params.userId;
+        logger.info("getting user enrollments", userId);
+
+        enrollmentService.getUserEnrollments(userId, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
     }
 
 }
