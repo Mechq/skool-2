@@ -17,6 +17,7 @@ import TeacherEnrollments from "./pages/teacherEnrollments";
 import Workshops from "./pages/workshops";
 import Invites from "./pages/invites";
 import TempMail from "./pages/tempMailer";
+import UserEnrolledWorkshops from "./pages/userEnrolledWorkshops";
 
 function App() {
     const location = useLocation();
@@ -91,6 +92,8 @@ function App() {
                            element={<ProtectedRoute access="teacher"><Invites/></ProtectedRoute>}/>
                     <Route path='/mail'
                            element={<ProtectedRoute access="everyone"><TempMail/></ProtectedRoute>}/>
+                    <Route path='/mijn-opdrachten'
+                           element={<ProtectedRoute access="everyone"><UserEnrolledWorkshops/></ProtectedRoute>}/>
                 </Routes>
             </div>
         </div>

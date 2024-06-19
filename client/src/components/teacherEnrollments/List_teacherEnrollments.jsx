@@ -3,10 +3,10 @@ import ConfirmRejectModal_teacherEnrollments from "./ConfirmRejectModal_teacherE
 import ConfirmAcceptModal_teacherEnrollments from "./ConfirmAcceptModal_teacherEnrollments";
 
 export default function List_teacherEnrollments({
-                                                    isOpen,
-                                                    enrollments,
-                                                    setEnrollments,
-                                                }) {
+    isOpen,
+    enrollments,
+    setEnrollments,
+}) {
     const [showRejectModal, setShowRejectModal] = useState(false);
     const [showAcceptModal, setShowAcceptModal] = useState(false);
     const [enrollmentToReject, setEnrollmentToReject] = useState({});
@@ -40,8 +40,7 @@ export default function List_teacherEnrollments({
         };
 
         fetchData();
-    }, []);
-
+    }, [setEnrollments]);
 
     const formatDate = (date) => {
         if (!date) return "";
@@ -49,16 +48,26 @@ export default function List_teacherEnrollments({
         return new Date(date).toLocaleDateString("nl-NL", options);
     };
 
-    // Group enrollments by commissionWorkshopId
-    const groupedEnrollments = enrollments.reduce((acc, enrollment) => {
-        const { date, workshopName, customer } = enrollment;
-        const groupKey = `${formatDate(date)}: ${customer} - ${workshopName}`;
-        if (!acc[groupKey]) {
-            acc[groupKey] = [];
-        }
-        acc[groupKey].push(enrollment);
-        return acc;
-    }, {});
+    // Group and sort enrollments by commissionId and workshopName
+    const groupedEnrollments = enrollments
+        .sort((a, b) => {
+            if (a.commissionId !== b.commissionId) {
+                return a.commissionId - b.commissionId;
+            }
+            return a.workshopName.localeCompare(b.workshopName);
+        })
+        .reduce((acc, enrollment) => {
+            const { commissionId, date, workshopName, firstName, lastName } = enrollment;
+            const groupKey = `${commissionId}-${workshopName}`;
+            if (!acc[groupKey]) {
+                acc[groupKey] = {
+                    commissionDetails: `${firstName} ${lastName} - ${workshopName}`,
+                    enrollments: []
+                };
+            }
+            acc[groupKey].enrollments.push(enrollment);
+            return acc;
+        }, {});
 
     const handleRejectClick = (e, enrollment) => {
         e.preventDefault();
@@ -173,33 +182,43 @@ export default function List_teacherEnrollments({
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             {Object.keys(groupedEnrollments).map((groupKey) => (
                 <div key={groupKey}>
-                    <h2 className="text-lg font-semibold my-4">
-                        {groupKey}
-                    </h2>
+                    <div className="flex justify-between items-center my-4">
+                        <h2 className="text-lg font-semibold">
+                            {groupedEnrollments[groupKey].commissionDetails}
+                        </h2>
+                        <div className="flex gap-2">
+                            <button 
+                                onClick={(e) => handleAcceptClick(e, groupedEnrollments[groupKey].enrollments[0])}
+                                className="bg-custom-blue text-white px-2 py-1 rounded"
+                            >
+                                Accepteren
+                            </button>
+                            <button 
+                                onClick={(e) => handleRejectClick(e, groupedEnrollments[groupKey].enrollments[0])}
+                                className="bg-custom-red text-white px-2 py-1 rounded"
+                            >
+                                Weigeren
+                            </button>
+                        </div>
+                    </div>
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
                         <tr>
-                            <th className="px-6 py-3">Naam</th>
-                            <th className="px-6 py-3 text-right">Actie</th>
+                            <th className="px-6 py-3">Klant</th>
+                            <th className="px-6 py-3">Datum</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {groupedEnrollments[groupKey].map((enrollment) => (
+                        {groupedEnrollments[groupKey].enrollments.map((enrollment) => (
                             <tr
                                 key={enrollment.id}
                                 className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700"
                             >
-                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
-                                    {enrollment.firstName + ' ' + enrollment.lastName}
+                                <td className="px-6 py-4">
+                                    {enrollment.customer}
                                 </td>
-                                <td className="px-6 py-4 text-right">
-                                    {/* Placeholder for accept/reject buttons */}
-                                    <button onClick={(e) => handleAcceptClick(e, enrollment)}
-                                            className="bg-custom-blue text-white px-2 py-1 rounded mr-2">Accepteren
-                                    </button>
-                                    <button onClick={(e) => handleRejectClick(e, enrollment)}
-                                            className="bg-custom-red text-white px-2 py-1 rounded">Weigeren
-                                    </button>
+                                <td className="px-6 py-4">
+                                    {formatDate(enrollment.date)}
                                 </td>
                             </tr>
                         ))}
