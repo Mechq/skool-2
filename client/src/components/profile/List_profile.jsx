@@ -22,7 +22,7 @@ export default function List_profile({ user, editProfile, languages, setLanguage
                             {user.firstName + ' ' + user.lastName + ' (' + calculate_age(new Date(user.birthDate)) + ' jaar)'}
                         </h3>
                         <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                            {user.role === 'teacher' ? 'WorkshopTemplates docent' : (user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : '')}
+                            {user.role === 'teacher' ? 'docent' : (user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : '')}
                         </p>
                     </div>
                     <div className="border-t border-gray-200">
