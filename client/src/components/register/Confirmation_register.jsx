@@ -60,6 +60,24 @@ export default function AccountConfirmation({ formData, postRequest }) {
                 try {
                     await createDatabaseAccount();
                     await createUserLanguageQualifications();
+                    // post a mail
+                        const mailMessage = '<p>Er is een account aangevraagd, ga naar <a href="https://skool-2.studententuin.nl/workshop-docenten">Workshopdocenten pagina</a> om deze te bekijken.</p>';
+                    const mail = {
+                        // TODO set email to the admin email
+                        email: 'dymokilan@gmail.com',
+                        subject: "Account aangevraagd",
+                        message: mailMessage,
+                    };
+                    await fetch('/api/mail', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(mail),
+                    });
+
+
+
                     setHasPosted(true);
                 }
                 catch (error) {
