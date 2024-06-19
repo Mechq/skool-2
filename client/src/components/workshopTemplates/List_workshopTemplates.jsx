@@ -116,7 +116,7 @@ export default function List_workshopTemplates({
             >
                 <div
                     className={`p-5 border border-gray-200 light:border-gray-700 light:bg-gray-900 ${index === totalCategories - 1 ? '' : 'border-b-0'}`}>
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <div className="relative overflow-x-auto shadow-sm ">
                         {categorizedWorkshops[category].length > 0 && (
                             <table
                                 className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">

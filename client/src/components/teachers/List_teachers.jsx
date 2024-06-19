@@ -166,7 +166,7 @@ export default function List_teachers({
     };
 
     const renderAccordionItem = (title, users, index, isActive) => (
-        <div key={index} className="mb-4">
+        <div key={index} className="">
             <h2>
                 <button
                     type="button"
@@ -192,59 +192,63 @@ export default function List_teachers({
                 className={`p-5 border border-gray-200 light:border-gray-700 light:bg-gray-900 ${isActive ? '' : 'hidden'} ${isActive && index === 0 ? 'rounded-b-lg' : ''}`}
                 aria-labelledby={`accordion-collapse-heading-${index}`}
             >
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
-                    <tr>
-                        <th className="px-6 py-3">Workshopdocent</th>
-                        <th className="px-6 py-3">Email</th>
-                        <th className="px-6 py-3 hidden lg:table-cell">Telefoonnummer</th>
-                        <th className="px-6 py-3 hidden lg:table-cell">Geboortedatum</th>
-                        <th className="px-6 py-3">Bewerken</th>
-                        {isActive && title === 'Aanvragen' && <th className="px-6 py-3 text-right">Actie</th>}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {users.map((user) => (
-                        <tr
-                            key={user.id}
-                            className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700"
-                        >
-                            <td className="px-6 py-4">{user.firstName + " " + user.lastName}</td>
-                            <td className="px-6 py-4">{user.email}</td>
-                            <td className="px-6 py-4 hidden lg:table-cell">{user.phoneNumber}</td>
-                            <td className="px-6 py-4 hidden lg:table-cell">{formatDate(user.birthDate)}</td>
-                            <td className="px-6 py-4">
-                                <a
-                                    href="#"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        editTeacher(user.id);
-                                    }}
-                                    className="font-medium text-[#f49700] light:text-[#f49700] hover:underline"
-                                >
-                                    Bewerken
-                                </a>
-                            </td>
-                            {isActive && title === 'Aanvragen' && (
-                                <td className="px-6 py-4 text-right">
-                                    <button
-                                        onClick={() => handleAcceptClick(user)}
-                                        className="bg-custom-blue text-white px-2 py-1 rounded mr-2"
-                                    >
-                                        Accepteren
-                                    </button>
-                                    <button
-                                        onClick={() => handleRejectClick(user)}
-                                        className="bg-custom-red text-white px-2 py-1 rounded"
-                                    >
-                                        Weigeren
-                                    </button>
-                                </td>
-                            )}
+                <div className="relative overflow-x-auto shadow-sm ">
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
+                        <thead
+                            className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
+                        <tr>
+                            <th className="px-6 py-3">Workshopdocent</th>
+                            <th className="px-6 py-3">Email</th>
+                            <th className="px-6 py-3 hidden lg:table-cell">Telefoonnummer</th>
+                            <th className="px-6 py-3 hidden lg:table-cell">Geboortedatum</th>
+                            <th className="px-6 py-3">Bewerken</th>
+                            {isActive && title === 'Aanvragen' && <th className="px-6 py-3 text-right">Actie</th>}
                         </tr>
-                    ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {users.map((user) => (
+                            <tr
+                                key={user.id}
+                                className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700"
+                            >
+                                <td className="px-6 py-4">{user.firstName + " " + user.lastName}</td>
+                                <td className="px-6 py-4">{user.email}</td>
+                                <td className="px-6 py-4 hidden lg:table-cell">{user.phoneNumber}</td>
+                                <td className="px-6 py-4 hidden lg:table-cell">{formatDate(user.birthDate)}</td>
+                                <td className="px-6 py-4">
+                                    <a
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            editTeacher(user.id);
+                                        }}
+                                        className="font-medium text-[#f49700] light:text-[#f49700] hover:underline"
+                                    >
+                                        Bewerken
+                                    </a>
+                                </td>
+                                {isActive && title === 'Aanvragen' && (
+                                    <td className="px-6 py-4 text-right">
+                                        <button
+                                            onClick={() => handleAcceptClick(user)}
+                                            className="bg-custom-blue text-white px-2 py-1 rounded mr-2"
+                                        >
+                                            Accepteren
+                                        </button>
+                                        <button
+                                            onClick={() => handleRejectClick(user)}
+                                            className="bg-custom-red text-white px-2 py-1 rounded"
+                                        >
+                                            Weigeren
+                                        </button>
+                                    </td>
+                                )}
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     );
