@@ -72,49 +72,64 @@ export default function RoundEditModal_commissions({roundType, roundId, onClose,
 
     else {
         return (
-            <div className="round-edit-modal">
-                <div className="modal-content">
-        <span className="close" onClick={onClose}>
-          &times;
-        </span>
-                    <header>Bewerk {editedRound}</header>
+            <div className="round-edit-modal fixed inset-0 z-10 flex items-center justify-center bg-gray-900 bg-opacity-15">
+                <div className="modal-content bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
+            <span className="close text-xl cursor-pointer" onClick={onClose}>
+                &times;
+            </span>
+                    <header className="text-xl font-medium mb-4">Bewerk {editedRound}</header>
 
                     <form onSubmit={handleSubmit}>
-                        <p>Starttijd</p>
-                        <input
-                            type="text"
-                            value={startTime}
-                            placeholder="Starttijd"
-                            onChange={(e) => {
-                                setStartTime(e.target.value);
-                                handleStartTimeChange(e);
-                            }}
-                        />
-                        <p>Tijdsduur</p>
-                        <input
-                            type="text"
-                            value={duration}
-                            placeholder="Tijdsduur"
-                            onChange={(e) => {
-                                setDuration(e.target.value);
-                                handleDurationChange(e);
-                            }}
-                        />
-
-                        <input
-                            type="text"
-                            value={endTime}
-                            placeholder="Eindtijd"
-                            readOnly
-                        />
+                        <div className="mb-3">
+                            <label htmlFor="startTime" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Starttijd</label>
+                            <input
+                                id="startTime"
+                                type="text"
+                                value={startTime}
+                                placeholder="Starttijd"
+                                onChange={(e) => {
+                                    setStartTime(e.target.value);
+                                    handleStartTimeChange(e);
+                                }}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="duration" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Tijdsduur (minuten)</label>
+                            <input
+                                id="duration"
+                                type="text"
+                                value={duration}
+                                placeholder="Tijdsduur"
+                                onChange={(e) => {
+                                    setDuration(e.target.value);
+                                    handleDurationChange(e);
+                                }}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            />
+                        </div>
+                        <div className="mb-6">
+                            <label htmlFor="endTime" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Eindtijd</label>
+                            <input
+                                id="endTime"
+                                type="text"
+                                value={endTime}
+                                placeholder="Eindtijd"
+                                readOnly
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            />
+                        </div>
                         <button
-                            className="text-white bg-brand-orange hover:bg-brand-orange focus:outline-none focus:ring-brand-orange font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center light:bg-brand-orange light:hover:bg-brand-orange light:focus:ring-brand-orange mt-4"
-                            type="submit">Opslaan
+                            type="submit"
+                            className="text-white bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center light:bg-blue-600 light:hover:bg-blue-700 light:focus:ring-blue-800"
+                        >
+                            Opslaan
                         </button>
                     </form>
                 </div>
             </div>
         );
+
 
     }
 }
