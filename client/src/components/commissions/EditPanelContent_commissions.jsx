@@ -4,7 +4,6 @@ import RoundEditModal from "./RoundEditModal_commissions";
 import WorkshopRoundEditModal_commissions from "./WorkshopRoundEditModal_commissions";
 import WorkshopRoundWorkshopEditModal from "./WorkshopEditModal_commissions"
 import {AiOutlineClose, AiTwotonePlusCircle} from "react-icons/ai";
-import { use } from "chai";
 import DatePicker from "react-multi-date-picker";
 import {FaCalendarPlus} from "react-icons/fa";
 
@@ -40,7 +39,10 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
 
     const [value, setValue] = useState([new Date()]);
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const datePickerRef = useRef(null);
     const [show, setShow] = useState(false);
+
+
 
     const handleClose = (state) => {
         setShow(state);
@@ -240,8 +242,6 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     };
 
     const handleOptionClick = (option) => {
-
-
         setShowOptions(false);
         let order = 0
         if (orders.length > 0) {
@@ -387,7 +387,6 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
             }
         });
         setValue(formattedDates);
-        setShowDatePicker(false); // Close DatePicker after selecting dates
     };
 
     return (
@@ -471,18 +470,23 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                     <button
                         type="button"
                         className="inline-flex items-center px-2 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none mt-2"
-                        onClick={() => setShowDatePicker(!showDatePicker)}
+                        onClick={() => {
+                            setShowDatePicker(!showDatePicker)
+                        }}
                     >
                         <FaCalendarPlus className="mr-2"/>
                         Voeg datum toe
                     </button>
                     {showDatePicker && (
                         <DatePicker
+                            ref={datePickerRef}
                             value={value}
                             onChange={handleDateChange}
                             multiple
                             sort
-                            style={{marginTop: '10px'}}
+                            style={{
+                                marginTop: "10px"
+                            }}
                             portal
                             portalTarget={document.body}
                         />
@@ -490,7 +494,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                 </div>
 
                 <div className="mt-2">
-                    <ol className="list-disc list-inside mt-2">
+                    <ol className="max-w-md space-y-1 text-gray-500 list-disc list-inside light:text-gray-400">
                         {value.map((date, index) => (
                             <li key={index} className="text-s text-gray-700 light:text-gray-300">
                                 {formatCustomDate(date)}
