@@ -137,35 +137,47 @@ export default function InviteModal_workshops({onClose, onSave, commissionWorksh
 
     return (
         <>
-            <div className="fixed inset-0 z-10 bg-gray-900 bg-opacity-15" onClick={onClose}/>
+            <div className="fixed inset-0 z-10 bg-gray-900 bg-opacity-15" onClick={onClose} />
             <section className="w-full h-full flex items-center justify-center fixed top-0 left-0 z-20">
                 <div className="flex flex-col items-center justify-center w-80">
-                    <div
-                        className="w-full bg-white rounded-lg shadow light:border light:bg-gray-800 light:border-gray-700">
+                    <div className="w-full bg-white rounded-lg shadow light:bg-gray-800 light:border light:border-gray-700">
                         <div className="p-6 space-y-4 sm:space-y-6">
-                            <span className="close text-xl" onClick={onClose}>&times;</span>
-                            <h1 className="text-xl font-medium m-0 p-0"
-                                style={{marginTop: 0}}>{'Docent uitnodigen voor workshop ' + commissionWorkshop.workshopName}</h1>
-                            <h2 className="">
+                            <span className="close text-xl" onClick={onClose}>
+                                &times;
+                            </span>
+                            <h1 className="text-xl font-medium m-0 p-0" style={{ marginTop: 0 }}>
+                                {'Docent uitnodigen voor workshop ' + commissionWorkshop.workshopName}
+                            </h1>
+                            <h2>
                                 {'Datum: ' + formatDate(commissionWorkshop.date)}
-                                <br/>
+                                <br />
                                 {'Klant: ' + commissionWorkshop.customerName}
                             </h2>
 
-                            <label htmlFor="teacherSelect" className="block mb-2">Selecteer docent:</label>
-                            <select id="teacherSelect" className="w-full mb-4" value={selectedTeacher}
-                                    onChange={(e) => setSelectedTeacher(e.target.value)}>
+                            <label htmlFor="teacherSelect" className="block mb-2 text-sm font-medium text-gray-900 light:text-white">
+                                Selecteer docent:
+                            </label>
+                            <select
+                                id="teacherSelect"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                                value={selectedTeacher}
+                                onChange={(e) => setSelectedTeacher(e.target.value)}
+                            >
                                 <option value="">Selecteer een docent</option>
-                                {users.map(user => (
-                                    <option key={user.id} value={user.id}>{user.firstName} {user.lastName}</option>
+                                {users.map((user) => (
+                                    <option key={user.id} value={user.id}>
+                                        {user.firstName} {user.lastName}
+                                    </option>
                                 ))}
                             </select>
 
-                            <button type="delete" onClick={handleInvite}
-                                    className="w-full text-white bg-brand-orange hover:bg-primary-700 focus:ring-4 :outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800">
+                            <button
+                                type="button"
+                                onClick={handleInvite}
+                                className="w-full text-white bg-brand-orange hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800"
+                            >
                                 Uitnodigen
                             </button>
-
                         </div>
                     </div>
                 </div>
