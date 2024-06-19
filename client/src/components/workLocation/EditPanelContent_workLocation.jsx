@@ -111,14 +111,14 @@ function EditPanelWorkLocationContent({setWorkLocations, locationId, setShowSide
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Locatie
                         naam</label>
                     <input type="text" id="locationName" value={name} onChange={(e) => setName(e.target.value)}
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                            placeholder="Hoofdkantoor A" required/>
                 </div>
                 <div className="mb-6">
                     <label htmlFor="customerName"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Klant naam</label>
                     <select id="customer" value={selectedCustomerId} onChange={handleCustomerChange}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                             required>
                         <option value="" disabled>Selecteer klant</option>
                         {customers.map((customer) => (
@@ -133,14 +133,14 @@ function EditPanelWorkLocationContent({setWorkLocations, locationId, setShowSide
                         <label htmlFor="street"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Straat</label>
                         <input type="text" id="street" value={name} onChange={(e) => setName(e.target.value)}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                                placeholder="Dorpstraat" required/>
                     </div>
                     <div>
                         <label htmlFor="houseNumber"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Huisnummer</label>
                         <input type="text" id="houseNumber" value={street} onChange={(e) => setStreet(e.target.value)}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                                placeholder="1" required/>
                     </div>
                     <div>
@@ -148,14 +148,14 @@ function EditPanelWorkLocationContent({setWorkLocations, locationId, setShowSide
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Postcode</label>
                         <input type="text" id="postalCode" value={houseNumber}
                                onChange={(e) => setHouseNumber(e.target.value)}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                                placeholder="1234 AB" required/>
                     </div>
                     <div>
                         <label htmlFor="city"
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">City</label>
                         <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                                placeholder="Roelofarendsveen" required/>
                     </div>
                 </div>
@@ -169,7 +169,7 @@ function EditPanelWorkLocationContent({setWorkLocations, locationId, setShowSide
                                   setDescription(e.target.value);
                               }}
                               rows="2"
-                              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-brand-orange-light focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                               placeholder="Beschrijving...">
                     </textarea>
                 </div>

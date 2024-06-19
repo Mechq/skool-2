@@ -237,19 +237,21 @@ export default function List_teachers({
                                     </a>
                                 </td>
                                 {isActive && title === 'Aanvragen' && (
-                                    <td className="px-6 py-4 text-right">
-                                        <button
-                                            onClick={() => handleAcceptClick(user)}
-                                            className="bg-custom-blue text-white px-2 py-1 rounded mr-2"
-                                        >
-                                            Accepteren
-                                        </button>
-                                        <button
-                                            onClick={() => handleRejectClick(user)}
-                                            className="bg-custom-red text-white px-2 py-1 rounded"
-                                        >
-                                            Weigeren
-                                        </button>
+                                    <td className="px-6 py-4">
+                                        <div className="inline-flex space-x-2">
+                                            <button
+                                                onClick={() => handleAcceptClick(user)}
+                                                className="bg-custom-blue text-white px-2 py-1 rounded w-24"
+                                            >
+                                                Accepteren
+                                            </button>
+                                            <button
+                                                onClick={() => handleRejectClick(user)}
+                                                className="bg-custom-red text-white px-2 py-1 rounded w-24"
+                                            >
+                                                Weigeren
+                                            </button>
+                                        </div>
                                     </td>
                                 )}
                             </tr>

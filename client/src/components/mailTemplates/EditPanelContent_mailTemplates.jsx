@@ -83,19 +83,19 @@ function EditMailTemplatePanelContent({ mailTemplateId, setShowSidePanel }) {
                 <div className="mb-6">
                     <label htmlFor="templateName" className="block mb-2 text-sm font-medium text-gray-900">Template naam</label>
                     <input type="text" id="templateName" value={name} onChange={e => setName(e.target.value)}
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                            placeholder="Bevestigings mail" required/>
                 </div>
                 <div className="mb-6">
                     <label htmlFor="subject" className="block mb-2 text-sm font-medium text-gray-900">Onderwerp</label>
                     <input type="text" id="subject" value={subject} onChange={e => setSubject(e.target.value)}
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                            placeholder="Bevestiging {workshop} op {executionDate}" required/>
                 </div>
                 <div className="mb-6">
                     <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900">Inhoud</label>
 
-                    <ReactQuill className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    <ReactQuill className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 theme="snow"
                                 modules={modules}
                                 formats={formats}

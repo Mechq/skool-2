@@ -54,7 +54,7 @@ export default function ConfirmRejectModal_teacherEnrollments({ onClose, onConfi
                             <label htmlFor="reason"
                                    className="block text-sm font-medium text-gray-900 light:text-white">Reden</label>
                             <textarea id="reason" rows="4"
-                                      className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500 resize-none"
+                                      className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-brand-orange-light focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500 resize-none"
                                       placeholder="Voer hier een reden in..."
                                       value={reason} onChange={(e) => setReason(e.target.value)}></textarea>
 

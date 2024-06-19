@@ -77,7 +77,7 @@ export default function CreatePanelContent_workshopTemplates({setWorkshops, setS
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Workshop
                             naam</label>
                         <input type="text" id="workshopName"
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                                placeholder="Moderne Dans" required/>
                     </div>
                     <div>
@@ -85,7 +85,7 @@ export default function CreatePanelContent_workshopTemplates({setWorkshops, setS
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Kies een
                             categorie</label>
                         <select id="category" required={true}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500">
                             <option value="">Selecteer een categorie</option>
                             {categories.map((category, index) => (
                                 <option key={index} value={category}>{category}</option>
@@ -98,7 +98,7 @@ export default function CreatePanelContent_workshopTemplates({setWorkshops, setS
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Beschrijving
                         workshop</label>
                     <textarea id="description" rows="20"
-                              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-brand-orange-light focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                               placeholder="Beschrijving..."></textarea>
                 </div>
                 <div className="mb-6">
@@ -106,7 +106,7 @@ export default function CreatePanelContent_workshopTemplates({setWorkshops, setS
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Materiaal en
                         benodigdheden</label>
                     <input type="text" id="materials"
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                            placeholder="Microfoon, Speaker..." required/>
                 </div>
 

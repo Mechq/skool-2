@@ -126,7 +126,7 @@ function EditPanelContent_customers({customerId, setShowSidePanel}) {
                     <div className="mb-6">
                         <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">Naam</label>
                         <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                required/>
                     </div>
                     <div className="grid gap-6 mb-6 md:grid-cols-2">
@@ -135,14 +135,14 @@ function EditPanelContent_customers({customerId, setShowSidePanel}) {
                                 naam</label>
                             <input type="text" id="locationName" value={locationName}
                                    onChange={(e) => setLocationName(e.target.value)}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                    required/>
                         </div>
                         <div>
                             <label htmlFor="street"
                                    className="block mb-2 text-sm font-medium text-gray-900">Straatnaam</label>
                             <input type="text" id="street" value={street} onChange={(e) => setStreet(e.target.value)}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                    required/>
                         </div>
                         <div>
@@ -150,7 +150,7 @@ function EditPanelContent_customers({customerId, setShowSidePanel}) {
                                    className="block mb-2 text-sm font-medium text-gray-900">Huisnummer</label>
                             <input type="text" id="houseNumber" value={houseNumber}
                                    onChange={(e) => setHouseNumber(e.target.value)}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                    required/>
                         </div>
                         <div>
@@ -158,21 +158,21 @@ function EditPanelContent_customers({customerId, setShowSidePanel}) {
                                    className="block mb-2 text-sm font-medium text-gray-900">Postcode</label>
                             <input type="text" id="postalCode" value={postalCode}
                                    onChange={(e) => setPostalCode(e.target.value)}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                    required/>
                         </div>
                         <div>
                             <label htmlFor="city"
                                    className="block mb-2 text-sm font-medium text-gray-900">Woonplaats</label>
                             <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                    required/>
                         </div>
                         <div>
                             <label htmlFor="email"
                                    className="block mb-2 text-sm font-medium text-gray-900">E-mail</label>
                             <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                    required/>
                         </div>
                         <div>
@@ -180,7 +180,7 @@ function EditPanelContent_customers({customerId, setShowSidePanel}) {
                                    className="block mb-2 text-sm font-medium text-gray-900">Telefoonnummer</label>
                             <input type="text" id="phoneNumber" value={phoneNumber}
                                    onChange={(e) => setPhoneNumber(e.target.value)}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                    required/>
                         </div>
                     </div>
@@ -214,7 +214,7 @@ function EditPanelContent_customers({customerId, setShowSidePanel}) {
                                             type="text"
                                             value={contact.name}
                                             onChange={(e) => handleContactPersonChange(index, 'name', e.target.value)}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                             required
                                         />
                                     </td>
@@ -223,7 +223,7 @@ function EditPanelContent_customers({customerId, setShowSidePanel}) {
                                             type="email"
                                             value={contact.email}
                                             onChange={(e) => handleContactPersonChange(index, 'email', e.target.value)}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                             required
                                         />
                                     </td>
@@ -232,7 +232,7 @@ function EditPanelContent_customers({customerId, setShowSidePanel}) {
                                             type="text"
                                             value={contact.phoneNumber}
                                             onChange={(e) => handleContactPersonChange(index, 'phoneNumber', e.target.value)}
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                             required
                                         />
                                     </td>
