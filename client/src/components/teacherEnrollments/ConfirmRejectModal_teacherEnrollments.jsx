@@ -9,15 +9,17 @@ export default function ConfirmRejectModal_teacherEnrollments({ onClose, onConfi
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ status: 'geweigerd' }),
+            body: JSON.stringify({ status: 'geweigerd', reason: reason }), // Include the reason in the request body
         })
             .then((res) => res.json())
             .then((data) => {
+                // Re-fetch enrollments after update
                 fetch('/api/enrollment')
                     .then(res => res.json())
                     .then(data => {
                         setEnrollments(data.data);
                         onConfirm(reason); // Pass the reason to the parent component
+                        onClose(); // Close the modal after confirmation
                     })
                     .catch(error => console.error('Error fetching data:', error));
             })
@@ -40,15 +42,12 @@ export default function ConfirmRejectModal_teacherEnrollments({ onClose, onConfi
                 <div className="flex flex-col items-center justify-center w-70">
                     <div className="w-full bg-white rounded-lg shadow light:border light:bg-gray-800 light:border-gray-700">
                         <div className="p-6 space-y-4 sm:space-y-6">
-                            <span className="close text-xl" onClick={() => {
-                                onClose();
-                            }}>&times;</span>
-                            <h1 className="text-xl font-medium m-0 p-0" style={{ marginTop: 0 }}>Inschrijving weigeren</h1>
-                            <h2 className="">Weet u zeker dat u de inschrijving
-                                van <strong>{enrollment.firstName + ' ' + enrollment.lastName}</strong> voor de workshop<br />
+                            <span className="close text-xl" onClick={onClose}>&times;</span>
+                            <h1 className="text-xl font-medium m-0 p-0">Inschrijving weigeren</h1>
+                            <h2>Weet u zeker dat u de inschrijving
+                                van <strong>{enrollment.firstName} {enrollment.lastName}</strong> voor <br/> de workshop
                                 '<strong>{enrollment.workshopName}</strong>'
-                                op <strong>{formatDate(enrollment.date)}</strong><br />
-                                wilt weigeren?
+                                op <strong>{formatDate(enrollment.date)}</strong> wilt weigeren?
                             </h2>
 
                             <label htmlFor="reason"
@@ -58,7 +57,7 @@ export default function ConfirmRejectModal_teacherEnrollments({ onClose, onConfi
                                       placeholder="Voer hier een reden in..."
                                       value={reason} onChange={(e) => setReason(e.target.value)}></textarea>
 
-                            <button type="delete" onClick={handleReject}
+                            <button type="button" onClick={handleReject} // Changed type to button
                                     className="w-full text-white bg-custom-red hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800">
                                 Weigeren
                             </button>
