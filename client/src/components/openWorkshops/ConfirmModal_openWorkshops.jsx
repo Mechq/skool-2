@@ -13,18 +13,11 @@ export default function ConfirmModal_openWorkshops({ isOpen, onClose, onConfirm,
                             <span className="close text-xl" onClick={onClose}>&times;</span>
                             <h1 className="text-xl font-medium m-0 p-0">Bevestiging</h1>
                             <p>{message}</p>
-                            <div className="flex justify-end space-x-4">
-                                <button
-                                    onClick={onClose}
-                                    className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
-                                    Annuleren
-                                </button>
                                 <button
                                     onClick={onConfirm}
-                                    className="bg-custom-blue hover:bg-custom-blue text-white font-bold py-2 px-4 rounded">
+                                    className="w-full text-white bg-custom-blue hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center light:bg-primary-600 light:hover:bg-primary-700 light:focus:ring-primary-800">
                                     Bevestigen
                                 </button>
-                            </div>
                         </div>
                     </div>
                 </div>

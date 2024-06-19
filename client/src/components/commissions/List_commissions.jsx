@@ -113,7 +113,7 @@ export default function List_commissions({
                     <th className="px-6 py-3">Klant</th>
                     <th className="px-6 py-3">Opdracht details</th>
                     <th className="px-6 py-3">Doelgroep</th>
-                    <th className="px-6 py-3">Datum</th>
+                    <th className="px-6 py-3">Begindatum</th>
                     <th className="px-6 py-3">Bewerken</th>
                     <th className="px-6 py-3 flex justify-center">Verwijderen</th>
                 </tr>
