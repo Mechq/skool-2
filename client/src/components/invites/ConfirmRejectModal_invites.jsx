@@ -43,8 +43,8 @@ export default function ConfirmRejectModal_invites({ onClose, onConfirm, invite,
                             <span className="close text-xl" onClick={onClose}>&times;</span>
                             <h1 className="text-xl font-medium m-0 p-0" style={{ marginTop: 0 }}>Uitnodiging weigeren</h1>
                             <h2 className="">Weet u zeker dat u de uitnodiging
-                                voor de workshop<br />
-                                wilt weigeren?
+                                voor de workshop <br></br>
+                                <strong>{invite.name}</strong> op <strong>{formatDate(invite.commissionDate)}</strong> wilt weigeren?
                             </h2>
 
                             <button type="delete" onClick={handleReject}

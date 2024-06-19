@@ -45,8 +45,8 @@ export default function ConfirmAcceptModal_invites({ onClose, onConfirm, invite,
                             <h1 className="text-xl font-medium m-0 p-0" style={{ marginTop: 0 }}>Uitnodiging accepteren</h1>
                             <h2 className="">Weet u zeker dat u de uitnodiging
                                 voor de workshop<br />
-                                '<strong>{invite.workshopName}</strong>'
-                                op <strong>{formatDate(invite.date)}</strong> wilt accepteren?
+                                <strong>{invite.name}</strong>
+                                op <strong>{formatDate(invite.commissionDate)}</strong> wilt accepteren?
                             </h2>
 
                             <button type="submit" onClick={handleAccept}
