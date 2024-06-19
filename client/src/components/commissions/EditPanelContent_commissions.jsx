@@ -36,6 +36,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
     const [grade, setGrade] = useState("");
     const [contactPeople, setContactPeople] = useState([]);
     const [contactPersonId, setContactPersonId] = useState("");
+    const [defaultContact, setDefaultContact] = useState({});
 
     const [value, setValue] = useState([new Date()]);
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -44,136 +45,173 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
 
 
 
-    const handleClose = (state) => {
-        setShow(state);
-    }
+    const fetchRoundData = async () => {
+        if (commissionId) {
+            try {
+                const res = await fetch(`/api/round/commission/${commissionId}`);
+                const response = await res.json();
+                const data = response.data;
+
+                const _types = data.map((item) => item.type);
+                setTypes(_types);
+
+                const _startTimes = data.map((item) => item.startTime);
+                setStartTimes(_startTimes);
+
+                const _endTimes = data.map((item) => item.endTime);
+                setEndTimes(_endTimes);
+
+                const _orders = data.map((item) => item.order);
+                setOrders(_orders);
+
+                const _roundIds = data.map((item) => item.id);
+                setRoundIds(_roundIds);
+                const workshopRoundIds = _roundIds.filter((_, index) => _types[index] === "Workshopronde");
+                for (const roundId of workshopRoundIds) {
+                    try {
+                        const res = await fetch(`/api/workshopRound/workshop/${roundId}`);
+                        const response = await res.json();
+                        const data = response.data;
+                        setWorkshopRoundWorkshops((prevWorkshops) => ({
+                            ...prevWorkshops,
+                            [roundId]: data,
+                        }));
+                    } catch (error) {
+                        console.error("Error fetching workshops:", error);
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching round:", error);
+            }
+        }
+    };
+
 
     useEffect(() => {
-        if (commissionId) {
-            fetch(`/api/commission/${commissionId}`)
-                .then((res) => res.json())
-                .then((response) => {
+        const fetchCommissionData = async () => {
+            if (commissionId) {
+                try {
+                    const res = await fetch(`/api/commission/${commissionId}`);
+                    const response = await res.json();
                     const data = response.data[0];
-                    console.log(data)
+                    console.log(data);
+
                     setCustomerId(data.customerId || "");
                     setDetails(data.details || "");
                     setTargetAudience(data.targetAudience || "");
                     setLocationId(data.locationId || "");
-                    setGrade(data.grade || "")
+                    setGrade(data.grade || "");
                     const datesArray = data.dates ? data.dates.split(',').map(date => new Date(date.trim())) : [];
-                    setValue(datesArray);                })
-                .catch((error) => console.error("Error fetching commission:", error));
-        }
+                    setValue(datesArray);
+                } catch (error) {
+                    console.error("Error fetching commission:", error);
+                }
+            }
+        };
+        fetchCommissionData();
     }, [commissionId]);
 
-
-    const fetchRoundData = () => {
-        if (commissionId) {
-            fetch(`/api/round/commission/${commissionId}`)
-                .then((res) => res.json())
-                .then((response) => {
-                    const data = response.data;
-
-                    const _types = data.map((item) => item.type);
-                    setTypes(_types);
-
-                    const _startTimes = data.map((item) => item.startTime);
-                    setStartTimes(_startTimes);
-
-                    const _endTimes = data.map((item) => item.endTime);
-                    setEndTimes(_endTimes);
-
-                    const _orders = data.map((item) => item.order);
-                    setOrders(_orders);
-
-                    const _roundIds = data.map((item) => item.id);
-                    setRoundIds(_roundIds);
-                    const workshopRoundIds = _roundIds.filter((_, index) => _types[index] === "Workshopronde");
-                    workshopRoundIds.forEach((roundId) => {
-                        fetch(`/api/workshopRound/workshop/${roundId}`)
-                            .then((res) => res.json())
-                            .then((response) => {
-                                const data = response.data;
-                                setWorkshopRoundWorkshops((prevWorkshops) => ({
-                                    ...prevWorkshops,
-                                    [roundId]: data,
-                                }));
-                            })
-                            .catch((error) => console.error("Error fetching workshops:", error));
-                    });
-                })
-                .catch((error) => console.error("Error fetching round:", error));
-        }
-    };
     useEffect(() => {
         fetchRoundData();
     }, [commissionId]);
+
     useEffect(() => {
-        if (commissionId) {
-            fetch(`/api/commission/customer/${commissionId}`)
-                .then((res) => res.json())
-                .then((response) => {
-                    const customer = response.data
+        const fetchCustomerData = async () => {
+            if (commissionId) {
+                try {
+                    const res = await fetch(`/api/commission/customer/${commissionId}`);
+                    const response = await res.json();
+                    const customer = response.data;
                     setSelectedCustomerName(customer.name || "");
                     setSelectedCustomerId(customer.id || "");
-                })
-                .catch((error) => console.error("Error fetching customer:", error));
-        }
+                } catch (error) {
+                    console.error("Error fetching customer:", error);
+                }
+            }
+        };
+        fetchCustomerData();
     }, [commissionId]);
 
     useEffect(() => {
-        fetch("/api/customer")
-            .then((response) => response.json())
-            .then((data) => {
-                setCustomers(data.data);
-            })
-            .catch((error) => {
+        const fetchAllCustomers = async () => {
+            try {
+                const res = await fetch("/api/customer");
+                const response = await res.json();
+                setCustomers(response.data);
+            } catch (error) {
                 console.error("Error:", error);
-            });
+            }
+        };
+        fetchAllCustomers();
     }, []);
 
     useEffect(() => {
-        if (locationId) {
-            fetch(`/api/location/${locationId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const location = data.data;
+        const fetchLocationName = async () => {
+            if (locationId) {
+                try {
+                    const res = await fetch(`/api/location/${locationId}`);
+                    const response = await res.json();
+                    const location = response.data;
                     setLocationName(location.name || "");
-                })
-                .catch((error) => {
+                } catch (error) {
                     console.error('Error:', error);
                     setLocationName("");
-                });
-        }
-    }, [selectedCustomerId]);
+                }
+            }
+        };
+        fetchLocationName();
+    }, [locationId]);
 
     useEffect(() => {
-        if (customerId) {
-            fetch(`/api/customer/contact/${customerId}`)
-                .then(response => response.json())
-                .then(data => {
-                    setContactPeople(data.data);
-                })
-                .catch((error) => {
+        const fetchContactPeople = async () => {
+            if (customerId) {
+                try {
+                    const res = await fetch(`/api/customer/contact/${customerId}`);
+                    const response = await res.json();
+                    setContactPeople(response.data);
+                } catch (error) {
                     console.error('Error:', error);
                     setContactPeople([]);
-                });
-        }
+                }
+            }
+        };
+        fetchContactPeople();
     }, [customerId]);
 
     useEffect(() => {
-        if (customerId) {
-            fetch(`/api/location/customer/${selectedCustomerId}`)
-                .then(response => response.json())
-                .then(data => {
-                    setLocations(Array.isArray(data.data) ? data.data : []);
-                })
-                .catch((error) => {
+        const fetchDefaultContact = async () => {
+            if (commissionId) {
+                try {
+                    const res = await fetch(`/api/commission/contact/${commissionId}`);
+                    const response = await res.json();
+                    const fetchedDefaultContact = response.data;
+                    setDefaultContact(fetchedDefaultContact);
+                    setContactPersonId(fetchedDefaultContact.id);  // Set the contact person ID
+                    console.log("Fetched contact person ID:", fetchedDefaultContact.id);
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+        };
+        fetchDefaultContact();
+    }, [commissionId]);
+
+    useEffect(() => {
+        const fetchLocationsByCustomer = async () => {
+            if (selectedCustomerId) {
+                try {
+                    const res = await fetch(`/api/location/customer/${selectedCustomerId}`);
+                    const response = await res.json();
+                    setLocations(Array.isArray(response.data) ? response.data : []);
+                } catch (error) {
                     console.error('Error:', error);
                     setLocationName("");
-                });
-        }
+                }
+            }
+        };
+        fetchLocationsByCustomer();
     }, [selectedCustomerId]);
+
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -433,29 +471,42 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                            placeholder="Leerjaar en niveau"></input>
                 </div>
-
-                <select id="location" value={selectedLocationId} onChange={handleLocationChange}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
-                        required>
-                    {locationName && (
-                        <option value={locationName}>
-                            {locationName}
-                        </option>
-                    )}
-                    {locations.map((location) => (
-                        <option key={location.id} value={location.id}>
-                            {location.name}
-                        </option>
-                    ))}
-                </select>
-
                 <div className="mb-6">
-                    <label htmlFor="contactPerson"
-                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contactpersoon</label>
-                    <select id="contactPerson" onChange={handleContactPersonChange} value={contactPersonId}
+                    <label htmlFor="location"
+                           className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Locatie</label>
+                    <select id="location" value={selectedLocationId} onChange={handleLocationChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                             required>
-                        <option value="" disabled>Kies een contactpersoon</option>
+                        {locationName && (
+                            <option value={locationName}>
+                                {locationName}
+                            </option>
+                        )}
+                        {locations.map((location) => (
+                            <option key={location.id} value={location.id}>
+                                {location.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="mb-6">
+                    <label
+                        htmlFor="contactPerson"
+                        className="block mb-2 text-sm font-medium text-gray-900 light:text-white"
+                    >
+                        Contactpersoon
+                    </label>
+                    <select
+                        id="contactPerson"
+                        onChange={handleContactPersonChange}
+                        value={contactPersonId}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
+                        required
+                    >
+                        <option value="" disabled>
+                            Kies een contactpersoon
+                        </option>
                         {contactPeople.map((contactPerson) => (
                             <option key={contactPerson.id} value={contactPerson.id}>
                                 {contactPerson.name}
@@ -463,7 +514,6 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                         ))}
                     </select>
                 </div>
-
 
                 <div>
                     <h2 className="text-lg font-medium text-gray-900 light:text-white mt-6">Datums:</h2>
@@ -518,7 +568,8 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
             light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500">
                         <ul>
                             {types.map((type, index) => (
-                                <li key={index} className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer">
+                                <li key={index}
+                                    className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer">
                                     <div className="flex justify-between items-center">
                                 <span onClick={() => editRound(type, roundIds[index])}>
                                     {type === "Workshopronde"
@@ -528,7 +579,6 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                // TODO: Add delete functionality here
                                                 deleteRound(roundIds[index])
                                             }}
                                             className="text-red-600 hover:text-red-800"

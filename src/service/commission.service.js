@@ -427,6 +427,33 @@ const commissionService = {
                 });
             });
         });
+    },
+    getContactPersonByCommissionId: (commissionId, callback) => {
+        logger.info('getting contact person by commission id', commissionId);
+
+        const sql = 'SELECT * FROM contactPerson WHERE id = (SELECT contactPersonId FROM commission WHERE id = ?)';
+
+        database.query(sql, [commissionId], (error, results, fields) => {
+            if (error) {
+                logger.error('Error getting contact person', error);
+                callback(error, null);
+            } else {
+                if (results.length > 0) {
+                    logger.info('Contact person fetched successfully', results[0]);
+                    callback(null, {
+                        status: 200,
+                        message: 'Contact person fetched successfully',
+                        data: results[0],
+                    });
+                } else {
+                    logger.warn('No contact person found with commission id', commissionId);
+                    callback({
+                        status: 404,
+                        message: 'Contact person not found',
+                    }, null);
+                }
+            }
+        });
     }
 
 };

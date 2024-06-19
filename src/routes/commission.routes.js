@@ -11,5 +11,6 @@ router.get("/api/commission/customer/:commissionId", commissionController.getCus
 router.get("/api/commission/time/:commissionId", commissionController.getStartAndEndTime);
 router.delete("/api/commission/:id", commissionController.deleteCommission);
 router.post("/api/commission/date/:id", commissionController.updateCommissionDates)
+router.get("/api/commission/contact/:commissionId", commissionController.getContactPersonByCommissionId);
 
 module.exports = router;
