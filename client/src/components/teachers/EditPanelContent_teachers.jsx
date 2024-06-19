@@ -171,7 +171,7 @@ export default function EditPanelContent_teachers({userId, setShowSidePanel}) {
                         <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r light:border-gray-600">
                             <div className="flex items-center ps-3">
                                 <input id="driversLicense-checkbox-list" type="checkbox" value=""
-                                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light light:focus:ring-brand-orange-light light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
                                        checked={formData.hasDriversLicense}
                                        onChange={() => setFormData({
                                            ...formData,
@@ -186,7 +186,7 @@ export default function EditPanelContent_teachers({userId, setShowSidePanel}) {
                         <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r light:border-gray-600">
                             <div className="flex items-center ps-3">
                                 <input id="car-checkbox-list" type="checkbox" value=""
-                                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light light:focus:ring-brand-orange-light light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
                                        checked={formData.hasCar}
                                        onChange={() => setFormData({...formData, hasCar: !formData.hasCar})}
                                 />
@@ -198,7 +198,7 @@ export default function EditPanelContent_teachers({userId, setShowSidePanel}) {
                         <li className="w-full light:border-gray-600">
                             <div className="flex items-center ps-3">
                                 <input id="zzp-checkbox-list" type="checkbox" value=""
-                                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light light:focus:ring-brand-orange-light light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
                                        checked={formData.isZZPer}
                                        onChange={() => setFormData({...formData, isZZPer: !formData.isZZPer})}
                                 />
