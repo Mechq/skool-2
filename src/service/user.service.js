@@ -370,6 +370,76 @@ const userService = {
                 }
             );
         });
+    },
+    accept: (id, callback) => {
+        logger.info('accepting user', id);
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error accepting user', err);
+                callback(err, null);
+                return;
+            }
+
+            const query = 'UPDATE user SET isAccepted = 1 WHERE id = ?';
+
+            logger.debug('query', query);
+
+            connection.query(
+                query,
+                [id],
+                function (error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+                        logger.error('Error accepting user', error);
+                        callback(error, null);
+                    } else {
+                        logger.trace('user accepted', results);
+                        callback(null, {
+                            status: 200,
+                            message: 'user accepted',
+                            data: results,
+                        });
+                    }
+                }
+            );
+        });
+    },
+    delete: (id, callback) => {
+        logger.info('deleting user', id);
+
+        database.getConnection(function (err, connection) {
+            if (err) {
+                logger.error('Error deleting user', err);
+                callback(err, null);
+                return;
+            }
+
+            const query = 'DELETE FROM user WHERE id = ?';
+
+            logger.debug('query', query);
+
+            connection.query(
+                query,
+                [id],
+                function (error, results, fields) {
+                    connection.release();
+
+                    if (error) {
+                        logger.error('Error deleting user', error);
+                        callback(error, null);
+                    } else {
+                        logger.trace('user deleted', results);
+                        callback(null, {
+                            status: 200,
+                            message: 'user deleted',
+                            data: results,
+                        });
+                    }
+                }
+            );
+        });
     }
 };
 
