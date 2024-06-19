@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DashboardCardsCommission from '../components/Cards/DashboardCardsCommission';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export default function UserEnrolledWorkshops() {
     const [user, setUser] = useState({});
@@ -14,7 +14,7 @@ export default function UserEnrolledWorkshops() {
         try {
             const res = await fetch(`/api/commission/time/${commissionId}`);
             const data = await res.json();
-            setTimes(data.data);
+            return data.data; // Assuming you need to return something
         } catch (error) {
             console.error('Error fetching time data:', error);
         }
@@ -41,11 +41,11 @@ export default function UserEnrolledWorkshops() {
 
                     const data = await res.json();
                     const commissionData = await commissionDataRes.json();
-                    setCommissions(commissionData.data);
                     setUserWorkshops(data.data);
 
                     if (data.data && data.data.length > 0) {
-                        await fetchTimes(data.data[0].commissionId);
+                        const timesData = await fetchTimes(data.data[0].commissionId);
+                        setTimes(timesData); // Assuming you need to set times data
                     }
                 }
             } catch (error) {
@@ -71,10 +71,10 @@ export default function UserEnrolledWorkshops() {
     }
 
     return (
-        <div className="flex justify-center">
-            <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="block mb-2 text-sm font-medium max-w-8xl text-gray-900 flex-1">
-                    <h1 className="text-3xl font-bold mb-4">Mijn Opdrachten</h1>
+        <div className="flex flex-col items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="grid grid-cols-3 gap-8">
+                <div className="col-span-3 mb-8 text-sm font-medium text-gray-900">
+                    <h1 className="text-3xl font-bold mb-4">Mijn geaccepteerde workshops</h1>
                     {acceptedWorkshops.length > 0 ? (
                         <DashboardCardsCommission userWorkshops={acceptedWorkshops} />
                     ) : (
@@ -83,7 +83,5 @@ export default function UserEnrolledWorkshops() {
                 </div>
             </div>
         </div>
-
-);
+    );
 }
-
