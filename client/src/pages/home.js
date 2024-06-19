@@ -11,7 +11,6 @@ function Home() {
     const [acceptedWorkshops, setAcceptedWorkshops] = useState([]);
     const [signedUpWorkshops, setSignedUpWorkshops] = useState([]);
     const [invitedWorkshops, setInvitedWorkshops] = useState([]);
-    const [inviteState, setInviteState] = useState(false);
 
     const getEarliestDate = (items) => {
         if (!items || items.length === 0) {
@@ -43,7 +42,6 @@ function Home() {
             const data = await res.json();
             console.log(" aaaaaaaaaaaaa" , data.data)
             setInvitedWorkshops(data.data);
-            setInviteState(true);
         } catch (error) {
             console.error('Error fetching invited workshops:', error);
             setInvitedWorkshops([]);
@@ -127,7 +125,7 @@ function Home() {
                 <div className='block mb-2 text-sm font-medium text-gray-900 pl-24 flex-1'>
                     <h1 className='text-2xl mb-4 pd-6'><strong>Bevestigingen</strong></h1>
                     {acceptedWorkshops.length > 0 ? (
-                        <DashboardCardsCommission userWorkshops={acceptedWorkshops} inviteState={inviteState} />
+                        <DashboardCardsCommission userWorkshops={acceptedWorkshops}  />
                     ) : (
                         <p>Er zijn geen bevestigde workshops.</p>
                     )}
@@ -135,7 +133,7 @@ function Home() {
                 <div className='block mb-2 text-sm font-medium text-gray-900 pr-24 flex-1'>
                     <h1 className='text-2xl mb-4 pd-6'><strong>Aangemelde workshops</strong></h1>
                     {signedUpWorkshops.length > 0 ? (
-                        <DashboardCardsCommission userWorkshops={signedUpWorkshops} inviteState={inviteState} />
+                        <DashboardCardsCommission userWorkshops={signedUpWorkshops} />
                     ) : (
                         <p>Er zijn geen ingeschreven workshops.</p>
                     )}
@@ -143,7 +141,7 @@ function Home() {
                 <div className='block mb-2 text-sm font-medium text-gray-900 pr-24 flex-1'>
                     <h1 className='text-2xl mb-4 pd-6'><strong>Uitgenodigde workshops</strong></h1>
                     {invitedWorkshops.length > 0 ? (
-                        <DashboardCardsCommission userWorkshops={invitedWorkshops} inviteState={inviteState} />
+                        <DashboardCardsCommission userWorkshops={invitedWorkshops}/>
                     ) : (
                         <p>Er zijn geen uitgenodigde workshops.</p>
                     )}

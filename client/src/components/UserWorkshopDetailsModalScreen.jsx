@@ -4,9 +4,7 @@ import {jwtDecode} from "jwt-decode";
 
 
 
-export default function UserWorkshopDetailsModalScreen({onClose, workshop, commission, onRefresh, inviteState}) {
-console.log(inviteState)
-
+export default function UserWorkshopDetailsModalScreen({onClose, workshop, commission, onRefresh}) {
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);
     const [workshopRound, setWorkshopRound] = useState({});
     const [customer, setCustomer] = useState({});
@@ -15,7 +13,8 @@ console.log(inviteState)
     const [times, setTimes] = useState({});
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
-    const [invitedWorkshop, setInvitedWorkshop] = useState(null);
+    const [inviteState, setInviteState] = useState(null);
+    const [buttonText, setButtonText] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -86,26 +85,34 @@ console.log(inviteState)
             });
     }, []);
 
+    useEffect(() => {
+        if (workshop.status === "open") {
+            setInviteState(true);
+        }
+
+        let buttonText = "Aanmelden";
+
+        if (workshopRound) {
+            if (workshopRound.amountOfTeachers <= enrollments.length) {
+                buttonText = "Wachtrij";
+            }
+
+            for (const enrollment of enrollments) {
+                if (enrollment.userId === userId) {
+                    buttonText = "Afmelden";
+                    break;
+                }
+            }
+        }
+
+        // Assume there's a state setter for buttonText
+        setButtonText(buttonText);
+    }, [workshopRound, enrollments, workshop.status]);
+
     if (!user) {
         return null;
     }
     const userId = user.id;
-
-
-    let buttonText = "";
-
-
-    if (workshopRound && workshopRound.amountOfTeachers <= enrollments.length) {
-        buttonText = "Wachtrij";
-    } else if (workshopRound && workshopRound.amountOfTeachers > enrollments.length) {
-        buttonText = "Aanmelden";
-    }
-    enrollments.map((enrollment) => {
-        if (enrollment.userId === userId) {
-            buttonText = "Afmelden";
-
-        } else {}
-    })
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -253,6 +260,7 @@ console.log(inviteState)
 
                             )}
                         </div>
+                        {!inviteState &&(
                         <div className="flex justify-center"
                              onClick={handleSubmit}
                         >
@@ -262,6 +270,7 @@ console.log(inviteState)
                                 {buttonText}
                             </button>
                         </div>
+                        )}
                     </div>
 
                 </div>
