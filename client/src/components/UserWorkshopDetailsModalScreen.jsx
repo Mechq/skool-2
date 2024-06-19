@@ -20,6 +20,8 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
     const [confirmMessage, setConfirmMessage] = useState("");
     const [confirmAction, setConfirmAction] = useState(() => {});
     const [invitedWorkshop, setInvitedWorkshop] = useState(null);
+    const [inviteState, setInviteState] = useState(null);
+    const [buttonText, setButtonText] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -125,21 +127,50 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
         fetchTemplates();
     }, []);
 
+    useEffect(() => {
+        if (workshop.status === "open") {
+            setInviteState(true);
+        }
+
+        let buttonText = "Aanmelden";
+
+        if (workshopRound) {
+            if (workshopRound.amountOfTeachers <= enrollments.length) {
+                buttonText = "Wachtrij";
+            }
+
+            for (const enrollment of enrollments) {
+                if (enrollment.userId === userId) {
+                    buttonText = "Afmelden";
+                    break;
+                }
+            }
+        }
+
+        // Assume there's a state setter for buttonText
+        setButtonText(buttonText);
+    }, [workshopRound, enrollments, workshop.status]);
+
     if (!user) {
         return null;
     }
     const userId = user.id;
 
-    const buttonText = enrollments.some(enrollment => enrollment.userId === userId)
-        ? "Afmelden"
-        : (workshopRound.amountOfTeachers <= enrollments.length ? "Wachtrij" : "Aanmelden");
 
-    const handleModalConfirm = () => {
-        if (confirmAction) {
-            confirmAction();
-        }
-        setShowConfirmModal(false);
-    };
+    let buttonText = "";
+
+
+    if (workshopRound && workshopRound.amountOfTeachers <= enrollments.length) {
+        buttonText = "Wachtrij";
+    } else if (workshopRound && workshopRound.amountOfTeachers > enrollments.length) {
+        buttonText = "Aanmelden";
+    }
+    enrollments.map((enrollment) => {
+        if (enrollment.userId === userId) {
+            buttonText = "Afmelden";
+
+        } else {}
+    })
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -312,6 +343,7 @@ console.log(commission)
 
                             )}
                         </div>
+                        {!inviteState &&(
                         <div className="flex justify-center"
                              onClick={handleSubmit}
                         >
@@ -321,6 +353,7 @@ console.log(commission)
                                 {buttonText}
                             </button>
                         </div>
+                        )}
                     </div>
 
                 </div>
@@ -338,4 +371,3 @@ console.log(commission)
         </>
     );
 }
-
