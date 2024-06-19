@@ -1,97 +1,114 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import UserWorkshopCard from "../Cards/UserWorkshopCard";
 import UserWorkshopDetailsModalScreen from "../UserWorkshopDetailsModalScreen";
 
-export default function List_openWorkshops({ userWorkshops, setUserWorkshops, user }) {
+export default function List_openWorkshops({ user }) {
     const [commissions, setCommissions] = useState([]);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedCommission, setSelectedCommission] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [durations, setDurations] = useState([]);
+    const [userWorkshops, setUserWorkshops] = useState([]);
+    const [qualifications, setQualifications] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const handleDetailsClick = (workshop, commission, e) => {
+    const handleDetailsClick = useCallback((workshop, commission, e) => {
         e.preventDefault();
         setSelectedWorkshop(workshop);
         setSelectedCommission(commission);
         setShowDetailsModal(true);
         document.body.style.overflow = 'hidden';
-    };
+    }, []);
 
-    const onRefresh = () => {}
+    const onRefresh = useCallback(() => {}, []);
 
-    const handleModalClose = () => {
+    const handleModalClose = useCallback(() => {
         setShowModal(false);
         setShowDetailsModal(false);
         document.body.style.overflow = 'auto';
-    };
+    }, []);
 
     useEffect(() => {
-        fetch('/api/workshop/commission')
-            .then(res => res.json())
-            .then(data => {
-                const workshopsWithUniqueKey = data.data.map((workshop, index) => ({
+        const fetchAllData = async () => {
+            try {
+                const [workshopsResponse, qualificationsResponse, commissionsResponse, durationsResponse] = await Promise.all([
+                    fetch('/api/workshop/commission'),
+                    fetch(`/api/teacherWorkshopQualification/${user.id}`),
+                    fetch('/api/commission/'),
+                    fetch('/api/commission/durations')
+                ]);
+
+                const [workshopsData, qualificationsData, commissionsData, durationsData] = await Promise.all([
+                    workshopsResponse.json(),
+                    qualificationsResponse.json(),
+                    commissionsResponse.json(),
+                    durationsResponse.json()
+                ]);
+
+                const workshopsWithUniqueKey = workshopsData.data.map((workshop, index) => ({
                     ...workshop,
                     unique: index + 1
                 }));
-                setUserWorkshops(workshopsWithUniqueKey);
-                console.log("Fetched workshops: ", workshopsWithUniqueKey);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, [setUserWorkshops]);
 
-    useEffect(() => {
-        fetch('/api/commission/')
-            .then(res => res.json())
-            .then(data => {
-                setCommissions(data.data);
-                console.log("Fetched commissions: ", data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+                setQualifications(qualificationsData.data);
+                setCommissions(commissionsData.data);
+                setDurations(durationsData.data);
 
-    useEffect(() => {
-        fetch('/api/commission/durations')
-            .then(res => res.json())
-            .then(data => {
-                setDurations(data.data);
-                console.log("Fetched durations: ", data.data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+                const filteredWorkshops = workshopsWithUniqueKey.filter(workshop =>
+                    qualificationsData.data.some(qualification => qualification.id === workshop.workshopId)
+                );
 
-    const getCommission = (commissionId) => {
-        const commission = commissions.find(c => c.id === commissionId);
-        if (commission) {
-            return commission;
-        }
-        return 'Unknown Commissions';
-    }
+                setUserWorkshops(filteredWorkshops);
+                setLoading(false);
 
-    const getCommissionName = (commissionId) => {
-        return getCommission(commissionId).details;
-    }
+                console.log("Fetched and filtered data:", {
+                    workshopsWithUniqueKey,
+                    qualificationsData: qualificationsData.data,
+                    filteredWorkshops,
+                    commissionsData: commissionsData.data,
+                    durationsData: durationsData.data
+                });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
-    const getCommissionDate = (commissionId) => {
-        const commission = getCommission(commissionId)
+        fetchAllData();
+    }, [user.id]);
+
+    const getCommission = useCallback((commissionId) => {
+        return commissions.find(c => c.id === commissionId) || 'Unknown Commission';
+    }, [commissions]);
+
+    const getCommissionName = useCallback((commissionId) => {
+        const commission = getCommission(commissionId);
+        return commission.details;
+    }, [getCommission]);
+
+    const getCommissionDate = useCallback((commissionId) => {
+        const commission = getCommission(commissionId);
         const date = new Date(commission.date);
         return date.toLocaleDateString('nl-NL', {
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
         });
-    };
+    }, [getCommission]);
 
-    const getCommissionTime = (commissionId) => {
-        if (durations.length > 0) {
-            return durations.find(c => c.commissionId === commissionId);
-        }
-        return 'Unknown Time';
-    }
+    const getCommissionTime = useCallback((commissionId) => {
+        const duration = durations.find(c => c.commissionId === commissionId);
+        return duration || { formattedDuration: 'Unknown Time', durationMin: 0 };
+    }, [durations]);
 
-    const getCommissionPay = (commissionId) => {
-        const minutes = getCommissionTime(commissionId).durationMin;
+    const getCommissionPay = useCallback((commissionId) => {
+        const commissionTime = getCommissionTime(commissionId);
+        const minutes = commissionTime ? commissionTime.durationMin : 0;
         return user.hourlyRate * minutes / 60;
+    }, [getCommissionTime, user.hourlyRate]);
+
+    if (loading) {
+        return <p>Loading...</p>;
     }
 
     return (
