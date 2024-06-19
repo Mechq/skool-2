@@ -32,18 +32,20 @@ export default function List_openWorkshops({ user }) {
     useEffect(() => {
         const fetchAllData = async () => {
             try {
-                const [workshopsResponse, qualificationsResponse, commissionsResponse, durationsResponse] = await Promise.all([
+                const [workshopsResponse, qualificationsResponse, commissionsResponse, durationsResponse, enrollmentResponse] = await Promise.all([
                     fetch('/api/workshop/commission'),
                     fetch(`/api/teacherWorkshopQualification/${user.id}`),
                     fetch('/api/commission/'),
-                    fetch('/api/commission/durations')
+                    fetch('/api/commission/durations'),
+                    fetch(`/api/enrollment/user/${user.id}`)
                 ]);
 
-                const [workshopsData, qualificationsData, commissionsData, durationsData] = await Promise.all([
+                const [workshopsData, qualificationsData, commissionsData, durationsData, enrollmentData] = await Promise.all([
                     workshopsResponse.json(),
                     qualificationsResponse.json(),
                     commissionsResponse.json(),
-                    durationsResponse.json()
+                    durationsResponse.json(),
+                    enrollmentResponse.json()
                 ]);
 
                 const workshopsWithUniqueKey = workshopsData.data.map((workshop, index) => ({
@@ -51,14 +53,16 @@ export default function List_openWorkshops({ user }) {
                     unique: index + 1
                 }));
 
+                const enrolledWorkshopIds = enrollmentData.data.map(enrollment => enrollment.workshopId);
+
+                const filteredWorkshops = workshopsWithUniqueKey.filter(workshop =>
+                    qualificationsData.data.some(qualification => qualification.id === workshop.workshopId) &&
+                    !enrolledWorkshopIds.includes(workshop.workshopId)
+                );
+
                 setQualifications(qualificationsData.data);
                 setCommissions(commissionsData.data);
                 setDurations(durationsData.data);
-
-                const filteredWorkshops = workshopsWithUniqueKey.filter(workshop =>
-                    qualificationsData.data.some(qualification => qualification.id === workshop.workshopId)
-                );
-
                 setUserWorkshops(filteredWorkshops);
                 setLoading(false);
 
@@ -67,7 +71,8 @@ export default function List_openWorkshops({ user }) {
                     qualificationsData: qualificationsData.data,
                     filteredWorkshops,
                     commissionsData: commissionsData.data,
-                    durationsData: durationsData.data
+                    durationsData: durationsData.data,
+                    enrollmentData: enrollmentData.data
                 });
             } catch (error) {
                 console.error('Error fetching data:', error);
