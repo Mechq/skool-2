@@ -147,9 +147,9 @@ const userService = {
     },
 
     update: (id, user, callback) => {
-        logger.info('updating user', id);
+        logger.info('Updating user', id);
 
-        database.getConnection(function (err, connection) {
+        database.getConnection((err, connection) => {
             if (err) {
                 logger.error('Error updating user', err);
                 callback(err, null);
@@ -223,6 +223,7 @@ const userService = {
                 sql += 'btw = ?, ';
                 values.push(user.btw);
             }
+            // Add other fields you want to update
 
             // Remove trailing comma and space
             sql = sql.slice(0, -2);
@@ -233,28 +234,38 @@ const userService = {
             logger.debug('SQL:', sql);
             logger.debug('Values:', values);
 
-            connection.query(
-                sql,
-                values,
-                function (error, results, fields) {
+            connection.query(sql, values, (error, results, fields) => {
+                if (error) {
+                    logger.error('Error updating user', error);
                     connection.release();
+                    callback(error, null);
+                } else {
+                    logger.trace('User updated', results);
 
-                    if (error) {
-                        logger.error('Error updating user', error);
-                        callback(error, null);
-                    } else {
-                        logger.trace('User updated', results);
+                    // Retrieve the updated user information
+                    userService.getById(id, (err, updatedUser) => {
+                        connection.release();
+                        if (err) {
+                            callback(err, null);
+                        } else {
+                            // Generate a new token with updated user information
+                            const token = jwt.sign(updatedUser.data, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
 
-                        callback(null, {
-                            status: 200,
-                            message: 'Profile updated',
-                            data: results,
-                        });
-                    }
+                            // Include the new token in the response
+                            updatedUser.data.token = token;
+            
+                            callback(null, {
+                                status: 200,
+                                message: 'Profile updated',
+                                data: updatedUser.data,
+                            });
+                        }
+                    });
                 }
-            );
+            });
         });
     },
+
 
     getById: (id, callback) => {
         logger.info('retrieving user', id);

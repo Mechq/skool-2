@@ -1,37 +1,7 @@
-import React, {useEffect, useState} from "react";
-import Dropdown from "../Dropdown"
+import React from "react";
+import Dropdown from "../Dropdown";
 
-export default function List_profile({user, editProfile}) {
-    const [languages, setLanguages] = useState("");
-
-    useEffect(() => {
-        const fetchLanguages = async () => {
-            if (!user || !user.id) {
-                console.error("Profile or user ID is missing");
-                return;
-            }
-
-            try {
-                const response = await fetch(`/api/user/language/${user.id}`);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch: ${response.statusText}`);
-                }
-                const result = await response.json();
-                if (result.status === 200) {
-                    const languageNames = result.data.map(language => language.name);
-                    const languagesString = languageNames.join(', ');
-                    setLanguages(languagesString);
-                } else {
-                    console.error("Failed to fetch languages");
-                }
-            } catch (error) {
-                console.error("Error fetching languages:", error);
-            }
-        };
-
-        fetchLanguages().then();
-    }, [user]);
-
+export default function List_profile({ user, editProfile, languages, setLanguages }) {
 
     const calculate_age = (dob) => {
         let today = new Date();
@@ -41,7 +11,7 @@ export default function List_profile({user, editProfile}) {
             age--;
         }
         return age;
-    }
+    };
 
     return (
         <>
@@ -52,7 +22,8 @@ export default function List_profile({user, editProfile}) {
                             {user.firstName + ' ' + user.lastName + ' (' + calculate_age(new Date(user.birthDate)) + ' jaar)'}
                         </h3>
                         <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                            {user.role === 'teacher' ? 'WorkshopTemplates docent' : (user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : '')}                            </p>
+                            {user.role === 'teacher' ? 'WorkshopTemplates docent' : (user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : '')}
+                        </p>
                     </div>
                     <div className="border-t border-gray-200">
                         <div className="bg-white px-4 pt-5 sm:grid sm:grid-cols-1 sm:gap-4 sm:px-6">
@@ -117,7 +88,7 @@ export default function List_profile({user, editProfile}) {
                             </div>
                             <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt className="text-sm font-medium text-gray-500">
-                                    {languages.includes(',') ? 'Talen' : 'Taal'}
+                                {languages && languages.includes(',') ? 'Talen' : 'Taal'}
                                 </dt>
                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 flex justify-between items-center">
                                     {languages}
@@ -210,7 +181,7 @@ export default function List_profile({user, editProfile}) {
                 </div>
             </div>
             <button
-                onClick={editProfile}
+                onClick={() => editProfile(user.id)}
                 className="bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-white mt-4 mb-4"
             >
                 Bewerk
