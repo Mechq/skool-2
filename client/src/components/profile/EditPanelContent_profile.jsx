@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-export default function EditPanelContent_profile({ user, languages, setLanguages, setShowSidePanel }) {
+export default function EditPanelContent_profile({ user, languages, setShowSidePanel, fetchData }) {
     const [formData, setFormData] = useState({
         firstName: user.firstName,
         lastName: user.lastName,
@@ -50,9 +50,14 @@ export default function EditPanelContent_profile({ user, languages, setLanguages
                     console.log('Token not updated:', data);
                 }
                 setShowSidePanel(false);
+                // Call fetchData function passed as a prop from Profile component
+                if (typeof fetchData === 'function') {
+                    fetchData();
+                }
             })
             .catch(error => console.error('Error:', error));
     };
+
 
     return (
         <div className="px-6">

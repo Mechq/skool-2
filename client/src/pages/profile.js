@@ -1,3 +1,5 @@
+// Profile.js
+
 import React, { useEffect, useState } from "react";
 import SidePanel from "../components/SidePanel";
 import EditPanelContent_profile from "../components/profile/EditPanelContent_profile";
@@ -54,7 +56,7 @@ export default function Profile() {
             }
         };
 
-        fetchData().then();
+        fetchData();
     }, []);
 
     const editProfile = (id) => {
@@ -62,6 +64,43 @@ export default function Profile() {
         setSidePanelContent("edit");
         setIsOpen(true);
         setRotateSpan(true);
+    };
+
+    const fetchData = async () => {  // Define fetchData function
+        let decodedToken;
+        const token = localStorage.getItem('token');
+        if (token) {
+            decodedToken = jwtDecode(token);
+            setUser(decodedToken);
+        }
+
+        try {
+            const [workshopRes, qualifiedWorkshopsRes, languagesRes] = await Promise.all([
+                fetch('/api/workshop'),
+                fetch(`/api/teacherWorkshopQualification/${decodedToken?.id}`),
+                fetch(`/api/user/language/${decodedToken?.id}`)
+            ]);
+
+            const workshopData = await workshopRes.json();
+            setWorkshops(workshopData.data);
+
+            const qualifiedWorkshopsData = await qualifiedWorkshopsRes.json();
+            setQualifiedWorkshops(qualifiedWorkshopsData.data);
+
+            const languagesData = await languagesRes.json();
+            if (languagesData.status === 200) {
+                const languageNames = languagesData.data.map(language => language.name);
+                const languagesString = languageNames.join(', ');
+                setLanguages(languagesString);
+            } else {
+                console.error("Failed to fetch languages");
+            }
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     if (loading) {
@@ -72,12 +111,12 @@ export default function Profile() {
         <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-3 md:px-0">
                 <div>
-                <List_profile
-    user={user}
-    editProfile={editProfile}
-    languages={languages}  // Ensure this is correctly passed down
-    setLanguages={setLanguages}
-/>
+                    <List_profile
+                        user={user}
+                        editProfile={editProfile}
+                        languages={languages} // Ensure this is correctly passed down
+                        setLanguages={setLanguages}
+                    />
                 </div>
                 <div>
                     <WorkshopTemplateList_profile
@@ -100,6 +139,7 @@ export default function Profile() {
                         user={user}
                         setShowSidePanel={setIsOpen}
                         languages={languages}
+                        fetchData={fetchData} // Pass fetchData function as a prop
                     />
                 )}
             </SidePanel>
