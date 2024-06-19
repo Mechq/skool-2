@@ -75,11 +75,11 @@ export default function List_invites({ invites, setInvites, user }) {
                         className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700"
                     >
                         <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap light:text-white">
-                            {invite.workshopName}
+                            {invite.name}
                         </td>
                         <td className="px-6 py-4">{invite.customerName}</td>
                         <td className="px-6 py-4">{invite.locationName}</td>
-                        <td className="px-6 py-4">{formatDate(invite.date)}</td>
+                        <td className="px-6 py-4">{formatDate(invite.commissionDate)}</td>
                         <td className="px-6 py-4">
                             <button
                                 className="bg-custom-blue hover:bg-custom-blue text-white font-bold py-2 px-4 mr-2 rounded"
