@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import ListFooter from "../ListFooter";
 
 export default function List_teachers({
@@ -10,6 +10,9 @@ export default function List_teachers({
                                           setUsers,
                                           setRotateSpan,
                                       }) {
+
+    const [activeAccordions, setActiveAccordions] = useState([1]); // Defaulting Geaccepteerd to be open
+
     const fetchUsers = () => {
         fetch("/api/user")
             .then((res) => res.json())
@@ -123,50 +126,75 @@ export default function List_teachers({
             })
             .catch((error) => console.error("Error accepting user:", error));
     };
+    const toggleAccordion = (index) => {
+        if (activeAccordions.includes(index)) {
+            setActiveAccordions(activeAccordions.filter((item) => item !== index));
+        } else {
+            setActiveAccordions([...activeAccordions, index]);
+        }
+    };
 
-    return (
-        <>
-
-        <div className="relative overflow-x-auto shadow-md rounded-lg mx-3">
-            <div className="w-full mb-8 p-4 bg-white shadow-lg rounded-lg">
-                <details className="w-full" open>
-                    <summary className="cursor-pointer text-lg font-medium text-gray-700">
-                        Aanvragen
-                    </summary>
-                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400 mt-4">
-                        <thead
-                            className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
-                        <tr>
-                            <th className="px-6 py-3">Workshopdocent</th>
-                            <th className="px-6 py-3">Email</th>
-                            <th className="px-6 py-3 hidden lg:table-cell">Telefoonnummer</th>
-                            <th className="px-6 py-3 hidden lg:table-cell">Geboortedatum</th>
-                            <th className="px-6 py-3">Bewerken</th>
-                            <th className="px-6 py-3 text-right">Actie</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {pendingTeachers.map((user) => (
-                            <tr
-                                key={user.id}
-                                className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700"
-                            >
-                                <td className="px-6 py-4">{user.firstName + " " + user.lastName}</td>
-                                <td className="px-6 py-4">{user.email}</td>
-                                <td className="px-6 py-4 hidden lg:table-cell">{user.phoneNumber}</td>
-                                <td className="px-6 py-4 hidden lg:table-cell">{formatDate(user.birthDate)}</td>
-                                <td className="px-6 py-4">
-                                    <a
-                                        href="#"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            editTeacher(user.id);
-                                        }}
-                                        className="font-medium text-[#f49700] light:text-[#f49700] hover:underline"
-                                    >
-                                        Bewerken
-                                    </a>
-                                </td>
+    const renderAccordionItem = (title, users, index, isActive) => (
+        <div key={index} className="mb-4">
+            <h2>
+                <button
+                    type="button"
+                    onClick={() => toggleAccordion(index)}
+                    className={`flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border ${isActive ? 'rounded-t-lg' : ''} ${isActive ? '' : 'border-b-0'} border-gray-200 focus:ring-4 focus:ring-gray-200 light:focus:ring-gray-800 light:border-gray-700 light:text-gray-400 hover:bg-gray-100 light:hover:bg-gray-800 gap-3`}
+                    aria-expanded={isActive}
+                    aria-controls={`accordion-collapse-body-${index}`}
+                >
+                    <span>{title}</span>
+                    <svg
+                        className={`w-3 h-3 ${isActive ? 'rotate-180' : ''} shrink-0`}
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 10 6"
+                    >
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
+                    </svg>
+                </button>
+            </h2>
+            <div
+                id={`accordion-collapse-body-${index}`}
+                className={`p-5 border border-gray-200 light:border-gray-700 light:bg-gray-900 ${isActive ? '' : 'hidden'} ${isActive && index === 0 ? 'rounded-b-lg' : ''}`}
+                aria-labelledby={`accordion-collapse-heading-${index}`}
+            >
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
+                    <tr>
+                        <th className="px-6 py-3">Workshopdocent</th>
+                        <th className="px-6 py-3">Email</th>
+                        <th className="px-6 py-3 hidden lg:table-cell">Telefoonnummer</th>
+                        <th className="px-6 py-3 hidden lg:table-cell">Geboortedatum</th>
+                        <th className="px-6 py-3">Bewerken</th>
+                        {isActive && <th className="px-6 py-3 text-right">Actie</th>}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {users.map((user) => (
+                        <tr
+                            key={user.id}
+                            className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700"
+                        >
+                            <td className="px-6 py-4">{user.firstName + " " + user.lastName}</td>
+                            <td className="px-6 py-4">{user.email}</td>
+                            <td className="px-6 py-4 hidden lg:table-cell">{user.phoneNumber}</td>
+                            <td className="px-6 py-4 hidden lg:table-cell">{formatDate(user.birthDate)}</td>
+                            <td className="px-6 py-4">
+                                <a
+                                    href="#"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        editTeacher(user.id);
+                                    }}
+                                    className="font-medium text-[#f49700] light:text-[#f49700] hover:underline"
+                                >
+                                    Bewerken
+                                </a>
+                            </td>
+                            {isActive && (
                                 <td className="px-6 py-4 text-right">
                                     <button
                                         onClick={(e) => handleAcceptClick(e, user)}
@@ -181,62 +209,20 @@ export default function List_teachers({
                                         Weigeren
                                     </button>
                                 </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </details>
+                            )}
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
             </div>
         </div>
-    <div className="relative overflow-x-auto shadow-md rounded-lg mx-3">
-        <div className="w-full p-4 bg-white shadow-lg rounded-lg">
-            <h2 className="text-lg font-medium text-gray-700 mb-4">Geaccepteerd</h2>
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 light:bg-gray-700 light:text-gray-400">
-                <tr>
-                    <th className="px-6 py-3">Workshopdocent</th>
-                    <th className="px-6 py-3">Email</th>
-                    <th className="px-6 py-3 hidden lg:table-cell">Telefoonnummer</th>
-                    <th className="px-6 py-3 hidden lg:table-cell">Geboortedatum</th>
-                    <th className="px-6 py-3">Bewerken</th>
-                </tr>
-                </thead>
-                <tbody>
-                {acceptedTeachers.map((user) => (
-                    <tr
-                        key={user.id}
-                        className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700"
-                    >
-                        <td className="px-6 py-4">{user.firstName + " " + user.lastName}</td>
-                        <td className="px-6 py-4">{user.email}</td>
-                        <td className="px-6 py-4 hidden lg:table-cell">{user.phoneNumber}</td>
-                        <td className="px-6 py-4 hidden lg:table-cell">{formatDate(user.birthDate)}</td>
-                        <td className="px-6 py-4">
-                            <a
-                                href="#"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    editTeacher(user.id);
-                                }}
-                                className="font-medium text-[#f49700] light:text-[#f49700] hover:underline"
-                            >
-                                Bewerken
-                            </a>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <ListFooter
-                amountOfRows={acceptedTeachers?.length}
-                totaalAantalString={"workshop docenten"}
-            />
+    );
+
+    return (
+        <div className="relative overflow-x-auto shadow-md rounded-lg mx-3">
+            {renderAccordionItem('Aanvragen', pendingTeachers, 0, activeAccordions.includes(0))}
+            {renderAccordionItem('Geaccepteerd', acceptedTeachers, 1, activeAccordions.includes(1))}
         </div>
-    </div>
-        </>
-
-    )
-    ;
-
+    );
 
 }
