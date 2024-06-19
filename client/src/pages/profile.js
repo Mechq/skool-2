@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import SidePanel from "../components/SidePanel";
-import EditPanelContent_workshopTemplates from "../components/workshopTemplates/EditPanelContent_workshopTemplates";
+import EditPanelContent_profile from "../components/profile/EditPanelContent_profile";
 import List_profile from "../components/profile/List_profile";
 import WorkshopTemplateList_profile from "../components/profile/WorkshopTemplateList_profile";
 import {jwtDecode} from "jwt-decode";
@@ -13,6 +13,7 @@ export default function Profile() {
     const [workshops, setWorkshops] = useState([]);
     const [qualifiedWorkshops, setQualifiedWorkshops] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,9 +50,11 @@ export default function Profile() {
         return <div>Loading...</div>;
     }
 
-    const editUser = () => {
-        setIsOpen(true);
+    const editProfile = (id) => {
+        setUserId(id);
         setSidePanelContent("edit");
+        setIsOpen(true);
+        setRotateSpan(true);
     };
 
     return (
@@ -60,13 +63,13 @@ export default function Profile() {
                 <div>
                     <List_profile
                         user={user}
-                        editUser={editUser}
+                        editProfile={editProfile}
                     />
                 </div>
                 <div>
                     <WorkshopTemplateList_profile
                         user={user}
-                        editUser={editUser}
+                        editProfile={editProfile}
                         workshops={workshops}
                         qualifiedWorkshops={qualifiedWorkshops}
                     />
@@ -80,7 +83,8 @@ export default function Profile() {
                 setRotateSpan={setRotateSpan}
             >
                 {sidePanelContent === "edit" && (
-                    <EditPanelContent_workshopTemplates
+                    <EditPanelContent_profile
+                    user={user}
                         setShowSidePanel={setIsOpen}
                     />
                 )}

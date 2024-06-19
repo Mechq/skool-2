@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Dropdown from "../Dropdown"
 
-export default function List_profile({user, editUser}) {
+export default function List_profile({user, editProfile}) {
     const [languages, setLanguages] = useState("");
 
     useEffect(() => {
@@ -210,7 +210,7 @@ export default function List_profile({user, editUser}) {
                 </div>
             </div>
             <button
-                onClick={editUser}
+                onClick={editProfile}
                 className="bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-white mt-4 mb-4"
             >
                 Bewerk
