@@ -93,7 +93,7 @@ function EditPanelContent_workshopTemplates({workshopId, setShowSidePanel}) {
                             naam</label>
                         <input type="text" id="workshopName" value={name} required
                                onChange={(e) => setName(e.target.value)}
-                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                         />
                     </div>
                     <div>
@@ -102,7 +102,7 @@ function EditPanelContent_workshopTemplates({workshopId, setShowSidePanel}) {
                             categorie</label>
                         <select id="category" value={selectedCategory}
                                 onChange={(e) => setSelectedCategory(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500">
                             <option value="">Selecteer een categorie</option>
                             {categories.map((category, index) => (
                                 <option key={index} value={category}>{category}</option>
@@ -116,7 +116,7 @@ function EditPanelContent_workshopTemplates({workshopId, setShowSidePanel}) {
                         workshop</label>
                     <textarea id="description" rows="20" value={description}
                               onChange={(e) => setDescription(e.target.value)}
-                              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-brand-orange-light focus:border-blue-500 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                               placeholder="Beschrijving..."></textarea>
                 </div>
                 <div className="mb-6">
@@ -125,7 +125,7 @@ function EditPanelContent_workshopTemplates({workshopId, setShowSidePanel}) {
                         benodigdheden</label>
                     <input type="text" id="materials" value={materials}
                            onChange={(e) => setMaterials(e.target.value)}
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                            placeholder="Microfoon, Speaker..." required/>
                 </div>
 

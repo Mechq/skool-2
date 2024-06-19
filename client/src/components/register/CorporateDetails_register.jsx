@@ -171,7 +171,7 @@ const PersonalDetails = ({formData, setFormData, createAccount, stepBack}) => {
                     <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r light:border-gray-600">
                         <div className="flex items-center ps-3">
                             <input id="driversLicense-checkbox-list" type="checkbox" value=""
-                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light light:focus:ring-brand-orange-light light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
                                    checked={hasDriversLicense}
                                    onChange={() => setFormData({...formData, hasDriversLicense: !hasDriversLicense})}
                             />
@@ -183,7 +183,7 @@ const PersonalDetails = ({formData, setFormData, createAccount, stepBack}) => {
                     <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r light:border-gray-600">
                         <div className="flex items-center ps-3">
                             <input id="car-checkbox-list" type="checkbox" value=""
-                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light light:focus:ring-brand-orange-light light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
                                    checked={hasCar}
                                    onChange={() => setFormData({...formData, hasCar: !hasCar})}
                             />
@@ -195,7 +195,7 @@ const PersonalDetails = ({formData, setFormData, createAccount, stepBack}) => {
                     <li className="w-full light:border-gray-600">
                         <div className="flex items-center ps-3">
                             <input id="zzp-checkbox-list" type="checkbox" value=""
-                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light light:focus:ring-brand-orange-light light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
                                    checked={isZZPer}
                                    onChange={() => setFormData({...formData, isZZPer: !isZZPer})}
                             />
@@ -229,7 +229,7 @@ const PersonalDetails = ({formData, setFormData, createAccount, stepBack}) => {
                                         <label
                                             className="flex items-center p-2 rounded hover:bg-gray-100 light:hover:bg-gray-600">
                                             <input type="checkbox"
-                                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 light:focus:ring-blue-600 light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
+                                                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light light:focus:ring-brand-orange-light light:ring-offset-gray-700 light:focus:ring-offset-gray-700 focus:ring-2 light:bg-gray-600 light:border-gray-500"
                                                    checked={userLanguages.includes(language)}
                                                    onChange={(e) => handleCheckboxClick(e, language)}
                                             />

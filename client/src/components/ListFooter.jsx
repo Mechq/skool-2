@@ -4,7 +4,7 @@ export default function ListFooter({amountOfRows, totaalAantalString}) {
 
     return (
         <div className="w-full">
-            <div className="relative overflow-hidden bg-white rounded-b shadow-md light:bg-gray-800">
+            <div className="relative overflow-hidden bg-white rounded-b-lg shadow-md light:bg-gray-800">
                 <nav className="flex flex-row items-center justify-between p-4" aria-label="Table navigation">
                     <section/>
                     <p className="text-sm">

@@ -398,7 +398,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Kies een
                         Klant</label>
                     <select id="workshopName" required={true} onChange={handleCustomerChange}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500">
                         <option value="" disabled>{selectedCustomerName}</option>
                         {customers.map((customer) => (
                             <option key={customer.id} value={customer.id}>{customer.name}</option>
@@ -411,7 +411,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                         details</label>
                     <input type="text" id="details" value={details} required={true}
                            onChange={(e) => setDetails(e.target.value)}
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                     />
 
                 </div>
@@ -421,7 +421,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                         opdracht</label>
                     <input id="targetAudience" value={targetAudience} required={true}
                            onChange={(e) => setTargetAudience(e.target.value)}
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                            placeholder="Doelgroep"></input>
                 </div>
                 <div className="mb-6">
@@ -430,12 +430,12 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                     </label>
                     <input id="targetAudience" value={grade} required={true}
                            onChange={(e) => setGrade(e.target.value)}
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                            placeholder="Leerjaar en niveau"></input>
                 </div>
 
                 <select id="location" value={selectedLocationId} onChange={handleLocationChange}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                         required>
                     {locationName && (
                         <option value={locationName}>
@@ -453,7 +453,7 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
                     <label htmlFor="contactPerson"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contactpersoon</label>
                     <select id="contactPerson" onChange={handleContactPersonChange} value={contactPersonId}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                             required>
                         <option value="" disabled>Kies een contactpersoon</option>
                         {contactPeople.map((contactPerson) => (
@@ -513,9 +513,9 @@ export default function EditPanelContent_commissions({setShowSidePanel, commissi
             <div>
                 <div>
                     <h3 className="pt-4 pb-4 font-bold text-lg">Rondes</h3>
-                    <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+                    <div className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light
             focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400
-            light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
+            light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500">
                         <ul>
                             {types.map((type, index) => (
                                 <li key={index} className="border-b border-gray-300 m-3 hover:bg-gray-100 hover:cursor-pointer">

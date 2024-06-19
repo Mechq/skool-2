@@ -70,7 +70,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                                 className="block mb-2 text-sm font-medium text-gray-900">Voornaam</label>
                             <input type="text" id="firstName" value={formData.firstName}
                                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 required />
                         </div>
                         <div>
@@ -78,7 +78,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                                 className="block mb-2 text-sm font-medium text-gray-900">Achternaam</label>
                             <input type="text" id="lastName" value={formData.lastName}
                                 onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 required />
                         </div>
                         <div>
@@ -86,7 +86,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                                 className="block mb-2 text-sm font-medium text-gray-900">E-mail</label>
                             <input type="email" id="email" value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 required />
                         </div>
                         <div>
@@ -94,7 +94,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                                 className="block mb-2 text-sm font-medium text-gray-900">Telefoonnummer</label>
                             <input type="text" id="phoneNumber" value={formData.phoneNumber}
                                 onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 required />
                         </div>
                     </div>
@@ -104,7 +104,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                                 className="block mb-2 text-sm font-medium text-gray-900">Straatnaam</label>
                             <input type="text" id="street" value={formData.street}
                                 onChange={(e) => setFormData({ ...formData, street: e.target.value })}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 required />
                         </div>
                         <div>
@@ -112,7 +112,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                                 className="block mb-2 text-sm font-medium text-gray-900">Huisnummer</label>
                             <input type="text" id="houseNumber" value={formData.houseNumber}
                                 onChange={(e) => setFormData({ ...formData, houseNumber: e.target.value })}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 required />
                         </div>
                         <div>
@@ -120,7 +120,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                                 className="block mb-2 text-sm font-medium text-gray-900">Postcode</label>
                             <input type="text" id="postalCode" value={formData.postalCode}
                                 onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 required />
                         </div>
                     </div>
@@ -130,7 +130,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                                 className="block mb-2 text-sm font-medium text-gray-900">Woonplaats</label>
                             <input type="text" id="city" value={formData.city}
                                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 required />
                         </div>
                         <div>
@@ -138,7 +138,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                                 className="block mb-2 text-sm font-medium text-gray-900">Land</label>
                             <input type="text" id="country" value={formData.country}
                                 onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 required />
                         </div>
                     </div>
@@ -147,7 +147,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                             className="block mb-2 text-sm font-medium text-gray-900">Talen</label>
                         <input type="text" id="languages" value={formData.languages}
                             onChange={(e) => setFormData({ ...formData, languages: e.target.value })} // Fix the languages onChange handler
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                             required />
                     </div>
                     <div className="grid gap-6 mb-6 py-2"></div>
@@ -156,7 +156,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                         <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                             <div className="flex items-center ps-3">
                                 <input id="driversLicense-checkbox-list" type="checkbox" value=""
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light focus:ring-2"
                                     checked={formData.hasDriversLicense}
                                     onChange={() => setFormData({ ...formData, hasDriversLicense: !formData.hasDriversLicense })}
                                 />
@@ -167,7 +167,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                         <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                             <div className="flex items-center ps-3">
                                 <input id="car-checkbox-list" type="checkbox" value=""
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light focus:ring-2"
                                     checked={formData.hasCar}
                                     onChange={() => setFormData({ ...formData, hasCar: !formData.hasCar })}
                                 />
@@ -178,7 +178,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                         <li className="w-full">
                             <div className="flex items-center ps-3">
                                 <input id="zzp-checkbox-list" type="checkbox" value=""
-                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light focus:ring-2"
                                     checked={formData.isZZPer}
                                     onChange={() => setFormData({ ...formData, isZZPer: !formData.isZZPer })}
                                 />
@@ -192,7 +192,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                             className="block mb-2 text-sm font-medium text-gray-900">Btw nummer</label>
                         <input type="text" id="btw" value={formData.btw}
                             onChange={(e) => setFormData({ ...formData, btw: e.target.value })}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                             required />
                     </div>
                     <div className="grid gap-6 mb-6 md:grid-cols-2">
@@ -201,7 +201,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                                 className="block mb-2 text-sm font-medium text-gray-900">KvK nummer</label>
                             <input type="text" id="kvk" value={formData.kvk}
                                 onChange={(e) => setFormData({ ...formData, kvk: e.target.value })}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 required />
                         </div>
                         <div>
@@ -209,7 +209,7 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                                 className="block mb-2 text-sm font-medium text-gray-900">Tarief p/uur</label>
                             <input type="text" id="hourlyRate" value={formData.hourlyRate}
                                 onChange={(e) => setFormData({ ...formData, hourlyRate: e.target.value })}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                                 required />
                         </div>
                     </div>
@@ -218,10 +218,10 @@ export default function EditPanelContent_profile({ user, languages, setShowSideP
                             className="block mb-2 text-sm font-medium text-gray-900">IBAN</label>
                         <input type="text" id="iban" value={formData.iban}
                             onChange={(e) => setFormData({ ...formData, iban: e.target.value })}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5"
                             required />
                     </div>
-                    <button type="submit" className="text-white bg-brand-orange hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Opslaan</button>
+                    <button type="submit" className="text-white bg-brand-orange hover:bf-brand-orange-hover focus:ring-4 focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-center">Opslaan</button>
                 </form>
             </div>
         </div>

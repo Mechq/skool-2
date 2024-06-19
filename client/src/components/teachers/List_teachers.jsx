@@ -171,8 +171,17 @@ export default function List_teachers({
                 <button
                     type="button"
                     onClick={() => toggleAccordion(index)}
-                    className={`flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border ${isActive ? 'rounded-t-lg' : ''} ${isActive ? '' : 'border-b-0'} border-gray-200 focus:ring-4 focus:ring-gray-200 light:focus:ring-gray-800 light:border-gray-700 light:text-gray-400 hover:bg-gray-100 light:hover:bg-gray-800 gap-3`}
-                    aria-expanded={isActive}
+                    className={`flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border 
+  ${index === 0 ? 'rounded-t-lg' : ''} 
+    ${index === 1 ? 'rounded-b-0 border-b' : ''}
+  border-gray-200 
+  focus:ring-4 focus:ring-gray-200 
+  light:focus:ring-gray-800 
+  light:border-gray-700 
+  light:text-gray-400 
+  hover:bg-gray-100 
+  light:hover:bg-gray-800 
+  gap-3`}                    aria-expanded={isActive}
                     aria-controls={`accordion-collapse-body-${index}`}
                 >
                     <span>{title}</span>
@@ -189,7 +198,7 @@ export default function List_teachers({
             </h2>
             <div
                 id={`accordion-collapse-body-${index}`}
-                className={`p-5 border border-gray-200 light:border-gray-700 light:bg-gray-900 ${isActive ? '' : 'hidden'} ${isActive && index === 0 ? 'rounded-b-lg' : ''}`}
+                className={`p-5 border border-gray-200 light:border-gray-700 light:bg-gray-900 ${isActive ? '' : 'hidden'} ${isActive ? 'rounded-b-0' : ''}`}
                 aria-labelledby={`accordion-collapse-heading-${index}`}
             >
                 <div className="relative overflow-x-auto shadow-sm ">
@@ -228,19 +237,21 @@ export default function List_teachers({
                                     </a>
                                 </td>
                                 {isActive && title === 'Aanvragen' && (
-                                    <td className="px-6 py-4 text-right">
-                                        <button
-                                            onClick={() => handleAcceptClick(user)}
-                                            className="bg-custom-blue text-white px-2 py-1 rounded mr-2"
-                                        >
-                                            Accepteren
-                                        </button>
-                                        <button
-                                            onClick={() => handleRejectClick(user)}
-                                            className="bg-custom-red text-white px-2 py-1 rounded"
-                                        >
-                                            Weigeren
-                                        </button>
+                                    <td className="px-6 py-4">
+                                        <div className="inline-flex space-x-2">
+                                            <button
+                                                onClick={() => handleAcceptClick(user)}
+                                                className="bg-custom-blue text-white px-2 py-1 rounded w-24"
+                                            >
+                                                Accepteren
+                                            </button>
+                                            <button
+                                                onClick={() => handleRejectClick(user)}
+                                                className="bg-custom-red text-white px-2 py-1 rounded w-24"
+                                            >
+                                                Weigeren
+                                            </button>
+                                        </div>
                                     </td>
                                 )}
                             </tr>
@@ -254,31 +265,56 @@ export default function List_teachers({
     );
 
     return (
-        <div className="relative overflow-x-auto shadow-md rounded-lg mx-3">
-            {renderAccordionItem('Aanvragen', pendingTeachers, 0, activeAccordions.includes(0))}
-            {renderAccordionItem('Geaccepteerd', acceptedTeachers, 1, activeAccordions.includes(1))}
+        <>
+            <div className="relative overflow-x-auto shadow-md rounded-lg">
+                {renderAccordionItem('Aanvragen', pendingTeachers, 0, activeAccordions.includes(0))}
+                {renderAccordionItem('Geaccepteerd', acceptedTeachers, 1, activeAccordions.includes(1))}
 
-            {showRejectModal && (
-                <div>
-                    <ConfirmRejectModal_teachers
-                        onClose={handleRejectModalClose}
-                        onConfirm={handleConfirmReject}
-                        teacher={teacherToReject}
-                        setUsers={setUsers}
-                    />
-                </div>
-            )}
+                {showRejectModal && (
+                    <div>
+                        <ConfirmRejectModal_teachers
+                            onClose={handleRejectModalClose}
+                            onConfirm={handleConfirmReject}
+                            teacher={teacherToReject}
+                            setUsers={setUsers}
+                        />
+                    </div>
+                )}
 
-            {showAcceptModal && (
-                <div>
-                    <ConfirmAcceptModal_teachers
-                        onClose={handleAcceptModalClose}
-                        onConfirm={handleConfirmAccept}
-                        teacher={teacherToAccept}
-                        setUsers={setUsers}
-                    />
+                {showAcceptModal && (
+                    <div>
+                        <ConfirmAcceptModal_teachers
+                            onClose={handleAcceptModalClose}
+                            onConfirm={handleConfirmAccept}
+                            teacher={teacherToAccept}
+                            setUsers={setUsers}
+                        />
+                    </div>
+                )}
+            </div>
+            <div className="w-full">
+                <div className="relative overflow-hidden bg-white rounded-b-lg shadow-md light:bg-gray-800 border">
+                    <nav className="flex flex-row items-center justify-between p-4" aria-label="Table navigation">
+                        <section/>
+                        <div className='flex row gap-4'>
+                            <p className="text-sm">
+                            <span
+                                className="font-normal text-gray-500 light:text-gray-400">Totaal aantal aanvragen: </span>
+                                <span
+                                    className="font-semibold text-gray-900 light:text-white">{pendingTeachers?.length}</span>
+                            </p>
+                            <p className="text-sm">
+                            <span
+                                className="font-normal text-gray-500 light:text-gray-400">Totaal aantal geaccepteerd: </span>
+                                <span
+                                    className="font-semibold text-gray-900 light:text-white">{acceptedTeachers?.length}</span>
+                            </p>
+                        </div>
+
+                    </nav>
                 </div>
-            )}
-        </div>
+            </div>
+        </>
+
     );
 }

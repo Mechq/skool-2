@@ -158,7 +158,7 @@ export default function List_profile({ user, editProfile, languages, setLanguage
                                         type="checkbox"
                                         checked={user.hasDriversLicense}
                                         disabled
-                                        className="w-4 h-4 text-custom-blue bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                        className="w-4 h-4 text-custom-blue bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light"
                                     />
                                 </dd>
                             </div>
@@ -172,7 +172,7 @@ export default function List_profile({ user, editProfile, languages, setLanguage
                                         type="checkbox"
                                         checked={user.hasCar}
                                         disabled
-                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-brand-orange-light"
                                     />
                                 </dd>
                             </div>
@@ -182,7 +182,7 @@ export default function List_profile({ user, editProfile, languages, setLanguage
             </div>
             <button
                 onClick={() => editProfile(user.id)}
-                className="bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-white mt-4 mb-4"
+                className="bg-brand-orange hover:bg-brand-orange-hover focus:ring-4 focus:outline-none focus:ring-brand-orange-light font-medium rounded-lg text-sm px-5 py-2.5 text-white mt-4 mb-4"
             >
                 Bewerk
             </button>

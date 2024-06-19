@@ -63,7 +63,7 @@ const scheduleEmail = expressAsyncHandler(async (req, res) => {
 
     const sendDate = new Date(eventDate);
     sendDate.setDate(sendDate.getDate() - 1);
-
+    console.log("sending mail from ",process.env.SMTP_MAIL)
     const mailOptions = {
         from: process.env.SMTP_MAIL,
         to: email,

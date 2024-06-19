@@ -141,7 +141,7 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
                                className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Kies een
                             klant</label>
                         <select id="customerName" required={true} onChange={handleCustomerChange}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500">
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500">
                             <option value="">Selecteer een klant</option>
                             {customers.map(customer => (
                                 <option key={customer.id} value={customer.id}>{customer.name}</option>
@@ -153,7 +153,7 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
                     <label htmlFor="details"
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Details</label>
                     <input type="text" id="details" value={details} onChange={(e) => setDetails(e.target.value)}
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                            placeholder="Opdracht details" required/>
                 </div>
                 <div className="mb-6">
@@ -161,7 +161,7 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Doelgroep</label>
                     <input type="text" id="targetAudience" value={targetAudience}
                            onChange={(e) => setTargetAudience(e.target.value)}
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                            placeholder="doelgroep" required/>
                 </div>
                 <div className="mb-6">
@@ -169,7 +169,7 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
                            className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Leerjaar en niveau</label>
                     <input type="text" id="grade" value={grade}
                            onChange={(e) => setGrade(e.target.value)}
-                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                            placeholder="leerjaar en niveau" required/>
                 </div>
                 <div className="mb-6">
@@ -178,7 +178,7 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
                         Locatie
                     </label>
                     <select id="location" value={selectedLocationId} onChange={handleLocationChange}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                             required>
                         {locationName && (
                             <option value={locationName}>
@@ -197,7 +197,7 @@ export default function CreatePanelContent({setShowSidePanel, setCommissions}) {
                     <label htmlFor="contactPerson"
                         className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Contactpersoon</label>
                     <select id="contactPerson" onChange={handleContactPersonChange} value={contactPersonId}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-blue-500 light:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                             required>
                         <option value="" disabled>Kies een contactpersoon</option>
                         {contactPeople.map((contactPerson) => (
