@@ -189,13 +189,13 @@ export default function List_teacherEnrollments({
                         <div className="flex gap-2">
                             <button
                                 onClick={(e) => handleAcceptClick(e, groupedEnrollments[groupKey].enrollments[0])}
-                                className="bg-custom-blue text-white px-2 py-1 rounded text-sm"
+                                className="bg-custom-blue text-white text-sm font-semibold px-2 py-1 rounded"
                             >
                                 Accepteren
                             </button>
                             <button
                                 onClick={(e) => handleRejectClick(e, groupedEnrollments[groupKey].enrollments[0])}
-                                className="bg-custom-red text-white px-2 py-1 rounded text-sm"
+                                className="bg-custom-red text-white text-sm font-semibold px-2 py-1 rounded"
                             >
                                 Weigeren
                             </button>

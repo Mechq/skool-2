@@ -82,12 +82,12 @@ export default function List_invites({ invites, setInvites, user }) {
                         <td className="px-6 py-4">{formatDate(invite.commissionDate)}</td>
                         <td className="px-6 py-4">
                             <button
-                                className="bg-custom-blue hover:bg-custom-blue text-white font-bold py-2 px-4 mr-2 rounded"
+                                className="bg-custom-blue hover:bg-custom-blue text-white text-sm font-semibold py-2 px-4 mr-2 rounded"
                                 onClick={() => handleAcceptClick(invite)}>
                                 Accepteren
                             </button>
                             <button
-                                className="bg-custom-red hover:bg-custom-red text-white font-bold py-2 px-4 rounded"
+                                className="bg-custom-red hover:bg-custom-red text-white text-sm font-semibold py-2 px-4 rounded"
                                 onClick={() => handleRejectClick(invite)}>
                                 Weigeren
                             </button>
