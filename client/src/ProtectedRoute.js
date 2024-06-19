@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children, access }) => {
     try {
         const decodedToken = jwtDecode(token, process.env.ACCESS_TOKEN_SECRET);
 
-        if (!decodedToken) {
+        if (!decodedToken || decodedToken.isAccepted === 0) {
             return <Navigate to="/login" />;
         }
 

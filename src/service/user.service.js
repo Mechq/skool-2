@@ -78,13 +78,21 @@ const userService = {
                 }
 
                 const user = results[0];
-
+                if (user.isAccepted === 0) {
+                    connection.release();
+                    callback(null, {
+                        status: 'Error',
+                        message: 'Account is nog niet geaccepteerd'
+                    });
+                    return;
+                }
                 bcrypt.compare(password.toString(), user.password, (err, response) => {
                     if (err) {
                         connection.release();
                         callback(err, null);
                         return;
                     }
+
 
                     if (response) {
                         logger.debug('Login successful', {email: email});
