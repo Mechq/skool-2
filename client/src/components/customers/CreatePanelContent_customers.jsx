@@ -146,7 +146,7 @@ export default function CreatePanelContent_customers({setCustomers, setShowSideP
                         </div>
                         <div>
                             <label htmlFor="city"
-                                   className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Woonplaats</label>
+                                   className="block mb-2 text-sm font-medium text-gray-900 light:text-white">Plaatsnaam</label>
                             <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)}
                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-orange-light focus:border-blue-500 block w-full p-2.5 light:bg-gray-700 light:border-gray-600 light:placeholder-gray-400 light:text-white light:focus:ring-brand-orange-light light:focus:border-blue-500"
                                    placeholder="Plaats" required/>

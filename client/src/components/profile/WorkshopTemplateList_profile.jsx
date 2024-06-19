@@ -140,7 +140,7 @@ export default function WorkshopTemplateList_profile({user, workshops, qualified
 
     return (
         <>
-            <div className={'shadow sm:rounded-lg'}>
+            <div className='bg-white max-w-2xl shadow overflow-hidden rounded-lg'>
                 <div className="justify-center">
                     <div className="bg-white max-w-2xl  overflow-hidden sm:rounded-t-lg">
                         <div className="px-4 py-5 sm:px-6">
