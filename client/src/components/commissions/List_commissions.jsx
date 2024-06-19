@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import DeleteCommissionModalScreen from "./ConfirmDeleteModal_commissions";
 import ListFooter from "../ListFooter";
 
 export default function List_commissions({
-                                           isOpen,
-                                           setIsOpen,
-                                           setSidePanelContent,
-                                           setCommissionId,
-                                           commissions,
-                                           setRotateSpan,
-                                           setCommissions
-                                       }) {
+    isOpen,
+    setIsOpen,
+    setSidePanelContent,
+    setCommissionId,
+    setRotateSpan,
+    setCommissions
+}) {
+    const [commissions, setCommissionsState] = useState([]);
     const [customers, setCustomers] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -22,7 +22,8 @@ export default function List_commissions({
         fetch('/api/commission')
             .then(res => res.json())
             .then(data => {
-                setCommissions(data.data);
+                const aggregatedCommissions = aggregateCommissions(data.data);
+                setCommissionsState(aggregatedCommissions);
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [isOpen]);
@@ -37,12 +38,26 @@ export default function List_commissions({
     };
 
     useEffect(() => {
-        getAllCustomers()
-    }, [commissions]);
+        getAllCustomers();
+    }, []);
+
+    const aggregateCommissions = (commissions) => {
+        const aggregated = {};
+
+        commissions.forEach(commission => {
+            if (aggregated[commission.id]) {
+                aggregated[commission.id].dates.push(commission.date);
+            } else {
+                aggregated[commission.id] = { ...commission, dates: [commission.date] };
+            }
+        });
+
+        return Object.values(aggregated);
+    };
 
     const formatDate = (dateString) => {
         if (!dateString) return "";
-        const options = {year: 'numeric', month: 'long', day: 'numeric'};
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString("nl-NL", options);
     };
 
@@ -82,7 +97,7 @@ export default function List_commissions({
                     setCommissionToDeleteId(null);
                     setCommissionToDeleteName(null);
                     const updatedCommissions = commissions.filter(commission => commission.id !== commissionToDeleteId);
-                    setCommissions(updatedCommissions);
+                    setCommissionsState(updatedCommissions);
                 } else {
                     throw new Error('Failed to delete commission');
                 }
@@ -106,6 +121,7 @@ export default function List_commissions({
                 <tbody>
                 {commissions.map(commission => {
                     const customer = customers.find(cust => cust.id === commission.customerId);
+                    const firstDate = commission.dates[0] ? formatDate(commission.dates[0]) : '';
                     return (
                         <tr key={commission.id}
                             className="odd:bg-white odd:light:bg-gray-900 even:bg-gray-50 even:light:bg-gray-800 border-b light:border-gray-700">
@@ -114,14 +130,14 @@ export default function List_commissions({
                             </td>
                             <td className="px-6 py-4">{commission.details}</td>
                             <td className="px-6 py-4">{commission.targetAudience}</td>
-                            <td className="px-6 py-4">{formatDate(commission.date) || ''}</td>
+                            <td className="px-6 py-4">{firstDate}</td>
                             <td className="px-6 py-4">
                                 <button className="font-medium text-[#f49700] light:text-[#f49700] hover:underline"
                                         onClick={() => editCommission(commission.id)}>Bewerken
                                 </button>
                             </td>
                             <td className="px-6 py-4 flex justify-center">
-                                <a href="#" onClick={(e) => handleDeleteClick(commission.id, commission.date, e)}>
+                                <a href="#" onClick={(e) => handleDeleteClick(commission.id, commission.dates[0], e)}>
                                     <svg
                                         className="w-5 h-5 text-danger hover:text-red-600"
                                         aria-hidden="true"
@@ -150,7 +166,6 @@ export default function List_commissions({
                 amountOfRows={commissions?.length}
                 totaalAantalString={'opdrachten'}
             />
-
 
             {showModal && (
                 <div>
