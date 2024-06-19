@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import UserCommissionCard from "./UserCommissionCard";
 import UserWorkshopDetailsModalScreen from "../UserWorkshopDetailsModalScreen";
 
-export default function DashboardCardsCommission({userWorkshops, inviteState}) {
+export default function DashboardCardsCommission({userWorkshops}) {
     console.log(" bbbbbbbbbbbbbb" ,userWorkshops);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
@@ -61,8 +61,6 @@ export default function DashboardCardsCommission({userWorkshops, inviteState}) {
         <>
             {showDetailsModal && (
                 <UserWorkshopDetailsModalScreen
-                inviteState={inviteState}
-
                     onClose={handleModalClose}
                     workshop={selectedWorkshop}
                     commission={selectedCommission}

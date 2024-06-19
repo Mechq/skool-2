@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from "react";
+// Profile.js
+
+import React, { useEffect, useState } from "react";
 import SidePanel from "../components/SidePanel";
-import EditPanelContent_workshopTemplates from "../components/workshopTemplates/EditPanelContent_workshopTemplates";
+import EditPanelContent_profile from "../components/profile/EditPanelContent_profile";
 import List_profile from "../components/profile/List_profile";
 import WorkshopTemplateList_profile from "../components/profile/WorkshopTemplateList_profile";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export default function Profile() {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +15,8 @@ export default function Profile() {
     const [workshops, setWorkshops] = useState([]);
     const [qualifiedWorkshops, setQualifiedWorkshops] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [languages, setLanguages] = useState("");
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,9 +28,10 @@ export default function Profile() {
             }
 
             try {
-                const [workshopRes, qualifiedWorkshopsRes] = await Promise.all([
+                const [workshopRes, qualifiedWorkshopsRes, languagesRes] = await Promise.all([
                     fetch('/api/workshop'),
-                    fetch(`/api/teacherWorkshopQualification/${decodedToken?.id}`)
+                    fetch(`/api/teacherWorkshopQualification/${decodedToken?.id}`),
+                    fetch(`/api/user/language/${decodedToken?.id}`)
                 ]);
 
                 const workshopData = await workshopRes.json();
@@ -35,6 +40,15 @@ export default function Profile() {
                 const qualifiedWorkshopsData = await qualifiedWorkshopsRes.json();
                 setQualifiedWorkshops(qualifiedWorkshopsData.data);
 
+                const languagesData = await languagesRes.json();
+                if (languagesData.status === 200) {
+                    const languageNames = languagesData.data.map(language => language.name);
+                    const languagesString = languageNames.join(', ');
+                    setLanguages(languagesString);
+                } else {
+                    console.error("Failed to fetch languages");
+                }
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
@@ -42,17 +56,56 @@ export default function Profile() {
             }
         };
 
-        fetchData().then();
+        fetchData();
     }, []);
+
+    const editProfile = (id) => {
+        setUserId(id);
+        setSidePanelContent("edit");
+        setIsOpen(true);
+        setRotateSpan(true);
+    };
+
+    const fetchData = async () => {  // Define fetchData function
+        let decodedToken;
+        const token = localStorage.getItem('token');
+        if (token) {
+            decodedToken = jwtDecode(token);
+            setUser(decodedToken);
+        }
+
+        try {
+            const [workshopRes, qualifiedWorkshopsRes, languagesRes] = await Promise.all([
+                fetch('/api/workshop'),
+                fetch(`/api/teacherWorkshopQualification/${decodedToken?.id}`),
+                fetch(`/api/user/language/${decodedToken?.id}`)
+            ]);
+
+            const workshopData = await workshopRes.json();
+            setWorkshops(workshopData.data);
+
+            const qualifiedWorkshopsData = await qualifiedWorkshopsRes.json();
+            setQualifiedWorkshops(qualifiedWorkshopsData.data);
+
+            const languagesData = await languagesRes.json();
+            if (languagesData.status === 200) {
+                const languageNames = languagesData.data.map(language => language.name);
+                const languagesString = languageNames.join(', ');
+                setLanguages(languagesString);
+            } else {
+                console.error("Failed to fetch languages");
+            }
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     if (loading) {
         return <div>Loading...</div>;
     }
-
-    const editUser = () => {
-        setIsOpen(true);
-        setSidePanelContent("edit");
-    };
 
     return (
         <>
@@ -60,13 +113,15 @@ export default function Profile() {
                 <div>
                     <List_profile
                         user={user}
-                        editUser={editUser}
+                        editProfile={editProfile}
+                        languages={languages} // Ensure this is correctly passed down
+                        setLanguages={setLanguages}
                     />
                 </div>
                 <div>
                     <WorkshopTemplateList_profile
                         user={user}
-                        editUser={editUser}
+                        editProfile={editProfile}
                         workshops={workshops}
                         qualifiedWorkshops={qualifiedWorkshops}
                     />
@@ -80,12 +135,14 @@ export default function Profile() {
                 setRotateSpan={setRotateSpan}
             >
                 {sidePanelContent === "edit" && (
-                    <EditPanelContent_workshopTemplates
+                    <EditPanelContent_profile
+                        user={user}
                         setShowSidePanel={setIsOpen}
+                        languages={languages}
+                        fetchData={fetchData} // Pass fetchData function as a prop
                     />
                 )}
             </SidePanel>
         </>
     );
 }
-

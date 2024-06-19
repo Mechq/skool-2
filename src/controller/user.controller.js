@@ -162,13 +162,35 @@ const userController = {
             }
         });
     },
-
-    getLanguages: (req, res, next) => {
+    accept: (req, res, next) => {
         const id = req.params.id;
 
-        logger.info('retrieving languages of user', id);
+        logger.info('accepting user', id);
 
-        userService.getLanguages(id, (error, success) => {
+        userService.accept(id, (error, success) => {
+            if (error) {
+                return next({
+                    status: error.status,
+                    message: error.message,
+                    data: {},
+                });
+            }
+
+            if (success) {
+                res.status(200).json({
+                    status: success.status,
+                    message: success.message,
+                    data: success.data,
+                });
+            }
+        });
+    },
+    delete: (req, res, next) => {
+        const id = req.params.id;
+
+        logger.info('deleting user', id);
+
+        userService.delete(id, (error, success) => {
             if (error) {
                 return next({
                     status: error.status,

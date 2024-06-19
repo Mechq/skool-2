@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {AiTwotoneCalendar, AiTwotoneClockCircle} from "react-icons/ai";
 import {jwtDecode} from "jwt-decode";
 
-export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission, onRefresh, inviteState }) {
+export default function UserWorkshopDetailsModalScreen({ onClose, workshop, commission, onRefresh}) {
     const [activeTab, setActiveTab] = useState("workshop"); // Default active tab
     const [showWorkshopDetails, setShowWorkshopDetails] = useState(true);
     const [workshopRound, setWorkshopRound] = useState({});
@@ -20,6 +20,8 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
     const [confirmMessage, setConfirmMessage] = useState("");
     const [confirmAction, setConfirmAction] = useState(() => {});
     const [invitedWorkshop, setInvitedWorkshop] = useState(null);
+    const [inviteState, setInviteState] = useState(null);
+    const [buttonText, setButtonText] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -125,14 +127,33 @@ export default function UserWorkshopDetailsModalScreen({ onClose, workshop, comm
         fetchTemplates();
     }, []);
 
+    useEffect(() => {
+        if (workshop.status === "open") {
+            setInviteState(true);
+        }
+
+        let buttonText = "Aanmelden";
+
+        if (workshopRound) {
+            if (workshopRound.amountOfTeachers <= enrollments.length) {
+                buttonText = "Wachtrij";
+            }
+
+            for (const enrollment of enrollments) {
+                if (enrollment.userId === userId) {
+                    buttonText = "Afmelden";
+                    break;
+                }
+            }
+        }
+
+        setButtonText(buttonText);
+    }, [workshopRound, enrollments, workshop.status]);
+
     if (!user) {
         return null;
     }
     const userId = user.id;
-
-    const buttonText = enrollments.some(enrollment => enrollment.userId === userId)
-        ? "Afmelden"
-        : (workshopRound.amountOfTeachers <= enrollments.length ? "Wachtrij" : "Aanmelden");
 
     const handleModalConfirm = () => {
         if (confirmAction) {
@@ -250,7 +271,7 @@ console.log(commission)
                             <div
                                 className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600  ${showWorkshopDetails ? 'border-brand-orange' : 'border-black'}`}>
                                 <button
-                                    onClick={() => setShowWorkshopDetails(true)}
+                                    onClick={() => setShowWorkshopDetails(true) && setActiveTab('workshop')}
                                 >
                                     Workshop Details
                                 </button>
@@ -258,14 +279,14 @@ console.log(commission)
                             <div
                                 className={`flex-1 flex items-center justify-center border-b-2 pb-6 hover:text-gray-600 ${!showWorkshopDetails ? 'border-brand-orange' : 'border-black'}`}>
                                 <button
-                                    onClick={() => setShowWorkshopDetails(false)}
+                                    onClick={() => setShowWorkshopDetails(false) && setActiveTab('commission')}
                                 >
                                     Opdracht Details
                                 </button>
                             </div>
                         </div>
                         <div className="p-6 space-y-4 sm:space-y-6">
-                            {activeTab === 'workshop' ? (
+                            {showWorkshopDetails ? (
                                 <>
                                     <h2><strong>Naam:</strong> <br />{workshop.name}</h2>
                                     <h2><strong>Details:</strong> <br />{workshop.description}</h2>
@@ -312,6 +333,7 @@ console.log(commission)
 
                             )}
                         </div>
+                        {!inviteState &&(
                         <div className="flex justify-center"
                              onClick={handleSubmit}
                         >
@@ -321,6 +343,7 @@ console.log(commission)
                                 {buttonText}
                             </button>
                         </div>
+                        )}
                     </div>
 
                 </div>
@@ -338,4 +361,3 @@ console.log(commission)
         </>
     );
 }
-
