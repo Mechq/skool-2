@@ -3,7 +3,6 @@ import UserCommissionCard from "./UserCommissionCard";
 import UserWorkshopDetailsModalScreen from "../UserWorkshopDetailsModalScreen";
 
 export default function DashboardCardsCommission({userWorkshops}) {
-    console.log(" bbbbbbbbbbbbbb" ,userWorkshops);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedWorkshop, setSelectedWorkshop] = useState(null);
     const [selectedCommission, setSelectedCommission] = useState(null);
