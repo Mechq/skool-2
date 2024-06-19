@@ -181,21 +181,21 @@ export default function List_teacherEnrollments({
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             {Object.keys(groupedEnrollments).map((groupKey) => (
-                <div key={groupKey}>
-                    <div className="flex justify-between items-center my-4">
+                <div key={groupKey} className="mb-8"> {/* Added margin bottom for separation */}
+                    <div className="flex justify-between items-center my-4 mx-6">
                         <h2 className="text-lg font-semibold">
                             {groupedEnrollments[groupKey].commissionDetails}
                         </h2>
                         <div className="flex gap-2">
-                            <button 
+                            <button
                                 onClick={(e) => handleAcceptClick(e, groupedEnrollments[groupKey].enrollments[0])}
-                                className="bg-custom-blue text-white px-2 py-1 rounded"
+                                className="bg-custom-blue text-white px-2 py-1 rounded text-sm"
                             >
                                 Accepteren
                             </button>
-                            <button 
+                            <button
                                 onClick={(e) => handleRejectClick(e, groupedEnrollments[groupKey].enrollments[0])}
-                                className="bg-custom-red text-white px-2 py-1 rounded"
+                                className="bg-custom-red text-white px-2 py-1 rounded text-sm"
                             >
                                 Weigeren
                             </button>
